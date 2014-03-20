@@ -47,12 +47,12 @@ public:
 	//関数の宣言
 	System( HINSTANCE hInst, HWND hwnd);//コンストラクタ
 	~System();//デストラクタ
-	static int MsgQ(int fps);//メッセージのループ処理
-	static int KeyRenewal( int SelectMode);//キー取得命令の関数
+	static int MsgQ( const int fps);//メッセージのループ処理
+	static int KeyRenewal( const int SelectMode);//キー取得命令の関数
 	static int GetKeyData( int *KeyDataArray);//キー情報を入手するための関数
 	static int WaitRender();//読み込み中を表示するための関数
-	static int SetUpdataSoundSys( int Soundflag);//音声情報を更新するかどうかの関数
-	static int SetFadeOutOfScid( int FadeTime);//画像をフェードアウトさせる処理の関数
+	static int SetUpdataSoundSys( const int Soundflag);//音声情報を更新するかどうかの関数
+	static int SetFadeOutOfScid( const int FadeTime);//画像をフェードアウトさせる処理の関数
 
 
 };

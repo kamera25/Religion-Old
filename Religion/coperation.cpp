@@ -10,7 +10,7 @@
 
 
 
-int Operation::OpsMissionBranchStart( int MissionNumber){
+int Operation::OpsMissionBranchStart( const int MissionNumber){
 
 	/* •Ï”‚Ì‰Šú‰» & éŒ¾ */
 	/* N/a */

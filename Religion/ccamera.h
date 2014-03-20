@@ -22,6 +22,6 @@ public:
 		//関数の宣言
 		Camera();//カメラクラスのコンストラクタ、ダミーモデルのロードなどをします
 		~Camera();//カメラクラスのデストラクタ、ダミーモデルなどを破棄します
-		int CamShoulderGunBack( int cha_hsid, int Qid, int bone, float PC_Deg_XZ, const Stage *Stg);//肩打ち視点でのカメラを設定します
+		int CamShoulderGunBack( const int cha_hsid, const int Qid, const int bone, const float PC_Deg_XZ, const Stage *Stg);//肩打ち視点でのカメラを設定します
 
 };

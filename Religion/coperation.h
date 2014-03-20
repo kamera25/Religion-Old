@@ -22,7 +22,7 @@ private:
 public:
 
 	/* ŠÖ”‚ÌéŒ¾ */
-	int OpsMissionBranchStart( int MissionNumber);
+	int OpsMissionBranchStart( const int MissionNumber);
 
 
 };

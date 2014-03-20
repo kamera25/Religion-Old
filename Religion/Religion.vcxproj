@@ -43,8 +43,8 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Release\\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Include;C:\easy3d\include;C:\gDP\Include;C:\Ask\Include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Ask\Lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;C:\gDP\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Include;C:\easy3d\include;C:\Ask\Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Ask\Lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\gDP\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Include;C:\easy3d\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;C:\gDP\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -61,7 +61,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Ask.lib;gDP.lib;ws2_32.lib;ddraw.lib;d3dx9.lib;d3d9.lib;dsound.lib;winmm.lib;d3dxof.lib;dxguid.lib;dxerr.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;vfw32.lib;easy3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ask.lib;ws2_32.lib;ddraw.lib;d3dx9.lib;d3d9.lib;dsound.lib;winmm.lib;d3dxof.lib;dxguid.lib;dxerr.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;vfw32.lib;easy3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>C:\Users\Taka\Documents\religion\Debug\Religion.exe</OutputFile>
       <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -93,15 +93,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ask.cpp" />
+    <ClCompile Include="ccreature_assist.cpp" />
     <ClCompile Include="citem_manipulate2.cpp" />
     <ClCompile Include="cfirstmenu.cpp" />
+    <ClCompile Include="cNaviRail.cpp" />
     <ClCompile Include="cnetplay.cpp" />
     <ClCompile Include="cOperation.cpp" />
     <ClCompile Include="copsmenu.cpp" />
     <ClCompile Include="citem.cpp" />
     <ClCompile Include="cOpsmission1_Shinryoku.cpp" />
-    <ClCompile Include="cweapon3.cpp" />
+    <ClCompile Include="cpeople.cpp" />
+    <ClCompile Include="cpeople_assist.cpp" />
+    <ClCompile Include="csoldier.cpp" />
+    <ClCompile Include="csoldier_assist.cpp" />
+    <ClCompile Include="cStg_BaseFront.cpp" />
+    <ClCompile Include="cStg_Forest.cpp" />
+    <ClCompile Include="cStg_IRoby.cpp" />
+    <ClCompile Include="cStg_Kamigaichi.cpp" />
+    <ClCompile Include="cStg_Mall.cpp" />
+    <ClCompile Include="cStg_Retolis.cpp" />
+    <ClCompile Include="cweapon.cpp" />
+    <ClCompile Include="cweaponload.cpp" />
+    <ClCompile Include="cweapon_assist.cpp" />
+    <ClCompile Include="c_optionmenu.cpp" />
     <ClCompile Include="gamecore.cpp" />
+    <ClCompile Include="cStg_Tronp.cpp" />
+    <ClCompile Include="Load_Assault.cpp" />
+    <ClCompile Include="Load_Grenade.cpp" />
+    <ClCompile Include="Load_HandGun.cpp" />
+    <ClCompile Include="Load_MachineGun.cpp" />
+    <ClCompile Include="Load_Rifle.cpp" />
+    <ClCompile Include="Load_ShotGun.cpp" />
+    <ClCompile Include="Load_SMG.cpp" />
     <ClCompile Include="winmain.cpp" />
     <ClCompile Include="c_batch_preparat.cpp" />
     <ClCompile Include="ccamera.cpp" />
@@ -114,14 +138,18 @@
     <ClCompile Include="cplaychara4.cpp" />
     <ClCompile Include="cstage.cpp" />
     <ClCompile Include="csys.cpp" />
-    <ClCompile Include="cweapon1.cpp" />
-    <ClCompile Include="cweapon2.cpp" />
+    <ClCompile Include="cweapon_while1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ask.h" />
+    <ClInclude Include="csoldier.h" />
+    <ClInclude Include="ccreature.h" />
     <ClInclude Include="cfirstmenu.h" />
+    <ClInclude Include="cnavirail.h" />
     <ClInclude Include="cnetplay.h" />
     <ClInclude Include="coperation.h" />
     <ClInclude Include="copsmenu.h" />
+    <ClInclude Include="cpeople.h" />
     <ClInclude Include="c_batch_preparat.h" />
     <ClInclude Include="ccamera.h" />
     <ClInclude Include="cenemy.h" />
@@ -132,6 +160,7 @@
     <ClInclude Include="csys.h" />
     <ClInclude Include="cweapon.h" />
     <ClInclude Include="citem.h" />
+    <ClInclude Include="c_optionmenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Debug\data\img\sys\icon.ico" />

@@ -22,12 +22,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp){
 				if( Whole == 1) System::MouseWhole = 1;
 				if( Whole == 545) System::MouseWhole = 2;
 
-				return 0;
+				break;
 
 		case WM_DESTROY:
 				PostQuitMessage(0);
 
-				return 0;
+				break;
 
 
 

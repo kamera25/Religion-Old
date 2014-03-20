@@ -34,9 +34,9 @@ int Weapon::TreatmentWhileGame( int Wp_equipment){
 	if( Wp_equipment != -1){//武器があれば
 
 			/*変数の初期化*/
-			int NowAmmo = WeaponDataWhileGame[Wp_equipment][0]; //現在の弾薬数
-			int NowMag = WeaponDataWhileGame[Wp_equipment][1]; //現在のマガジン数
-			int WeaponAmmo = WeaponData[Wp_equipment][2]; //武器性能上の弾薬数
+			const int NowAmmo = WeaponDataWhileGame[Wp_equipment][0]; //現在の弾薬数
+			const int NowMag = WeaponDataWhileGame[Wp_equipment][1]; //現在のマガジン数
+			const int WeaponAmmo = WeaponData[Wp_equipment][2]; //武器性能上の弾薬数
 
 
 
@@ -45,6 +45,7 @@ int Weapon::TreatmentWhileGame( int Wp_equipment){
 			if(ech != 0 ){//エラーチェック
 						_ASSERT( 0 );//エラーダイアログ
 			};
+
 
 			if( WeaponBone[Wp_equipment][0] != 0){
 				/*銃の置くボーンの座標を求めます*/
@@ -216,10 +217,10 @@ int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Sta
 
 
 	/*装備をきちんとつけていれば*/
-	if( PC->Wp_equipment != -1){
+	if( PC->Get_Wp_equipment() != -1){
 
-			NowWpKind = GetWeaponData( PC->Wp_equipment, 0);//武器の種類
-			NowWpRange = float( GetWeaponData( PC->Wp_equipment, 4) * 500);//
+			NowWpKind = GetWeaponData( PC->Get_Wp_equipment(), 0);//武器の種類
+			NowWpRange = float( GetWeaponData( PC->Get_Wp_equipment(), 4) * 500);//
 			EneNearDistance = float(NowWpRange);
 	}
 
@@ -243,9 +244,9 @@ int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Sta
 					}
 
 					/*当たり判定中にいる敵をチェックします*/
-					for( int i = 0; i < 15; i++){//エネミーの数だけ
-							if( Ene->Enemy_hsid[i] != 0){
-										ech = E3DPickFace( System::scid1, Ene->Enemy_hsid[i], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
+					for(  int i=0; i < Ene->EnemyNum; i++){//エネミーの数だけ
+
+										ech = E3DPickFace( System::scid1, Ene->Ene[i]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 										if(ech != 0 ){//エラーチェック
 													_ASSERT( 0 );//エラーダイアログ
 										};
@@ -254,7 +255,6 @@ int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Sta
 													NearEnemyID = i;//一番近いモデル番号を入れます
 													EnemyConflict = 1;//近い敵がいることを代入します
 										}
-							}
 					}
 
 					/*もし、当たり判定上に敵がいれば*/
@@ -263,7 +263,7 @@ int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Sta
 							// !!壁との当たり判定が必要!!
 
 							//敵にダメージを与える
-							Ene->Enemy_HP[NearEnemyID] = Ene->Enemy_HP[NearEnemyID] - GetWeaponData( PC->Wp_equipment, 5);
+							Ene->Ene[NearEnemyID]->Set_HP( Ene->Ene[NearEnemyID]->Get_HP() - GetWeaponData( PC->Get_Wp_equipment(), 5));
 					}
 			}
 	}

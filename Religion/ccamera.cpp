@@ -51,7 +51,7 @@ Camera::~Camera(){
 	return;
 }
 /*Œ¨‘Å‚¿‹“_‚Å‚ÌƒJƒƒ‰‚ğİ’è‚·‚éŠÖ”*/
-int Camera::CamShoulderGunBack( int cha_hsid, int Qid, int bone, float PC_Deg_XZ, const Stage *Stg){
+int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bone, const float PC_Deg_XZ, const Stage *Stg){
 
 		//•Ï”‚Ì‰Šú‰»
 		int ech = 0;

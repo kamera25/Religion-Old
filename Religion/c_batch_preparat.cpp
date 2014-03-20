@@ -19,16 +19,19 @@
 
 /*コンストラクタ、ステージやプレイヤークラスを元に情報を収集、構成します*/
 Batch_Preparat::Batch_Preparat( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, 
-								const Camera *Cam){
+								const Camera *Cam)
+{
 
-	/*
-	//////まずはじめにすべての変数を初期化します。
-	*/
+	/* //////////////////////////////////// */
+	// まずはじめにすべての変数を初期化します。
+	/* //////////////////////////////////// */
 	int ech = 0;//エラーチェック用の確認変数 
-	E3DCOLOR4UC AlfaColor = { 100,255,255,255};//カラー構造体の半透過のデータ
+	const E3DCOLOR4UC AlfaColor = { 100,255,255,255};//カラー構造体の半透過のデータ
 	char loadname[256] = "";//読み込む先のパスの文字列変数
-
 	
+	BumpMapFlag = 0;
+	ShadowFlag = 0;
+
 	/*描画、視野角データの構築を行います*/
 	BatchReset( PcC, StgC, EneC, Cam);
 
@@ -177,14 +180,27 @@ Batch_Preparat::Batch_Preparat( const PlayerChara *PcC, const Stage *StgC, const
 
 };
 /*まとめられたデータを描画します。*/
-int Batch_Preparat::BatchRender( int SceneEndFlg){
+int Batch_Preparat::BatchRender( const int SceneEndFlg){
 
 	int ech = 0;//エラーチェック用の確認変数
 
-	ech = E3DRenderBatch( System::scid1, &Render_hsids[30], 30, 0, 0);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+
+	switch(ShadowFlag){
+			case 0:{// レンダリング(ノーマル)
+					ech = E3DRenderBatch( System::scid1, &Render_hsids[30], 30, 1, 0);
+					if(ech != 0){//エラーチェック
+								_ASSERT(0);//エラーダイアログを表示
+					};
+					break;
+		    }
+			case 1:{// 影付きレンダリング
+					ech = E3DRenderWithShadow( System::scid1, ShadowScid, ShadowTexture, &Render_hsids[30], 30, 0);
+					if(ech != 0){//エラーチェック
+								_ASSERT(0);//エラーダイアログを表示
+					};
+					break;
+		    }
+	}
 
 
 	/*
@@ -202,7 +218,7 @@ int Batch_Preparat::BatchRender( int SceneEndFlg){
 	return 0;
 };
 /*まとめられたスプライトをレンダリングするための関数です*/
-int Batch_Preparat::BatchSpriteRender( int SceneEndFlg){
+int Batch_Preparat::BatchSpriteRender( const int SceneEndFlg){
 
 	/*変数の初期化*/
 	int ech = 0;//エラー確認変数の初期化
@@ -298,7 +314,7 @@ int Batch_Preparat::BatchBeforePos(){
 	return 0;
 }
 /*武器の変更があった際、描画すべき道具を変更します。*/
-int Batch_Preparat::BacthGunTrade( int Wp_equipment){
+int Batch_Preparat::BacthGunTrade( const int Wp_equipment){
 
 
 	if( Wp_equipment == -1){//装備品がなにもなしなら
@@ -434,7 +450,7 @@ int Batch_Preparat::BatchReset( const PlayerChara *PcC, const Stage *StgC, const
 
 
 	/*PCのキャラクターモデルデータを読み込みます*/
-	PCmodel_hsid[0] = PcC->cha_hsid[0];
+	PCmodel_hsid[0] = PcC->Get_BodyModel();
 
 	/*ステージモデルデータを読み込みます*/
 	for(int i=0; i<3; i++){
@@ -451,7 +467,7 @@ int Batch_Preparat::BatchReset( const PlayerChara *PcC, const Stage *StgC, const
 		Wall_hsids[i] = StgC->Stage_hsid[i];
 	};
 	/*ダミーモデルデータを読み込みます*/
-	PCDummyModel_hsids[0] = PcC->DummyModel;
+	PCDummyModel_hsids[0] = PcC->Get_BodyModel();
 
 	/*カメラダミーモデルを読み込みます*/
 	CamDummyModel_hsid = Cam->DummyModel;
@@ -467,25 +483,26 @@ int Batch_Preparat::BatchReset( const PlayerChara *PcC, const Stage *StgC, const
 	Render_hsids[2] = Stage_hsids[1];//ステージデータ
 	Render_hsids[3] = Stage_hsids[2];////
 
-	if( PcC->Wp_equipment == -1){//装備品がなにもなしなら
+	if( PcC->Get_Wp_equipment() == -1){//装備品がなにもなしなら
 			Render_hsids[4] = 0;
 			Render_hsids[5] = 0;
 	}
-	if( PcC->Wp_equipment == 0){//装備品がメインウェポンなら
+	if( PcC->Get_Wp_equipment() == 0){//装備品がメインウェポンなら
 			Render_hsids[4] = PCWp_hsids[0][0][0];
 			Render_hsids[5] = PCWp_hsids[0][0][1];
 	}
-	if( PcC->Wp_equipment == 1){//装備品がサブウェポンなら
+	if( PcC->Get_Wp_equipment() == 1){//装備品がサブウェポンなら
 			Render_hsids[4] = PCWp_hsids[0][1][0];
 			Render_hsids[5] = PCWp_hsids[0][1][1];
 	}
-	if( PcC->Wp_equipment == 2){//装備品がグレネード系なら
+	if( PcC->Get_Wp_equipment() == 2){//装備品がグレネード系なら
 			Render_hsids[4] = PCWp_hsids[0][2][0];
 			Render_hsids[5] = PCWp_hsids[0][2][1];
 	}
 
-	for(int i=0; i<15; i++){
-			Render_hsids[ 7+i ] = EneC->Enemy_hsid[i];
+	for(int i=0; i < EneC->EnemyNum; i++){
+			Render_hsids[ 7 + i ] = EneC->Ene[i]->Get_BodyModel();
+			Render_hsids[ 7 + EneC->EnemyNum + i ] = EneC->Ene[i]->Get_Weapon()->GetWeaponModelID( 0, 0);
 	}
 	
 	/*
@@ -515,12 +532,12 @@ int Batch_Preparat::BatchSpriteSet( const PlayerChara *PcC){
 	/*スプライトの倍率を変更します*/
 
 	//HPバーについての倍率代入
-	SpriteData[3][0] = float( PcC->HP) / float( PcC->MaxHP) * 100.0f;
+	SpriteData[3][0] = float( PcC->Get_HP()) / float( PcC->Get_MaxHP()) * 100.0f;
 
 	//スタミナバーについての倍率代入
-	SpriteData[4][0] = float( PcC->Stamina) / 150.0f * 100.0f;
+	SpriteData[4][0] = float( PcC->Get_Stamina()) / 150.0f * 100.0f;
 
-	if( PcC->Wp_equipment == -1){//武器なしなら
+	if( PcC->Get_Wp_equipment() == -1){//武器なしなら
 
 				//銃の弾薬を無表示に
 				SpriteData[5][0] = 0.0f;
@@ -534,19 +551,19 @@ int Batch_Preparat::BatchSpriteSet( const PlayerChara *PcC){
 	}
 	else{//武器ありなら
 				//銃の弾薬についての倍率変換
-				SpriteData[5][0] = float( PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0)) / float(PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 2)) * 100.0f;
+				SpriteData[5][0] = float( PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0)) / float(PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 2)) * 100.0f;
 
 				//銃のマガジンについての倍率変換
-				SpriteData[6][0] = float( PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 1)) / float(PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 3)) * 100.0f;
+				SpriteData[6][0] = float( PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 1)) / float(PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 3)) * 100.0f;
 
 				//表示すべき画像をSpriteIDsに代入する
-				SpriteIDs[9] = PcC->Wpn.GetSpriteData( PcC->Wp_equipment);
+				SpriteIDs[9] = PcC->Wpn.GetSpriteData( PcC->Get_Wp_equipment());
 	}
 
 	return 0;
 }
 /*文字を描画することや設定をしたりします*/
-int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC){
+int Batch_Preparat::BatchFont( const int SceneEndFlg, const PlayerChara *PcC){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック用の確認変数
@@ -554,11 +571,11 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC){
 	char ParometaString[64] = "";//表示させる文字を入れます
 	D3DXVECTOR2 Pos( 0.0, 0.0);//座標を代入する構造体
 	E3DCOLOR4UC Color = { 255, 50, 50, 50};//空の構造体
-	E3DCOLOR4UC Gray = { 255, 50, 50, 50};//色構造体、グレーを指定
-	E3DCOLOR4UC White = { 255, 230, 230, 230};//色構造体、白を指定
-	E3DCOLOR4UC Red = { 255, 255, 100, 100};//色構造体、赤を指定
-	E3DCOLOR4UC Bule = { 255, 100, 100, 250};//色構造体、青を指定
-	E3DCOLOR4UC Yellow = { 255, 255, 255, 100};//色構造体、黄を指定
+	const E3DCOLOR4UC Gray = { 255, 50, 50, 50};//色構造体、グレーを指定
+	const E3DCOLOR4UC White = { 255, 230, 230, 230};//色構造体、白を指定
+	const E3DCOLOR4UC Red = { 255, 255, 100, 100};//色構造体、赤を指定
+	const E3DCOLOR4UC Bule = { 255, 100, 100, 250};//色構造体、青を指定
+	const E3DCOLOR4UC Yellow = { 255, 255, 255, 100};//色構造体、黄を指定
 
 	/*文字の描画*/
 	//HP部分の描画
@@ -569,22 +586,22 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC){
 	};
 
 
-	if( PcC->Wp_equipment != -1){ //武器がなし以外なら
+	if( PcC->Get_Wp_equipment() != -1){ //武器がなし以外なら
 
 			/*現在のAmmoの数を表示します*/
-			if( PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0) == 0){//弾薬がなくなったら
+			if( PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0) == 0){//弾薬がなくなったら
 					Color = Red;// 赤色にします
 			}
-			else if( PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 2) < PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0)){//弾が増えているならなら
+			else if( PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 2) < PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0)){//弾が増えているならなら
 					Color = Bule;// 青にします
 			}
-			else if( double(PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0)) / double(PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 2)) < 0.3){//弾薬が3割以下なら
+			else if( double(PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0)) / double(PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 2)) < 0.3){//弾薬が3割以下なら
 					Color = Yellow;// 黄にします
 			}
 			else{//通常モードなら
 					Color = White;// 白にします
 			}
-			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0));
+			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0));
 			Pos.x = 558.0f;/**/Pos.y = 394.0f;
 			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
 			if(ech != 0){//エラーチェック
@@ -592,7 +609,7 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC){
 			};
 
 			/*Ammoの数を表示します*/
-			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 2));
+			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 2));
 			Pos.x = 588.0f;/**/Pos.y = 394.0f;
 			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
 			if(ech != 0){//エラーチェック
@@ -600,16 +617,16 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC){
 			};
 
 			/*現在のMagの数を表示します*/
-			if( PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 1) == 0){//マガジンがなくなったら
+			if( PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 1) == 0){//マガジンがなくなったら
 					Color = Red;// 赤色にします
 			}
-			else if( double(PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 1)) / double(PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 3)) < 0.3){//弾薬が3割以下なら
+			else if( double(PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 1)) / double(PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 3)) < 0.3){//弾薬が3割以下なら
 					Color = Yellow;// 黄にします
 			}
 			else{//通常モードなら
 					Color = White;// 白にします
 			}
-			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 1));
+			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 1));
 			Pos.x = 558.0f;/**/Pos.y = 424.0f;
 			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
 			if(ech != 0){//エラーチェック
@@ -617,7 +634,7 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC){
 			};
 
 			/*Magの数を表示します*/
-			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 3));
+			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 3));
 			Pos.x = 588.0f;/**/Pos.y = 424.0f;
 			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
 			if(ech != 0){//エラーチェック
@@ -640,6 +657,62 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC){
 
 	return 0;
 }
+/* バンプマップを有効/無効にします */
+int Batch_Preparat::BatchEnableBumpMap( const int BumpFlag){
+
+	/*変数の初期化*/
+	int ech = 0;//エラーチェック用の確認変数
+
+	ech = E3DEnableBumpMap( BumpFlag );
+	if( ech != 0){
+			_ASSERT( 0 );
+	};
+
+	BumpMapFlag = BumpFlag;
+
+	return 0;
+}
+/* バンプマップ変数の取得を行ないます */
+int Batch_Preparat::BatchGetBumpMapStatus() const{
+
+	return BumpMapFlag;
+}
+/* 影を作成するために関係する処理を行ないます */
+int Batch_Preparat::BatchCreateShadow(){
+
+	/* 変数の初期化 */
+	int ech = 0;// エラーチェック変数
+	int ShadowCRTFlug = 0;// 影を描画するテクスチャが作られたかどうか
+	const D3DXVECTOR3 ldir1( -1.0, -1.0, -1.0);
+	const SIZE TextureSize = { 1028, 1028};
+
+	// Zバッファのバイアスを設定
+	ech = E3DSetShadowBias( 0.005f);
+	if( ech != 0){
+			_ASSERT( 0 );
+	};
+
+	// 影の方向を指定します
+	ech = E3DSetShadowMapLightDir( ldir1);
+	if( ech != 0){
+			_ASSERT( 0 );
+	};
+
+
+	// テクスチャの作成
+	ech = E3DCreateRenderTargetTexture( TextureSize, D3DFMT_A8R8G8B8, &ShadowScid, &ShadowTexture, &ShadowCRTFlug);
+	if( ech != 0){
+			_ASSERT( 0 );
+	};
+
+	if( ShadowCRTFlug == 1){// 作成に成功したら
+			ShadowFlag = 1;
+	}
+
+
+
+	return 0;
+}
 /*デストラクタ、スプライトを削除します*/
 Batch_Preparat::~Batch_Preparat(){
 
@@ -653,5 +726,11 @@ Batch_Preparat::~Batch_Preparat(){
 			};
 	}
 
+	if( ShadowFlag == 1){// 影用レンダーテクスチャが生成されているなら
+			ech = E3DDestroyRenderTargetTexture( ShadowScid, ShadowTexture);
+			if(ech != 0 ){//エラーチェック
+							_ASSERT( 0 );//エラーダイアログ
+			};
+	}
 
 }

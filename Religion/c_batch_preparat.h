@@ -14,7 +14,8 @@ class Weapon;
 /*描画準備で必要な変数などを宣言するクラス*/
 class Batch_Preparat{	
 
-public:
+private:
+
 	//変数の宣言
 	int PCWp_hsids[2][3][4];//プレイヤーキャラクターが持っている武器モデルデータの配列
 
@@ -36,6 +37,7 @@ public:
 	/*以下、総合的にE3DChkInViewが必要なモデルデータの配列*/
 	int ChkIn_hsids[40];
 
+
 	/*スプライト関係の変数を宣言します*/
 
 	/*	SpriteData配列には以下のようなデータが格納されています
@@ -43,24 +45,41 @@ public:
 	//	二番目の配列 [0]スプライトの倍率X [1]スプライトの倍率Y
 	//				 [2]スプライト位置X [3]スプライト位置Y [4]スプライト奥行Z
 	*/
-	float SpriteData[15][5];//スプライトのデータを格納します
 	int SpriteIDs[15];//スプライトのIDを格納します
+
+	int BumpMapFlag;// バンプマップを表示するかどうかのフラグ変数
+	int ShadowFlag;// 影を表示するかどうかのフラグ変数
+
+	/* 影に関係する変数 */
+	int ShadowScid;// 影のスワップチェイン識別変数
+	int ShadowTexture;// 影をレンダリングするテクスチャ識別変数
+
+
+
+public:
+
+	float SpriteData[15][5];//スプライトのデータを格納します
+
 
 
 	//関数の宣言
 	Batch_Preparat( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, 
 					const Camera *Cam);//コンストラクタ、初期化をします
 	~Batch_Preparat();//デストラクタ、スプライトを削除します
-	int BatchRender( int SceneEndFlg);//今までのデータをまとめて描画するための関数
+	int BatchRender( const int SceneEndFlg) ;//今までのデータをまとめて描画するための関数
 	int BatchChkInView();//今までのデータをまとめて視野角内チェックするための関数
 	int BacthGunTrade( int Wp_equipment);//武器を交換した後、チェックと描画するモデルを変更する関数
 	int BatchReset( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC,
 					const Camera *Cam);//構築していた、まとめデータを再構築する
 	int BatchBeforePos();//一つ前の座標をまとめて保存するための関数
-	int BatchSpriteRender( int SceneEndFlg);//まとめられたスプライトをレンダリングするための関数
+	int BatchSpriteRender( const int SceneEndFlg);//まとめられたスプライトをレンダリングするための関数
 	int BatchSpriteSet( const PlayerChara *PcC);//最初にロードしたスプライトの倍率や描画指定するための関数
-	int BatchFont( int SceneEndFlg, const PlayerChara *PcC);//文字を描画することや設定をしたりする関数
-	
+	int BatchFont( const int SceneEndFlg, const PlayerChara *PcC);//文字を描画することや設定をしたりする関数
+	int BatchEnableBumpMap( const int BumpFlug);//バンプマップを有効/無効にします
+	int BatchGetBumpMapStatus() const;//バンプマップ変数の取得を行ないます
+	int BatchCreateShadow();// 影を作成するために関係する処理を行ないます
+
+
 	/*デコンストラクタが必要！！！*/
 
 };

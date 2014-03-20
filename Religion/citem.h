@@ -20,7 +20,7 @@ public:
 
 	/* 関数の宣言 */
 	Item();//コンストラクタ、初期動作を行ないます
-	int GetItemNumber( int ItemKind, int ItemEle1, int ItemEle2);// 格納されているアイテムナンバーを取得します
+	int GetItemNumber( const int ItemKind, const int ItemEle1, const int ItemEle2);// 格納されているアイテムナンバーを取得します
 
 
 };

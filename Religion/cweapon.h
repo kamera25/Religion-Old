@@ -23,8 +23,8 @@ private:
 	// 先頭要素は同上  WeaponData変数には以下のようにデータが入ってます
 	// [0]武器の種類 [1]武器のナンバー [2]弾薬の最大値
 	// [3]マガジンの最大値 [4]射程能力 [5]威力 [6]次撃てるまでの時間
-	// [7]連射性のある武器か 
-	int WeaponData[3][8];
+	// [7]連射性のある武器か [8] 使用弾薬 [9] 精度
+	int WeaponData[3][10];
 
 	// ゲーム中の武器情報を入れます	
 	// [0]弾薬数　[1]マガジン数
@@ -51,27 +51,38 @@ private:
 	int WeaponFireFlag;
 
 	/*関数の宣言*/
-	int GunLoad_Assault( int Selectkind, int Wpno);//アサルトライフルの情報をロードする関数
-	int GunLoad_Hand( int Selectkind, int Wpno);//ハンドガンの情報をロードする関数
-	int GunLoad_Data( int Selectkind, int Wpkind, int Wpno);//武器に関する情報を格納する関数
+	int GunLoad_Assault( const int Selectkind, const int Wpno);//アサルトライフルの情報をロードする関数
+	int GunLoad_Machine( const int Selectkind, const int Wpno);//マシンガンの情報をロードする関数
+	int GunLoad_Hand( const int Selectkind, const int Wpno);//ハンドガンの情報をロードする関数
+	int GunLoad_Shot( const int Selectkind, const int Wpno);// ショットガンの情報をロードする関数
+	int GunLoad_Rifle( const int Selectkind, const int Wpno);//ライフルの情報をロードする関数
+	int GunLoad_Grenade( const int Selectkind, const int Wpno);//グレネードの情報をロードする関数
+	int GunLoad_Data( const int Selectkind, const int Wpkind, const int Wpno);//武器に関する情報を格納する関数
+
+
 
 public:
 
 	/*関数の宣言*/
-	int GunLoad( int Selectkind, int Wpkind, int Wpno);//武器をロードするための関数
-	int GetWeaponModelID( int ItemNumber, int DataNumber) const;//モデルIDの取得を行う関数
-	int GetWeaponData( int ItemNumber, int DataNumber) const;//モデルの詳細データを取得します
-	int GetWeaponDataWhileGame( int ItemNumber, int DataNumber) const;//ゲーム中の武器の詳細データを取得します
-	int GetSpriteData( int ItemNumber) const;//武器スプライトを取得します
-	int GetWeaponRapidFire();//武器の連射カウンタを取得します
+	int GunLoad( const int Selectkind, const int Wpkind, const int Wpno);//武器をロードするための関数
 	int SetInitWeaponData();//武器の状態を初期化し、銃弾やマガジンを一杯にする関数
-	int TreatmentWhileGame( int Wp_equipment);// ゲーム中の銃の操作に関することをする関数
-	int PlayWeaponSound( int Wp_equipment, int PlayNo, float MuzzlePosArray[3]);// *武器の音声を再生する関数(3DSE専用)
-	int ChkWeaponLaunch( int Wp_equipment);//武器を発射したかどうかの確認を行います
-	int GetWeaponFireFlag();//武器発射フラグ変数を取得する関数
+	int TreatmentWhileGame( const int Wp_equipment);// ゲーム中の銃の操作に関することをする関数
+	int PlayWeaponSound( const int Wp_equipment, const int PlayNo, const float MuzzlePosArray[3]);// *武器の音声を再生する関数(3DSE専用)
+	int ChkWeaponLaunch( const int Wp_equipment);//武器を発射したかどうかの確認を行います
+
 	int AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);//ゲーム中の敵とのあたり&攻撃判定を行います
 	Weapon();//コンストラクタ、変数の初期化を行います
 	~Weapon();//デストラクタ、モデルの破棄等を行います
+
+
+	/* アシスト関数 */
+	int GetWeaponModelID( const int ItemNumber, const int DataNumber) const;//モデルIDの取得を行う関数
+	int GetWeaponData( const int ItemNumber, const int DataNumber) const;//モデルの詳細データを取得します
+	int GetWeaponDataWhileGame( const int ItemNumber, const int DataNumber) const;//ゲーム中の武器の詳細データを取得します
+	int GetSpriteData( const int ItemNumber) const;//武器スプライトを取得します
+	int GetWeaponRapidFire() const;//武器の連射カウンタを取得します
+	int GetWeaponFireFlag() const;//武器発射フラグ変数を取得する関数
+
 
 
 

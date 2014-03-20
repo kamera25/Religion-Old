@@ -17,12 +17,14 @@
 
 /*自分の向くべき方向を調節したり、射撃したりする関数*/
 int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene){
-    /*キャラクターモデルを壁があれば壁に向ける
-	なければ銃の攻撃が届く範囲までの距離を取得し、そこに向ける*/
+    
+	
+	/* /////////////////////////////////////////////////////// */
+	// キャラクターモデルを壁があれば壁に向ける
+	// なければ銃の攻撃が届く範囲までの距離を取得し、そこに向ける
+	/* /////////////////////////////////////////////////////// */
 
 	/*変数の初期化*/
-
-
 	int NowWpKind = 0;//今の武器の種類を取得します
 	int ech = 0;//エラー確認変数
 	int MotionID = 0;//MLから取得した現在の「首付け根」モーションID
@@ -49,10 +51,10 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	POINT ScreenPos = { ScreenPosArray[0], ScreenPosArray[1]};//2Dスクリーン座標構造体
 
 	/*装備をきちんとつけていれば*/
-	if( Wp_equipment != -1){
+	if( Get_Wp_equipment() != -1){
 
-			NowWpKind = Wpn.GetWeaponData( Wp_equipment, 0);
-			NowWpRange = float( Wpn.GetWeaponData( Wp_equipment, 4) * 500);
+			NowWpKind = Wpn.GetWeaponData( Get_Wp_equipment(), 0);
+			NowWpRange = float( Wpn.GetWeaponData( Get_Wp_equipment(), 4) * 500);
 			EneNearDistance = float(NowWpRange);
 	}
 
@@ -69,14 +71,13 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	}
 
 
-	if(Wp_equipment != -1){//装備をきちんとつけていれば
+	if(Get_Wp_equipment() != -1){//装備をきちんとつけていれば
 		/*武器の種類が、ハンドガンであれば*/
-		if((NowWpKind == 1) || (NowWpKind == 4)){
+		if((NowWpKind == 1) || (NowWpKind == 4)|| (NowWpKind == 5)){
 			
 				/*敵にあたっていないかチェックします*/
-				for( int i = 0; i < 15; i++){//エネミーの数だけ
-						if( Ene->Enemy_hsid[i] != 0){
-									ech = E3DPickFace( System::scid1, Ene->Enemy_hsid[i], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
+				for( int i=0; i< Ene->EnemyNum; i++){//エネミーの数だけ
+									ech = E3DPickFace( System::scid1, Ene->Ene[i]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 									if(ech != 0 ){//エラーチェック
 												_ASSERT( 0 );//エラーダイアログ
 									};
@@ -86,11 +87,10 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 												EnemyConflict = 1;//近い敵がいることを代入します
 												HitResult = 1;//ヒットフラグを1にする
 									}
-						}
 				}
 
 				if( (EnemyConflict == 1) && ( Wall_HitDistance > EneNearDistance) ){//敵に銃先を向ける
-						ech = E3DPickFace( System::scid1, Ene->Enemy_hsid[NearEnemyID], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
+						ech = E3DPickFace( System::scid1, Ene->Ene[NearEnemyID]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
@@ -105,7 +105,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 				if( HitResult != -1){
 
 						/*「首付け根」部分の座標を取得します*/
-						ech = E3DGetCurrentBonePos( cha_hsid[0], bone[2], 1, &StomachPos);
+						ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
@@ -115,26 +115,26 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 						WantVec.z =  GunTargetPos.z - StomachPos.z;
 
 						/*キャラクターの向きを初期化します*/
-						ech = E3DRotateInit( cha_hsid[0]);
+						ech = E3DRotateInit( Get_BodyModel());
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
 
 
 						/*「首付け根」部分のクォータニオンを調べます*/
-						ech = E3DGetCurrentBoneQ( cha_hsid[0], bone[2], 2, Qid[5]);
+						ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Get_Quaternion(5));
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
 
 						/*「首付け根」部分のモーションはどうか調べます*/
-						ech = E3DGetMotionFrameNoML( cha_hsid[0], bone[2], &MotionID, &FrameNo);
+						ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
 
 						/*向きたい方向への計算を行います*/
-						ech = E3DLookAtQ( Qid[5], WantVec, BaseVec, 0, 0);
+						ech = E3DLookAtQ( Get_Quaternion(5), WantVec, BaseVec, 0, 0);
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
@@ -142,25 +142,25 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 
 
 						/*向きたい方向の修正を加えます*/
-						ech = E3DRotateQY( Qid[5], -(PC_Deg_XZ));
+						ech = E3DRotateQY( Get_Quaternion(5), -(Get_PC_Deg_XZ()));
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
 
 						/*計算したクォーターニオンを代入します*/
-						ech = E3DSetBoneQ( cha_hsid[0], bone[2], MotionID, FrameNo, Qid[5]);
+						ech = E3DSetBoneQ( Get_BodyModel(), Get_Bone_ID(2), MotionID, FrameNo, Get_Quaternion(5));
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
 
 						/*マルチレイヤーモーションの計算を行います*/
-						ech = E3DCalcMLMotion( cha_hsid[0]);
+						ech = E3DCalcMLMotion( Get_BodyModel());
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
 
 						/*キャラクターを回転させます*/
-						ech = E3DRotateY( cha_hsid[0], PC_Deg_XZ);
+						ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
@@ -199,124 +199,89 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 	/*視点関連の処理、切り替えや関数呼び出し等*/
 	ShoulderGunSys( BatPre, ScreenPos);//肩撃ち視点
-	/**/
+
+	/* ////////////////////////////////////////////////////// */
 	//カメラの位置を設定します、位置は自分の肩の後ろに設置します
-	/**/
+	/* ////////////////////////////////////////////////////// */
 
 	//条件を基にカメラをセットします
-	Cam->CamShoulderGunBack( cha_hsid[0], Qid[3], bone[2], PC_Deg_XZ, Stg);
-
-
+	Cam->CamShoulderGunBack( Get_BodyModel(), Get_Quaternion(3), Get_Bone_ID(2), Get_PC_Deg_XZ(), Stg);
 
 	//体の向きや、射撃を行う関数を呼び出し
 	GunConflictTarget( ScreenPos, Stg, Ene);
 
-	/*敵への当たり判定の処理*/
-
-
-	/*装備武器変更の処理*/
-	if( Wpn.GetWeaponRapidFire() == 0){// 武器攻撃可能なら
-		if( System::MouseWhole == 1){//もし、マウスホイールが上へ行ったのなら
-			for(int i=0; i<3; i++){//
-					Wp_equipment = Wp_equipment - 1;//装備順を一つ繰り上げる
-					if( Wp_equipment == -1){//装備が「素手」になったら
-							break;//ループから抜ける、素手に確定
-					}
-					if( Wp_equipment == -2){//装備が行き過ぎたら
-							Wp_equipment = 1;//装備を「サブウェポン」にする
-					}
-					if( Wpn.GetWeaponModelID( Wp_equipment, 0) != 0){//もし、武器が確認されているなら
-							break;//ループを抜ける、装備確定
-					}
-			}
-			BatPre->BacthGunTrade( Wp_equipment);//描画、視野角内チェックの武器変更
-		}
-
-		if( System::MouseWhole == 2){//もし、マウスホイールが下へ行ったのなら
-			for(int i=0; i<3; i++){//
-					Wp_equipment = Wp_equipment + 1;//装備順を一つ繰り下げる
-					if( Wp_equipment == 2){//装備が行き過ぎたら
-							Wp_equipment = -1;//装備を「サブウェポン」にする
-							break;//ループから抜ける、素手に確定
-					}
-					if( Wpn.GetWeaponModelID( Wp_equipment, 0) != 0){//もし、武器が確認されているなら
-							break;//ループを抜ける、装備確定
-					}
-			}
-			BatPre->BacthGunTrade( Wp_equipment);//描画、視野角内チェックの武器変更
-		}
-	}
-
+	// 武器を変更する際の処理
+	ChangeWeapon( BatPre);
 
 	/*姿勢変換「立つ⇔しゃがむ」の処理*/
-	if( (keyin[8] == 1) && (AirOnPC == 0)){//キーが押され、空中でない
-				Attitude = Attitude + 1;//姿勢変数を一つ増やす
-				if( Attitude == 2){//変数が行き過ぎなら
-						Attitude = 0;//「立つ」に固定
+	if( (keyin[8] == 1) && (Get_AirOnPC() == 0)){//キーが押され、空中でない
+				Set_Attitude( Get_Attitude() + 1);//姿勢変数を一つ増やす
+				if( Get_Attitude() == 2){//変数が行き過ぎなら
+						Set_Attitude( 0 );//「立つ」に固定
 				}
 	}
 
 	/*格闘攻撃をする処理を行います*/
-	if( ( keyin[11] == 1) && ( Attitude == 0) && ( MyState == 0)){//キーが押され、しゃがみ状態でなく、他の動作を行ってない
-				MyState = 1;//キックをする
+	if( ( keyin[11] == 1) && ( Get_Attitude() == 0) && ( Get_MyState() == 0)){//キーが押され、しゃがみ状態でなく、他の動作を行ってない
+				Set_MyState( 1 );//キックをする
 	}
 
-	if( MyState == 1){//キック中なら
-				ech = E3DGetMotionFrameNoML( cha_hsid[0], bone[6], &MotionID, &MotionFrameNo);
+	if( Get_MyState() == 1){//キック中なら
+				ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(6), &MotionID, &MotionFrameNo);
 				if(ech != 0 ){//エラーチェック
 							_ASSERT(0);//エラーダイアログ
 				}
 
 				if( MotionFrameNo == 19){//モーションが終了したら
-							MyState = 0;//動作状態を通常に戻す
+							Set_MyState( 0 );//動作状態を通常に戻す
 				}
 	}
 
 	/*ダッシュ関係の処理を行います*/
-	if( ( System::keyinQuick[1] == 1) && ( Attitude == 0) && ( MyState == 0) && ( AirOnPC == 0)){//キーが連続で押され、しゃがみ状態でなく、他の動作を行ってなくて、地上なら
-				MyState = 2;//ダッシュをする
+	if( ( System::keyinQuick[1] == 1) && ( Get_Attitude() == 0) && ( Get_MyState() == 0) && ( Get_AirOnPC() == 0)){//キーが連続で押され、しゃがみ状態でなく、他の動作を行ってなくて、地上なら
+				Set_MyState( 2 );//ダッシュをする
 	}
 
-	if(( System::keyinQuick[1] == 1) && (( Attitude != 0) || (( MyState != 0) && ( MyState != 2) ))){//それ以外の条件では、ダッシュキャンセルする
+	if(( System::keyinQuick[1] == 1) && (( Get_Attitude() != 0) || (( Get_MyState() != 0) && ( Get_MyState() != 2) ))){//それ以外の条件では、ダッシュキャンセルする
 				System::KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
 				System::keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
 	}
 
 
-	if( ( MyState == 2) && ( System::keyinQuick[1] == 0) && ( AirOnPC == 0) ){//ダッシュ操作中で、キーが解除されたら
-				MyState = 0;//ダッシュを解除する
+	if( ( Get_MyState() == 2) && ( System::keyinQuick[1] == 0) && ( Get_AirOnPC() == 0) ){//ダッシュ操作中で、キーが解除されたら
+				Set_MyState( 0 );//ダッシュを解除する
 	}
 
-	if( MyState == 2){//ダッシュ中なら
-				Stamina = Stamina - 1;//スタミナを減らす
-				if( (Stamina < 1) && (AirOnPC == 0) ){//体力がなくなった&空中でないなら
-						MyState = 0;//ダッシュを止める
+	if( Get_MyState() == 2){//ダッシュ中なら
+				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
+				if( (Get_Stamina() < 1) && (Get_AirOnPC() == 0) ){//体力がなくなった&空中でないなら
+						Set_MyState(0);//ダッシュを止める
 						System::KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
 						System::keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
 				}
 	}
 
 	/*横っ飛び関係の処理を行います*/
-	if( ( ( System::keyinQuick[0] == 1) || ( System::keyinQuick[2] == 1)) && ( Attitude == 0) //左右キーが連続で押され、しゃがみ状態でなく、
-		&& ( MyState == 0) && ( AirOnPC == 0) && ( 0 < Stamina)){//他の動作を行ってなくて、地上で、スタミナがなくなってないなら
+	if( ( ( System::keyinQuick[0] == 1) || ( System::keyinQuick[2] == 1)) && ( Get_Attitude() == 0) //左右キーが連続で押され、しゃがみ状態でなく、
+		&& ( Get_MyState() == 0) && ( Get_AirOnPC() == 0) && ( 0 < Get_Stamina())){//他の動作を行ってなくて、地上で、スタミナがなくなってないなら
 
-				if( System::keyinQuick[0] == 1) MyState = 3;//左横っ飛び状態にする;
-				if( System::keyinQuick[2] == 1) MyState = 4;//右横っ飛び状態にする;
-				if(( System::keyinQuick[0] == 1) && ( System::keyinQuick[2] == 1)) MyState = 0;//通常状態にする
+				if( System::keyinQuick[0] == 1) Set_MyState( 3 );//左横っ飛び状態にする;
+				if( System::keyinQuick[2] == 1) Set_MyState( 4 );//右横っ飛び状態にする;
+				if(( System::keyinQuick[0] == 1) && ( System::keyinQuick[2] == 1)) Set_MyState( 0 );//通常状態にする
 	}
 
 	//横っ飛び状態なら
-	if( (MyState == 3) || ( MyState == 4)){
+	if( (Get_MyState() == 3) || ( Get_MyState() == 4)){
 				//移動先のモーション状態はどうか確かめる
-				ech = E3DGetMotionFrameNoML( cha_hsid[0], bone[6], &Garbage, &MotionFrameNo);
+				ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(6), &Garbage, &MotionFrameNo);
 				if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 				};
 
-				Stamina = Stamina - 1;//スタミナを減らす
+				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
 
 				if( MotionFrameNo == 20){//モーションが終了してたら
-							MyState = 0;//通常状態に戻す
+							Set_MyState( 0 );//通常状態に戻す
 							System::KeyQuickPush[0][2] = 0;//ダッシュキーが押されてない状態にする
 							System::KeyQuickPush[2][2] = 0;//ダッシュキーが押されてない状態にする
 							System::keyinQuick[0] = 0;//横っ飛びフラグをオフにする
@@ -325,12 +290,12 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	}
 
 	/*スタミナの制御をする*/
-	if( Stamina <= 0){//スタミナがマイナスなら
-				Stamina = 0;//スタミナを固定する
+	if( Get_Stamina() <= 0){//スタミナがマイナスなら
+				Set_Stamina( 0 );//スタミナを固定する
 	}
 
 	/*武器をもち手のあるべき場所へ移動させる*/
-	if( Wp_equipment != -1){
+	if( Get_Wp_equipment() != -1){
 				GunPutOnHand();
 	}
 
@@ -338,4 +303,44 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 	return 0;
 
+}
+/*武器を変更するさせる際に使用する関数*/
+int PlayerChara::ChangeWeapon( Batch_Preparat *BatPre){
+
+	/*装備武器変更の処理*/
+	if( Wpn.GetWeaponRapidFire() == 0){// 武器攻撃可能なら
+		if( System::MouseWhole == 1){//もし、マウスホイールが上へ行ったのなら
+			for(int i=0; i<3; i++){//
+					Set_Wp_equipment( Get_Wp_equipment() - 1);//装備順を一つ繰り上げる
+					if( Get_Wp_equipment() == -1){//装備が「素手」になったら
+							break;//ループから抜ける、素手に確定
+					}
+					if( Get_Wp_equipment() == -2){//装備が行き過ぎたら
+							Set_Wp_equipment(1);//装備を「サブウェポン」にする
+					}
+					if( Wpn.GetWeaponModelID( Get_Wp_equipment(), 0) != 0){//もし、武器が確認されているなら
+							break;//ループを抜ける、装備確定
+					}
+			}
+			BatPre->BacthGunTrade( Get_Wp_equipment());//描画、視野角内チェックの武器変更
+		}
+
+		if( System::MouseWhole == 2){//もし、マウスホイールが下へ行ったのなら
+			for(int i=0; i<3; i++){//
+					Set_Wp_equipment( Get_Wp_equipment() + 1);//装備順を一つ繰り下げる
+					if( Get_Wp_equipment() == 2){//装備が行き過ぎたら
+							Set_Wp_equipment(-1);//装備を「サブウェポン」にする
+							break;//ループから抜ける、素手に確定
+					}
+					if( Wpn.GetWeaponModelID( Get_Wp_equipment(), 0) != 0){//もし、武器が確認されているなら
+							break;//ループを抜ける、装備確定
+					}
+			}
+			BatPre->BacthGunTrade( Get_Wp_equipment());//描画、視野角内チェックの武器変更
+		}
+	}
+
+
+
+	return 0;
 }

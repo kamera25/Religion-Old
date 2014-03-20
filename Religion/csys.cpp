@@ -34,7 +34,7 @@ POINT System::BeforeMousePos;//前回のマウスの位置を格納する構造体
 
 
 //コンストラクタ:Easy3Dの処理を開始するよ。
-System::System( HINSTANCE chInst, HWND chwnd){
+System::System( const HINSTANCE chInst, const HWND chwnd){
 
 	/*変数の*/
 	int ech = 0;//エラーチェック用の変数宣言
@@ -60,6 +60,7 @@ System::System( HINSTANCE chInst, HWND chwnd){
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
+
 	ech = E3DInit( chInst, chwnd, 0, 16, 0, 1, 1, 1, 0, &scid1);//Easy3Dの初期化をする。
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
@@ -69,7 +70,6 @@ System::System( HINSTANCE chInst, HWND chwnd){
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
 	};
-
 
 	PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE);//メッセージループに処理を返す(おまじない)
 
@@ -176,9 +176,9 @@ System::System( HINSTANCE chInst, HWND chwnd){
 	// **************
 	*/
 
-	ech = E3DCreateSwapChain( hwnd, &scid2);
+	ech = E3DCreateSwapChain( chwnd, &scid2);
 	if(ech != 0){//エラーチェック
-		_ASSERT(0);//エラーダイアログを表示
+				_ASSERT(0);//エラーダイアログを表示
 	};
 
 
@@ -232,7 +232,7 @@ System::~System(){
 
 };
 /*メッセージのループ処理*/
-int System::MsgQ(int fps){
+int System::MsgQ( const int fps){
 
 	/*初期化をする*/
 
@@ -276,10 +276,10 @@ int System::MsgQ(int fps){
 
 };
 /*キー情報を更新する関数*/
-int System::KeyRenewal( int SelectMode){
+int System::KeyRenewal( const int SelectMode){
 
 
-	 /*初期化します*/
+	/*初期化します*/
 
 	for(int i=0; i < 20; i++){	
 			keyin[i] = 0;
@@ -508,14 +508,14 @@ int System::GetKeyData( int *KeyDataArray){
 	return 0;
 }
 /*音声情報を更新するかどうかの関数*/
-int System::SetUpdataSoundSys( int Soundflag){
+int System::SetUpdataSoundSys( const int Soundflag){
 
 	UpdataSoundflag = Soundflag;
 
 	return 0;
 }
 /*画像をフェードアウトさせる処理の関数*/
-int System::SetFadeOutOfScid( int FadeTime){
+int System::SetFadeOutOfScid( const int FadeTime){
 
 	/*変数の初期化*/
 	int ech = 0;
@@ -542,6 +542,16 @@ int System::SetFadeOutOfScid( int FadeTime){
 	for( int i=0; i<FadeTime; i++){
 
 			MsgQ(30);//メッセージループ
+
+			
+			/* 透明度を更新(iカウンタで変位) */
+			BlackColor.a = i * (255 / FadeTime);
+
+			/*黒画像の透明度を指定する*/
+			ech = E3DSetSpriteARGB( SpriteID[1], BlackColor);
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
 
 			/* 透明度を更新(iカウンタで変位) */
 			BlackColor.a = i * (255 / FadeTime);
@@ -607,8 +617,6 @@ int System::SetFadeOutOfScid( int FadeTime){
 			if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 			};
-
-			/* 処理終了 */
 
 	}
 

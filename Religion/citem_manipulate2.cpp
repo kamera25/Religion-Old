@@ -12,7 +12,7 @@
 
 
 /*簡易説明文を表示させる処理を行います*/
-int Item_Manipulate::PutItemDescript( int ChoseItem, int ItemNumber){
+int Item_Manipulate::PutItemDescript( const int ChoseItem, const int ItemNumber){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック変数
@@ -96,7 +96,7 @@ int Item_Manipulate::PutItemDescript( int ChoseItem, int ItemNumber){
 	return 0;
 }
 /*武器アイテム名を表示させる処理を行います*/
-int Item_Manipulate::PutItemName( int ChoseItem, int ItemNumber){
+int Item_Manipulate::PutItemName( const int ChoseItem, const int ItemNumber){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック変数
@@ -201,9 +201,9 @@ int Item_Manipulate::PutBackPackText( int *ChoseItem, int *ExitFlag){
 		const char ItemKindName[5][12] = { "WEAPON" , "AMMO" , "RECOVERY" , "KEY" , "EQUIPMENT" };
 		const char ItemKindDetal[5][50] = { "武器の操作をします" , "弾薬の操作をします" , "回復系品の操作をします" 
 											, "重要品の操作をします" , "装備品の操作をします" };
-		E3DCOLOR4UC NormalColor = { 255,255,255,255};//白色の選ばれていない色
-		E3DCOLOR4UC SetColor = { 255,0,120,170};//青色の武器が選ばれている色
-		E3DCOLOR4UC SelectColor = { 255,200,220,20};//黄色の選ばれている色
+		const E3DCOLOR4UC NormalColor = { 255,255,255,255};//白色の選ばれていない色
+		const E3DCOLOR4UC SetColor = { 255,0,120,170};//青色の武器が選ばれている色
+		const E3DCOLOR4UC SelectColor = { 255,200,220,20};//黄色の選ばれている色
 		POINT TextPos;//文字の位置を格納する構造体
 
 

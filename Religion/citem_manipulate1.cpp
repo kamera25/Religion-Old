@@ -256,12 +256,12 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			int ActingItemNumber = 0;
 			int keyin[20];//キー情報配列を作成
 
-			D3DXVECTOR3 SpritePos1( 0.0, -25.0, 0.0);//背景の位置
-			D3DXVECTOR3 SpritePos2( 0.0, -60.0, 0.0);//十字バーの位置
-			D3DXVECTOR3 SpritePos3( 380.0, 45.0, 0.0);//上部の白いバー
-			E3DCOLOR4UC NormalColor = { 255,255,255,255};//白色の選ばれていない色
-			E3DCOLOR4UC SelectColor = { 255,200,220,20};//黄色の選ばれている色
-			E3DCOLOR4UC SetColor = { 255,0,120,170};//青色の武器が選ばれている色
+			const D3DXVECTOR3 SpritePos1( 0.0, -25.0, 0.0);//背景の位置
+			const D3DXVECTOR3 SpritePos2( 0.0, -60.0, 0.0);//十字バーの位置
+			const D3DXVECTOR3 SpritePos3( 380.0, 45.0, 0.0);//上部の白いバー
+			const E3DCOLOR4UC NormalColor = { 255,255,255,255};//白色の選ばれていない色
+			const E3DCOLOR4UC SelectColor = { 255,200,220,20};//黄色の選ばれている色
+			const E3DCOLOR4UC SetColor = { 255,0,120,170};//青色の武器が選ばれている色
 			
 			/* 変数の操作*/
 			if( MenuMode == 0) ItemNumber = -1;// モードが通常なら画像に載っていないので"-1"

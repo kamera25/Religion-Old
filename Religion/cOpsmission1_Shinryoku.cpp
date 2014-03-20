@@ -17,12 +17,15 @@
 #include "cmenu.h"//メニュークラスに関するヘッダファイル
 #include "cnetplay.h"//ネットワーク接続に関するヘッダファイル
 #include "citem.h"//アイテムの宣言ヘッダファイル
-
+#include "Ask.h"// 通信補助DLL、Askに関するヘッダファイル
 
 /* オペレーションミッション1「新緑の少女」についての処理を行ないます */
 int Operation::OpsMission1_Shinryoku(){
 
-	
+		/* 定数の宣言 */
+		const int EnemyOnNaviLine[6] = { 2, 1, 1, 0, 0};
+		const int EnemyOnNaviPoint[6] = { 17, 10, 6, 3, 1};
+
 		/* クラスの実体化を行う */
 		PlayerChara Player(1,0);
 		Stage Stg;
@@ -36,31 +39,38 @@ int Operation::OpsMission1_Shinryoku(){
 		/**/E3DSetProgressBar( 20);// プログレスバーを進歩させる
 	
 		/* Weapon関係処理 */		
-		Player.Wpn.GunLoad(0,4,0);// 銃のロード
+		Player.Wpn.GunLoad(0,5,2);// 銃のロード
 		Player.Wpn.GunLoad(1,1,0);// 銃のロード
+		//Player.Wpn.GunLoad(2,7,0);// 銃のロード
 		Player.Wpn.SetInitWeaponData();// 弾薬の初期化
 
 		/**/E3DSetProgressBar( 40);// プログレスバーを進歩させる
 
-		Stg.LoadStage(6,0,0);// ステージをロードします
+		Stg.LoadStage(6,0,2);// ステージをロードします
 		/**/E3DSetProgressBar( 60);// プログレスバーを進歩させる
-		Ene.LoadEnemyModel( -1, 0);// 敵をロードします
+		for( int i=0; i<5; i++){
+			Ene.LoadEnemyModel( 0, 0);// 敵をロードします
+		}
+		Ene.SetEnemyPosByNaviPointArray( &Stg, EnemyOnNaviLine, EnemyOnNaviPoint, 5);//敵の座標を設定
+		
+
+
 
 		/**/E3DSetProgressBar( 90);// プログレスバーを進歩させる
 
 		Batch_Preparat BatP( &Player, &Stg, &Ene, &Cam);// バッチプレパラートにすべての描画準備をさせます。
-
 		E3DDestroyProgressBar();// プログレスバーを壊します		
+		BatP.BatchEnableBumpMap(0);// バンプマップを有効にします 
+		//BatP.BatchCreateShadow();// 影を有効にします
 
-		System::MsgQ(30);//メッセージループ
 		SetCursorPos( System::rewin.left + 320, System::rewin.top + 240);//マウスをウィンドウ真ん中に設置
-		System::MsgQ(30);//メッセージループ
+
 
 
 		
 		BatP.BatchChkInView();
-		D3DXVECTOR3 GroundOnPos( 0.0, 10000.0, 0.0);//
-		E3DSetPos( Player.cha_hsid[0], GroundOnPos);
+		D3DXVECTOR3 GroundOnPos( 0.0, 10000.0, 0.0);
+		E3DSetPos( Player.Get_BodyModel(), GroundOnPos);
 		
 
 
@@ -76,9 +86,10 @@ int Operation::OpsMission1_Shinryoku(){
 
 
 
-				System::KeyRenewal( Player.Wpn.GetWeaponData( Player.Wp_equipment, 7) + 1);
+				if( Player.Get_Wp_equipment() != -1 ) System::KeyRenewal( Player.Wpn.GetWeaponData( Player.Get_Wp_equipment(), 7) + 1);
+				else System::KeyRenewal(1);
 				BatP.BatchChkInView();
-				Player.Wpn.ChkWeaponLaunch( Player.Wp_equipment);
+				Player.Wpn.ChkWeaponLaunch( Player.Get_Wp_equipment());
 
 				Player.NormallyPCSystem( &Stg, &BatP, &Ene, &Cam, ScreenPosArray);
 				Player.Wpn.AttackEnemy( &Ene, &Player, ScreenPosArray, &Stg);
@@ -86,7 +97,7 @@ int Operation::OpsMission1_Shinryoku(){
 
 				BatP.BatchSpriteSet( &Player);
 				BatP.BatchRender( 0);
-				Player.Wpn.TreatmentWhileGame( Player.Wp_equipment);
+				Player.Wpn.TreatmentWhileGame( Player.Get_Wp_equipment());
 				BatP.BatchSpriteRender( 0);
 				BatP.BatchFont( 1, &Player);
 
@@ -98,7 +109,13 @@ int Operation::OpsMission1_Shinryoku(){
 
 				Menu.FarstInMenu( &BatP, &Player);
 				BatP.BatchBeforePos();
-				Player.ShoulderGunSysBefore();
+				Player.Batch_PeopleMotion();
+
+				D3DXVECTOR3 MyPos( 0.0, 0.0, 0.0);//自分のキャラクター座標
+				ech = E3DGetPos( Player.Get_BodyModel(), &MyPos);
+				if( ech != 0){
+						_ASSERT(0);
+				}
 
 				//netP.NetMessage();
 		}

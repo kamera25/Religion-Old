@@ -19,23 +19,65 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\Class\PlayerClass">
-      <UniqueIdentifier>{d5aea26c-861f-4826-b3f2-7f058f70da9a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Class\Menu">
       <UniqueIdentifier>{acd276f9-900c-413b-befb-636db27c03cc}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Class\Menu">
       <UniqueIdentifier>{ac43ecdf-0d31-4c74-beb4-47bb9de8ec07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Class\Wapon">
-      <UniqueIdentifier>{5c309927-a6ac-4cd1-8526-7f03a4680935}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Class\Operation">
       <UniqueIdentifier>{eba2b9a9-683d-451b-99ac-39422d3fb4f4}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Class\Operation\Mission_function">
       <UniqueIdentifier>{0c0c5c10-0721-42b6-bb84-26f4b6d6f9b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Enemy">
+      <UniqueIdentifier>{4de36187-6851-4103-991a-0c34710a8deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Stage">
+      <UniqueIdentifier>{91786f77-f501-402d-816d-dc54bc611ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Stage\Stage_function">
+      <UniqueIdentifier>{0ccd3f5a-a9e5-40ad-9dc9-0ac845aabb7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Class\Creature">
+      <UniqueIdentifier>{b98527a0-31c3-4c1f-8f02-63c851999fba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Creature">
+      <UniqueIdentifier>{d5aea26c-861f-4826-b3f2-7f058f70da9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Creature\Soldier">
+      <UniqueIdentifier>{62c89ed6-b6f8-4cec-9191-c563c2735e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Creature\People">
+      <UniqueIdentifier>{0b8f23ed-ad2e-4d3a-9c25-546df39c3166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Creature\PlayerChara">
+      <UniqueIdentifier>{5e0ebcaa-729f-48df-af02-30e791846d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Menu\citem_manipulate">
+      <UniqueIdentifier>{c20fc441-b611-466e-b92d-86eae954f148}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Ask">
+      <UniqueIdentifier>{6dce1d93-5f17-415a-a92a-ee602f2fb0e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Class\Ask">
+      <UniqueIdentifier>{0f1aca27-27aa-45eb-92e2-490be2abdf8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon">
+      <UniqueIdentifier>{5c309927-a6ac-4cd1-8526-7f03a4680935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon\While_Game">
+      <UniqueIdentifier>{72995aac-641f-4242-8fce-f53b0c2720f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon\NotWhile_Game">
+      <UniqueIdentifier>{2c5f94d9-9a47-4484-b246-58d4a686b800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon\NotWhile_Game\LoadData">
+      <UniqueIdentifier>{f2a9041e-a41d-4051-8ebe-a1202eb89a3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData">
+      <UniqueIdentifier>{5a5d99b8-b924-4dcc-a849-d85578bc693c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,31 +90,7 @@
     <ClCompile Include="ccamera.cpp">
       <Filter>ソース ファイル\Class</Filter>
     </ClCompile>
-    <ClCompile Include="cenemy.cpp">
-      <Filter>ソース ファイル\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="cstage.cpp">
-      <Filter>ソース ファイル\Class</Filter>
-    </ClCompile>
     <ClCompile Include="csys.cpp">
-      <Filter>ソース ファイル\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="cplaychara4.cpp">
-      <Filter>ソース ファイル\Class\PlayerClass</Filter>
-    </ClCompile>
-    <ClCompile Include="cplaychara3.cpp">
-      <Filter>ソース ファイル\Class\PlayerClass</Filter>
-    </ClCompile>
-    <ClCompile Include="cplaychara2.cpp">
-      <Filter>ソース ファイル\Class\PlayerClass</Filter>
-    </ClCompile>
-    <ClCompile Include="cplaychara1.cpp">
-      <Filter>ソース ファイル\Class\PlayerClass</Filter>
-    </ClCompile>
-    <ClCompile Include="citem_manipulate1.cpp">
-      <Filter>ソース ファイル\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="citem_manipulate2.cpp">
       <Filter>ソース ファイル\Class</Filter>
     </ClCompile>
     <ClCompile Include="c_batch_preparat.cpp">
@@ -90,23 +108,116 @@
     <ClCompile Include="cfirstmenu.cpp">
       <Filter>ソース ファイル\Class\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="cweapon1.cpp">
-      <Filter>ソース ファイル\Class\Wapon</Filter>
-    </ClCompile>
-    <ClCompile Include="cweapon2.cpp">
-      <Filter>ソース ファイル\Class\Wapon</Filter>
-    </ClCompile>
     <ClCompile Include="citem.cpp">
       <Filter>ソース ファイル\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="cweapon3.cpp">
-      <Filter>ソース ファイル\Class\Wapon</Filter>
     </ClCompile>
     <ClCompile Include="cOperation.cpp">
       <Filter>ソース ファイル\Class\Operation</Filter>
     </ClCompile>
     <ClCompile Include="cOpsmission1_Shinryoku.cpp">
       <Filter>ソース ファイル\Class\Operation\Mission_function</Filter>
+    </ClCompile>
+    <ClCompile Include="cenemy.cpp">
+      <Filter>ソース ファイル\Class\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="cstage.cpp">
+      <Filter>ソース ファイル\Class\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="cStg_Tronp.cpp">
+      <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
+    </ClCompile>
+    <ClCompile Include="cStg_IRoby.cpp">
+      <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
+    </ClCompile>
+    <ClCompile Include="cStg_Retolis.cpp">
+      <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
+    </ClCompile>
+    <ClCompile Include="cStg_Mall.cpp">
+      <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
+    </ClCompile>
+    <ClCompile Include="cStg_Forest.cpp">
+      <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
+    </ClCompile>
+    <ClCompile Include="cStg_Kamigaichi.cpp">
+      <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
+    </ClCompile>
+    <ClCompile Include="cStg_BaseFront.cpp">
+      <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
+    </ClCompile>
+    <ClCompile Include="cNaviRail.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="csoldier.cpp">
+      <Filter>ソース ファイル\Class\Creature\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="cpeople.cpp">
+      <Filter>ソース ファイル\Class\Creature\People</Filter>
+    </ClCompile>
+    <ClCompile Include="csoldier_assist.cpp">
+      <Filter>ソース ファイル\Class\Creature\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="cpeople_assist.cpp">
+      <Filter>ソース ファイル\Class\Creature\People</Filter>
+    </ClCompile>
+    <ClCompile Include="cplaychara1.cpp">
+      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
+    </ClCompile>
+    <ClCompile Include="cplaychara2.cpp">
+      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
+    </ClCompile>
+    <ClCompile Include="cplaychara3.cpp">
+      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
+    </ClCompile>
+    <ClCompile Include="cplaychara4.cpp">
+      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
+    </ClCompile>
+    <ClCompile Include="ccreature_assist.cpp">
+      <Filter>ソース ファイル\Class\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="c_optionmenu.cpp">
+      <Filter>ソース ファイル\Class\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="citem_manipulate1.cpp">
+      <Filter>ソース ファイル\Class\Menu\citem_manipulate</Filter>
+    </ClCompile>
+    <ClCompile Include="citem_manipulate2.cpp">
+      <Filter>ソース ファイル\Class\Menu\citem_manipulate</Filter>
+    </ClCompile>
+    <ClCompile Include="ask.cpp">
+      <Filter>ソース ファイル\Ask</Filter>
+    </ClCompile>
+    <ClCompile Include="cweapon_assist.cpp">
+      <Filter>ソース ファイル\Class\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_Assault.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_SMG.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_HandGun.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_ShotGun.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_MachineGun.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_Rifle.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
+    </ClCompile>
+    <ClCompile Include="cweaponload.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData</Filter>
+    </ClCompile>
+    <ClCompile Include="cweapon.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="cweapon_while1.cpp">
+      <Filter>ソース ファイル\Class\Weapon\While_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_Grenade.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,9 +231,6 @@
       <Filter>ヘッダー ファイル\Class</Filter>
     </ClInclude>
     <ClInclude Include="citem_manipulate.h">
-      <Filter>ヘッダー ファイル\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="clive.h">
       <Filter>ヘッダー ファイル\Class</Filter>
     </ClInclude>
     <ClInclude Include="cstage.h">
@@ -151,6 +259,27 @@
     </ClInclude>
     <ClInclude Include="coperation.h">
       <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="clive.h">
+      <Filter>ヘッダー ファイル\Class\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="ccreature.h">
+      <Filter>ヘッダー ファイル\Class\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="cpeople.h">
+      <Filter>ヘッダー ファイル\Class\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="csoldier.h">
+      <Filter>ヘッダー ファイル\Class\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="cnavirail.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="c_optionmenu.h">
+      <Filter>ヘッダー ファイル\Class\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Ask.h">
+      <Filter>ヘッダー ファイル\Class\Ask</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

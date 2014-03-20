@@ -3,15 +3,13 @@
 */
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
-#include <gDPs.h>//ネットワークに関するヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
-
 #include "cnetplay.h"//ネットワーク接続に関するヘッダファイル
 
 
 /*コンストラクタ、接続準備をします*/
 NetPlay::NetPlay( int NetMode){
-
+/*
 	//変数の宣言
 	int ech = 0;//エラーチェック用の変数宣言
 	SwitchNetWork = 1;
@@ -40,16 +38,16 @@ NetPlay::NetPlay( int NetMode){
 	}
 
 	/*自分のDPNIDを取得する*/
-	MyDPNID = gGetMyDPNID();
+/*	MyDPNID = gGetMyDPNID();
 
 	/*接続台数を制限する*/
-	ech = gSetMaxPlayers( 16);
+	/*ech = gSetMaxPlayers( 16);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 				return;
 	};
 
-
+	*/
 
 	return;
 };
@@ -59,7 +57,7 @@ NetPlay::~NetPlay(){
 	//変数の宣言
 	int ech = 0;//エラーチェック用の変数宣言
 
-	ech = gDisConnect();
+	//ech = gDisConnect();
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 				return;
@@ -81,7 +79,7 @@ int NetPlay::NetMessage(){
 			if( SwitchNetWork == 1){//ネットワーク関連命令を実行して良いなら
 
 					/*データが届いているかチェックします*/
-					DataOnSys = gCheckBufferText();
+			//		DataOnSys = gCheckBufferText();
 					if(DataOnSys < 0){//エラーチェック
 								_ASSERT(0);//エラーダイアログを表示
 								return 1;
@@ -92,17 +90,17 @@ int NetPlay::NetMessage(){
 
 					/*もしデータが届いていれば*/
 					if( 0 < DataOnSys ){
-							ech = gGetText( Mes, 256);
+		//					ech = gGetText( Mes, 256);
 							if(ech < 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 										return 1;
 							};
 
 							//もしそれが、何らかのメッセージだった場合
-							NetData = gMessageToID( Mes);
+			//				NetData = gMessageToID( Mes);
 							if( NetData == 0x0001 ){//メッセージが「接続開始」なら
 
-									ech = gGetText( Mes, 256);//DPNIDを取得します
+//									ech = gGetText( Mes, 256);//DPNIDを取得します
 									if(ech < 0){//エラーチェック
 												_ASSERT(0);//エラーダイアログを表示
 												return 1;
@@ -123,7 +121,7 @@ int NetPlay::NetMessage(){
 							}
 							if( NetData== 0x0002){//メッセージが「クライアントが切断」なら
 
-									ech = gGetText( Mes, 256);//DPNIDを取得します
+//									ech = gGetText( Mes, 256);//DPNIDを取得します
 									if(ech < 0){//エラーチェック
 												_ASSERT(0);//エラーダイアログを表示
 												return 1;

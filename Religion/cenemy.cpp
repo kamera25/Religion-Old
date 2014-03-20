@@ -7,27 +7,37 @@
 
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
+#include "csoldier.h"// 兵士クラスの宣言ヘッダファイル
 
-
-
+#include <math.h>
 
 
 /*コンストラクタ、クラス変数の初期化を行います*/
 Enemy::Enemy(){
 
-	/*モデルデータを入れる「Enemy_hsid」の初期化*/
+	/* 変数の初期化*/
 	for(int i = 0; i<15; i++){
-			Enemy_hsid[i] = 0;
-			Enemy_HP[i] = 0;
-			Enemy_State[i] = 0;
+			Ene[i] = NULL;
+			TargetNaviPointID[i] = -1;
+			CreatureRace[i] = 0;
+			CreatureNumber[i] = 0;
+			TargetNaviLineID[i] = 0;
 	}
 
 	/*敵の数を0にする*/
 	EnemyNum = 0;
 
+	/* テスト */
+	TargetNaviLineID[0] = 2;
+	TargetNaviLineID[1] = 1;
+	TargetNaviLineID[2] = 1;
+	TargetNaviLineID[3] = 0;
+	TargetNaviLineID[4] = 0;
+
+	return;
 }
 /*敵を情報やモデルをロードするための関数*/
-int Enemy::LoadEnemyModel( int Ene_Kind, int Ene_No){
+int Enemy::LoadEnemyModel( const int Ene_Kind, const int Ene_No){
 
 	//変数の初期化
 	int ech = 0;//エラーチェック変数の初期化
@@ -35,27 +45,32 @@ int Enemy::LoadEnemyModel( int Ene_Kind, int Ene_No){
 
 
 	if( Ene_Kind == -1){//テストモデル
-		if( Ene_No == 0){
-				//本命ボックスの取得
-				wsprintf( loadname, "%s\\data\\3d\\enemy\\valentine\\honmei\\honmeibox.sig", System::path);
-				ech = E3DSigLoad( loadname, 0, 0.3f, &Enemy_hsid[EnemyNum]);//モデルの読み込み、Enemy_hsidへモデルを入れる。
-				if(ech != 0 ){//エラーチェック
-							_ASSERT(0);//エラーダイアログ
-				};
-		}
-	};
+	}
+	else if( Ene_Kind == 0){// 人間
+			if( Ene_No == 0){// Wf兵
+					
+					/* クリーチャークラスポインタを保持する
+					// 変数に兵士クラスのポインタを代入 */
+					Ene[EnemyNum] = new Soldier( 1, 0);
+
+					/* モーション指定 */
+					Ene[EnemyNum]->Set_UpMotion( 0);
+					Ene[EnemyNum]->Set_MyState( 0);
+					Ene[EnemyNum]->Set_UnderMotion( 1);
+
+					/* 武器のロード */
+					Ene[EnemyNum]->Get_Weapon()->GunLoad(0,4,6);// アサルトライフルの入手
+			}
+	}
+
 
 	/*テスト*/
-	D3DXVECTOR3 CharaPos( 0.0, 1500.0, 0.0);//エネミーを一応置く位置
-	/*座標を取得する*/
-	ech = E3DSetPos( Enemy_hsid[EnemyNum], CharaPos);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	Ene[EnemyNum]->Set_HP( 1000);
 
-	Enemy_HP[EnemyNum] = 100;
+	/* 種族と種類を代入する */
+	CreatureRace[EnemyNum] = Ene_Kind;
+	CreatureNumber[EnemyNum] = Ene_No;
 
-	/**/
 
 	/*エネミーの数を一つ増やす*/
 	EnemyNum = EnemyNum +1;
@@ -64,30 +79,66 @@ int Enemy::LoadEnemyModel( int Ene_Kind, int Ene_No){
 	return 0;
 }
 /*敵の動きをまとめて動かすための関数*/
-int Enemy::MoveEnemys( const Stage *Stg){
+int Enemy::MoveEnemys( Stage *Stg){
 
 	//変数の初期化
 	int ech = 0;//エラーチェック変数の初期化
-	int TargetNaviPointID;//今目指しているナビポイントを指定します
-	D3DXQUATERNION NewhsidQ;//移動後のクォータニオンを代入します
-	D3DXVECTOR3 NewhsidPos( 0.0, 0.0, 0.0);//移動後の座標を代入します
+	int GroundResult = 0;
+
+	D3DXVECTOR3 ReflectVec( 0.0, 0.0, 0.0);
+
+
 
 	/*とりあえずナビポイントだけで動くように指定する、後々複雑化予定*/
-	if( Stg->Stage_ID == 3){
-		for( int i=0; i<15; i++){
-				if( Enemy_hsid[i] != 0){
-						ech = E3DControlByNaviLine( Enemy_hsid[i], Stg->NaviLineID, 5, 1, 0, 200.0f, 50.0f, 200.0f, &NewhsidPos, &NewhsidQ, &TargetNaviPointID);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
-						ech = E3DSetPos( Enemy_hsid[i], NewhsidPos);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
-				}	
+	if( Stg->Navi.Get_NaviRailAvailable() == 1){
+		for( int i=0; i<EnemyNum; i++){
+
+			if( CreatureRace[i] == 0){
+				if( CreatureNumber[i] == 0){
+					
+					if(0 < Ene[i]->Get_HP()){
+							// ナビレールによってPC位置を決めます
+							Stg->Navi.PCControlByNaviRail( Ene[i]->Get_BodyModel(), &TargetNaviPointID[i], Stg->Navi.NaviLineID[ (TargetNaviLineID[i]) ]);
+							
+							Ene[i]->Set_UpMotion( 0);
+							Ene[i]->Set_UnderMotion( 1);
+					}
+					else{// HPがないなら
+							Ene[i]->Set_MyState(5);// 死亡状態にする
+					}
+
+					// PCの空中位置を制御します
+					Ene[i]->MovePosOnGround( Stg);
+
+					// モーションまとめ処理
+					Ene[i]->Batch_PeopleMotion();
+						
+					// 武器を手に置きます
+					Ene[i]->GunPutOnHand();
+				}
+			}
 		}
 	}
 
+
+
+
+
+	return 0;
+}
+/* 敵の座標をナビポイントを基に設定します*/
+int Enemy::SetEnemyPosByNaviPoint( Stage *Stg, const int EnemyNum, const int NaviLine, const int NaviPoint){
+
+	Stg->Navi.SetPosByNaviPoint( Ene[EnemyNum]->Get_BodyModel(), NaviLine, NaviPoint);
+
+	return 0;
+}
+/* 敵の座標をまとめてナビポイントを基に設定します */
+int Enemy::SetEnemyPosByNaviPointArray( Stage *Stg, const int *EnemyOnNaviLine, int const *EnemyOnNaviPoint, const int ArrayMax){
+
+	for(int i=0; i<ArrayMax; i++){
+			SetEnemyPosByNaviPoint( Stg, i, *(EnemyOnNaviLine + i), *(EnemyOnNaviPoint + i));
+	}
 
 
 
@@ -99,11 +150,9 @@ Enemy::~Enemy(){
 	//変数の初期化
 	int ech = 0;
 
-	for(int i=0; i<EnemyNum; i++){//ロードしたモデルの数だけ
-			ech = E3DDestroyHandlerSet( Enemy_hsid[i]);//モデルを削除します
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+	for( int i=0; i<15; i++){
+			delete Ene[i];
 	}
 
+	return;
 }

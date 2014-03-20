@@ -18,8 +18,8 @@ private:
 
 	//関数の宣言
 	int MainBackPack( PlayerChara *PC);//バックパックのメイン処理を行います
-	int PutItemDescript( int ChoseItem, int ItemNumber);//説明文を表示させる処理を行います
-	int PutItemName( int ChoseItem, int ItemNumber);//武器アイテム名を表示させる処理を行います
+	int PutItemDescript( const int ChoseItem, const int ItemNumber);//説明文を表示させる処理を行います
+	int PutItemName( const int ChoseItem, const int ItemNumber);//武器アイテム名を表示させる処理を行います
 	int PutBackPackText( int *ChoseItem, int *ExitFlag);//アイテム種類のメニューの表示・選択を行います
 	int PutItemSprite( const int ChoseItem, const int MenuMode, const POINT ItemSysSetPos);//アイテム画像の表示、制御を行ないます
 	int ItemUsingSystem( const int ChoseItem);// アイテムを使う、削除、確認などを行ないます

@@ -30,7 +30,7 @@ Item::Item(){
 	return;
 }
 /* 格納されているアイテムナンバーを取得します */
-int Item::GetItemNumber( int ItemKind, int ItemEle1, int ItemEle2){
+int Item::GetItemNumber( const int ItemKind, const int ItemEle1, const int ItemEle2){
 
 	/* 変数の初期化 */
 	int Value = 0;// 返り値、

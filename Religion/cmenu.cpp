@@ -5,6 +5,7 @@
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
+#include "c_optionmenu.h"// オプションメニューに関することを宣言しているヘッダファイル
 #include "cmenu.h"//メニュークラスに関するヘッダファイル
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
@@ -96,21 +97,35 @@ Menu::~Menu(){
 
 
 /*ポーズメニュー、コアの部分です。*/
-int Menu::PoseMenu( PlayerChara *PC){
+int Menu::PoseMenu( PlayerChara *PC, Batch_Preparat *BatchPre ){
 
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
 	int ExitFlag = 0;//このフラグがオンになったとき脱出します。
 	int keyin[20];//キー情報配列を作成
-	D3DXVECTOR3 SpritePos1( 0.0, -25.0, 0.0);//背景の位置
-	D3DXVECTOR3 SpritePos2( 0.0, -60.0, 0.0);//十字バーの位置
-	D3DXVECTOR3 SpritePos3( 380.0, 45.0, 0.0);//上部の白いバー
-	E3DCOLOR4UC NormalColor = { 255,255,255,255};//白色の選ばれていない色
-	E3DCOLOR4UC SelectColor = { 255,200,220,20};//黄色の選ばれている色
+	const int DetailPossitionX[5] = { 400, 250, 400, 250, 230};// 詳細文字のX座標
+	/* メニューネームの登録を行ないます。 */
+	const char MenuKindName[5][32] = {  "ゲームに戻る" , "バックパック" , "オプション" ,
+										"ミッションを中断する", "ゲームを終了する" };
+	/* 各メニューの詳しい説明 */
+	const char MenuKindDetail[5][80] = {
+			"ゲーム本編に戻ります",
+			"持ち物の確認やアイテムの使用などが出来ます",
+			"ゲーム内の設定が出来ます",
+			"ミッションを中断して、作戦前の状態に戻ります",
+			"ゲームを終了します、データの保存は行われません"
+	};
+	const D3DXVECTOR3 SpritePos1( 0.0, -25.0, 0.0);//背景の位置
+	const D3DXVECTOR3 SpritePos2( 0.0, -60.0, 0.0);//十字バーの位置
+	const D3DXVECTOR3 SpritePos3( 380.0, 45.0, 0.0);//上部の白いバー
+	const E3DCOLOR4UC NormalColor = { 255,255,255,255};//白色の選ばれていない色
+	const E3DCOLOR4UC SelectColor = { 255,200,220,20};//黄色の選ばれている色
 	POINT TextPos;//文字の位置を格納する構造体
-
+	POINT TextPosDetail;//詳細の文字を表示する座標を格納する構造体
 
 	do{
+			/*変数の宣言*/
+			int SelectKind = -1;// 選択しているアイテムを識別する変数
 
 			System::MsgQ(30);//メッセージループ
 
@@ -147,145 +162,88 @@ int Menu::PoseMenu( PlayerChara *PC){
 			//　次に文字の描画を行います。
 			*/
 
-					//一番上のポーズメニュー
-					TextPos.x = 440;/**/TextPos.y = 5;
-					E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "ポーズメニュー", NormalColor);
 
-					//以下、通常文字を表示
-					TextPos.x = 100;
-					TextPos.y = 140;//40ずつ下げる
-					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームに戻る", NormalColor);
+
+			/* ///////////////////// */
+			// 文字の表示を行ないます
+			/* ///////////////////// */
+
+			//一番上のポーズメニュー
+			TextPos.x = 440;/**/TextPos.y = 5;
+			E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "ポーズメニュー", NormalColor);
+
+			//以下、メニューネーム(通常時・選択時)を表示
+			TextPos.x = 100;/**/TextPos.y = 140;//40ずつ下げる
+			for( int i=0; i<5;i++){
+					
+					/* 通常文字を表示*/
+					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, MenuKindName[i], NormalColor);
 					if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 							return 1;//問題ありで終了
 					};
 
-					TextPos.y = 180;//40ずつ下げる
-					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "バックパック", NormalColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
+					/* 選択されている文字を表示 */
+					if(( (100< System::MousePos.x) && (System::MousePos.x<250) ) &&// X座標
+						( (TextPos.y + 20)< System::MousePos.y)&&( System::MousePos.y < (TextPos.y + 50))){// Y座標
 
-					TextPos.y = 220;//40ずつ下げる
-					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "オプション", NormalColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-
-					TextPos.y = 260;//40ずつ下げる
-					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ミッションを中断する", NormalColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-
-					TextPos.y = 300;//40ずつ下げる
-					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームを終了する", NormalColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-			
-
-
-
-
-			/*マウスが選択部にあるとき、文字を変更します*/
-			if((100< System::MousePos.x)&&(System::MousePos.x<250)){	
-					if((160< System::MousePos.y)&&( System::MousePos.y<190)){//マウス座標が「ゲームに戻る」の上なら
-							TextPos.x = 100;
-							TextPos.y = 140;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームに戻る", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 400;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲーム本編に戻ります", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										ExitFlag = 1;//ループ脱出フラグをオンにする。
+							/* 選択されている色の文字を表示 */
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, MenuKindName[i], SelectColor);
+							if(ech != 0 ){//エラーチェック
+									_ASSERT( 0 );//エラーダイアログ
+									return 1;//問題ありで終了
 							}
-					}	
 
-					if((200< System::MousePos.y)&&( System::MousePos.y<230)){//マウス座標が「バックパック」の上なら
-							TextPos.x = 100;
-							TextPos.y = 180;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "バックパック", SelectColor);//選択されている文字にする
+							/* 選択されている文字の詳細情報を表示します */
+							TextPosDetail.x = DetailPossitionX[i];/**/TextPosDetail.y = 330;
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPosDetail, MenuKindDetail[i], NormalColor);//説明が書かれている文字列を表示する
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
-							TextPos.x = 250;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "持ち物の確認やアイテムの使用などが出来ます", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										Item_Manipulate BackPack( PC);//バックパックを呼び出します。
-										BackPack.InItemPack( PC);//バックパックに入ります
-										keyin[9] = 0;// キー操作を無効に
+
+							SelectKind = i;// マウスが乗ってる名前番号を代入
+					}
+
+					TextPos.y = TextPos.y + 40;
+			}
+
+			/* ////////////////////////////////// */
+			/* クリックされた時の動作を設定します 
+			/* ////////////////////////////////// */
+
+			if( keyin[9] == 1){
+					switch(SelectKind){
+							case 0:{// ゲームに戻る
+									ExitFlag = 1;//ループ脱出フラグをオンにする。
+									break;
 							}
-					}
+							case 1:{// バックパック
+									Item_Manipulate BackPack( PC);//バックパックを実体化させます
+									BackPack.InItemPack( PC);//バックパックに入ります
+									break;
+							}
+							case 2:{// オプション
+									OptionMenu OptMenu;// オプションメニューを実体化させます
+									OptMenu.MainOptionMenu( BatchPre);// オプションメニューに入ります
+									break;
+							}
+							case 3:{// ミッションを中断する
 
-					if((240< System::MousePos.y)&&( System::MousePos.y<270)){//マウス座標が「オプション」の上なら
-							TextPos.x = 100;
-							TextPos.y = 220;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "オプション", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 400;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲーム内の設定が出来ます", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-					}
-
-					if((280< System::MousePos.y)&&( System::MousePos.y<310)){//マウス座標が「ゲームに戻る」の上なら
-							TextPos.x = 100;
-							TextPos.y = 260;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ミッションを中断する", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 250;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ミッションを中断して、作戦前の状態に戻ります", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-					}
-
-					if((320< System::MousePos.y)&&( System::MousePos.y<350)){//マウス座標が「ゲームに戻る」の上なら
-							TextPos.x = 100;
-							TextPos.y = 300;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームを終了する", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 230;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームを終了します、データの保存は行われません", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										SendMessage( System::hwnd, WM_CLOSE, 0, 0);
+									break;
+							}
+							case 4:{// ゲームを終了する
+									SendMessage( System::hwnd, WM_CLOSE, 0, 0);
+									break;
 							}
 					}
 			}
 
-
 			PutStetus(PC);//ステータスを表示するクラス
 
 
-			/*ここまでで画面描画準備終了*/
+			/* //////////////////////////
+			// ここまでで画面描画準備終了
+			// ////////////////////////*/
 			E3DEndScene();
 			ech = E3DPresent( System::scid1);
 			if(ech != 0){//エラーチェック
@@ -367,7 +325,7 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
 			}/*ここまで*/
 
 
-			PoseMenu( PC);//ポーズメニューに入る
+			PoseMenu( PC, BatchPre);//ポーズメニューに入る
 
 
 			/*終了時のループに入ります。*/
