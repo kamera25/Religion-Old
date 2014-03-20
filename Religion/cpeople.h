@@ -44,6 +44,12 @@ public:
 	virtual int Batch_PeopleMotion() = 0;// 人間のモーションや姿勢などを設定します(仮想関数)
 	virtual ~People(){};//仮想コンストラクタ
 
+	/* クラス静動変数 */
+	static const int NORMAL = 0;// 通常状態
+	static const int KICK = 1;// キック状態
+	static const int RUN = 2;// ダッシュ状態
+	static const int LEFT_SJUMP = 3;// 左横っ飛び
+	static const int RIGHT_SJUMP = 4;// 右横っ飛び
 
 	/* アシスト(取得・代入)関数の宣言 */
 	int Get_UpMotion() const;

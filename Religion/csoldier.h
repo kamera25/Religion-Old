@@ -53,7 +53,7 @@ public:
 	int GunPutOnHand();// 現在持ってる銃を持つためのモーション・システムを管轄する関数
 	int Batch_PeopleMotion();// 人間のモーションや姿勢などを設定します
 	Soldier( const int selchara, const int Wpselect_equipment);// コンストラクタ、兵士モデルのロード等を行ないます
-	virtual ~Soldier(){};//仮想コンストラクタ
+	virtual ~Soldier();//仮想コンストラクタ
 
 
 	/* アシスト(取得・代入)関数の宣言 */

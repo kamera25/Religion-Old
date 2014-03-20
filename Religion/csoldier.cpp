@@ -13,15 +13,17 @@
 int Soldier::MovePosOnGround( Stage *Stg){
 
 	/*変数の初期化*/
-	int ech = 0;//エラーチェック
-	int GroundResult = 0;//地面の当たり判定の結果
-	int MoveStopFlg = 0;//空中に浮かんでいるときに移動できないようにするためのフラグ
+	int ech = 0;// エラーチェック
+	int GroundResult = 0;// 地面の当たり判定の結果
+	int MoveStopFlg = 0;// 空中に浮かんでいるときに移動できないようにするためのフラグ
+	int GroundTouchFlg = 0;//　落下フラグ
 	int Garbage = 0;
 	int FaceNo = 0;
-	const float MYSIZE = 500;
+	const float MYSIZE = 140;
 	D3DXVECTOR3 ReflectVec( 0.0, 0.0, 0.0);//地面の反射ベクトルの構造体
 	D3DXVECTOR3 GroundOnPos( 0.0, 0.0, 0.0);//自キャラを地面に垂直におろした場合の座標
 	D3DXVECTOR3 MyPos( 0.0, 0.0, 0.0);//自分のキャラクター座標
+	D3DXVECTOR3 NewMyPos( 0.0, 0.0, 0.0);// 新しい自分のキャラクター座標
 	D3DXVECTOR3 PointConflictPos( 0.0, 0.0, 0.0);
 	D3DXVECTOR3 PointConflictVec( 0.0, 0.0, 0.0);
 	static D3DXVECTOR3 MyChkBeforePointPos[4];
@@ -44,9 +46,14 @@ int Soldier::MovePosOnGround( Stage *Stg){
 	// ステージグラウンドごとにどのような処理にさせるか振り分けます
 	/* ///////////////////////////////////////////////////////// */
 
-
+	/* /////////////////////////////////// */
+	/* 落下加速度の設定を行います。
+	/* /////////////////////////////////// */
+	
+	Set_Acceleration( Get_Acceleration() - 8.0);
 
 	//if( Stg->Stage_GndMode == 0){
+
 
 	/* ////////////////////////////////////// */
 	// 床の当たり判定を行います
@@ -54,12 +61,38 @@ int Soldier::MovePosOnGround( Stage *Stg){
 
 	for( int i = 0; i < 4; i++){
 
-			D3DXVECTOR3 MyPos_AddAcceleration( MyPos.x, MyPos.y + Get_Acceleration(), MyPos.z);
+			// チェックする座標から、落下加速度を引いたものを代入
+			D3DXVECTOR3 MyPos_AddAcceleration( MyChkPointPos[i].x, MyChkPointPos[i].y + Get_Acceleration(), MyChkPointPos[i].z);
 		
-			ech = E3DChkConfLineAndFace( MyChkBeforePointPos[i], MyChkPointPos[i], Stg->Stage_hsid[0], 1, &Garbage, &FaceNo
+			// 先ほどの座標をチェックする。
+			ech = E3DChkConfLineAndFace( MyChkBeforePointPos[i], MyPos_AddAcceleration, Stg->Stage_hsid[0], 1, &Garbage, &FaceNo
 										, &PointConflictPos, &PointConflictVec, &Garbage);
 			_ASSERT( ech != 1 );//エラーチェック
+
+			// もし、当たっていれば
+			if( FaceNo != -1){
+					NewMyPos.x = MyPos.x;
+					NewMyPos.y = PointConflictPos.y;
+					NewMyPos.z = MyPos.z;
+
+					ech = E3DSetPos( Get_BodyModel(), NewMyPos);
+					_ASSERT( ech != 1 );//エラーチェック
+
+					
+					Set_Acceleration( 0.0);// 加速度を0にする
+					GroundTouchFlg = 1;//　落下フラグをオフにする
+			}
 	}
+
+	if( GroundTouchFlg != 1){//　落下フラグをオンなら
+
+		NewMyPos.x = MyPos.x;
+		NewMyPos.y = MyPos.y + Get_Acceleration();
+		NewMyPos.z = MyPos.z;
+	
+		E3DSetPos( Get_BodyModel(), NewMyPos);
+	}
+
 
 	/*my+myv ; y成分だけ移動
 	repeat 4
@@ -109,8 +142,8 @@ int Soldier::MovePosOnGround( Stage *Stg){
 
 	for( int i=0; i<4; i++){
 			MyChkBeforePointPos[i].x = MyChkPointPos[i].x;
-			MyChkBeforePointPos[i].y = MyChkPointPos[i].y;
-			MyChkBeforePointPos[1].z = MyChkPointPos[i].z;
+			MyChkBeforePointPos[i].z = MyChkPointPos[i].z;
+			MyChkBeforePointPos[i].y = MyChkPointPos[i].y + 300.0;
 	}
 
 
@@ -884,13 +917,14 @@ Soldier::Soldier( const int selchara, const int Wpselect_equipment){
 	Set_UpMotion(0);// 上半身のモーションの初期化
 	Set_UnderMotion(0);// 下半身のモーションの初期化
 	Set_Attitude(0);// 自分の姿勢を「立ち」に指定
-	Set_MyState(0);// 自分の動作状態を初期化
+	Set_MyState( People::NORMAL);// 自分の動作状態を初期化
 	Set_AirOnPC(0);// 自分の空中状態を通常にする
 	Set_Acceleration(0.0);// 重力加速度を0にする
 	Set_MoveSpeed(0.0);// 平面加速度を0にする
 	BeforeAirOnPC = 0;
 	Set_Skill( NULL);// スキルスロットのスキル格納変数をNULLポインターにしておく
 	Set_EquipmentSkillSum( 0 );// 装備中スキルの合計を0にする
+
 
 	//  兵種をノーマルにしておく
 	Set_StateFromBranch(-1);
@@ -996,6 +1030,13 @@ Soldier::Soldier( const int selchara, const int Wpselect_equipment){
 
 
 
+
+
+	return;
+}
+
+/* デストラクタ */
+Soldier::~Soldier(){
 
 
 	return;

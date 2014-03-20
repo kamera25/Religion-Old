@@ -69,9 +69,9 @@ int Batch_Render::BatchSpriteRender( const int SceneEndFlg){
 	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 
-	/*
-	//描画を行います、ループ中に描画されます
-	*/
+	/* /////////////////////////////////// */
+	// 描画を行います、ループ中に描画されます 
+	/* /////////////////////////////////// */
 
 	for( it = Spt.begin(); it != Spt.end(); it++ ){
 		
@@ -141,3 +141,25 @@ int Batch_Render::BatchChkInView(){
 
 	return 0;
 };
+
+/* ビルボードの描画処理を行います。 */
+int Batch_Render::Batch_BillBoard( const int SceneEndFlg){
+
+	/* 初期化 */
+	int ech;
+
+	// すべてのビルボードの描画を行います。
+	ech = E3DRenderBillboard( System::scid1, 0);
+	_ASSERT( ech != 1 );//エラーチェック
+
+
+	/* ////////////// */
+	// 描画の終了処理
+	/* ////////////// */
+	if( SceneEndFlg == 1){
+		ech = E3DEndScene();	
+		_ASSERT( ech != 1 );//エラーダイアログを表示
+	}
+
+	return 0;
+}

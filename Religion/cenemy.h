@@ -11,10 +11,13 @@ using namespace std;
 //プロトタイプ宣言
 class Stage;
 
-struct NPC_t{
+class NPC_t{
 
-	Creature* NPC_Mdl;
+	friend class NPC_Head;
 
+private:
+
+	/* 変数 */
 	int TargetNaviPointID;// NPCが目指すナビポイントが格納されている変数
 	int TargetNaviLineID;// NPCが目指すナビラインが格納されている変数
 	int NPCRace;// NPCの種族を代入する変数
@@ -22,7 +25,16 @@ struct NPC_t{
 
 	int NPCBelongingKind;// NPCが所属しているところを代入する変数( 0.味方 1.敵 )
 
+	int NPCBehavior; // PCの行動について状態を代入します
+
 	char NPCName[20];// NPCの名前を代入します
+
+	/* 関数 */
+
+public:
+	/* 変数 */
+	Creature* NPC_Mdl;
+
 };
 
 
@@ -48,6 +60,9 @@ public:
 
 	//変数の宣言
 //	int EnemyNum;//現在ロードされているモデルの数
+
+
+
 
 
 

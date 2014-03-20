@@ -72,6 +72,8 @@ public:
 	int BatchGetBumpMapStatus() const;//バンプマップ変数の取得を行ないます
 	int BatchCreateShadow();// 影を作成するために関係する処理を行ないます
 	int Batch_Present();// バックバッファの内容を、プライマリバッファに転送します
+	int Batch_BillBoard( const int SceneEndFlg);// ビルボードの描画処理を行います。
+	int RenderFont( char *Str, float Posx, float Posy, float MagScl, E3DCOLOR4UC Color);// 英文字を描画します
 
 	/* モデル関係の関数 */
 	int	SetModel( const int ID, const bool ViewFlag);

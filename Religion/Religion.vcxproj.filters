@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\Class\Operation\Mission_function">
       <UniqueIdentifier>{0c0c5c10-0721-42b6-bb84-26f4b6d6f9b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Class\Enemy">
-      <UniqueIdentifier>{4de36187-6851-4103-991a-0c34710a8deb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Class\Stage">
       <UniqueIdentifier>{91786f77-f501-402d-816d-dc54bc611ee9}</UniqueIdentifier>
     </Filter>
@@ -109,6 +106,18 @@
     <Filter Include="ソース ファイル\Class\Menu2\Foundation">
       <UniqueIdentifier>{f596c80a-5a42-4ab5-ad70-c1f7c2d59a18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Class\NPC">
+      <UniqueIdentifier>{4de36187-6851-4103-991a-0c34710a8deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{ba8e2304-1e77-4461-a10f-e774fff4c6cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mission">
+      <UniqueIdentifier>{da1e4258-c1da-48bd-9086-c7f90fae4017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\NPC\Head">
+      <UniqueIdentifier>{e6bc6c83-1bab-4f9b-a5f5-aed8f1f67cc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamecore.cpp">
@@ -141,9 +150,6 @@
     <ClCompile Include="cOpsmission1_Shinryoku.cpp">
       <Filter>ソース ファイル\Class\Operation\Mission_function</Filter>
     </ClCompile>
-    <ClCompile Include="cenemy.cpp">
-      <Filter>ソース ファイル\Class\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="cstage.cpp">
       <Filter>ソース ファイル\Class\Stage</Filter>
     </ClCompile>
@@ -157,9 +163,6 @@
       <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
     </ClCompile>
     <ClCompile Include="cStg_Mall.cpp">
-      <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
-    </ClCompile>
-    <ClCompile Include="cStg_Forest.cpp">
       <Filter>ソース ファイル\Class\Stage\Stage_function</Filter>
     </ClCompile>
     <ClCompile Include="cStg_Kamigaichi.cpp">
@@ -285,6 +288,21 @@
     <ClCompile Include="c_Batch_Render_SpriteAssist.cpp">
       <Filter>ソース ファイル\Class\Batch_Render</Filter>
     </ClCompile>
+    <ClCompile Include="cStory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="cMission.cpp">
+      <Filter>ソース ファイル\Mission</Filter>
+    </ClCompile>
+    <ClCompile Include="cNPCHead.cpp">
+      <Filter>ソース ファイル\Class\NPC\Head</Filter>
+    </ClCompile>
+    <ClCompile Include="cNPCHead_assist.cpp">
+      <Filter>ソース ファイル\Class\NPC\Head</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>ソース ファイル\Class\NPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="c_batch_preparat.h">
@@ -300,9 +318,6 @@
       <Filter>ヘッダー ファイル\Class</Filter>
     </ClInclude>
     <ClInclude Include="cstage.h">
-      <Filter>ヘッダー ファイル\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="csys.h">
       <Filter>ヘッダー ファイル\Class</Filter>
     </ClInclude>
     <ClInclude Include="cnetplay.h">
@@ -358,6 +373,18 @@
     </ClInclude>
     <ClInclude Include="cMenu.h">
       <Filter>ヘッダー ファイル\Class\Menu2</Filter>
+    </ClInclude>
+    <ClInclude Include="csys.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="csys_statics.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="cStory.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="cMission.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

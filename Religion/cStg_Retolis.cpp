@@ -8,7 +8,7 @@
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
 
 
-/* トロンプールの読み込みを行ないます*/
+/* レトリスの読み込みを行ないます*/
 int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 
 

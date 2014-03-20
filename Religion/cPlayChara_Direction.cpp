@@ -12,7 +12,7 @@
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 
-int PlayerChara::TurnBackDir( int Qid, float CorrectDir, D3DXVECTOR3 WantDeg){
+int PlayerChara::TurnBackDir( int Qid, D3DXVECTOR3 WantDeg, int FixFlag){
 
 	/* 初期化 */
 	const D3DXVECTOR3 BASEVEC( 0.0, 0.0, -1.0);//向きの初期方向ベクトル
@@ -44,7 +44,7 @@ int PlayerChara::TurnBackDir( int Qid, float CorrectDir, D3DXVECTOR3 WantDeg){
 
 
 	/*向きたい方向の修正を加えます*/
-	ech = E3DRotateQY( Qid, CorrectDir);
+	if( FixFlag == 1) ech = E3DRotateQY( Qid, -Get_PC_Deg_XZ());
 	_ASSERT( ech != 1 );//エラーチェック
 
 	/*計算したクォーターニオンを代入します*/
@@ -116,8 +116,6 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 	System::SetMouseCursol( 320, 240);//マウス座標を真ん中へ
 	System::SetMouseBeforePos();//マウス座標を格納します
 
-//	Cos_XZ = cos(4.8);//XZ座標コサインの取得
-//	Sin_XZ = sin(4.8);//XZ座標サインの取得
 	Sin_Y = sin(Tm_DegQ_Y);//Y座標サインの取得
 	Cos_Y = cos(Tm_DegQ_Y);//Y座標のコサインの取得
 	TurnPos.x = float(Cos_XZ * Cos_Y * 2000);//向くべき方向のX座標
@@ -132,7 +130,7 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 	WantDeg.y = float( TurnPos.y );//Y座標の向く方向のベクトルを取得
 	WantDeg.z = float( TurnPos.z );//Z座標の向く方向のベクトルを取得
 
-	TurnBackDir( Get_Quaternion(3), 0.0f, WantDeg);
+	TurnBackDir( Get_Quaternion(3), WantDeg, 0);
 
 
 
@@ -245,7 +243,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 								WantVec.y =  GunTargetPos.y - StomachPos.y;
 								WantVec.z =  GunTargetPos.z - StomachPos.z;
 
-								TurnBackDir( Get_Quaternion(5), -Get_PC_Deg_XZ(), WantVec);
+								TurnBackDir( Get_Quaternion(5), WantVec, 1);
 
 
 

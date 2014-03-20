@@ -32,6 +32,7 @@ PlayerChara::~PlayerChara(){
 	//スキル格納変数の削除
 	Delete_Skill();
 
+
 	/**/
 	//クォータニオンを削除します
 	/**/	

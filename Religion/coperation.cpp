@@ -6,8 +6,9 @@
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 #include "coperation.h"//オペレーション開始関係のクラスヘッダファイル
+#include "cMission.h"
 
-
+#include "clive.h"//敵やキャラの宣言ヘッダファイル
 
 
 int Operation::OpsMissionBranchStart( const int MissionNumber){
@@ -30,7 +31,8 @@ int Operation::OpsMissionBranchStart( const int MissionNumber){
 	switch( MissionNumber){
 			
 		case(0):{ // 新緑のブレスレッド
-				OpsMission1_Shinryoku();
+				OpsMissionFromFile( "shinryoku.mis");
+				//OpsMission1_Shinryoku();
 				break;
 		}
 	}
@@ -42,6 +44,48 @@ int Operation::OpsMissionBranchStart( const int MissionNumber){
 
 
 
+
+	return 0;
+}
+
+/* ファイルからミッション情報を読み取り、ミッションを開始します。 */
+int Operation::OpsMissionFromFile( char *File)
+{
+
+
+	/* 以下、ファイルを読み込んだ後の処理 */
+
+	
+	Mission Mis;
+	Mis.Intialize();
+	Mis.Loading( File);
+
+	// ゲーム開始
+	Mis.MainProc();
+
+
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+// 基本的な BatchPreprate の処理を全て行います
+int Operation::NormalBatchProces(){
+
+	pBatP->BatchSpriteSet( pPly);
+	pBatP->BatchRender( 0);
+	pBatP->Batch_BillBoard( 0);
+	pBatP->BatchSpriteRender( 0);
+	pBatP->BatchFont( 1, pPly);
+	pBatP->Batch_Present();
 
 	return 0;
 }

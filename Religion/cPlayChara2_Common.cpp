@@ -162,7 +162,7 @@ int PlayerChara::PCDashControl(){
 	//キーが連続で押され、しゃがみ状態でなく、他の動作を行ってなくて、地上なら
 	if( ( System::Get_DoublePush(0) == 1) && ( Get_Attitude() == 0) 
 		&& ( Get_MyState() == 0) && ( Get_AirOnPC() == 0)){
-				Set_MyState( 2 );//ダッシュをする
+			Set_MyState( People::RUN );//ダッシュをする
 	}
 
 
@@ -170,13 +170,13 @@ int PlayerChara::PCDashControl(){
 	// ダッシュ操作中で、キーが解除されたら
 	if( ( Get_MyState() == 2) && ( System::Get_DoublePush(0) == 0) 
 		&& ( Get_AirOnPC() == 0) ){
-				Set_MyState( 0 );//ダッシュを解除する
+			Set_MyState( People::NORMAL );//ダッシュを解除する
 	}
 
-	if( Get_MyState() == 2){//ダッシュ中なら
+	if( Get_MyState() == People::RUN){//ダッシュ中なら
 				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
 				if( (Get_Stamina() == 0) && (Get_AirOnPC() == 0) ){//体力がなくなった&空中でないなら
-						Set_MyState(0);//ダッシュを止める
+						Set_MyState( People::NORMAL);//ダッシュを止める
 
 						//ダッシュキーが押されてない状態にする
 						System::ResetKeyDoublePush(0);
@@ -194,17 +194,22 @@ int PlayerChara::PCSideAvoidanceControl(){
 	int Garbage;
 	int MotionFrameNo;
 
-	/*横っ飛び関係の処理を行います*/
-	if( ( ( System::Get_DoublePush(2) == 1) || ( System::Get_DoublePush(1) == 1)) && ( Get_Attitude() == 0) //左右キーが連続で押され、しゃがみ状態でなく、
-		&& ( Get_MyState() == 0) && ( Get_AirOnPC() == 0) && ( 0 < Get_Stamina())){//他の動作を行ってなくて、地上で、スタミナがなくなってないなら
 
-				if( System::Get_DoublePush(2) == 1) Set_MyState( 3 );//左横っ飛び状態にする;
-				if( System::Get_DoublePush(1) == 1) Set_MyState( 4 );//右横っ飛び状態にする;
-				if(( System::Get_DoublePush(2) == 1) && ( System::Get_DoublePush(1) == 1)) Set_MyState( 0 );//通常状態にする
+	/* //////////////////////////// */
+	/* 横っ飛び関係の処理を行います */
+	/* //////////////////////////// */
+	if( ( ( System::Get_DoublePush(2) == 1) || ( System::Get_DoublePush(1) == 1)) && ( Get_Attitude() == 0) //左右キーが連続で押され、しゃがみ状態でなく、
+		&& ( Get_MyState() == People::NORMAL) && ( Get_AirOnPC() == 0) && ( 0 < Get_Stamina())){//他の動作を行ってなくて、地上で、スタミナがなくなってないなら
+
+				if( System::Get_DoublePush(2) == 1) Set_MyState( People::LEFT_SJUMP );//左横っ飛び状態にする;
+				if( System::Get_DoublePush(1) == 1) Set_MyState( People::RIGHT_SJUMP );//右横っ飛び状態にする;
+				if(( System::Get_DoublePush(2) == 1) && ( System::Get_DoublePush(1) == 1)) Set_MyState( People::NORMAL );//通常状態にする
 	}
 
-	//横っ飛び状態なら
-	if( (Get_MyState() == 3) || ( Get_MyState() == 4)){
+	/* //////////////// */
+	/* 横っ飛び状態なら */
+	/* //////////////// */
+	if( (Get_MyState() == People::LEFT_SJUMP) || ( Get_MyState() == People::RIGHT_SJUMP)){
 				//移動先のモーション状態はどうか確かめる
 				ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(6), &Garbage, &MotionFrameNo);
 				_ASSERT( ech != 1 );//エラーダイアログを表示
@@ -212,7 +217,7 @@ int PlayerChara::PCSideAvoidanceControl(){
 				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
 
 				if( MotionFrameNo == 20){//モーションが終了してたら
-							Set_MyState( 0 );//通常状態に戻す
+							Set_MyState( People::NORMAL );//通常状態に戻す
 							System::ResetKeyDoublePush(1);
 							System::ResetKeyDoublePush(2);
 				}
@@ -278,7 +283,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *N
 	/* 格闘攻撃をする処理を行います */
 	/* //////////////////////////// */
 	if( ( System::GetKeyData( System::KEY_SPACE) == 1) && ( Get_Attitude() == 0) && ( Get_MyState() == 0)){//キーが押され、しゃがみ状態でなく、他の動作を行ってない
-				Set_MyState( 1 );//キックをする
+		Set_MyState( People::KICK );//キックをする
 	}
 
 	if( Get_MyState() == 1){//キック中なら
@@ -286,7 +291,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *N
 				_ASSERT( ech != 1 );//エラーダイアログを表示
 
 				if( MotionFrameNo == 19){//モーションが終了したら
-							Set_MyState( 0 );//動作状態を通常に戻す
+					Set_MyState( People::NORMAL );//動作状態を通常に戻す
 				}
 	}
 
@@ -417,7 +422,7 @@ float PlayerChara::RegulateMoveSpeed( float SpeedIncrease, float SpeedDecrease, 
 				Set_MoveSpeed( LimitSpeed);
 	}
 
-	return FixedMoveSpeed + Get_MoveSpeed();
+	return float( FixedMoveSpeed + Get_MoveSpeed() );
 }
 
 /*キャラを動かします、前後左右に動けます*/
@@ -571,7 +576,7 @@ int PlayerChara::MoveChara(){
 							}
 							case 3:// 横っ飛びのとき
 							case 4:{
-									SumSpeed = RegulateMoveSpeed( 0.0f, 0.0f, 0.0f, 90.0f);
+									SumSpeed = RegulateMoveSpeed( 5.0f, 0.0f, 50.0f, 120.0f);
 									break;
 							}
 					}

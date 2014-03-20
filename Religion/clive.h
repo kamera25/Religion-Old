@@ -39,7 +39,7 @@ public:
 	int NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *NPC_H, Camera *Cam, int ScreenPos[2]);//普通のゲーム内での処理を行なう関数
 	int ChangeWeapon( Batch_Render *BatPre);//武器を変更するさせる際に使用する関数
 	int GunSystem( NPC_Head *NPC_H);//銃について作動させる関数、リロード、次打てるまでの時間計算、敵へのあたり判定、ダメージ計算など
-	int TurnBackDir( int Qid, float CorrectDir, D3DXVECTOR3 WantDeg);// 肩を回転させる
+	int TurnBackDir(  int Qid, D3DXVECTOR3 WantDeg, int FixFlag);// 肩を回転させる
 	int PCDashControl();// ダッシュ関係の処理を行います
 	int PCSideAvoidanceControl();// 横っ飛びの処理をさせます。
 	float RegulateMoveSpeed( float SpeedIncrease, float SpeedDecrease, float LimitSpeed, float FixedMoveSpeed);// キャラクタの動くスピードを設定、制限します

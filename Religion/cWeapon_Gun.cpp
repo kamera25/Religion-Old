@@ -217,7 +217,7 @@ int Weapon_Gun::WeaponTreatment( const int WeaponLight){
 	}
 
 
-	/* 連射カウンタが0以上(打つのが不可能)なら */
+	/* 射撃不可能時間が "0" より大きければ */
 	if( 0 < Get_WaitingTime()){
 			Set_WaitingTime( Get_WaitingTime() - 1);// 連射カウンタを一つ繰り下げる
 			if( Get_WaitingTime() == 0){

@@ -30,8 +30,9 @@ int Batch_Render::BatchFont( const int SceneEndFlg, const PlayerChara *PcC){
 	int NowMagazine = 0;
 
 	/*文字の描画*/
-	//HP部分の描画
+	// 名前部分の描画
 	Pos.x = 28.0f;/**/Pos.y = 394.0f;
+
 	ech = E3DDrawText( Pos, Scale, Gray, "F19");
 	_ASSERT( ech != 1 );//エラーチェック
 
@@ -65,15 +66,11 @@ int Batch_Render::BatchFont( const int SceneEndFlg, const PlayerChara *PcC){
 					Color = White;// 白にします
 			}
 			wsprintf( ParometaString, "%d", NowAmmo);
-			Pos.x = 558.0f;/**/Pos.y = 394.0f;
-			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
-			_ASSERT( ech != 1 );//エラーチェック
+			RenderFont( ParometaString, 558.0f, 394.0f, 1.4f, Color);
 
 			/*Ammoの数を表示します*/
 			wsprintf( ParometaString, "%d", Ammo);
-			Pos.x = 588.0f;/**/Pos.y = 394.0f;
-			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
-			_ASSERT( ech != 1 );//エラーチェック
+			RenderFont( ParometaString, 588.0f, 394.0f, 1.4f, White);
 
 			/*現在のMagの数を表示します*/
 			if( NowMagazine == 0){//マガジンがなくなったら
@@ -85,17 +82,12 @@ int Batch_Render::BatchFont( const int SceneEndFlg, const PlayerChara *PcC){
 			else{//通常モードなら
 					Color = White;// 白にします
 			}
-			wsprintf( ParometaString, "%d", NowMagazine, 1);
-			Pos.x = 558.0f;/**/Pos.y = 424.0f;
-			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
-			_ASSERT( ech != 1 );//エラーチェック
+			wsprintf( ParometaString, "%d", NowMagazine, 3);
+			RenderFont( ParometaString, 558.0f, 424.0f, 1.4f, Color);
 
 			/*Magの数を表示します*/
 			wsprintf( ParometaString, "%d", Magazine, 3);
-			Pos.x = 588.0f;/**/Pos.y = 424.0f;
-			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
-			_ASSERT( ech != 1 );//エラーチェック
-
+			RenderFont( ParometaString, 588.0f, 424.0f, 1.4f, White);
 	}
 
 
@@ -111,3 +103,17 @@ int Batch_Render::BatchFont( const int SceneEndFlg, const PlayerChara *PcC){
 	return 0;
 }
 
+/* 英文字を描画します */
+int Batch_Render::RenderFont( char *Str, float Posx, float Posy, float MagScl, E3DCOLOR4UC Color){
+
+	/* 変数の初期化 */
+	int ech;
+	D3DXVECTOR2 Pos( 0.0, 0.0);//座標を代入する構造体
+
+	Pos.x = Posx;/**/Pos.y = Posy;
+	ech = E3DDrawText( Pos, MagScl, Color, Str);
+	_ASSERT( ech != 1 );//エラーチェック
+
+
+	return 0;
+}

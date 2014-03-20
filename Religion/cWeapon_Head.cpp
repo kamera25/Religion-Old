@@ -19,6 +19,7 @@ Weapon_Head::Weapon_Head(){
 	NormalWeapon[0] = NULL;
 	NormalWeapon[1] = NULL;
 	SupportWeapon = NULL;
+	GunHitChkModelID = NULL;
 
 	/* 「細長い」モデルのID */
 
@@ -109,6 +110,31 @@ int Weapon_Head::DeleteWeapon( int EquipKind){
 
 
 	return 0;
+}
+
+/* デストラクタ*/
+Weapon_Head::~Weapon_Head(){
+
+	/* 初期化 */
+	int ech = 0;
+
+	DeleteWeapon( MAINWEAPON);
+	DeleteWeapon( SUBWEAPON);
+	DeleteWeapon( SUPPORTWEAPON);
+
+	// 当たり判定用の細長いモデルを削除します
+	if( GunHitChkModelID != NULL){
+		ech = E3DDestroyHandlerSet(	GunHitChkModelID);
+		_ASSERT( ech != 1 );//エラーチェック
+	}
+
+	// マズルフラッシュ用光源を削除する
+	if( WeaponLight != NULL){
+		 ech = E3DDestroyLight( WeaponLight);
+		_ASSERT( ech != 1 );//エラーチェック
+	}
+
+	return ;
 }
 
 /* 武器の実体のポインターが代入されているポインターを得る関数 */
@@ -210,9 +236,7 @@ int Weapon_Head::WeaponsTreatment( int Equipment, Stage *Stg){
 	/* 武器のリロードを行います */
 	if( ( Equipment != -1) && ( Equipment != 2)) Get_WeaponPointer(Equipment)->ReloadWeapon();// 装備がサポート武器でなければ
 
-	/* 爆発のエフェクトを(すべてのビルボード)の描画 */
-	ech = E3DRenderBillboard( System::scid1, 0);
-	_ASSERT( ech != 1 );//エラーチェック
+
 
 	return 0;
 }

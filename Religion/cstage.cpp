@@ -91,6 +91,10 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 					LoadStageFromProfile( "st_island.mpd");
 					break;
 			}
+			case 8:{// ‹´‚È‚ç
+					LoadStageFromProfile( "st_bridge.mpd");
+					break;
+			}
 	}
 
 	/* /////////////////////////// */

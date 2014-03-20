@@ -44,9 +44,9 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Include;C:\easy3d\include;C:\Ask\Include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Ask\Lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;$(LibraryPath)</LibraryPath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\gDP\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Include;C:\easy3d\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;C:\gDP\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,8 +99,10 @@
     <ClCompile Include="citem_manipulate2.cpp" />
     <ClCompile Include="cfirstmenu.cpp" />
     <ClCompile Include="cMenu2.cpp" />
+    <ClCompile Include="cMission.cpp" />
     <ClCompile Include="cNaviRail.cpp" />
     <ClCompile Include="cnetplay.cpp" />
+    <ClCompile Include="cNPCHead_assist.cpp" />
     <ClCompile Include="cOperation.cpp" />
     <ClCompile Include="copsmenu.cpp" />
     <ClCompile Include="citem.cpp" />
@@ -110,11 +112,11 @@
     <ClCompile Include="csoldier.cpp" />
     <ClCompile Include="csoldier_assist.cpp" />
     <ClCompile Include="cStg_BaseFront.cpp" />
-    <ClCompile Include="cStg_Forest.cpp" />
     <ClCompile Include="cStg_IRoby.cpp" />
     <ClCompile Include="cStg_Kamigaichi.cpp" />
     <ClCompile Include="cStg_Mall.cpp" />
     <ClCompile Include="cStg_Retolis.cpp" />
+    <ClCompile Include="cStory.cpp" />
     <ClCompile Include="cWeapon.cpp" />
     <ClCompile Include="cweapon_assist.cpp" />
     <ClCompile Include="cWeapon_Gun.cpp" />
@@ -141,9 +143,10 @@
     <ClCompile Include="Load_ShotGun.cpp" />
     <ClCompile Include="Load_SMG.cpp" />
     <ClCompile Include="Load_Support.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="winmain.cpp" />
     <ClCompile Include="ccamera.cpp" />
-    <ClCompile Include="cenemy.cpp" />
+    <ClCompile Include="cNPCHead.cpp" />
     <ClCompile Include="citem_manipulate1.cpp" />
     <ClCompile Include="cPoseMEnu.cpp" />
     <ClCompile Include="cPlayChara.cpp" />
@@ -155,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="Ask.h" />
     <ClInclude Include="cMenu.h" />
+    <ClInclude Include="cMission.h" />
     <ClInclude Include="csoldier.h" />
     <ClInclude Include="ccreature.h" />
     <ClInclude Include="cfirstmenu.h" />
@@ -163,6 +167,8 @@
     <ClInclude Include="coperation.h" />
     <ClInclude Include="copsmenu.h" />
     <ClInclude Include="cpeople.h" />
+    <ClInclude Include="cStory.h" />
+    <ClInclude Include="csys_statics.h" />
     <ClInclude Include="cWeapon_Gun.h" />
     <ClInclude Include="cWeapon_head.h" />
     <ClInclude Include="cWeapon_Support.h" />

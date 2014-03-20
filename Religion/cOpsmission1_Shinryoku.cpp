@@ -43,6 +43,7 @@ int Operation::OpsMission1_Shinryoku(){
 
 		/* クラスの実体化を行う */
 		PlayerChara Player(1,1);
+		pPly = &Player;
 		Stage Stg;
 		NPC_Head Npc_h;
 
@@ -86,24 +87,27 @@ int Operation::OpsMission1_Shinryoku(){
 
 		/**/E3DSetProgressBar( 90);// プログレスバーを進歩させる
 
-		Batch_Render BatP( &Player, &Stg, GMG.NPC_H, &Cam);// バッチプレパラートにすべての描画準備をさせます。
+		Batch_Render BatProc( &Player, &Stg, GMG.NPC_H, &Cam);// バッチプレパラートにすべての描画準備をさせます。
+		pBatP = &BatProc;
+		
 		E3DDestroyProgressBar();// プログレスバーを壊します
-		BatP.BatchEnableBumpMap(0);// バンプマップを有効にします 
+		pBatP->BatchEnableBumpMap(0);// バンプマップを有効にします 
 		//BatP.BatchCreateShadow();// 影を有効にします
 
+		
 
 		/* ****** ストーリの開始 *** */
-		/*Story StoryS;
+		Story StoryS;
 		StoryS.LoadStoryFromSTD( "test.std");
-		StoryS.StartStory(1);*/
+		StoryS.StartStory(1);
 		/* ************************ */
 
 
 		System::SetMouseCursol( 320, 240);//マウスをウィンドウ真ん中に設置
 
 
-		BatP.BacthGunTrade( Player.Get_Wp_equipment());
-		BatP.BatchChkInView();
+		pBatP->BacthGunTrade( Player.Get_Wp_equipment());
+		pBatP->BatchChkInView();
 		GMG.STG->Navi.SetPosByNaviPoint( Player.Get_BodyModel(), 0, 0);
 		
 
@@ -113,24 +117,21 @@ int Operation::OpsMission1_Shinryoku(){
 				System::KeyRenewalFromWp( &Player.Wpn, Player.Get_Wp_equipment());
 
 
-				BatP.BatchChkInView();
-				Player.Wpn.ChkWeaponsLaunch( Player.Get_Wp_equipment());
+				pBatP->BatchChkInView();
 
-				Player.NormallyPCSystem( &Stg, &BatP, GMG.NPC_H, &Cam, ScreenPosArray);
+				// 制御関係
+				Player.Wpn.ChkWeaponsLaunch( Player.Get_Wp_equipment());
+				Player.NormallyPCSystem( &Stg, pBatP, GMG.NPC_H, &Cam, ScreenPosArray);
 				Player.Wpn.AttackEnemys( GMG.NPC_H, &Player, ScreenPosArray, &Stg);
+				Player.Wpn.WeaponsTreatment( Player.Get_Wp_equipment(), &Stg);
 				GMG.NPC_H->MoveEnemys( &Stg);
 
-				BatP.BatchSpriteSet( &Player);
-				BatP.BatchRender( 0);
-				Player.Wpn.WeaponsTreatment( Player.Get_Wp_equipment(), &Stg);
-				BatP.BatchSpriteRender( 0);
-				BatP.BatchFont( 1, &Player);
+				// 描画関連
+				NormalBatchProces();
 
-
-				BatP.Batch_Present();
-
-				Menu.FarstInMenu( &BatP, &Player);
-				BatP.BatchBeforePos();
+				// 後処理関係
+				Menu.FarstInMenu( pBatP, &Player);
+				pBatP->BatchBeforePos();
 				Player.Batch_PeopleMotion();
 
 		}
