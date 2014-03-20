@@ -13,12 +13,13 @@
 #include "ccamera.h"//カメラ関係のクラスヘッダファイル
 
 
-//ここで使うグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
+
 
 
 /*コンストラクタ、ステージやプレイヤークラスを元に情報を収集、構成します*/
-Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Camera *Cam, Weapon *Wep){
+Batch_Preparat::Batch_Preparat( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, 
+								const Camera *Cam, Weapon *Wep){
 
 	/*
 	//////まずはじめにすべての変数を初期化します。
@@ -37,7 +38,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 	*/
 
 	/*カーソル画像のロードを行う 配列は[0]番*/
-	wsprintf( loadname, "%s\\data\\img\\carsol.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\carsol.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[0]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -55,7 +56,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 	/*右ステータス画像の背景のロードを行う 配列は[1]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter3.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter3.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[1]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -69,7 +70,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 	/*右ステータス画像の背景のロードを行う 配列は[2]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter4.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter4.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[2]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -83,7 +84,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 	/*左HPのバーのロードを行う 配列は[3]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\hpber.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\parameter\\hpber.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[3]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -97,7 +98,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 	/*左スタミナのバーのロードを行う 配列は[4]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\stnber.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\parameter\\stnber.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[4]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -111,7 +112,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 	/*右弾薬数のバーのロードを行う 配列は[5]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\ammber.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\parameter\\ammber.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[5]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -125,7 +126,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 	/*右マガジン数のバーのロードを行う 配列は[6]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\magber.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\parameter\\magber.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[6]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -139,7 +140,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 	/*左ステータス画像のロードを行う 配列は[7]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter1.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter1.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[7]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -153,7 +154,7 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 	/*右ステータス画像のロードを行う 配列は[8]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter2.png", sys->path);
+	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter2.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[8]);//カーソルのロード
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -180,7 +181,7 @@ int Batch_Preparat::BatchRender( int SceneEndFlg){
 
 	int ech = 0;//エラーチェック用の確認変数
 
-	ech = E3DRenderBatch( sys->scid1, &Render_hsids[30], 30, 0, 0);
+	ech = E3DRenderBatch( System::scid1, &Render_hsids[30], 30, 0, 0);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
@@ -211,7 +212,7 @@ int Batch_Preparat::BatchSpriteRender( int SceneEndFlg){
 	//描画処理の開始
 	*/
 
-	ech = E3DBeginScene( sys->scid1, 1, -1);
+	ech = E3DBeginScene( System::scid1, 1, -1);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
@@ -266,7 +267,7 @@ int Batch_Preparat::BatchChkInView(){
 	for(int i=0; i<40; i++){
 		/*視野角内のチェックを行います*/
 		if( ChkIn_hsids[i] != 0){//空のモデルデータ以外なら
-			ech = E3DChkInView( sys->scid1, ChkIn_hsids[i], &garbage);
+			ech = E3DChkInView( System::scid1, ChkIn_hsids[i], &garbage);
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			}
@@ -342,7 +343,7 @@ int Batch_Preparat::BacthGunTrade( int Wp_equipment){
 	return 0;
 };
 /*まとめられたデータを再構築します。この操作は装備品を変えた状態などで必要になります*/
-int Batch_Preparat::BatchReset( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Camera *Cam, Weapon *Wep){
+int Batch_Preparat::BatchReset( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, const Camera *Cam, Weapon *Wep){
 
 
 	/*PCが持っている武器モデルデータ配列の初期化*/
@@ -509,7 +510,7 @@ int Batch_Preparat::BatchReset( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 	return 0;
 };
 /*最初にロードしたスプライトの倍率や描画指定*/
-int Batch_Preparat::BatchSpriteSet( PlayerChara *PcC, Weapon *Wep){
+int Batch_Preparat::BatchSpriteSet( const PlayerChara *PcC, Weapon *Wep){
 
 	/*スプライトの倍率を変更します*/
 
@@ -545,7 +546,7 @@ int Batch_Preparat::BatchSpriteSet( PlayerChara *PcC, Weapon *Wep){
 	return 0;
 }
 /*文字を描画することや設定をしたりします*/
-int Batch_Preparat::BatchFont( int SceneEndFlg, PlayerChara *PcC, Weapon *Wep){
+int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC, Weapon *Wep){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック用の確認変数

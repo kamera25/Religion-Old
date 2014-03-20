@@ -8,15 +8,14 @@
 #include "clive.h"//敵やキャラのクラスヘッダファイル
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include <math.h>//数学計算を使うためのヘッダファイル
-#include "ccamera.h"//カメラに関することのクラスヘッダファイル
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
+
 
 
 /*肩射ち視点からの銃関連まとめ関数*/
-int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int ScreenPos[2]){
+int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, int ScreenPos[2]){
 
 	/*全体で使う変数の初期化*/
 	int ech = 0;//エラー確認変数
@@ -43,12 +42,12 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int Screen
 
 	//最初に回転の計算します
 	if(( MyState == 0) || ( (MyState == 2) && ( AirOnPC == 0))){//通常・空中ダッシュモードでなければ、以下取得せず
-				PC_Deg_XZ = PC_Deg_XZ + float(0.30*(sys->MousePos.x - (sys->BeforeMousePos.x - sys->rewin.left)));
-				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( sys->MousePos.y - sys->BeforeMousePos.y + sys->rewin.top);
+				PC_Deg_XZ = PC_Deg_XZ + float(0.30*(System::MousePos.x - (System::BeforeMousePos.x - System::rewin.left)));
+				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( System::MousePos.y - System::BeforeMousePos.y + System::rewin.top);
 	}
 
 	if( ( MyState == 3) || ( MyState == 4)){//よっこ飛びの時は
-				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( sys->MousePos.y - sys->BeforeMousePos.y + sys->rewin.top);
+				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( System::MousePos.y - System::BeforeMousePos.y + System::rewin.top);
 	}
 
 	if( PC_Deg_XZ < 0){
@@ -64,8 +63,8 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int Screen
 				Tm_DegQ_Y = -0.5;
 	}
 
-	SetCursorPos( sys->rewin.left + 320, sys->rewin.top + 240);//マウス座標を真ん中へ
-	GetCursorPos( &sys->BeforeMousePos);//マウス座標を格納します
+	SetCursorPos( System::rewin.left + 320, System::rewin.top + 240);//マウス座標を真ん中へ
+	GetCursorPos( &System::BeforeMousePos);//マウス座標を格納します
 
 	Cos_XZ = cos(4.8);//XZ座標コサインの取得
 	Sin_XZ = sin(4.8);//XZ座標サインの取得
@@ -151,20 +150,6 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int Screen
 				_ASSERT( 0 );//エラーダイアログ
 	};
 
-
-	/**/
-	//カメラの位置を設定します、位置は自分の肩の後ろに設置します
-	/**/
-
-	/*キャラクターモデルの「首つけ根」の！今！の座標を取得します*/
-	ech = E3DGetCurrentBonePos( cha_hsid[0], bone[2], 1, &StomachPos);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
-
-	//条件を基にカメラをセットします
-	Cam->CamShoulderGunBack( Qid[3], PC_Deg_XZ, StomachPos);
-
 	
 	/*スプライトの位置を決めて終了します*/
 	BatPre->SpriteData[0][2] = 320 - 16.0f;//カーソルのX座標
@@ -174,6 +159,7 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int Screen
 
 	return 0;
 }
+
 /*キャラクターの後処理を行う関数、モーションや姿勢など*/
 int PlayerChara::ShoulderGunSysBefore( Weapon *Wep){
 

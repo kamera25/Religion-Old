@@ -5,13 +5,54 @@
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
+/*静動変数の宣言*/
+//
+int System::UpdataSoundflag;//音声情報を更新するかのフラグ
+int System::keydata1[30][2];//キーのデータを入れている配列変数の一つ目
+int System::keydata2[30][2];//キーのデータを入れている配列変数の二つ目
+int System::keyin[20];//キーが押されているかの情報配列
+int System::keyBox1[30][2];//動的に取得したキー情報を入れる配列
+int System::keyBox2[30][2];
+int System::scid2;// フェードアウトで使うスワップチェイン
+
+BOOL System::GotMes;//PeekMessageの状態を格納する。
+
+int System::scid1;//メインスワップチェインのID
+int System::keyinQuick[3];//キーが2押されたか格納する配列変数
+int System::KeyQuickEnd;//ダッシュ操作が終了したときすべてのプッシュをリセットするフラグ変数
+int System::MouseWhole;//マウスホイールの移動量を格納する変数
+int System::KeyQuickPush[3][3];//キーを2回連打したときの情報を入れる変数
+int System::SpriteID[2];//ロードしたスプライトを格納します
+
+char System::path[256];//プログラムが起動しているパスの文字列
+
+MSG System::msg;//メッセージを格納する構造体。
+HWND System::hwnd;//ハンドルウィンドウを格納する。
+RECT System::rewin;//4隅座標の構造体
+POINT System::MousePos;//マウスの位置を格納するPoint構造体
+POINT System::BeforeMousePos;//前回のマウスの位置を格納する構造体
+
 
 //コンストラクタ:Easy3Dの処理を開始するよ。
-System::System( HINSTANCE chInst, HWND chwnd, char runpath[256]){
+System::System( HINSTANCE chInst, HWND chwnd){
 
-
+	/*変数の*/
 	int ech = 0;//エラーチェック用の変数宣言
+	int index = 0;//何文字目か
 	char loadname[256] = "";//ロードするファイル名の文字列配列
+	char *p;//ポインタ、後ろから
+	char ch = '\\' ;//検索する文字
+	char szpath[256] = "";//実行中のパスを入れる文字列変数
+
+	//パスの取得
+
+	GetModuleFileName( chInst, szpath, 256);//実行中のファイル名を取得
+	
+	p = strrchr(szpath,ch);//最後の\がつく文字列を探す。
+	index = p - szpath;//最後に\がついたところまで文字数を検索
+
+	strncpy_s(path, szpath, index);//path変数にszpath変数から最後の\までの文字を取得
+	/* ******* */
 
 
 	ech = E3DEnableDbgFile();//デバッグテキスト出力準備
@@ -36,7 +77,6 @@ System::System( HINSTANCE chInst, HWND chwnd, char runpath[256]){
 
 	hInst = chInst;
 	hwnd = chwnd;
-	strcpy_s( path, runpath);
 
 
 	/*キー取得命令のためのキー配列その1*/
@@ -126,35 +166,64 @@ System::System( HINSTANCE chInst, HWND chwnd, char runpath[256]){
 
 	for( int i=0; i<30; i++){
 		for( int j=0; j<2; j++){
-			keyBox1[30][2] = 0;
+			keyBox1[i][j] = 0;
 			keyBox2[i][j] = 0;
 		}
 	}
 
+	/* **************
+	// スワップチェインを作成する
+	// **************
+	*/
 
-	/*最低限必要な画像のロードを行います*/
+	ech = E3DCreateSwapChain( hwnd, &scid2);
+	if(ech != 0){//エラーチェック
+		_ASSERT(0);//エラーダイアログを表示
+	};
 
-	wsprintf( loadname, "%s\\data\\img\\sys\\loading.png", path);//メニュー画面での上部白いバーをロードします。
+
+	/* **************
+	// 最低限必要な画像のロードを行います
+	// **************
+	*/
+
+	// メニュー画面での上部白いバーをロードします。
+	wsprintf( loadname, "%s\\data\\img\\sys\\loading.png", path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteID[0]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	}
+
+	// 画面全体を暗くするための、黒画像
+	wsprintf( loadname, "%s\\data\\img\\oth\\black.png", System::path);
+	ech = E3DCreateSprite( loadname, 0, 0, &SpriteID[1]);
+	if(ech != 0 ){//エラーチェック
+				_ASSERT( 0 );//エラーダイアログ
+	};
 
 	
 };
 //デストラクタ:Easy3Dの終了処理を行うよ。
 System::~System(){
 
+	/* 変数の初期化 */
 	int ech = 0;//エラーチェック用の変数宣言
 
-	/*画像の破棄を行います*/
-	for(int i=0; i<1; i++){
+	/* 画像の破棄を行います */
+	for(int i=0; i<2; i++){
 			ech = E3DDestroySprite( SpriteID[i]);
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			};
 	}
 
+	/* スワップチェインを削除 */
+	ech = E3DDestroySwapChain(scid2);
+	if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+	}
+
+	/* Easy3D終了処理 */
 	ech = E3DBye();
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
@@ -322,7 +391,7 @@ int System::KeyRenewal( int SelectMode){
 				if(imput1 & (1<<27)){//Rキー（リロード）
 						keyin[4] = 1;
 				}
-				if(imput1 & (1<<14)){//Eキー（調べる）
+				if(imput1 & (1<<14)){//Eキー（肩撃ち位置変え）
 						keyin[5] = 1;
 				}
 				if(imput1 & (1<<10)){//Qキー（セレ切り替え）
@@ -354,6 +423,9 @@ int System::KeyRenewal( int SelectMode){
 				}
 				if(imput2 & (1<<16)){//ESCキー
 						keyin[15] = 1;
+				}
+				if(imput1 & (1<<17)){//Fキー
+						keyin[16] = 1;
 				}
 	}
 
@@ -415,7 +487,7 @@ int System::WaitRender(){
 
 					/*文字"バックパック"の描画を行います*/
 					//TextPos.x = 440;/**/TextPos.y = 5;
-					//E3DDrawTextByFontID( sys->scid1, TextID[0], TextPos, "バックパック", NormalColor1);
+					//E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "バックパック", NormalColor1);
 
 	E3DEndScene();
 	E3DPresent(scid1);
@@ -439,6 +511,110 @@ int System::GetKeyData( int *KeyDataArray){
 int System::SetUpdataSoundSys( int Soundflag){
 
 	UpdataSoundflag = Soundflag;
+
+	return 0;
+}
+/*画像をフェードアウトさせる処理の関数*/
+int System::SetFadeOutOfScid( int FadeTime){
+
+	/*変数の初期化*/
+	int ech = 0;
+	D3DXVECTOR3 MainSpritePos( 0.0, -28.0, 0.0);// 背景の位置
+	E3DCOLOR4UC BlackColor = { 0,255,255,255};// 黒背景の色構造体
+
+	/* **********
+	// 直前までレンダリングしていた画面をスワップチェイン(scid2)にコピー
+	// **********
+	*/
+	ech = E3DBeginScene( scid2, 1, -1);
+	if(ech != 0){//エラーチェック
+		_ASSERT(0);//エラーダイアログを表示
+	};
+	ech = E3DEndScene();
+	if(ech != 0){//エラーチェック
+		_ASSERT(0);//エラーダイアログを表示
+	};
+
+	/* 処理終了 */
+
+
+	/* 繰り返しの処理(ブラックフェードアウトする)*/
+	for( int i=0; i<FadeTime; i++){
+
+			MsgQ(30);//メッセージループ
+
+			/* 透明度を更新(iカウンタで変位) */
+			BlackColor.a = i * (255 / FadeTime);
+
+			/*黒画像の透明度を指定する*/
+			ech = E3DSetSpriteARGB( SpriteID[1], BlackColor);
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
+
+		
+			/* **********
+			// 元画面(scid2)を先にレンダリングします
+			// **********
+			*/
+
+			ech = E3DBeginScene( scid2, 0, -1);
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
+			ech = E3DEndScene();
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
+
+			/* 処理終了 */
+
+
+			/* **********
+			// scid2の上に黒画像(scid1による)をレンダリングします
+			// **********
+			*/
+
+			ech = E3DBeginScene( scid1, 1, -1);
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
+			ech = E3DBeginSprite();//スプライト描画の開始
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
+			
+			/* **************************************** */
+			/* スプライト(透過付き黒画像)をレンダリング */
+			/* **************************************** */
+
+			ech = E3DRenderSprite( SpriteID[1], 1.0f, 1.0f, MainSpritePos);//黒背景
+			if(ech != 0 ){//エラーチェック
+				_ASSERT( 0 );//エラーダイアログ
+			};
+			ech = E3DEndSprite();//スプライト描画の終了
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
+
+			/* 処理終了 */
+
+			ech = E3DEndScene();
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
+			ech = E3DPresent( System::scid1);
+			if(ech != 0){//エラーチェック
+				_ASSERT(0);//エラーダイアログを表示
+			};
+
+			/* 処理終了 */
+
+	}
+
+
+
+
 
 	return 0;
 }

@@ -11,8 +11,6 @@
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "citem_manipulate.h"//アイテム操作に関するヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
 
 
 /*コンストラクタ、メニューで使う画像のロード*/
@@ -24,19 +22,19 @@ Menu::Menu(){
 
 
 	/*スプライトをロードします*/
-	wsprintf( loadname, "%s\\data\\img\\menu\\menubg.png", sys->path);//メニュー画面での背景をロードします。
+	wsprintf( loadname, "%s\\data\\img\\menu\\menubg.png", System::path);//メニュー画面での背景をロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[0]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\menu\\menuber.png", sys->path);//メニュー画面での十字バーをロードします。
+	wsprintf( loadname, "%s\\data\\img\\menu\\menuber.png", System::path);//メニュー画面での十字バーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[1]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\menu\\menu_up_ber.png", sys->path);//メニュー画面での上部白いバーをロードします。
+	wsprintf( loadname, "%s\\data\\img\\menu\\menu_up_ber.png", System::path);//メニュー画面での上部白いバーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[2]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
@@ -98,7 +96,7 @@ Menu::~Menu(){
 
 
 /*ポーズメニュー、コアの部分です。*/
-int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
+int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep, Item *item){
 
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
@@ -114,14 +112,14 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
 
 	do{
 
-			sys->MsgQ(30);//メッセージループ
+			System::MsgQ(30);//メッセージループ
 
-			sys->KeyRenewal(1);
+			System::KeyRenewal(1);
 			
-			sys->GetKeyData(keyin);//キーを取得する
+			System::GetKeyData(keyin);//キーを取得する
 
 			/*描画準備をスルヨ*/
-			E3DBeginScene( sys->scid1, 0, -1);//描画の開始準備
+			E3DBeginScene( System::scid1, 0, -1);//描画の開始準備
 
 			/*
 			//スプライトを描きますよ。
@@ -151,40 +149,40 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
 
 					//一番上のポーズメニュー
 					TextPos.x = 440;/**/TextPos.y = 5;
-					E3DDrawTextByFontID( sys->scid1, TextID[0], TextPos, "ポーズメニュー", NormalColor);
+					E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "ポーズメニュー", NormalColor);
 
 					//以下、通常文字を表示
 					TextPos.x = 100;
 					TextPos.y = 140;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ゲームに戻る", NormalColor);
+					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームに戻る", NormalColor);
 					if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 							return 1;//問題ありで終了
 					};
 
 					TextPos.y = 180;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "バックパック", NormalColor);
+					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "バックパック", NormalColor);
 					if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 							return 1;//問題ありで終了
 					};
 
 					TextPos.y = 220;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "オプション", NormalColor);
+					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "オプション", NormalColor);
 					if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 							return 1;//問題ありで終了
 					};
 
 					TextPos.y = 260;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ミッションを中断する", NormalColor);
+					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ミッションを中断する", NormalColor);
 					if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 							return 1;//問題ありで終了
 					};
 
 					TextPos.y = 300;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ゲームを終了する", NormalColor);
+					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームを終了する", NormalColor);
 					if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 							return 1;//問題ありで終了
@@ -195,17 +193,17 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
 
 
 			/*マウスが選択部にあるとき、文字を変更します*/
-			if((100< sys->MousePos.x)&&(sys->MousePos.x<250)){	
-					if((160< sys->MousePos.y)&&( sys->MousePos.y<190)){//マウス座標が「ゲームに戻る」の上なら
+			if((100< System::MousePos.x)&&(System::MousePos.x<250)){	
+					if((160< System::MousePos.y)&&( System::MousePos.y<190)){//マウス座標が「ゲームに戻る」の上なら
 							TextPos.x = 100;
 							TextPos.y = 140;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ゲームに戻る", SelectColor);//選択されている文字にする
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームに戻る", SelectColor);//選択されている文字にする
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							TextPos.x = 400;
 							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ゲーム本編に戻ります", NormalColor);//説明が書かれている文字列を表示する
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲーム本編に戻ります", NormalColor);//説明が書かれている文字列を表示する
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
@@ -214,70 +212,70 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
 							}
 					}	
 
-					if((200< sys->MousePos.y)&&( sys->MousePos.y<230)){//マウス座標が「バックパック」の上なら
+					if((200< System::MousePos.y)&&( System::MousePos.y<230)){//マウス座標が「バックパック」の上なら
 							TextPos.x = 100;
 							TextPos.y = 180;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "バックパック", SelectColor);//選択されている文字にする
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "バックパック", SelectColor);//選択されている文字にする
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							TextPos.x = 250;
 							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "持ち物の確認やアイテムの使用などが出来ます", NormalColor);//説明が書かれている文字列を表示する
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "持ち物の確認やアイテムの使用などが出来ます", NormalColor);//説明が書かれている文字列を表示する
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							if(keyin[9] == 1){//クリックしたら
-										Item_Manipulate BackPack( PC, Wep);//バックパックを呼び出します。
+										Item_Manipulate BackPack( Wep, item);//バックパックを呼び出します。
 										BackPack.InItemPack( PC);//バックパックに入ります
 							}
 					}
 
-					if((240< sys->MousePos.y)&&( sys->MousePos.y<270)){//マウス座標が「オプション」の上なら
+					if((240< System::MousePos.y)&&( System::MousePos.y<270)){//マウス座標が「オプション」の上なら
 							TextPos.x = 100;
 							TextPos.y = 220;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "オプション", SelectColor);//選択されている文字にする
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "オプション", SelectColor);//選択されている文字にする
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							TextPos.x = 400;
 							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ゲーム内の設定が出来ます", NormalColor);//説明が書かれている文字列を表示する
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲーム内の設定が出来ます", NormalColor);//説明が書かれている文字列を表示する
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 					}
 
-					if((280< sys->MousePos.y)&&( sys->MousePos.y<310)){//マウス座標が「ゲームに戻る」の上なら
+					if((280< System::MousePos.y)&&( System::MousePos.y<310)){//マウス座標が「ゲームに戻る」の上なら
 							TextPos.x = 100;
 							TextPos.y = 260;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ミッションを中断する", SelectColor);//選択されている文字にする
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ミッションを中断する", SelectColor);//選択されている文字にする
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							TextPos.x = 250;
 							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ミッションを中断して、作戦前の状態に戻ります", NormalColor);//説明が書かれている文字列を表示する
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ミッションを中断して、作戦前の状態に戻ります", NormalColor);//説明が書かれている文字列を表示する
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 					}
 
-					if((320< sys->MousePos.y)&&( sys->MousePos.y<350)){//マウス座標が「ゲームに戻る」の上なら
+					if((320< System::MousePos.y)&&( System::MousePos.y<350)){//マウス座標が「ゲームに戻る」の上なら
 							TextPos.x = 100;
 							TextPos.y = 300;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ゲームを終了する", SelectColor);//選択されている文字にする
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームを終了する", SelectColor);//選択されている文字にする
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							TextPos.x = 230;
 							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ゲームを終了します、データの保存は行われません", NormalColor);//説明が書かれている文字列を表示する
+							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ゲームを終了します、データの保存は行われません", NormalColor);//説明が書かれている文字列を表示する
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							if(keyin[9] == 1){//クリックしたら
-										SendMessage( sys->hwnd, WM_CLOSE, 0, 0);
+										SendMessage( System::hwnd, WM_CLOSE, 0, 0);
 							}
 					}
 			}
@@ -288,7 +286,7 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
 
 			/*ここまでで画面描画準備終了*/
 			E3DEndScene();
-			ech = E3DPresent( sys->scid1);
+			ech = E3DPresent( System::scid1);
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			};
@@ -298,7 +296,7 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
 						break;//ループを抜ける
 			}
 
-	}while(WM_QUIT != sys->msg.message);
+	}while(WM_QUIT != System::msg.message);
 	
 
 
@@ -307,12 +305,12 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
 	return 0;
 }
 /*メニュー画面に入って、自動的に通常描画モードからメニュー画面に半透過していきます。*/
-int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep){
+int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep, Item *item){
 
 	/*変数の宣言*/
 	int keyin[20];//キー情報配列を作成
 
-	sys->GetKeyData(keyin);//キーを取得する
+	System::GetKeyData(keyin);//キーを取得する
 
 	/*もしESCキーが押されていたら*/
 	if(keyin[15] == 1){
@@ -340,7 +338,7 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep){
 					}
 
 					/*描画準備を行います*/
-					E3DBeginScene( sys->scid1, 1, -1);;
+					E3DBeginScene( System::scid1, 1, -1);;
 					E3DBeginSprite();
 
 
@@ -362,13 +360,13 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep){
 					/*ここで、描画完了*/
 					E3DEndSprite();
 					E3DEndScene();
-					E3DPresent(sys->scid1);
+					E3DPresent(System::scid1);
 
 			
 			}/*ここまで*/
 
 
-			PoseMenu( PC, Wep);//ポーズメニューに入る
+			PoseMenu( PC, Wep, item);//ポーズメニューに入る
 
 
 			/*終了時のループに入ります。*/
@@ -394,7 +392,7 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep){
 					}
 
 					/*描画準備を行います*/
-					E3DBeginScene( sys->scid1, 1, -1);;
+					E3DBeginScene( System::scid1, 1, -1);;
 					E3DBeginSprite();
 
 
@@ -416,7 +414,7 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep){
 					/*ここで、描画完了*/
 					E3DEndSprite();
 					E3DEndScene();
-					E3DPresent(sys->scid1);
+					E3DPresent(System::scid1);
 
 			
 			}/*ここまで*/
@@ -442,21 +440,21 @@ int Menu::PutStetus( PlayerChara *PC){
 	TextPos.x = 80;
 	TextPos.y = 370;
 	wsprintf( StatusName, "HP 1000/1000" );//HPの表示
-	E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
+	E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 	TextPos.x = 80;
 	TextPos.y = 390;
 	wsprintf( StatusName, "STAMINA 100/100" );//スタミナの表示
-	E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
+	E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 	TextPos.x = 80;
 	TextPos.y = 430;
 	wsprintf( StatusName, "MAINWEAPON AMM:10/10 MAG:10/10" );//メインウェポンのMAG数、AMM数
-	E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
+	E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};

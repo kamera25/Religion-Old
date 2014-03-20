@@ -6,6 +6,7 @@
 //プロトタイプ宣言
 class Enemy;
 class PlayerChara;
+class Stage;
 
 /*武器クラスに関することを記述*/
 class Weapon{
@@ -68,7 +69,7 @@ public:
 	int PlayWeaponSound( int Wp_equipment, int PlayNo, float MuzzlePosArray[3]);// *武器の音声を再生する関数(3DSE専用)
 	int ChkWeaponLaunch( int Wp_equipment);//武器を発射したかどうかの確認を行います
 	int GetWeaponFireFlag();//武器発射フラグ変数を取得する関数
-	int AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2]);//ゲーム中の敵とのあたり&攻撃判定を行います
+	int AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);//ゲーム中の敵とのあたり&攻撃判定を行います
 	Weapon();//コンストラクタ、変数の初期化を行います
 	~Weapon();//デストラクタ、モデルの破棄等を行います
 

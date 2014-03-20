@@ -8,77 +8,81 @@
 #include "citem_manipulate.h"//アイテム操作に関するヘッダファイル
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include "citem.h"//アイテムの宣言ヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
 
 
 /*コンストラクタ、アイテムのスプライトなどをロードします*/
-Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
+Item_Manipulate::Item_Manipulate( Weapon *Wep, Item *item){
 
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
 	char loadname[256] = "";//ロードするファイル名の文字列配列
 	E3DCOLOR4UC AlfaColor = { 200,255,255,255};//アイテムの詳細を書く画像の半透明
 
-  /*画像のロードを行います*/
+
+	/* ********************** 
+	// 画像のロードを行います
+	// **********************
+	*/
 
 	/*スプライトをロードします*/
-	wsprintf( loadname, "%s\\data\\img\\menu\\menubg.png", sys->path);//メニュー画面での背景をロードします。
+	wsprintf( loadname, "%s\\data\\img\\menu\\menubg.png", System::path);//メニュー画面での背景をロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[0]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\menu\\menuber.png", sys->path);//メニュー画面での十字バーをロードします。
+	wsprintf( loadname, "%s\\data\\img\\menu\\menuber.png", System::path);//メニュー画面での十字バーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[1]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\menu\\menu_up_ber.png", sys->path);//メニュー画面での上部白いバーをロードします。
+	wsprintf( loadname, "%s\\data\\img\\menu\\menu_up_ber.png", System::path);//メニュー画面での上部白いバーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[2]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\menu\\loading.png", sys->path);//ロード画像のロードします。
+	wsprintf( loadname, "%s\\data\\img\\menu\\loading.png", System::path);//ロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[3]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\item\\itstate.png", sys->path);//ロード画像のロードします。
+	wsprintf( loadname, "%s\\data\\img\\item\\itstate.png", System::path);//ロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[4]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\item\\itstate2.png", sys->path);//左向きのロード画像のロードします。
+	wsprintf( loadname, "%s\\data\\img\\item\\itstate2.png", System::path);//左向きのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[5]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\item\\cure.png", sys->path);//回復アイコンのロード画像のロードします。
+	wsprintf( loadname, "%s\\data\\img\\item\\cure.png", System::path);//回復アイコンのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[6]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\item\\dump.png", sys->path);//ゴミ箱アイコンのロード画像のロードします。
+	wsprintf( loadname, "%s\\data\\img\\item\\dump.png", System::path);//ゴミ箱アイコンのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[7]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\item\\info.png", sys->path);//情報アイコンのロード画像のロードします。
+	wsprintf( loadname, "%s\\data\\img\\item\\info.png", System::path);//情報アイコンのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[8]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	wsprintf( loadname, "%s\\data\\img\\item\\supply.png", sys->path);//供給マークのロード画像のロードします。
+	wsprintf( loadname, "%s\\data\\img\\item\\supply.png", System::path);//供給マークのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[9]);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
@@ -90,22 +94,30 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
 				_ASSERT( 0 );//エラーダイアログ
 	};
 
-	/*ロード画像の表示*/
-		D3DXVECTOR3 SpritePos4( 250.0, 170.0, 0.0);//ロード画像の位置
-		/*描画準備を行います*/
-		E3DBeginScene( sys->scid1, 1, -1);;
-		E3DBeginSprite();
+	/* ****************
+	// ロード画面の表示
+	// ****************
+	*/
+	D3DXVECTOR3 SpritePos4( 250.0, 170.0, 0.0);//ロード画像の位置
+	/*描画準備を行います*/
+	E3DBeginScene( System::scid1, 1, -1);;
+	E3DBeginSprite();
 
-		ech = E3DRenderSprite( MenuSpriteIDs[3], 1, 1, SpritePos4);//ロードの画像
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+	ech = E3DRenderSprite( MenuSpriteIDs[3], 1, 1, SpritePos4);//ロードの画像
+	if(ech != 0 ){//エラーチェック
+				_ASSERT( 0 );//エラーダイアログ
+	};
 
-		/*ここで、描画完了*/
-		E3DEndSprite();
+	/*ここで、描画完了*/
+	E3DEndSprite();
 
-		E3DEndScene();
-		E3DPresent(sys->scid1);
+	E3DEndScene();
+	E3DPresent(System::scid1);
+
+	/* ******************************
+	// アイテム系の画像をロードします
+	// ******************************
+	*/
 
 	/*次に武器の画像を読み込みます*/
 	for( int i = 0; i<3; i++){
@@ -115,7 +127,7 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
 					BackPack_Weapon[i][2] = Wep->GetWeaponData( i, 1);//武器のナンバーを代入する
 			}
 			else{//装備していなければ -> 空データロードします
-					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", sys->path);//空アイテム画像をロードします。
+					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Weapon[i][0]);
 					if(ech != 0){//エラーチェック
 							_ASSERT(0);//エラーダイアログを表示
@@ -126,8 +138,8 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
 	}
 
 	
-	if( PC->BringWp == 0){//ステージで拾った武器の処理
-			wsprintf( loadname, "%s\\data\\img\\item\\empty.png", sys->path);
+	if( item->GetItemNumber( 0, -1, -1) == 0){//ステージで拾った武器の処理
+			wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);
 			ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Weapon[3][0]);
 			if(ech != 0){//エラーチェック
 					_ASSERT(0);//エラーダイアログを表示
@@ -139,17 +151,17 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
 
 	/*次に弾薬の画像を読み込みます*/
 	for( int i=0; i<4; i++){
-			if( PC->Ammo[i] != -1){//装備していれば
+			if( item->GetItemNumber( 1, i, -1) != -1){//装備していれば
 					//BackPack_Ammo[i][0] = PC->wp_data[i][0][1];//空画像データをロードする
-					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", sys->path);//1次的に空アイテム画像をロードします。
+					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//1次的に空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Ammo[i][0]);
 					if(ech != 0){//エラーチェック
 							_ASSERT(0);//エラーダイアログを表示
 					}
-					BackPack_Ammo[i][1] = PC->Ammo[i];//武器の種類を代入する
+					BackPack_Ammo[i][1] = item->GetItemNumber( 1, i, -1);//武器の種類を代入する
 			}
 			else{//装備していなければ -> 空データロードします
-					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", sys->path);//空アイテム画像をロードします。
+					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Ammo[i][0]);
 					if(ech != 0){//エラーチェック
 							_ASSERT(0);//エラーダイアログを表示
@@ -160,17 +172,17 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
 
 	/*次にの画像を読み込みます*/
 	for( int i=0; i<5; i++){
-			if( PC->Recovery[i][0] != -1){//装備していれば
+			if( item->GetItemNumber( 2, i, 0) != -1){//装備していれば
 					//BackPack_Ammo[i][0] = PC->Recovery[i][0];//空画像データをロードする
-					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", sys->path);//1次的に空アイテム画像をロードします。
+					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//1次的に空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Recovery[i][0]);
 					if(ech != 0){//エラーチェック
 							_ASSERT(0);//エラーダイアログを表示
 					}
-					BackPack_Recovery[i][1] = PC->Recovery[i][0];//武器の種類を代入する
+					BackPack_Recovery[i][1] = item->GetItemNumber( 2, i, 0);//武器の種類を代入する
 			}
 			else{//装備していなければ -> 空データロードします
-					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", sys->path);//空アイテム画像をロードします。
+					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Recovery[i][0]);
 					if(ech != 0){//エラーチェック
 							_ASSERT(0);//エラーダイアログを表示
@@ -179,11 +191,10 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
 			}
 	}
 
-	/**/
-	//
-	/**/
-
-	/*アイテムメニューで使う文字IDを設定します。*/
+	/* ******************
+	// フォントの読み込み
+	// ******************
+	*/
 	ech = E3DCreateFont( 35, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[0]);//大文字
 	if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
@@ -199,6 +210,9 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
 					_ASSERT( 0 );//エラーダイアログ
 	};
 
+
+
+	return;
 }
 /*デコントラクタ、ロードしたスプライトなどを削除します*/
 Item_Manipulate::~Item_Manipulate(){
@@ -229,14 +243,14 @@ Item_Manipulate::~Item_Manipulate(){
 int Item_Manipulate::MainBackPack( PlayerChara *PC){
 
 
-	/*変数の初期化*/
+	/*変数の宣言*/
 	int ChoseItem = 0;//選んだ武器
 
 	do{
 
-			sys->MsgQ(30);//メッセージループ
+			System::MsgQ(30);//メッセージループ
 
-			/*変数の初期化*/
+			/* 変数の宣言 */
 			int ech = 0;//エラーチェック変数
 			int ExitFlag = 0;//このフラグがオンになったとき脱出します。
 			int Counter = 0;//カウンター変数
@@ -252,11 +266,19 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			E3DCOLOR4UC SetColor = { 255,0,120,170};//青色の武器が選ばれている色
 			POINT TextPos;//文字の位置を格納する構造体
 
-			sys->KeyRenewal(1);
-			sys->GetKeyData(keyin);
+			/* 作成中関係変数 */
+			const int ItemSpritePosition[3][2][6] = {
+				{ { 280 , 440, 280, 440} , {100 , 100, 190, 190} },// 武器メニュー
+				{ { 280 , 440, 280, 440} , {100 , 100, 190, 190}  },// 弾薬メニュー
+				{ { 280 , 440, 280, 440 , 360} , {100 , 100, 190, 190 , 280}  } // 回復系メニュー
+			};
+
+
+			System::KeyRenewal(1);
+			System::GetKeyData(keyin);
 
 			/*描画準備をスルヨ*/
-			E3DBeginScene( sys->scid1, 0, -1);//描画の開始準備
+			E3DBeginScene( System::scid1, 0, -1);//描画の開始準備
 
 			E3DBeginSprite();//スプライト描画の開始
 			
@@ -277,341 +299,153 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			};
 
 			/*選んでいるアイテムカテゴリによって表示の分岐*/
+			switch( ChoseItem ){
+				case 0:{//武器のメニュー
+					for(int i=0; i<2; i++){
+							for(int j=0; j<2; j++){
+									SpritePos4.x = 280+(j*160.0f);/**/SpritePos4.y = 100+(i*90.0f);
+									ech = E3DRenderSprite( BackPack_Weapon[Counter][0], 1, 1, SpritePos4);//上部の白いバー
+									if(ech != 0 ){//エラーチェック
+												_ASSERT( 0 );//エラーダイアログ
+									};
+									Counter++;
 
-			//武器のメニュー
-			if( ChoseItem == 0){
-				for(int i=0; i<2; i++){
-						for(int j=0; j<2; j++){
-								SpritePos4.x = 280+(j*160.0f);/**/SpritePos4.y = 100+(i*90.0f);
-								ech = E3DRenderSprite( BackPack_Weapon[Counter][0], 1, 1, SpritePos4);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
-								Counter++;
+									/*もしマウスの下が画像なら*/
+									if(( 280 + ( j*160.0f ) < System::MousePos.x ) && ( System::MousePos.x < 408 + ( j*160.0f ))
+											&& ( 120 + ( i*90.0f ) < System::MousePos.y ) && ( System::MousePos.y < 190 + ( i*90.0f ))){
+												ItemNumber = Counter - 1;//カーソルと重なっていた画像のIDを代入
+									}
+							}
+					};
 
-								/*もしマウスの下が画像なら*/
-								if(( 280 + ( j*160.0f ) < sys->MousePos.x ) && ( sys->MousePos.x < 408 + ( j*160.0f ))
-										&& ( 120 + ( i*90.0f ) < sys->MousePos.y ) && ( sys->MousePos.y < 190 + ( i*90.0f ))){
-											ItemNumber = Counter - 1;//カーソルと重なっていた画像のIDを代入
-								}
-						}
-				};
-
-				if( ItemNumber != -1 ){//もし、説明バーを表示させないといけないならば
-						if( ( sys->MousePos.x + 256 ) < 640 ){//バーが右にはみ出ないのなら
-								SpritePos5.x = float( sys->MousePos.x ); /**/ SpritePos5.y = float( sys->MousePos.y );
-								ech = E3DRenderSprite( MenuSpriteIDs[4], 1, 1, SpritePos5);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
-						}
-						else{//バーが右にはみ出るのなら
-								SpritePos5.x = float( sys->MousePos.x - 256); /**/ SpritePos5.y = float( sys->MousePos.y );
-								ech = E3DRenderSprite( MenuSpriteIDs[5], 1, 1, SpritePos5);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
-						}
-				};
-			}
-
-			//弾薬のメニュー
-			if( ChoseItem == 1){
-				for(int i=0; i<2; i++){
-						for(int j=0; j<2; j++){
-								SpritePos4.x = 280+(j*160.0f);/**/SpritePos4.y = 100+(i*90.0f);
-								ech = E3DRenderSprite( BackPack_Ammo[Counter][0], 1, 1, SpritePos4);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
-								Counter++;
-
-								/*もしマウスの下が画像なら*/
-								if(( 280 + ( j*160.0f ) < sys->MousePos.x ) && ( sys->MousePos.x < 408 + ( j*160.0f ))
-										&& ( 120 + ( i*90.0f ) < sys->MousePos.y ) && ( sys->MousePos.y < 190 + ( i*90.0f ))){
-											ItemNumber = Counter - 1;//カーソルと重なっていた画像のIDを代入
-								}
-						}
-				};
-
-				if( ItemNumber != -1 ){//もし、説明バーを表示させないといけないならば
-						if( sys->MousePos.x + 256 < 640){//バーが右にはみ出ないのなら
-								SpritePos5.x = float( sys->MousePos.x); /**/ SpritePos5.y = float( sys->MousePos.y);
-								ech = E3DRenderSprite( MenuSpriteIDs[4], 1, 1, SpritePos5);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
-						}
-						else{//バーが右にはみ出るのなら
-								SpritePos5.x = float( sys->MousePos.x - 256); /**/ SpritePos5.y = float( sys->MousePos.y);
-								ech = E3DRenderSprite( MenuSpriteIDs[5], 1, 1, SpritePos5);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
-						}
-				};
-			}
-
-			//回復系のメニュー
-			if( ChoseItem == 2){
-				for(int i=0; i<2; i++){
-						for(int j=0; j<2; j++){
-								SpritePos4.x = 280+(j*160.0f);/**/SpritePos4.y = 100+(i*80.0f);
-								ech = E3DRenderSprite( BackPack_Recovery[Counter][0], 1, 1, SpritePos4);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
-								Counter++;
-
-								/*もしマウスの下が画像なら*/
-								if(( 280 + ( j*160.0f ) < sys->MousePos.x ) && ( sys->MousePos.x < 408 + ( j*160.0f ))
-										&& ( 120 + ( i*80.0f ) < sys->MousePos.y ) && ( sys->MousePos.y < 190 + ( i*80.0f ))){
-											ItemNumber = Counter - 1;//カーソルと重なっていた画像のIDを代入
-								}
-						}
-				};
-
-				//5個目のアイテムを表示させる
-				SpritePos4.x = 280+(0*160.0f);/**/SpritePos4.y = 100+(2*80.0f);
-				ech = E3DRenderSprite( BackPack_Ammo[Counter][0], 1, 1, SpritePos4);//上部の白いバー
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
-
-				/*もしマウスの下が画像なら*/
-				if(( 280 + ( 0*160.0f ) < sys->MousePos.x ) && ( sys->MousePos.x < 408 + ( 0*160.0f ))
-					&& ( 120 + ( 2*80.0f ) < sys->MousePos.y ) && ( sys->MousePos.y < 190 + ( 2*80.0f ))){
-								ItemNumber = 4;//カーソルと重なっていた画像のIDを代入
+					if( ItemNumber != -1 ){//もし、説明バーを表示させないといけないならば
+							if( ( System::MousePos.x + 256 ) < 640 ){//バーが右にはみ出ないのなら
+									SpritePos5.x = float( System::MousePos.x ); /**/ SpritePos5.y = float( System::MousePos.y );
+									ech = E3DRenderSprite( MenuSpriteIDs[4], 1, 1, SpritePos5);//上部の白いバー
+									if(ech != 0 ){//エラーチェック
+												_ASSERT( 0 );//エラーダイアログ
+									};
+							}
+							else{//バーが右にはみ出るのなら
+									SpritePos5.x = float( System::MousePos.x - 256); /**/ SpritePos5.y = float( System::MousePos.y );
+									ech = E3DRenderSprite( MenuSpriteIDs[5], 1, 1, SpritePos5);//上部の白いバー
+									if(ech != 0 ){//エラーチェック
+												_ASSERT( 0 );//エラーダイアログ
+									};
+							}
+					};
+					break;
 				}
+				/* ********* */
+				/* ********* */
+				case 1:{//弾薬のメニュー
+						for(int i=0; i<2; i++){
+								for(int j=0; j<2; j++){
+										SpritePos4.x = 280+(j*160.0f);/**/SpritePos4.y = 100+(i*90.0f);
+										ech = E3DRenderSprite( BackPack_Ammo[Counter][0], 1, 1, SpritePos4);//上部の白いバー
+										if(ech != 0 ){//エラーチェック
+													_ASSERT( 0 );//エラーダイアログ
+										};
+										Counter++;
 
-				/**/
-				///
-				/**/
+										/*もしマウスの下が画像なら*/
+										if(( 280 + ( j*160.0f ) < System::MousePos.x ) && ( System::MousePos.x < 408 + ( j*160.0f ))
+												&& ( 120 + ( i*90.0f ) < System::MousePos.y ) && ( System::MousePos.y < 190 + ( i*90.0f ))){
+													ItemNumber = Counter - 1;//カーソルと重なっていた画像のIDを代入
+										}
+								}
+						};
 
+						if( ItemNumber != -1 ){//もし、説明バーを表示させないといけないならば
+								if( System::MousePos.x + 256 < 640){//バーが右にはみ出ないのなら
+										SpritePos5.x = float( System::MousePos.x); /**/ SpritePos5.y = float( System::MousePos.y);
+										ech = E3DRenderSprite( MenuSpriteIDs[4], 1, 1, SpritePos5);//上部の白いバー
+										if(ech != 0 ){//エラーチェック
+													_ASSERT( 0 );//エラーダイアログ
+										};
+								}
+								else{//バーが右にはみ出るのなら
+										SpritePos5.x = float( System::MousePos.x - 256); /**/ SpritePos5.y = float( System::MousePos.y);
+										ech = E3DRenderSprite( MenuSpriteIDs[5], 1, 1, SpritePos5);//上部の白いバー
+										if(ech != 0 ){//エラーチェック
+													_ASSERT( 0 );//エラーダイアログ
+										};
+								}
+						};
+						break;
+				}
+				/* ********* */
+				/* ********* */
+				case 2:{//回復系のメニュー
+						for(int i=0; i<2; i++){
+								for(int j=0; j<2; j++){
+										SpritePos4.x = 280+(j*160.0f);/**/SpritePos4.y = 100+(i*80.0f);
+										ech = E3DRenderSprite( BackPack_Recovery[Counter][0], 1, 1, SpritePos4);//上部の白いバー
+										if(ech != 0 ){//エラーチェック
+													_ASSERT( 0 );//エラーダイアログ
+										};
+										Counter++;
 
+										/*もしマウスの下が画像なら*/
+										if(( 280 + ( j*160.0f ) < System::MousePos.x ) && ( System::MousePos.x < 408 + ( j*160.0f ))
+												&& ( 120 + ( i*80.0f ) < System::MousePos.y ) && ( System::MousePos.y < 190 + ( i*80.0f ))){
+													ItemNumber = Counter - 1;//カーソルと重なっていた画像のIDを代入
+										}
+								}
+						};
 
+						//5個目のアイテムを表示させる
+						SpritePos4.x = 280+(0*160.0f);/**/SpritePos4.y = 100+(2*80.0f);
+						ech = E3DRenderSprite( BackPack_Ammo[Counter][0], 1, 1, SpritePos4);//上部の白いバー
+						if(ech != 0 ){//エラーチェック
+									_ASSERT( 0 );//エラーダイアログ
+						};
 
-				if( ItemNumber != -1 ){//もし、説明バーを表示させないといけないならば
-						if( sys->MousePos.x + 256 < 640){//バーが右にはみ出ないのなら
-								SpritePos5.x = float( sys->MousePos.x); /**/ SpritePos5.y = float( sys->MousePos.y);
-								ech = E3DRenderSprite( MenuSpriteIDs[4], 1, 1, SpritePos5);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+						/*もしマウスの下が画像なら*/
+						if(( 280 + ( 0*160.0f ) < System::MousePos.x ) && ( System::MousePos.x < 408 + ( 0*160.0f ))
+							&& ( 120 + ( 2*80.0f ) < System::MousePos.y ) && ( System::MousePos.y < 190 + ( 2*80.0f ))){
+										ItemNumber = 4;//カーソルと重なっていた画像のIDを代入
 						}
-						else{//バーが右にはみ出るのなら
-								SpritePos5.x = float( sys->MousePos.x - 256); /**/ SpritePos5.y = float( sys->MousePos.y);
-								ech = E3DRenderSprite( MenuSpriteIDs[5], 1, 1, SpritePos5);//上部の白いバー
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
-						}
-				};
+
+						/**/
+						///
+						/**/
+
+
+
+
+						if( ItemNumber != -1 ){//もし、説明バーを表示させないといけないならば
+								if( System::MousePos.x + 256 < 640){//バーが右にはみ出ないのなら
+										SpritePos5.x = float( System::MousePos.x); /**/ SpritePos5.y = float( System::MousePos.y);
+										ech = E3DRenderSprite( MenuSpriteIDs[4], 1, 1, SpritePos5);//上部の白いバー
+										if(ech != 0 ){//エラーチェック
+													_ASSERT( 0 );//エラーダイアログ
+										};
+								}
+								else{//バーが右にはみ出るのなら
+										SpritePos5.x = float( System::MousePos.x - 256); /**/ SpritePos5.y = float( System::MousePos.y);
+										ech = E3DRenderSprite( MenuSpriteIDs[5], 1, 1, SpritePos5);//上部の白いバー
+										if(ech != 0 ){//エラーチェック
+													_ASSERT( 0 );//エラーダイアログ
+										};
+								}
+						};
+						break;
+				 }
 			}
+			
+
+
+
 
 			E3DEndSprite();//スプライト描画の終了
 
-			/**/
-			//以下、文字の表示を行います
-			/**/
+			/* ////////////////////////// */
+			// 以下、文字の表示を行います
+			/* ////////////////////////// */
 
-			//一番上のポーズメニュー
-			TextPos.x = 440;/**/TextPos.y = 5;
-			E3DDrawTextByFontID( sys->scid1, TextID[0], TextPos, "バックパック", NormalColor);
+			PutBackPackText( &ChoseItem, &ExitFlag);
 
-			//以下、通常文字を表示
-			TextPos.x = 100;
-			TextPos.y = 100;//40ずつ下げる
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "WEAPON", NormalColor);
-			if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-					return 1;//問題ありで終了
-			};
-
-			TextPos.y = 140;//40ずつ下げる
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "AMMO", NormalColor);
-			if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-					return 1;//問題ありで終了
-			};
-
-			TextPos.y = 180;//40ずつ下げる
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "RECOVERY", NormalColor);
-			if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-					return 1;//問題ありで終了
-			};
-
-			TextPos.y = 220;//40ずつ下げる
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "KEY", NormalColor);
-			if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-					return 1;//問題ありで終了
-			};
-
-			TextPos.y = 260;//40ずつ下げる
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "EQUIPMENT", NormalColor);
-			if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-					return 1;//問題ありで終了
-			};
-
-			TextPos.y = 320;//60下げる
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "バックパックを閉じる", NormalColor);
-			if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-					return 1;//問題ありで終了
-			};
-
-			/*マウスが選択部にあるとき、文字を変更します*/
-			if((100< sys->MousePos.x)&&(sys->MousePos.x<250)){
-					if((120< sys->MousePos.y)&&( sys->MousePos.y<150)){//マウス座標が「WEAPON」の上なら
-							TextPos.x = 100;
-							TextPos.y = 100;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "WEAPON", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 400;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "武器の操作をします", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										ChoseItem = 0;//ループ脱出フラグをオンにする。
-							}
-					}	
-					if((160< sys->MousePos.y)&&( sys->MousePos.y<190)){//マウス座標が「AMMO」の上なら
-							TextPos.x = 100;
-							TextPos.y = 140;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "AMMO", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 400;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "弾薬の操作をします", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										ChoseItem = 1;//ループ脱出フラグをオンにする。
-							}
-					}
-					if((200< sys->MousePos.y)&&( sys->MousePos.y<230)){//マウス座標が「RECOVERY」の上なら
-							TextPos.x = 100;
-							TextPos.y = 180;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "RECOVERY", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 400;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "回復系品の操作をします", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										ChoseItem = 2;//ループ脱出フラグをオンにする。
-							}
-					}	
-					if((240< sys->MousePos.y)&&( sys->MousePos.y<270)){//マウス座標が「KEY」の上なら
-							TextPos.x = 100;
-							TextPos.y = 220;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "KEY", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 400;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "重要品の操作をします", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										ChoseItem = 3;//ループ脱出フラグをオンにする。
-							}
-					}	
-					if((280< sys->MousePos.y)&&( sys->MousePos.y<310)){//マウス座標が「EQUIPMENT」の上なら
-							TextPos.x = 100;
-							TextPos.y = 260;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "EQUIPMENT", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 400;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "装備品の操作をします", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										ChoseItem = 4;//ループ脱出フラグをオンにする。
-							}
-					}	
-					if((340< sys->MousePos.y)&&( sys->MousePos.y<370)){//マウス座標が「バックパックを閉じる」の上なら
-							TextPos.x = 100;
-							TextPos.y = 320;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "バックパックを閉じる", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							TextPos.x = 400;
-							TextPos.y = 330;
-							E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "ポーズメニューに戻ります", NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
-							if(keyin[9] == 1){//クリックしたら
-										ExitFlag = 1;//ループ脱出フラグをオンにする。
-							}
-					}	
-			}
-
-			/*青色でどのアイテムの種類が選択されているを変更します*/
-			//以下、通常文字を表示
-			TextPos.x = 100;
-			if( ChoseItem == 0){
-					TextPos.y = 100;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "WEAPON", SetColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-			}
-			if( ChoseItem == 1){
-					TextPos.y = 140;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "AMMO", SetColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-			}
-			if( ChoseItem == 2){
-					TextPos.y = 180;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "RECOVERY", SetColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-			}
-			if( ChoseItem == 3){
-					TextPos.y = 220;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "KEY", SetColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-			}
-			if( ChoseItem == 4){
-					TextPos.y = 260;//40ずつ下げる
-					E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos, "EQUIPMENT", SetColor);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-			}
 
 			//武器の名前を表示させます
 			if( ItemNumber != -1) PutItemName( ChoseItem, ItemNumber);
@@ -622,7 +456,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 
 			/*ここまでで画面描画準備終了*/
 			E3DEndScene();
-			ech = E3DPresent( sys->scid1);
+			ech = E3DPresent( System::scid1);
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			};
@@ -632,10 +466,10 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 						break;//ループを抜ける
 			}
 
-	}while(WM_QUIT != sys->msg.message);
+	}while(WM_QUIT != System::msg.message);
 
 
-	sys->KeyRenewal(1);//自動終了を行わないようにするための、キーチェック
+	System::KeyRenewal(1);//自動終了を行わないようにするための、キーチェック
 
 
 	return 0;
@@ -659,7 +493,7 @@ int Item_Manipulate::InItemPack( PlayerChara *PC){
 
 
 					/*描画準備を行います*/
-					E3DBeginScene( sys->scid1, 1, -1);;
+					E3DBeginScene( System::scid1, 1, -1);;
 					E3DBeginSprite();
 
 					ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
@@ -682,16 +516,16 @@ int Item_Manipulate::InItemPack( PlayerChara *PC){
 
 					/*文字"ポーズメニュー"の描画を行います*/
 					TextPos.x = 440;/**/TextPos.y = 5;
-					E3DDrawTextByFontID( sys->scid1, TextID[0], TextPos, "ポーズメニュー", AlfaColor1);
+					E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "ポーズメニュー", AlfaColor1);
 
 					/*文字"バックパック"の描画を行います*/
 					TextPos.x = 440;/**/TextPos.y = 5;
-					E3DDrawTextByFontID( sys->scid1, TextID[0], TextPos, "バックパック", AlfaColor2);
+					E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "バックパック", AlfaColor2);
 
 					E3DEndScene();
-					E3DPresent(sys->scid1);
+					E3DPresent(System::scid1);
 
-					sys->MsgQ(30);//メッセージループ
+					System::MsgQ(30);//メッセージループ
 
 			
 	}/*ここまで*/
@@ -715,7 +549,7 @@ int Item_Manipulate::InItemPack( PlayerChara *PC){
 
 
 					/*描画準備を行います*/
-					E3DBeginScene( sys->scid1, 1, -1);;
+					E3DBeginScene( System::scid1, 1, -1);;
 					E3DBeginSprite();
 
 					ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
@@ -738,16 +572,16 @@ int Item_Manipulate::InItemPack( PlayerChara *PC){
 
 					/*文字"ポーズメニュー"の描画を行います*/
 					TextPos.x = 440;/**/TextPos.y = 5;
-					E3DDrawTextByFontID( sys->scid1, TextID[0], TextPos, "ポーズメニュー", AlfaColor1);
+					E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "ポーズメニュー", AlfaColor1);
 
 					/*文字"バックパック"の描画を行います*/
 					TextPos.x = 440;/**/TextPos.y = 5;
-					E3DDrawTextByFontID( sys->scid1, TextID[0], TextPos, "バックパック", AlfaColor2);
+					E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "バックパック", AlfaColor2);
 
 					E3DEndScene();
-					E3DPresent(sys->scid1);
+					E3DPresent(System::scid1);
 
-					sys->MsgQ(30);//メッセージループ
+					System::MsgQ(30);//メッセージループ
 		
 	}/*ここまで*/
 
@@ -757,3 +591,4 @@ int Item_Manipulate::InItemPack( PlayerChara *PC){
 
 	return 0;
 }
+

@@ -22,7 +22,7 @@ public:
 	Enemy();//コンストラクタ、クラス変数の初期化を行います
 	~Enemy();//デストラクタ、モデルの削除を行います
 	int LoadEnemyModel( int Ene_Kind, int Ene_No);//敵を情報やモデルをロードするための関数
-	int MoveEnemys( Stage *Stg);//敵の動きをまとめて動かすための関数
+	int MoveEnemys( const Stage *Stg);//敵の動きをまとめて動かすための関数
 
 };
 

@@ -7,8 +7,6 @@
 
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
 
-//ここで使うグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
 
 
 /*ステージをロード・設定する関数です*/
@@ -44,14 +42,14 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 
 		if(StageKind == 0){//実戦MAP
 
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom.sig", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom.sig", System::path);
 						ech = E3DLoadSigFileAsGround(loadname, 30.0, 0, &Stage_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
 								return 1;//問題ありで終了
 						};
 
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom_wl2.mqo", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom_wl2.mqo", System::path);
 						ech = E3DLoadMQOFileAsMovableArea(loadname, 50.0, &Wall_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
@@ -60,14 +58,14 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 		};
 
 		if(StageKind == 1){//練習用MAP
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom_tr.sig", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom_tr.sig", System::path);
 						ech = E3DLoadSigFileAsGround(loadname, 50.0, 0, &Stage_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
 								return 1;//問題ありで終了
 						};
 
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom_trwall.mqo", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom_trwall.mqo", System::path);
 						ech = E3DLoadMQOFileAsMovableArea(loadname, 50.0, &Wall_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
@@ -92,14 +90,14 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 	if(StageID == 1){//ロビー
 
 		if(StageKind == 0){//実戦MAP
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom.sig", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom.sig", System::path);
 						ech = E3DLoadSigFileAsGround(loadname, 50.0, 0, &Stage_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
 								return 1;//問題ありで終了
 						};
 
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom_wl2.mqo", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_trom\\trom_wl2.mqo", System::path);
 						ech = E3DLoadMQOFileAsMovableArea(loadname, 50.0, &Wall_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
@@ -124,14 +122,14 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 	if(StageID == 2){//森林
 
 		if(StageKind == 0){
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_forest\\st_forest.sig", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_forest\\st_forest.sig", System::path);
 						ech = E3DLoadSigFileAsGround(loadname, 40.0, 0, &Stage_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
 								return 1;//問題ありで終了
 						};
 		
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_forest\\gwl_forest.mqo", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_forest\\gwl_forest.mqo", System::path);
 						ech = E3DLoadMQOFileAsMovableArea( loadname, 40.0, &Wall_hsid[1]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
@@ -158,7 +156,7 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 	if(StageID == 3){//神ヶ一町（ビル街）
 
 		if(StageKind == 0){
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_kamigaichi\\st_kamigaichi.sig", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_kamigaichi\\st_kamigaichi.sig", System::path);
 						ech = E3DLoadSigFileAsGround(loadname, 40.0, 0, &Stage_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
@@ -239,7 +237,7 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 	if(StageID == 4){//ReligionMall（レリギオンモール）
 
 		if(StageKind == 0){
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_rm\\rm.sig", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_rm\\rm.sig", System::path);
 						ech = E3DLoadSigFileAsGround(loadname, 55.0, 0, &Stage_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
@@ -267,7 +265,7 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 	if(StageID == 5){//基地前
 
 		if(StageKind == 0){
-						wsprintf( loadname, "%s\\data\\3d\\map\\st_kichimae\\kichimae.sig", sys->path);
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_kichimae\\kichimae.sig", System::path);
 						ech = E3DLoadSigFileAsGround(loadname, 20.0, 0, &Stage_hsid[0]);
 						if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
@@ -285,6 +283,31 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 								return 1;//問題ありで終了
 		}
 
+		Stage_GunTarget = 0;//ステージの銃操作を"通常"にする
+		Stage_GndMode = 0;//キャラ地面操作を"通常にする"
+
+	};
+
+	if(StageID == 6){//レトリス（田舎町）
+
+		if(StageKind == 0){
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_retolis\\st_retolis.sig", System::path);
+						ech = E3DLoadSigFileAsGround(loadname, 55.0, 0, &Stage_hsid[0]);
+						if(ech != 0 ){//エラーチェック
+								_ASSERT( 0 );//エラーダイアログ
+								return 1;//問題ありで終了
+						};
+
+		};
+
+		E3DCOLOR4UC FogColor = {100,100,100,100};
+		E3DSetLinearFogParams(1, FogColor, 15000, 100000, -1);//ファグをかけます。
+		if(ech != 0 ){//エラーチェック
+								_ASSERT( 0 );//エラーダイアログ
+								return 1;//問題ありで終了
+		}
+
+		FogDist = 8000.0f;//背景のもやで見えにくくする。
 		Stage_GunTarget = 0;//ステージの銃操作を"通常"にする
 		Stage_GndMode = 0;//キャラ地面操作を"通常にする"
 
@@ -325,8 +348,8 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 					};
 
 					//背景を作ります
-					wsprintf( loadname, "%s\\data\\3d\\map\\360\\hare.jpg", sys->path);
-					ech = E3DCreateBG( sys->scid1, loadname, "", 0, 0, 1, FogDist);
+					wsprintf( loadname, "%s\\data\\3d\\map\\360\\hare.jpg", System::path);
+					ech = E3DCreateBG( System::scid1, loadname, "", 0, 0, 1, FogDist);
 					if( ech != 0){
 								_ASSERT( 0 );
 					};
@@ -352,8 +375,8 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 					};
 
 					//背景を作ります
-					wsprintf( loadname, "%s\\data\\3d\\map\\360\\sunset.jpg", sys->path);
-					ech = E3DCreateBG( sys->scid1, loadname, "", 0, 0, 1, FogDist);
+					wsprintf( loadname, "%s\\data\\3d\\map\\360\\sunset.jpg", System::path);
+					ech = E3DCreateBG( System::scid1, loadname, "", 0, 0, 1, FogDist);
 					if( ech != 0){
 								_ASSERT( 0 );
 					};
@@ -379,8 +402,8 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 					};
 
 					//背景を作ります
-					wsprintf( loadname, "%s\\data\\3d\\map\\360\\night.jpg", sys->path);
-					ech = E3DCreateBG( sys->scid1, loadname, "", 0, 0, 1, FogDist);
+					wsprintf( loadname, "%s\\data\\3d\\map\\360\\night.jpg", System::path);
+					ech = E3DCreateBG( System::scid1, loadname, "", 0, 0, 1, FogDist);
 					if( ech != 0){
 								_ASSERT( 0 );
 					};
@@ -439,7 +462,7 @@ Stage::~Stage(){
 
 
 	//背景を削除します
-	ech = E3DDestroyBG( sys->scid1);
+	ech = E3DDestroyBG( System::scid1);
 	if( ech != 0){
 				_ASSERT( 0 );
 	};

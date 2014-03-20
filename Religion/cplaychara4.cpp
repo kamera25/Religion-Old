@@ -10,9 +10,10 @@
 #include "cweapon.h"//武器クラスの宣言ヘッダファイル
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
+#include "ccamera.h"//カメラ関係のクラスヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
+
 
 /*自分の向くべき方向を調節したり、射撃したりする関数*/
 int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene, Weapon *Wep){
@@ -61,7 +62,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 
 	/*通常モード( モデル[0]から取得する )*/
 	if( Stg->Stage_GunTarget == 0){
-			ech = E3DPickFace( sys->scid1, Stg->Stage_hsid[0], ScreenPos, NowWpRange, &Wall_HitResult, &HitResult, &Wall_GunTargetPos, &Wall_ReflectVec, &Wall_HitDistance);
+			ech = E3DPickFace( System::scid1, Stg->Stage_hsid[0], ScreenPos, NowWpRange, &Wall_HitResult, &HitResult, &Wall_GunTargetPos, &Wall_ReflectVec, &Wall_HitDistance);
 			if(ech != 0 ){//エラーチェック
 				_ASSERT( 0 );//エラーダイアログ
 			};
@@ -75,7 +76,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 				/*敵にあたっていないかチェックします*/
 				for( int i = 0; i < 15; i++){//エネミーの数だけ
 						if( Ene->Enemy_hsid[i] != 0){
-									ech = E3DPickFace( sys->scid1, Ene->Enemy_hsid[i], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
+									ech = E3DPickFace( System::scid1, Ene->Enemy_hsid[i], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 									if(ech != 0 ){//エラーチェック
 												_ASSERT( 0 );//エラーダイアログ
 									};
@@ -89,7 +90,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 				}
 
 				if( (EnemyConflict == 1) && ( Wall_HitDistance > EneNearDistance) ){//敵に銃先を向ける
-						ech = E3DPickFace( sys->scid1, Ene->Enemy_hsid[NearEnemyID], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
+						ech = E3DPickFace( System::scid1, Ene->Enemy_hsid[NearEnemyID], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
@@ -188,7 +189,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	int keyin[20];//キー情報配列を作成 
 
 	/*キーを取得する*/
-	sys->GetKeyData(keyin);
+	System::GetKeyData(keyin);
 
 	/*キャラクターを動かす*/
 	MoveChara();
@@ -197,7 +198,15 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	MovePosOnGround( Stg);
 
 	/*視点関連の処理、切り替えや関数呼び出し等*/
-	ShoulderGunSys( BatPre, Cam, ScreenPos);//肩撃ち視点
+	ShoulderGunSys( BatPre, ScreenPos);//肩撃ち視点
+	/**/
+	//カメラの位置を設定します、位置は自分の肩の後ろに設置します
+	/**/
+
+	//条件を基にカメラをセットします
+	Cam->CamShoulderGunBack( cha_hsid[0], Qid[3], bone[2], PC_Deg_XZ, Stg);
+
+
 
 	//体の向きや、射撃を行う関数を呼び出し
 	GunConflictTarget( ScreenPos, Stg, Ene, Wep);
@@ -207,7 +216,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 	/*装備武器変更の処理*/
 	if( Wep->GetWeaponRapidFire() == 0){// 武器攻撃可能なら
-		if( sys->MouseWhole == 1){//もし、マウスホイールが上へ行ったのなら
+		if( System::MouseWhole == 1){//もし、マウスホイールが上へ行ったのなら
 			for(int i=0; i<3; i++){//
 					Wp_equipment = Wp_equipment - 1;//装備順を一つ繰り上げる
 					if( Wp_equipment == -1){//装備が「素手」になったら
@@ -223,7 +232,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 			BatPre->BacthGunTrade( Wp_equipment);//描画、視野角内チェックの武器変更
 		}
 
-		if( sys->MouseWhole == 2){//もし、マウスホイールが下へ行ったのなら
+		if( System::MouseWhole == 2){//もし、マウスホイールが下へ行ったのなら
 			for(int i=0; i<3; i++){//
 					Wp_equipment = Wp_equipment + 1;//装備順を一つ繰り下げる
 					if( Wp_equipment == 2){//装備が行き過ぎたら
@@ -264,17 +273,17 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	}
 
 	/*ダッシュ関係の処理を行います*/
-	if( ( sys->keyinQuick[1] == 1) && ( Attitude == 0) && ( MyState == 0) && ( AirOnPC == 0)){//キーが連続で押され、しゃがみ状態でなく、他の動作を行ってなくて、地上なら
+	if( ( System::keyinQuick[1] == 1) && ( Attitude == 0) && ( MyState == 0) && ( AirOnPC == 0)){//キーが連続で押され、しゃがみ状態でなく、他の動作を行ってなくて、地上なら
 				MyState = 2;//ダッシュをする
 	}
 
-	if(( sys->keyinQuick[1] == 1) && (( Attitude != 0) || (( MyState != 0) && ( MyState != 2) ))){//それ以外の条件では、ダッシュキャンセルする
-				sys->KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
-				sys->keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
+	if(( System::keyinQuick[1] == 1) && (( Attitude != 0) || (( MyState != 0) && ( MyState != 2) ))){//それ以外の条件では、ダッシュキャンセルする
+				System::KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
+				System::keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
 	}
 
 
-	if( ( MyState == 2) && ( sys->keyinQuick[1] == 0) && ( AirOnPC == 0) ){//ダッシュ操作中で、キーが解除されたら
+	if( ( MyState == 2) && ( System::keyinQuick[1] == 0) && ( AirOnPC == 0) ){//ダッシュ操作中で、キーが解除されたら
 				MyState = 0;//ダッシュを解除する
 	}
 
@@ -282,18 +291,18 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 				Stamina = Stamina - 1;//スタミナを減らす
 				if( (Stamina < 1) && (AirOnPC == 0) ){//体力がなくなった&空中でないなら
 						MyState = 0;//ダッシュを止める
-						sys->KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
-						sys->keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
+						System::KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
+						System::keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
 				}
 	}
 
 	/*横っ飛び関係の処理を行います*/
-	if( ( ( sys->keyinQuick[0] == 1) || ( sys->keyinQuick[2] == 1)) && ( Attitude == 0) //左右キーが連続で押され、しゃがみ状態でなく、
+	if( ( ( System::keyinQuick[0] == 1) || ( System::keyinQuick[2] == 1)) && ( Attitude == 0) //左右キーが連続で押され、しゃがみ状態でなく、
 		&& ( MyState == 0) && ( AirOnPC == 0) && ( 0 < Stamina)){//他の動作を行ってなくて、地上で、スタミナがなくなってないなら
 
-				if( sys->keyinQuick[0] == 1) MyState = 3;//左横っ飛び状態にする;
-				if( sys->keyinQuick[2] == 1) MyState = 4;//右横っ飛び状態にする;
-				if(( sys->keyinQuick[0] == 1) && ( sys->keyinQuick[2] == 1)) MyState = 0;//通常状態にする
+				if( System::keyinQuick[0] == 1) MyState = 3;//左横っ飛び状態にする;
+				if( System::keyinQuick[2] == 1) MyState = 4;//右横っ飛び状態にする;
+				if(( System::keyinQuick[0] == 1) && ( System::keyinQuick[2] == 1)) MyState = 0;//通常状態にする
 	}
 
 	//横っ飛び状態なら
@@ -308,10 +317,10 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 				if( MotionFrameNo == 20){//モーションが終了してたら
 							MyState = 0;//通常状態に戻す
-							sys->KeyQuickPush[0][2] = 0;//ダッシュキーが押されてない状態にする
-							sys->KeyQuickPush[2][2] = 0;//ダッシュキーが押されてない状態にする
-							sys->keyinQuick[0] = 0;//横っ飛びフラグをオフにする
-							sys->keyinQuick[2] = 0;//横っ飛びフラグをオフにする
+							System::KeyQuickPush[0][2] = 0;//ダッシュキーが押されてない状態にする
+							System::KeyQuickPush[2][2] = 0;//ダッシュキーが押されてない状態にする
+							System::keyinQuick[0] = 0;//横っ飛びフラグをオフにする
+							System::keyinQuick[2] = 0;//横っ飛びフラグをオフにする
 				}
 	}
 

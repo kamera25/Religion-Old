@@ -4,9 +4,6 @@
 
 
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
-
 class NetPlay{
 private:
 

@@ -6,6 +6,7 @@
 //プロトタイプ宣言
 class PlayerChara;
 class Weapon;
+class Item;
 
 class Item_Manipulate{
 
@@ -14,7 +15,7 @@ private:
 	int MainBackPack( PlayerChara *PC);//バックパックのメイン処理を行います
 	int PutItemDescript( int ChoseItem, int ItemNumber);//説明文を表示させる処理を行います
 	int PutItemName( int ChoseItem, int ItemNumber);//武器アイテム名を表示させる処理を行います
-
+	int PutBackPackText( int *ChoseItem, int *ExitFlag);//アイテム種類のメニューの表示・選択を行います
 
 public:
 
@@ -30,7 +31,7 @@ public:
 	int MenuSpriteIDs[10];
 
 	//関数の宣言
-	Item_Manipulate( PlayerChara *PC, Weapon *Wep);//コンストラクタ、アイテムのスプライトなどをロードします
+	Item_Manipulate( Weapon *Wep, Item *item);//コンストラクタ、アイテムのスプライトなどをロードします
 	~Item_Manipulate();//デコントラクタ、ロードしたスプライトなどを削除します
 	int InItemPack( PlayerChara *PC);//アイテム処理に入る画像処理などを行います
 

@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Class">
+      <UniqueIdentifier>{e69fb2f9-fd45-4d21-811c-b7dff4e38657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Class">
+      <UniqueIdentifier>{22f706ee-1aa7-4638-94b6-ea292f76b56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\PlayerClass">
+      <UniqueIdentifier>{d5aea26c-861f-4826-b3f2-7f058f70da9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Menu">
+      <UniqueIdentifier>{acd276f9-900c-413b-befb-636db27c03cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Class\Menu">
+      <UniqueIdentifier>{ac43ecdf-0d31-4c74-beb4-47bb9de8ec07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Wapon">
+      <UniqueIdentifier>{5c309927-a6ac-4cd1-8526-7f03a4680935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Operation">
+      <UniqueIdentifier>{eba2b9a9-683d-451b-99ac-39422d3fb4f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Operation\Mission_function">
+      <UniqueIdentifier>{0c0c5c10-0721-42b6-bb84-26f4b6d6f9b7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gamecore.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="winmain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ccamera.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="cenemy.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="cstage.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="csys.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="cplaychara4.cpp">
+      <Filter>ソース ファイル\Class\PlayerClass</Filter>
+    </ClCompile>
+    <ClCompile Include="cplaychara3.cpp">
+      <Filter>ソース ファイル\Class\PlayerClass</Filter>
+    </ClCompile>
+    <ClCompile Include="cplaychara2.cpp">
+      <Filter>ソース ファイル\Class\PlayerClass</Filter>
+    </ClCompile>
+    <ClCompile Include="cplaychara1.cpp">
+      <Filter>ソース ファイル\Class\PlayerClass</Filter>
+    </ClCompile>
+    <ClCompile Include="citem_manipulate1.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="citem_manipulate2.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="c_batch_preparat.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="cnetplay.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="cmenu.cpp">
+      <Filter>ソース ファイル\Class\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="copsmenu.cpp">
+      <Filter>ソース ファイル\Class\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="cfirstmenu.cpp">
+      <Filter>ソース ファイル\Class\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="cweapon1.cpp">
+      <Filter>ソース ファイル\Class\Wapon</Filter>
+    </ClCompile>
+    <ClCompile Include="cweapon2.cpp">
+      <Filter>ソース ファイル\Class\Wapon</Filter>
+    </ClCompile>
+    <ClCompile Include="citem.cpp">
+      <Filter>ソース ファイル\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="cweapon3.cpp">
+      <Filter>ソース ファイル\Class\Wapon</Filter>
+    </ClCompile>
+    <ClCompile Include="cOperation.cpp">
+      <Filter>ソース ファイル\Class\Operation</Filter>
+    </ClCompile>
+    <ClCompile Include="cOpsmission1_Shinryoku.cpp">
+      <Filter>ソース ファイル\Class\Operation\Mission_function</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="c_batch_preparat.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ccamera.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="cenemy.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="citem_manipulate.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="clive.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="cstage.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="csys.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="cweapon.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="cnetplay.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="copsmenu.h">
+      <Filter>ヘッダー ファイル\Class\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="cmenu.h">
+      <Filter>ヘッダー ファイル\Class\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="cfirstmenu.h">
+      <Filter>ヘッダー ファイル\Class\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="citem.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="coperation.h">
+      <Filter>ヘッダー ファイル\Class</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\data\img\sys\icon.ico">
+      <Filter>リソース ファイル</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

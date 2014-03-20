@@ -38,15 +38,6 @@ public:
 	*/
 	int Qid[10];//クオンターニオンの識別IDを格納します
 
-
-
-	//アイテムデータ
-	int BringWp;//ステージで拾った武器
-	int Ammo[4];//手持ちの弾薬データを格納
-	int Recovery[5][2];//手持ちの回復アイテムデータの格納
-	int Key[10];//手持ちの回復アイテムデータの格納
-	int Equipment[3];//手持ちの装備アイテムデータの格納
-
 	//プレイヤーキャラクターの状態変数
 	int Wp_equipment;//所持している武器の種類
 	int Attitude;//自分の姿勢状態を入れる変数
@@ -85,7 +76,7 @@ public:
 
 	//基本的な銃のまとめ関数の宣言
 	int ThirdGunSys( Stage *Stg, Batch_Preparat *BatPre);//3人称視点からの銃関連まとめ関数
-	int ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int ScreenPos[2]);//肩射ち視点からの銃関連まとめ関数
+	int ShoulderGunSys( Batch_Preparat *BatPre, int ScreenPos[2]);//肩射ち視点からの銃関連まとめ関数
 	int GunPutOnHand( Weapon *Wep);//現在持ってる銃を持つためのモーション・システムを管轄する関数
 	int MoveChara();//キャラを動かします、前後左右に動けます
 	int MovePosOnGround( Stage *Stg);//キャラクターをグラウンドの上に置くための関数

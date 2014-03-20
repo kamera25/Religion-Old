@@ -8,8 +8,8 @@
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
+
 
 
 /*コンストラクタ、クラス変数の初期化を行います*/
@@ -37,7 +37,7 @@ int Enemy::LoadEnemyModel( int Ene_Kind, int Ene_No){
 	if( Ene_Kind == -1){//テストモデル
 		if( Ene_No == 0){
 				//本命ボックスの取得
-				wsprintf( loadname, "%s\\data\\3d\\enemy\\valentine\\honmei\\honmeibox.sig", sys->path);
+				wsprintf( loadname, "%s\\data\\3d\\enemy\\valentine\\honmei\\honmeibox.sig", System::path);
 				ech = E3DSigLoad( loadname, 0, 0.3f, &Enemy_hsid[EnemyNum]);//モデルの読み込み、Enemy_hsidへモデルを入れる。
 				if(ech != 0 ){//エラーチェック
 							_ASSERT(0);//エラーダイアログ
@@ -64,7 +64,7 @@ int Enemy::LoadEnemyModel( int Ene_Kind, int Ene_No){
 	return 0;
 }
 /*敵の動きをまとめて動かすための関数*/
-int Enemy::MoveEnemys( Stage *Stg){
+int Enemy::MoveEnemys( const Stage *Stg){
 
 	//変数の初期化
 	int ech = 0;//エラーチェック変数の初期化

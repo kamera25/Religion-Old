@@ -7,8 +7,8 @@
 
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
+
 
 
 /*プレイヤーキャラクターのコンストラクタ*/
@@ -21,7 +21,7 @@ PlayerChara::PlayerChara( int selchara, int Wpselect_equipment){
 
 	//クラスメンバ変数の初期化
 
-	BringWp = 0;//拾った武器を初期化します
+	
 	PC_Deg_XZ = 0.0f;//自分の向き（XZ座標初期化）
 	PC_Deg_Y = 0.0f;//自分の向き（Y座標初期化）
 	UpMotion = 0;//上半身のモーションの初期化
@@ -32,9 +32,7 @@ PlayerChara::PlayerChara( int selchara, int Wpselect_equipment){
 	Acceleration = 0.0;//重力加速度を0にする
 	MoveSpeed = 0.0;//平面加速度を0にする
 
-	for( int i=0; i<4; i++){
-			Ammo[i] = -1;		
-	}
+
 
 
 	//キャラクターモデルのロード
@@ -42,21 +40,21 @@ PlayerChara::PlayerChara( int selchara, int Wpselect_equipment){
 	if(selchara == 0){//アーティーモデル
 
 				//アーティーモデルの取得
-				wsprintf( loadname, "%s\\data\\3d\\model\\demo\\hito.sig", sys->path);//アーティーモデルのsig名登録
+				wsprintf( loadname, "%s\\data\\3d\\model\\demo\\hito.sig", System::path);//アーティーモデルのsig名登録
 				ech = E3DSigLoad( loadname, 0, 0, &cha_hsid[0]);//モデルの読み込み、cha_hsidへモデルを入れる。
 				if(ech != 0 ){//エラーチェック
 							_ASSERT(0);//エラーダイアログ
 				};
 
 				//ハンドモデルの取得
-				wsprintf( loadname, "%s\\data\\3d\\model\\hand\\hand.sig", sys->path);//ハンドモデルのsig名登録
+				wsprintf( loadname, "%s\\data\\3d\\model\\hand\\hand.sig", System::path);//ハンドモデルのsig名登録
 				ech = E3DSigLoad( loadname, 0, 1, &cha_hsid[1]);//モデルの読み込み、cha_hsidへモデルを入れる。
 				if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 				};
 
 				//ダミーモデルの取得
-				wsprintf( loadname, "%s\\data\\3d\\model\\other\\demo.sig", sys->path);//仮モデルのsig名登録
+				wsprintf( loadname, "%s\\data\\3d\\model\\other\\demo.sig", System::path);//仮モデルのsig名登録
 				ech = E3DSigLoad( loadname, 0, 1, &DummyModel);//モデルの読み込み、submodidへモデルを入れる。
 				if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
@@ -67,21 +65,21 @@ PlayerChara::PlayerChara( int selchara, int Wpselect_equipment){
 		if(selchara == 1){//WF兵1モデル
 
 				//WF兵1モデルの取得
-				wsprintf( loadname, "%s\\data\\3d\\chara\\wf1\\model.sig", sys->path);//アーティーモデルのsig名登録
+				wsprintf( loadname, "%s\\data\\3d\\chara\\wf1\\model.sig", System::path);//アーティーモデルのsig名登録
 				ech = E3DSigLoad( loadname, 0, 0.15f, &cha_hsid[0]);//モデルの読み込み、cha_hsidへモデルを入れる。
 				if(ech != 0 ){//エラーチェック
 							_ASSERT(0);//エラーダイアログ
 				};
 
 				//ダミーモデルの取得
-				wsprintf( loadname, "%s\\data\\3d\\model\\other\\demo.sig", sys->path);//仮モデルのsig名登録
+				wsprintf( loadname, "%s\\data\\3d\\model\\other\\demo.sig", System::path);//仮モデルのsig名登録
 				ech = E3DSigLoad( loadname, 0, 0.01f, &DummyModel);//モデルの読み込み、submodidへモデルを入れる。
 				if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 				};
 
 				//モーションデータ構え
-				wsprintf( loadname, "%s\\data\\3d\\chara\\motion\\pc_motion.moa", sys->path);//仮モデルのsig名登録
+				wsprintf( loadname, "%s\\data\\3d\\chara\\motion\\pc_motion.moa", System::path);//仮モデルのsig名登録
 				ech = E3DLoadMOAFile( cha_hsid[0], loadname, 3, 1.0f); 
 				if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
@@ -147,7 +145,7 @@ PlayerChara::PlayerChara( int selchara, int Wpselect_equipment){
 
 	/*所持した武器の中で最初に何を持っているか設定します*/
 	Wp_equipment = Wpselect_equipment;
-	Ammo[0] = 0;
+	
 
 
 

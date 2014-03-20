@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EBA836F4-2A3B-4E4B-930B-2F9C24F0FFCA}</ProjectGuid>
+    <RootNamespace>Religion</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\Debug\\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Release\\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Include;C:\easy3d\include;C:\gDP\Include;C:\Ask\Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Ask\Lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;C:\gDP\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\gDP\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Include;C:\easy3d\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2009%29\Lib\x64;C:\easy3d\lib;C:\gDP\Lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Ask.lib;gDP.lib;ws2_32.lib;ddraw.lib;d3dx9.lib;d3d9.lib;dsound.lib;winmm.lib;d3dxof.lib;dxguid.lib;dxerr.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;vfw32.lib;easy3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>C:\Users\Taka\Documents\religion\Debug\Religion.exe</OutputFile>
+      <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>gDP.lib;ws2_32.lib;ddraw.lib;d3dx9.lib;d3d9.lib;dsound.lib;winmm.lib;d3dxof.lib;dxguid.lib;dxerr.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;vfw32.lib;easy3d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>C:\Users\Taka\Documents\religion\Release\$(ProjectName).exe</OutputFile>
+      <IgnoreSpecificDefaultLibraries>libci.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="citem_manipulate2.cpp" />
+    <ClCompile Include="cfirstmenu.cpp" />
+    <ClCompile Include="cnetplay.cpp" />
+    <ClCompile Include="cOperation.cpp" />
+    <ClCompile Include="copsmenu.cpp" />
+    <ClCompile Include="citem.cpp" />
+    <ClCompile Include="cOpsmission1_Shinryoku.cpp" />
+    <ClCompile Include="cweapon3.cpp" />
+    <ClCompile Include="gamecore.cpp" />
+    <ClCompile Include="winmain.cpp" />
+    <ClCompile Include="c_batch_preparat.cpp" />
+    <ClCompile Include="ccamera.cpp" />
+    <ClCompile Include="cenemy.cpp" />
+    <ClCompile Include="citem_manipulate1.cpp" />
+    <ClCompile Include="cmenu.cpp" />
+    <ClCompile Include="cplaychara1.cpp" />
+    <ClCompile Include="cplaychara2.cpp" />
+    <ClCompile Include="cplaychara3.cpp" />
+    <ClCompile Include="cplaychara4.cpp" />
+    <ClCompile Include="cstage.cpp" />
+    <ClCompile Include="csys.cpp" />
+    <ClCompile Include="cweapon1.cpp" />
+    <ClCompile Include="cweapon2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cfirstmenu.h" />
+    <ClInclude Include="cnetplay.h" />
+    <ClInclude Include="coperation.h" />
+    <ClInclude Include="copsmenu.h" />
+    <ClInclude Include="c_batch_preparat.h" />
+    <ClInclude Include="ccamera.h" />
+    <ClInclude Include="cenemy.h" />
+    <ClInclude Include="citem_manipulate.h" />
+    <ClInclude Include="clive.h" />
+    <ClInclude Include="cmenu.h" />
+    <ClInclude Include="cstage.h" />
+    <ClInclude Include="csys.h" />
+    <ClInclude Include="cweapon.h" />
+    <ClInclude Include="citem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\data\img\sys\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

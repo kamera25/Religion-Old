@@ -7,8 +7,8 @@
 
 #include "citem_manipulate.h"//アイテム操作に関するヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
+
 
 
 /*簡易説明文を表示させる処理を行います*/
@@ -21,11 +21,11 @@ int Item_Manipulate::PutItemDescript( int ChoseItem, int ItemNumber){
 	E3DCOLOR4UC NormalColor = { 255,50,50,50};//文字の白色
 
 	//文字の位置決め
-	if( ( sys->MousePos.x + 256 ) < 640 ){//もしアイテムバーを右端を超えなければ
-			TextPos1.x = sys->MousePos.x + 5;/**/TextPos1.y = sys->MousePos.y + 45;//説明文字の位置はマウスポインタから算出
+	if( ( System::MousePos.x + 256 ) < 640 ){//もしアイテムバーを右端を超えなければ
+			TextPos1.x = System::MousePos.x + 5;/**/TextPos1.y = System::MousePos.y + 45;//説明文字の位置はマウスポインタから算出
 	}
 	else{//超えれば
-			TextPos1.x = sys->MousePos.x + 5 - 256;/**/TextPos1.y = sys->MousePos.y + 45;//説明文字の位置はマウスポインタから算出
+			TextPos1.x = System::MousePos.x + 5 - 256;/**/TextPos1.y = System::MousePos.y + 45;//説明文字の位置はマウスポインタから算出
 	}
 
 	/**/
@@ -58,7 +58,7 @@ int Item_Manipulate::PutItemDescript( int ChoseItem, int ItemNumber){
 			////
 			/**/
 
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[2], TextPos1, WeaponDetail, NormalColor);
+			ech = E3DDrawTextByFontID( System::scid1, TextID[2], TextPos1, WeaponDetail, NormalColor);
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			}
@@ -74,7 +74,7 @@ int Item_Manipulate::PutItemDescript( int ChoseItem, int ItemNumber){
 
 			}
 
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[2], TextPos1, WeaponDetail, NormalColor);
+			ech = E3DDrawTextByFontID( System::scid1, TextID[2], TextPos1, WeaponDetail, NormalColor);
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			}
@@ -95,13 +95,13 @@ int Item_Manipulate::PutItemName( int ChoseItem, int ItemNumber){
 	E3DCOLOR4UC NormalColor = { 255,50,50,50};//文字の白色
 
 	//文字の位置決め
-	if( ( sys->MousePos.x + 256 ) < 640 ){//もしアイテムバーを右端を超えなければ
-			TextPos2.x = sys->MousePos.x + 160;/**/TextPos2.y = sys->MousePos.y + 5;//武器名文字の位置はマウスポインタから算出
-			TextPos3.x = sys->MousePos.x + 5;/**/TextPos3.y = sys->MousePos.y + 5;//武器の種類の名前文字の位置はマウスポインタから算出
+	if( ( System::MousePos.x + 256 ) < 640 ){//もしアイテムバーを右端を超えなければ
+			TextPos2.x = System::MousePos.x + 160;/**/TextPos2.y = System::MousePos.y + 5;//武器名文字の位置はマウスポインタから算出
+			TextPos3.x = System::MousePos.x + 5;/**/TextPos3.y = System::MousePos.y + 5;//武器の種類の名前文字の位置はマウスポインタから算出
 	}
 	else{//超えれば
-			TextPos2.x = sys->MousePos.x + 160 - 256;/**/TextPos2.y = sys->MousePos.y + 5;//武器名文字の位置はマウスポインタから算出
-			TextPos3.x = sys->MousePos.x + 5 - 256;/**/TextPos3.y = sys->MousePos.y + 5;//武器の種類の名前文字の位置はマウスポインタから算出
+			TextPos2.x = System::MousePos.x + 160 - 256;/**/TextPos2.y = System::MousePos.y + 5;//武器名文字の位置はマウスポインタから算出
+			TextPos3.x = System::MousePos.x + 5 - 256;/**/TextPos3.y = System::MousePos.y + 5;//武器の種類の名前文字の位置はマウスポインタから算出
 	}
 
 
@@ -132,7 +132,7 @@ int Item_Manipulate::PutItemName( int ChoseItem, int ItemNumber){
 			}
 
 			//武器名前の表示をさせます
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos2, WeaponName, NormalColor);
+			ech = E3DDrawTextByFontID( System::scid1, TextID[1], TextPos2, WeaponName, NormalColor);
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			}
@@ -157,7 +157,7 @@ int Item_Manipulate::PutItemName( int ChoseItem, int ItemNumber){
 
 
 			//武器分類を表示させます
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos3, WeaponKind, NormalColor);
+			ech = E3DDrawTextByFontID( System::scid1, TextID[1], TextPos3, WeaponKind, NormalColor);
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			}
@@ -174,7 +174,7 @@ int Item_Manipulate::PutItemName( int ChoseItem, int ItemNumber){
 
 			}
 
-			ech = E3DDrawTextByFontID( sys->scid1, TextID[1], TextPos3, WeaponKind, NormalColor);
+			ech = E3DDrawTextByFontID( System::scid1, TextID[1], TextPos3, WeaponKind, NormalColor);
 			if(ech != 0){//エラーチェック
 							_ASSERT(0);//エラーダイアログを表示
 			}
@@ -182,6 +182,125 @@ int Item_Manipulate::PutItemName( int ChoseItem, int ItemNumber){
 
 	}
 
+
+
+
+	return 0;
+}
+/*アイテム種類のメニューの表示・選択を行います*/
+int Item_Manipulate::PutBackPackText( int *ChoseItem, int *ExitFlag){
+
+
+		/* 変数の宣言 */
+		int ech = 0;//エラーチェック変数
+		int keyin[20];//キー情報配列を作成
+		const char ItemKindName[5][12] = { "WEAPON" , "AMMO" , "RECOVERY" , "KEY" , "EQUIPMENT" };
+		const char ItemKindDetal[5][50] = { "武器の操作をします" , "弾薬の操作をします" , "回復系品の操作をします" 
+											, "重要品の操作をします" , "装備品の操作をします" };
+		E3DCOLOR4UC NormalColor = { 255,255,255,255};//白色の選ばれていない色
+		E3DCOLOR4UC SetColor = { 255,0,120,170};//青色の武器が選ばれている色
+		E3DCOLOR4UC SelectColor = { 255,200,220,20};//黄色の選ばれている色
+		POINT TextPos;//文字の位置を格納する構造体
+
+
+		System::GetKeyData(keyin);
+
+		//一番上のポーズメニュー
+		TextPos.x = 440;/**/TextPos.y = 5;
+		E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "バックパック", NormalColor);
+
+
+		/* ////////////////////// //
+		// アイテム種類文字を表示 //
+		// ////////////////////// */
+		TextPos.x = 100;/**/TextPos.y = 100;
+		for( int i=0; i<5; i++){
+				ech = E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, ItemKindName[i], NormalColor);
+				if(ech != 0 ){//エラーチェック
+							_ASSERT( 0 );//エラーダイアログ
+							return 1;//問題ありで終了
+				};
+				TextPos.y = TextPos.y + 40;//40ずつ下げる
+		}
+
+
+		/* //////////////////////////////////////// //
+		// "バックアップを閉じる"の表示を行ないます //
+		// //////////////////////////////////////// */
+
+		TextPos.y = 320;//60下げる
+		ech = E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "バックパックを閉じる", NormalColor);
+		if(ech != 0 ){//エラーチェック
+			_ASSERT( 0 );//エラーダイアログ
+			return 1;//問題ありで終了
+		};
+
+
+
+		/* /////////////////////////////////////////  //
+		// マウスが選択部にあるとき、文字を変更します //
+		// /////////////////////////////////////////  */
+		if((100< System::MousePos.x)&&(System::MousePos.x<250)){//マウスX座標がメニュー群の所にあるなら
+
+			for( int i=0; i<5; i++){
+				if((120 + (40 * i) < System::MousePos.y)&&( System::MousePos.y< 150 + (40 * i) )){
+					
+						/* マウスポインタが置いてある文字を光らせる */
+						TextPos.x = 100;/**/TextPos.y = 100 + (40 * i);
+						E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, ItemKindName[i], SelectColor);//選択されている文字にする
+						if(ech != 0){//エラーチェック
+									_ASSERT(0);//エラーダイアログを表示
+						};
+
+						/* 下側にポインタを置いているところの説明を記述する */
+						TextPos.x = 400;/**/TextPos.y = 330;
+						E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, ItemKindDetal[i], NormalColor);//説明が書かれている文字列を表示する
+						if(ech != 0){//エラーチェック
+									_ASSERT(0);//エラーダイアログを表示
+						};
+
+						/* クリックしたら選択アイテムを変える */
+						if(keyin[9] == 1){
+									*ChoseItem = i;//ループ脱出フラグをオンにする。
+						}
+				}
+			}
+
+			if((340< System::MousePos.y)&&( System::MousePos.y<370)){//マウス座標が「バックパックを閉じる」の上なら
+					TextPos.x = 100;/**/TextPos.y = 320;
+					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "バックパックを閉じる", SelectColor);//選択されている文字にする
+					if(ech != 0){//エラーチェック
+						_ASSERT(0);//エラーダイアログを表示
+					};
+
+					TextPos.x = 400;/**/TextPos.y = 330;
+					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ポーズメニューに戻ります", NormalColor);//説明が書かれている文字列を表示する
+					if(ech != 0){//エラーチェック
+						_ASSERT(0);//エラーダイアログを表示
+					};
+
+					if(keyin[9] == 1){//クリックしたら
+						*ExitFlag = 1;//ループ脱出フラグをオンにする。
+					}
+			}	
+		}
+
+
+
+		/* //////////////////////////////////////////////////// //
+		// 青色でどのアイテムの種類が選択されているを変更します //
+		// //////////////////////////////////////////////////// */
+		TextPos.x = 100;/**/TextPos.y = 100;
+		for( int i=0; i<5; i++){
+				if( *ChoseItem == i){
+						ech = E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, ItemKindName[i], SetColor);
+						if(ech != 0 ){//エラーチェック
+									_ASSERT( 0 );//エラーダイアログ
+									return 1;//問題ありで終了
+						};
+				}
+				TextPos.y = TextPos.y + 40;//40ずつ下げる
+		}
 
 
 

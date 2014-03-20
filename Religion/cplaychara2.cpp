@@ -11,8 +11,8 @@
 #include <math.h>//数学計算を使うためのヘッダファイル
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
+
 
 
 /*銃の現在持ってる銃を持つためのモーション・システムを管轄する関数*/
@@ -132,7 +132,7 @@ int PlayerChara::MoveChara(){
 
 	/*キーによる分岐*/
 
-	sys->GetKeyData(keyin);//キー情報を格納
+	System::GetKeyData(keyin);//キー情報を格納
 
 	if( keyin[0] == 1){//左
 				KeyMov = KeyMov +1;

@@ -8,9 +8,10 @@
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
+#include "cstage.h"//ステージ関係のクラスヘッダファイル
 
-//ここにグローバル変数を宣言
-extern System *sys;//システムクラスを指す、クラスのポインタ
+
+
 
 // ゲーム中の銃の操作に関することをします
 int Weapon::TreatmentWhileGame( int Wp_equipment){
@@ -26,7 +27,7 @@ int Weapon::TreatmentWhileGame( int Wp_equipment){
 	E3DCOLOR4UC MuzzleFlashColor = { 0, 0, 0, 0};//マズルフラッシュの色を指定
 
 	/*キーを取得する*/
-	sys->GetKeyData(keyin);
+	System::GetKeyData(keyin);
 
 
 
@@ -167,7 +168,7 @@ int Weapon::TreatmentWhileGame( int Wp_equipment){
 
 
 				/*爆発のエフェクトを(すべてのビルボード)の描画*/
-				ech = E3DRenderBillboard( sys->scid1, 0);
+				ech = E3DRenderBillboard( System::scid1, 0);
 				if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 				};
@@ -193,7 +194,7 @@ int Weapon::TreatmentWhileGame( int Wp_equipment){
 	return 0;
 }
 /*ゲーム中の敵とのあたり&攻撃判定を行います。*/
-int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2]){
+int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){
 
 	/*変数の初期*/
 	int ech = 0;//エラー確認変数
@@ -202,9 +203,11 @@ int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2]){
 	int NearEnemyID = 0;//一番近い敵キャラの識別番号
 	int EnemyConflict = 0;//敵に当たった数の合計
 	int EneHitResult = 0;//敵が照準に入っているかの結果を入れます
+	int GarbageInt = 0;//いらないデータを格納します
 	float NowWpRange = 0.0f;//今の武器の射程を代入します
 	float EneDistance = 0.0f;//当たった敵のところからの距離が代入されます
 	float EneNearDistance = 0.0f;//当たっている一番近い敵の距離が代入されます
+	float Wall_HitDistance = 0.0f;//一番近い壁の距離が代入されます。
 	D3DXVECTOR3 GunTargetPos( 0.0, 0.0, 0.0);//銃が向くべき座標
 	D3DXVECTOR3 WantVec( 0.0, 0.0, 0.0);//「首つけ根」の向きたい方向へのベクトル
 	D3DXVECTOR3 BaseVec( 0.0, 0.0, -1.0);//向きの初期方向ベクトル
@@ -230,10 +233,19 @@ int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2]){
 
 			//ハンドガンなら
 			if( ( NowWpKind == 1) || ( NowWpKind == 4)){
+
+					/*通常モード( モデル[0]から取得する )*/
+					if( Stg->Stage_GunTarget == 0){//壁データより敵が手前にいたら攻撃可能なので、ここでカーソル上のステージを取得しています
+							ech = E3DPickFace( System::scid1, Stg->Stage_hsid[0], ScreenPos, NowWpRange, &GarbageInt, &GarbageInt, &GarbageD3DVec, &GarbageD3DVec, &Wall_HitDistance);
+							if(ech != 0 ){//エラーチェック
+										_ASSERT( 0 );//エラーダイアログ
+							};
+					}
+
 					/*当たり判定中にいる敵をチェックします*/
 					for( int i = 0; i < 15; i++){//エネミーの数だけ
 							if( Ene->Enemy_hsid[i] != 0){
-										ech = E3DPickFace( sys->scid1, Ene->Enemy_hsid[i], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
+										ech = E3DPickFace( System::scid1, Ene->Enemy_hsid[i], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 										if(ech != 0 ){//エラーチェック
 													_ASSERT( 0 );//エラーダイアログ
 										};
@@ -246,7 +258,7 @@ int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2]){
 					}
 
 					/*もし、当たり判定上に敵がいれば*/
-					if( EnemyConflict == 1){
+					if( ( EnemyConflict == 1) && ( EneNearDistance < Wall_HitDistance)){
 
 							// !!壁との当たり判定が必要!!
 
@@ -268,7 +280,7 @@ int Weapon::ChkWeaponLaunch( int Wp_equipment){
 	WeaponFireFlag = 0;//一周したらフラグをオフにする
 
 	/*キーを取得する*/
-	sys->GetKeyData(keyin);
+	System::GetKeyData(keyin);
 
 	if( Wp_equipment != -1){//武器があれば
 
