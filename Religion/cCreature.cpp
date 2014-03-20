@@ -26,35 +26,35 @@ int Creature::Set_StateFromBranch( const int Branch){
 
 	switch( Branch ){
 
-		case 0:{// ライフルマン
+		case RIFLEMAN:{// ライフルマン
 			Set_MaxHP(1000);//最大HPの代入
 			Set_MaxStamina(800);//最大スタミナの代入
 			Set_Attack(150);//攻撃力の代入
 			Set_SkillSlot(6);//スキルスロットの代入
 			break;
 		}
-		case 1:{// グレネーダー
+		case GRANADER:{// グレネーダー
 			Set_MaxHP(800);//最大HPの代入
 			Set_MaxStamina(900);//最大スタミナの代入
 			Set_Attack(160);//攻撃力の代入
 			Set_SkillSlot(8);//スキルスロットの代入
 			break;
 		}
-		case 2:{// ガンナー 
+		case GUNNER:{// ガンナー 
 			Set_MaxHP(780);//最大HPの代入
 			Set_MaxStamina(650);//最大スタミナの代入
 			Set_Attack(120);//攻撃力の代入
 			Set_SkillSlot(8);//スキルスロットの代入
 			break;
 		}
-		case 3:{// スナイパー
+		case SNIPER:{// スナイパー
 			Set_MaxHP(700);//最大HPの代入
 			Set_MaxStamina(600);//最大スタミナの代入
 			Set_Attack(90);//攻撃力の代入
 			Set_SkillSlot(12);//スキルスロットの代入
 			break;
 		}
-		case 4:{// メディック
+		case MEDIC:{// メディック
 			Set_MaxHP(670);//最大HPの代入
 			Set_MaxStamina(750);//最大スタミナの代入
 			Set_Attack(120);//攻撃力の代入

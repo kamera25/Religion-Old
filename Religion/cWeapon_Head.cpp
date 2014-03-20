@@ -156,24 +156,24 @@ Weapon* Weapon_Head::Get_WeaponPointer( int Now_Equipment) const{
 int Weapon_Head::SetInitWeapon( int Wpkind){
 	
 	switch(Wpkind){
-			case 0:{// メインウェポン
-					NormalWeapon[0]->InitWeapon();
+			case MAINWEAPON:{// メインウェポン
+					NormalWeapon[MAINWEAPON]->InitWeapon();
 					break;
 		    }
-			case 1:{// サブウェポン
-					NormalWeapon[1]->InitWeapon();
+			case SUBWEAPON:{// サブウェポン
+					NormalWeapon[SUBWEAPON]->InitWeapon();
 					break;
 			}
-			case 2:{// サポートウェポン
+			case SUPPORTWEAPON:{// サポートウェポン
 					SupportWeapon->InitWeapon();
 					break;
 			}
 			default:{// それ以外(全て)
-					if( NormalWeapon[0] != NULL){
-							NormalWeapon[0]->InitWeapon();
+					if( NormalWeapon[MAINWEAPON] != NULL){
+							NormalWeapon[MAINWEAPON]->InitWeapon();
 					}
-					if( NormalWeapon[1] != NULL){
-							NormalWeapon[1]->InitWeapon();
+					if( NormalWeapon[SUBWEAPON] != NULL){
+							NormalWeapon[SUBWEAPON]->InitWeapon();
 					}
 					if( SupportWeapon != NULL){
 							SupportWeapon->InitWeapon();

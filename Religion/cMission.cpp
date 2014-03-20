@@ -14,57 +14,19 @@
 
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
-/* 読み込まれたMISファイルによって、処理を行います。 */
-int Mission::MainProc()
-{
-	// イテレータ 及び 変数の宣言
-	list<MisOrder>::iterator it; 
 
-	// イテレータの中身が空になるまで繰り返す
-	for( it = MisList.begin(); it != MisList.end(); it++)
-	{
-
-		
-		// オーダーがWInit(Weapon INITialize)なら
-		if( (*it).Statement == Mission::WINIT)
-		{
-			// 弾薬の初期化
-			pPlayer->Wpn.SetInitWeapon( Weapon_Head::RESET);
-		}
-
-		// オーダーがPStory(Play Story)なら
-		if( (*it).Statement == Mission::PSTORY)
-		{
-			Story StoryS;
-			StoryS.LoadStoryFromSTD( (*it).cParameter);
-			StoryS.StartStory(1);
-		}
-
-
-		// オーダーがPTPS(Play TPS)なら
-		if( (*it).Statement == Mission::PTPS)
-		{
-			System::SetMouseCursol( 320, 240);//マウスをウィンドウ真ん中に設置
-
-			// ゲーム開始
-			while(  WM_QUIT != System::msg.message ){
-				System::MsgQ(30);//メッセージループ
-				TPSMainLoop();
-			}
-		}
-	}
-
-	return 0;
-}
 
 int Mission::Loading( char *File)
 {
 
 	/* 初期化 */
-	int Parameter[6] = {0};
+	int Parameter[7] = {0};
 	int i = 0;
 	int MaxStep = 1;
 	int ech = 0;
+	bool NPCStatementFlg = false;// NPCを一度でも読み込みしたかのフラグ変数
+	bool WeaponStatementFlg = false;// Weaponを一度でも読み込みしたかのフラグ変数
+	bool WinningStatementFlg = false;// 勝利条件を一度でも設定したかのフラグ
 	char CParameter;
 	char LoadFullPath[256];
 	char Statement[32];
@@ -77,7 +39,7 @@ int Mission::Loading( char *File)
 		_ASSERT( 0 );
 		return -1;
 	}
-
+	
 	/* プログレスバーを作ります */
 	E3DCreateProgressBar();
 
@@ -107,6 +69,12 @@ int Mission::Loading( char *File)
 
 			pPlayer = new PlayerChara( Parameter[0], Parameter[1]);
 
+			/* プレイヤーリセットをプッシュする */
+			struct MisOrder MiO;
+
+			MiO.Statement = Mission::PINIT;
+			MisList.push_back( MiO);
+
 		}
 
 		// WLoad( Weapon Load)なら、武器読み込み(ただし、先にプレイヤーの実体がなければダメ)
@@ -122,6 +90,15 @@ int Mission::Loading( char *File)
 
 			pPlayer->Wpn.WpLoad( Parameter[0], Parameter[1], Parameter[2]);// 銃のロード
 
+			/* 武器リセットをプッシュする */
+			if( WeaponStatementFlg == false)
+			{
+				struct MisOrder MiO;
+				MiO.Statement = Mission::WINIT;
+				MisList.push_back( MiO);
+
+				WeaponStatementFlg = true;
+			}
 		}
 
 		// SLoad( Stage Load)なら、地形読み込み
@@ -171,35 +148,74 @@ int Mission::Loading( char *File)
 			pNPC->LoadEnemyModelAddName( EneName, Parameter[0], Parameter[1]);
 			pNPC->SetEnemyPosByNaviPoint( pStg, EneName, Parameter[2], Parameter[3]);
 
+			/* 武器リセットをプッシュする */
+			if( NPCStatementFlg == false)
+			{
+				struct MisOrder MiO;
+				MiO.Statement = Mission::NPCINIT;
+				MisList.push_back( MiO);
+
+				NPCStatementFlg = true;
+			}
+
 		}
 
 		// SMyPos( Set MYmodel POSition)なら、自分の設置
 		else if( strcmp( Statement, "SMyPos") == NULL)
 		{
 
-			/* 初期化 */
-			fscanf_s( fp, " %c", &CParameter);
+			struct MisOrder MiO;
+			MiO.Statement = Mission::SMYPOS;
 
-			
-			switch( CParameter)
+
+			/* 1番目のパラメータを呼び出す */
+			fscanf_s( fp, " %c", &CParameter);
+			switch (CParameter)
 			{
 				// ナビレールで自分設置位置を決めるなら
 				case 'n':
 				{
 					fscanf_s( fp, "%d %d", &Parameter[1], &Parameter[2]);
-					pStg->Navi.SetPosByNaviPoint( pPlayer->Get_BodyModel(), Parameter[1], Parameter[2]);
+					MiO.iParameter[0] = NAVI;
 					break;
 				}
-				case 'w':{
+				case 'w':
+				{
 					fscanf_s( fp, "%d %d %d", &Parameter[1], &Parameter[2], &Parameter[3]);
-					ech = E3DSetPos( pPlayer->Get_BodyModel(), D3DXVECTOR3( Parameter[1], Parameter[2], Parameter[3]));
-					if( ech != 0){
-						_ASSERT( 0 );
-						return 1;
-					};
-					break;
+					MiO.iParameter[0] = WORLD;
 				}
 			}
+
+			MiO.iParameter[1] = Parameter[1];
+			MiO.iParameter[2] = Parameter[2];
+			MiO.iParameter[3] = Parameter[3];
+			
+			MisList.push_back( MiO);
+
+			///* 初期化 */
+			//fscanf_s( fp, " %c", &CParameter);
+
+			//
+			//switch( CParameter)
+			//{
+			//	// ナビレールで自分設置位置を決めるなら
+			//	case 'n':
+			//	{
+			//		fscanf_s( fp, "%d %d", &Parameter[1], &Parameter[2]);
+			//		pStg->Navi.SetPosByNaviPoint( pPlayer->Get_BodyModel(), Parameter[1], Parameter[2]);
+			//		break;
+			//	}
+			//	case 'w':
+			//	{
+			//		fscanf_s( fp, "%d %d %d", &Parameter[1], &Parameter[2], &Parameter[3]);
+			//		ech = E3DSetPos( pPlayer->Get_BodyModel(), D3DXVECTOR3( (float)Parameter[1], (float)Parameter[2], (float)Parameter[3]));
+			//		if( ech != 0){
+			//			_ASSERT( 0 );
+			//			return 1;
+			//		};
+			//		break;
+			//	}
+			//}
 		}
 
 		// WInit(Weapon INITialize)なら、弾薬初期化
@@ -234,8 +250,185 @@ int Mission::Loading( char *File)
 			
 		}
 
+		// RegWin(REGister WINning condition)なら、勝利条件を指定する
+		else if( strcmp( Statement, "RegWin") == NULL)
+		{
+
+			struct MisOrder MiO;
+
+			/* 必ず勝利条件をリセットするようにする */
+			if( WinningStatementFlg == false)
+			{
+				MiO.Statement = Mission::WININIT;
+				MisList.push_back( MiO);
+				WinningStatementFlg = true;
+			}
+
+			/* 勝利条件を指定する */
+			fscanf_s( fp, " %c", &CParameter);
+			
+			switch( CParameter)
+			{
+				
+				case 'a':// 全滅を勝利条件にするなら
+				{
+					MiO.iParameter[0] = ALLKILL;
+					break;
+				}
+				case 'p':// 所定の場所に着いたら
+				{
+					/* 初期化 */
+					char loadname[256];
+
+					fscanf_s( fp, "%d %d %d", &Parameter[1], &Parameter[2], &Parameter[3]);
+
+					MiO.iParameter[0] = REACHPOINT;
+
+					/* 脱出場所モデルを読み込む */
+					wsprintf( loadname, "%s\\data\\3d\\model\\install\\Exitpoint.sig", System::path);//アーティーモデルのsig名登録
+					ech = E3DSigLoad( loadname, 0, 1.8f, &(MiO.iParameter[1]));//モデルの読み込み、cha_hsidへモデルを入れる。
+					if(ech != 0 ){//エラーチェック
+							_ASSERT( ech != 1 );//エラーダイアログ
+					};
+
+					/* 非常口マークビルボードをロードします */
+					wsprintf( loadname, "%s\\data\\img\\identifier\\exit.png", System::path);
+					ech = E3DCreateBillboard ( loadname, 512, 512, 0, 1, 1, &MiO.iParameter[2]);
+					_ASSERT( ech != 1 );//エラーチェック
+
+					ech = E3DSetBillboardPos( MiO.iParameter[2],  D3DXVECTOR3( (float)Parameter[1], (float)Parameter[2] + 2000.0f, (float)Parameter[3]));/* !!終了時にビルボードモデルを初期化すること!! */
+					_ASSERT( ech != 1 );//エラーチェック
+
+					/* 脱出場所モデル座標を指定する */
+					ech = E3DSetPos( MiO.iParameter[1], D3DXVECTOR3( (float)Parameter[1], (float)Parameter[2], (float)Parameter[3]));
+					_ASSERT( ech !=1);
+
+
+					break;
+				}
+			}
+
+
+			MiO.Statement = Mission::REGWIN;
+			MisList.push_back( MiO);
+			
+		}
+
+		// RegLose(REGister Losing condition)なら、敗北条件を決める
+		else if( strcmp( Statement, "RegLose") == NULL)
+		{
+
+			struct MisOrder MiO;
+
+			/* 必ず敗北条件をリセットするようにする */
+			if( WinningStatementFlg == false)
+			{
+				MiO.Statement = Mission::WININIT;
+				MisList.push_back( MiO);
+				WinningStatementFlg = true;
+			}
+
+			/* 勝利条件を指定する */
+			fscanf_s( fp, " %c", &CParameter);
+			
+			switch( CParameter)
+			{
+				
+				case 't':// 時間制限を敗北条件にするなら
+				{
+					fscanf_s( fp, "%d", &Parameter[1]);
+					
+					MiO.iParameter[0] = Mission::TIMEUP;
+					Timer.LimitTime = Parameter[1];// 制限時間の取得(秒単位)
+					Timer.IndicateTimeNormal = false;
+					break;
+				}
+			}
+
+
+			MiO.Statement = Mission::REGLOSE;
+			MisList.push_back( MiO);
+
+
+
+
+		}
+
+		// WinInit(WINning condition Init)なら、勝利条件を初期化
+		else if( strcmp( Statement, "WinInit") == NULL)
+		{
+
+			struct MisOrder MiO;
+
+			MiO.Statement = Mission::WININIT;
+			MisList.push_back( MiO);
+			
+		}
+
+		// InstOBJなら、ステージにオブジェクトを置くとする
+		else if( strcmp( Statement, "InstOBJ") == NULL)
+		{
+		
+			/* 初期化 */
+			struct MisOrder MiO;
+			char loadname[256];
+			
+			fscanf_s( fp, " %c", &CParameter);
+			
+			switch( CParameter)
+			{
+				case 'j':// カタパルトジャンプを設置する 
+				{
+
+					
+
+					fscanf_s( fp, "%d %d %d %d %d %d", &Parameter[1], &Parameter[2], &Parameter[3], &Parameter[4], &Parameter[5], &Parameter[6]);
+
+					MiO.iParameter[0] = CATAPULT;
+
+					/* カタパルトジャンプを読み込む */
+					wsprintf( loadname, "%s\\data\\3d\\model\\install\\catapult.sig", System::path);//
+					ech = E3DSigLoad( loadname, 0, 0.5f, &(MiO.iParameter[1]));//モデルの読み込み、cha_hsidへモデルを入れる。
+					if(ech != 0 ){//エラーチェック
+							_ASSERT( ech != 1 );//エラーダイアログ
+					};
+
+					/* カタパルトジャンプを指定する */
+					ech = E3DSetPos( MiO.iParameter[1], D3DXVECTOR3( (float)Parameter[1], (float)Parameter[2], (float)Parameter[3]));
+					_ASSERT( ech !=1);
+
+					///* 非常口マークビルボードをロードします */
+					//wsprintf( loadname, "%s\\data\\img\\identifier\\exit.png", System::path);
+					//ech = E3DCreateBillboard ( loadname, 512, 512, 0, 1, 1, &MiO.iParameter[2]);
+					//_ASSERT( ech != 1 );//エラーチェック
+
+					//ech = E3DSetBillboardPos( MiO.iParameter[2],  D3DXVECTOR3( (float)Parameter[1], (float)Parameter[2] + 2000.0f, (float)Parameter[3]));/* !!終了時にビルボードモデルを初期化すること!! */
+					//_ASSERT( ech != 1 );//エラーチェック
+
+					RegisterCatapult( MiO.iParameter[1], Parameter[4], Parameter[5], Parameter[6]);
+
+
+					break;
+				}
+			}
+
+			MiO.Statement = Mission::INSTOBJ;
+			MisList.push_back( MiO);
+			
+		}
+
+		// ENDなら、ゲームを終了とする
+		else if( strcmp( Statement, "END") == NULL)
+		{
+			struct MisOrder MiO;
+
+			MiO.Statement = Mission::END;
+			MisList.push_back( MiO);
+			
+		}
+
 		/* プログレスバーを進歩させる */ 
-		E3DSetProgressBar( double(i) / double(MaxStep) * 100.0);
+		E3DSetProgressBar( int( double(i) / double(MaxStep) * 100.0));
 
 		i++;
 	}
@@ -272,8 +465,18 @@ int Mission::Intialize()
 {
 
 	/* 変数の初期化 */
+	int ech;
+	int ButtonID = 0;
+	int Garbage = 0;
+	char loadname[256] = "";//読み込む先のパスの文字列変数
+	const char MenuKindName[2][32] = {  "再出撃" , "撤退"  };
 	ScreenPosArray[0] = 0;
 	ScreenPosArray[1] = 0;
+	
+	for( int i = 0; i<8; i++)
+	{
+		CatapultData[i].CatapultID = -1;
+	}
 
 	pPlayer = 0; 
 	pBatP = 0;
@@ -291,32 +494,17 @@ int Mission::Intialize()
 	/* メニューインスタンスの作成 */
 	pMenu = new PoseMenu;
 
-	return 0;
-}
+	/* タイマー構造体にポインタの代入 */
+	Timer.TimeUsing = &LosingFlag[COD_TIMEUP];
 
-int Mission::TPSMainLoop()
-{
+	/* ゲームオーバースプライトのロード */
+	wsprintf( loadname, "%s\\data\\img\\sys\\gameover.png", System::path);
+	ech = E3DCreateSprite( loadname, 0, 0, &SpGameOver);
+	_ASSERT( ech != 1 );//エラーチェック
 
-
-				System::KeyRenewalFromWp( &pPlayer->Wpn, pPlayer->Get_Wp_equipment());
-
-
-				pBatP->BatchChkInView();
-
-				// 制御関係
-				pPlayer->Wpn.ChkWeaponsLaunch( pPlayer->Get_Wp_equipment());
-				pPlayer->NormallyPCSystem( pStg, pBatP, pNPC, pCam, ScreenPosArray);
-				pPlayer->Wpn.AttackEnemys( pNPC, pPlayer, ScreenPosArray, pStg);
-				pPlayer->Wpn.WeaponsTreatment( pPlayer->Get_Wp_equipment(), pStg);
-				pNPC->MoveEnemys( pStg);
-
-				// 描画関連
-				NormalBatchProces();
-
-				// 後処理関係
-				pMenu->FarstInMenu( pBatP, pPlayer);
-				pBatP->BatchBeforePos();
-				pPlayer->Batch_PeopleMotion();
+	/* ボタンを作る処理 */
+	MakeFontButton_Auto(  MenuKindName[0], &ButtonID, 210, 300);
+	MakeFontButton_Auto(  MenuKindName[1], &ButtonID, 380, 300);
 
 
 
@@ -327,10 +515,14 @@ int Mission::TPSMainLoop()
 int Mission::NormalBatchProces(){
 
 	pBatP->BatchSpriteSet( pPlayer);
+
 	pBatP->BatchRender( 0);
-	pBatP->Batch_BillBoard( 0);
 	pBatP->BatchSpriteRender( 0);
-	pBatP->BatchFont( 1, pPlayer);
+	pBatP->Batch_BillBoard( 0);
+	pBatP->BatchFont( 1, pPlayer, Timer);
+
+
+
 	pBatP->Batch_Present();
 
 	return 0;
@@ -358,4 +550,120 @@ Mission::~Mission(){
 
 
 	return ;
+}
+
+//ゲームオーバーした時、再挑戦するか尋ねる。
+int Mission::GameOver(){
+
+	/* 初期化 */
+	int ech = 0;
+	int NextFlag = -1;// ユーザーの選択が入ります
+	 int SelectKind = -1;// 選択しているアイテムを識別する変数
+
+	D3DXVECTOR3 SpritePos1( 0.0, 0.0, 0.0);//背景の位置
+	//POINT TextPos;//テキストの座標変数
+
+
+	/*まずはじめに、通常画面→メニュー画面にしていきます。*/
+	for(int i = 0; i<17; i++){
+
+			/*変数の初期化*/
+
+			E3DCOLOR4UC AlfaColor = { 15*i ,255,255,255};
+			
+			/*半透明化します*/
+			ech = E3DSetSpriteARGB( SpGameOver, AlfaColor);
+			_ASSERT( ech != 1 );//エラーチェック
+
+			/*通常画面のレンダリング*/
+			pBatP->BatchRender( 0);//レンダリング
+
+			/*描画準備を行います*/
+			E3DBeginScene( System::scid1, 1, -1);;
+			E3DBeginSprite();
+
+			ech = E3DRenderSprite( SpGameOver, 640.0/1024.0, 1, SpritePos1);
+			_ASSERT( ech != 1 );//エラーダイアログを表示
+
+			/*ここで、描画完了*/
+			E3DEndSprite();
+			E3DEndScene();
+			E3DPresent(System::scid1);
+
+			
+	}/*ここまで*/
+
+	while( NextFlag == -1 && WM_QUIT != System::msg.message){
+
+			System::MsgQ(30);//メッセージループ
+			System::KeyRenewal(1);
+
+			/*描画準備を行います*/
+			E3DBeginScene( System::scid1, 1, -1);;
+			E3DBeginSprite();
+
+			ech = E3DRenderSprite( SpGameOver, 640.0/1024.0, 1, SpritePos1);
+			_ASSERT( ech != 1 );//エラーダイアログを表示
+
+			E3DEndSprite();
+
+
+			// バルーンの表示を行います
+			PutBalloon_Auto( System::MousePos.x, System::MousePos.y);
+
+			//以下、メニューネーム(通常時・選択時)を表示
+			SelectKind = ChkFontButton( System::MousePos.x, System::MousePos.y);
+
+			/* ////////////////////////////////// */
+			/* クリックされた時の動作を設定します 
+			/* ////////////////////////////////// */
+			if( System::GetKeyData( System::KEY_LEFTMOUSE)){
+					switch(SelectKind){
+							case 0:{// 再挑戦
+									NextFlag = RETRY;
+									break;
+							}
+							case 1:{// あきらめる
+									NextFlag = GIVEUP;
+									break;
+							}
+					}
+			}
+
+
+
+
+			E3DEndScene();
+			E3DPresent(System::scid1);
+
+	}
+
+
+
+
+	return NextFlag;
+}
+
+int Mission::RegisterCatapult( const int ModelID, const double UpAcceleration, const double Degree, const double Speed)
+{
+	/* 初期化 */
+	int IDNum;
+
+	/* 空の配列を検索して、 */
+	for( int i=0; i<8; i++){
+			if( CatapultData[i].CatapultID == -1){
+					IDNum = i;
+					break;
+			}
+	}
+
+	CatapultData[IDNum].CatapultID = ModelID;
+	/*CatapultData[IDNum].X = X;
+	CatapultData[IDNum].Y = Y;
+	CatapultData[IDNum].Z = Z;*/
+	CatapultData[IDNum].UpAcceleration = UpAcceleration;
+	CatapultData[IDNum].Degree = Degree;
+	CatapultData[IDNum].Speed = Speed;
+
+	return 0;
 }

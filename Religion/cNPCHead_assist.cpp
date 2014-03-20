@@ -6,15 +6,17 @@
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 
 #include "cenemy.h"//NPCクラスの宣言ヘッダファイル
+#include <string>
+#include <map>
 
 /* NPC構造体リスト最後部を示すイテレータを返します */
-vector<NPC_t>::iterator NPC_Head::NPC_endit(){
+map<string, NPC_t>::iterator NPC_Head::NPC_endit(){
 
 	return NPC.end();
 }
 
 /* NPC構造体リスト最初部を示すイテレータを返します */
-vector<NPC_t>::iterator NPC_Head::Get_NPC_begin(){
+map<string, NPC_t>::iterator NPC_Head::Get_NPC_begin(){
 
 	return NPC.begin();
 }

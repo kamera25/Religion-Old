@@ -258,8 +258,8 @@ int Weapon_Gun::AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArra
 	D3DXVECTOR3 BaseVec( 0.0, 0.0, -1.0);//向きの初期方向ベクトル
 	D3DXVECTOR3 GarbageD3DVec( 0.0, 0.0, 0.0);//要らないXYZのデータの一次入れ
 	POINT ScreenPos = { ScreenPosArray[0], ScreenPosArray[1]};//2Dスクリーン座標構造体
-	vector<NPC_t>::iterator it;// イテレータ
-	vector<NPC_t>::iterator NearEnemyID;//一番近い敵キャラの識別番号
+	map<string, NPC_t>::iterator it;// イテレータ
+	map<string, NPC_t>::iterator NearEnemyID;//一番近い敵キャラの識別番号
 
 	/*当たり判定計測中以外 AND */
 	if( ( Get_NowFireFlag() != 1) || ( NPC_H->Get_NPC_empty() == true)){
@@ -293,7 +293,7 @@ int Weapon_Gun::AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArra
 					/*当たり判定中にいる敵をチェックします*/
 					for( it = NPC_H->Get_NPC_begin(); it != NPC_H->NPC_endit(); it++){//エネミーの数だけ
 
-										ech = E3DPickFace( System::scid1, (*it).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, 
+										ech = E3DPickFace( System::scid1, (*it).second.NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, 
 															&EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 										_ASSERT( ech != 1 );//エラーチェック
 
@@ -311,7 +311,7 @@ int Weapon_Gun::AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArra
 
 							//敵にダメージを与える
 
-							(*NearEnemyID).NPC_Mdl->Set_HP( (*NearEnemyID).NPC_Mdl->Get_HP() - Get_Attack());
+							(*NearEnemyID).second.NPC_Mdl->Set_HP( (*NearEnemyID).second.NPC_Mdl->Get_HP() - Get_Attack());
 					}
 			}
 	}

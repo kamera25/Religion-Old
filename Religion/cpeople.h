@@ -35,6 +35,8 @@ private:
 	float PC_Deg_XZ;
 	float PC_Deg_Y;
 
+
+
 	//プレイヤーの情報変数
 	double Acceleration;//地面への加速度を代入する変数
 	double MoveSpeed;//平面加速度を入れる変数
@@ -43,6 +45,7 @@ public:
 
 	virtual int Batch_PeopleMotion() = 0;// 人間のモーションや姿勢などを設定します(仮想関数)
 	virtual ~People(){};//仮想コンストラクタ
+	virtual int StatusReset(){return 0;};// ソルジャークラスの状態を初期に戻します(リスタート等で利用)
 
 	/* クラス静動変数 */
 	static const int NORMAL = 0;// 通常状態
@@ -50,6 +53,10 @@ public:
 	static const int RUN = 2;// ダッシュ状態
 	static const int LEFT_SJUMP = 3;// 左横っ飛び
 	static const int RIGHT_SJUMP = 4;// 右横っ飛び
+	static const int DEAD = 5;// 死に状態 
+
+	/* 静動変数 */
+	static const int S_JUMP = 6;
 
 	/* アシスト(取得・代入)関数の宣言 */
 	int Get_UpMotion() const;

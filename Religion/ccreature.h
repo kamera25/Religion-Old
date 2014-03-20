@@ -4,20 +4,22 @@
  */
 
 #include "cWeapon_head.h"// 武器統括に関することのクラスヘッダファイル
+#include "cActor.h"
 
 class Weapon;
 class Stage;
 
 /* 生物クラスの宣言 */
-class Creature{
+class Creature {
 
 private:
+
 
 	int MaxHP;// 生物の最大HP
 	int HP;// 生物のHP
 	int Stamina;// 生物のスタミナ
 	int MaxStamina;//生物の最大スタミナ
-	int BodyModel;// 生物のモデル
+	//int BodyModel;// 生物のモデル
 	int SkillSlot;// スキルスロットの最大値
 	int Attack;// 生物の攻撃力
 	int Branch;// 生物の属性
@@ -53,6 +55,14 @@ public:
 
 	static const int NumberSkill = 22;// 現在組み込まれてるスキル数
 
+	static const int DEFAULT = 0;
+	static const int RIFLEMAN = 0;
+	static const int GRANADER = 1;
+	static const int GUNNER = 2;
+	static const int SNIPER = 3;
+	static const int MEDIC = 4;
+
+	Actor *Act;// アクター
 
 	/* 仮想関数系統 */
 	virtual ~Creature(){};//仮想コンストラクタ
@@ -60,11 +70,13 @@ public:
 	/* 子クラスで出てくる仮想関数 */
 	virtual int Set_UpMotion( int Number) = 0;
 	virtual int Set_MyState( int Number) = 0;
+	virtual int Get_MyState() const = 0;
 	virtual int Set_UnderMotion( int Number) = 0;
 	virtual int Batch_PeopleMotion() = 0;
 	virtual int GunPutOnHand() = 0;
 	virtual int MovePosOnGround( Stage *Stg) = 0;
 	virtual Weapon_Head* Get_WeaponH() = 0;
+	virtual int StatusReset(){return 0;};// ソルジャークラスの状態を初期に戻します(リスタート等で利用)
 
 	/* ライフやスタミナなどの属性を代入する関数 */
 	int Set_StateFromBranch( const int Branch);
@@ -78,10 +90,10 @@ public:
 	/* アシスト(取得・代入)関数の宣言 */
 	int Get_MaxHP() const;// MaxHP変数の取得関数
 	int Get_HP() const;// HP変数の取得関数
-	int Get_BodyModel() const;// BodyModel変数の取得関数 
+	//int Get_BodyModel() const;// BodyModel変数の取得関数 
 	int Set_MaxHP( int Number);// MaxHP変数の代入関数
 	int Set_HP( int Number);// HP変数の代入関数
-	int Set_BodyModel( int Number);// BodyModel変数の代入関数 
+	//int Set_BodyModel( int Number);// BodyModel変数の代入関数 
 	int Get_Stamina() const;// Staminaの取得関数
 	int Set_Stamina( int Number);// Staminaの代入関数
 	int Get_MaxStamina() const;// MaxStaminaの取得関数

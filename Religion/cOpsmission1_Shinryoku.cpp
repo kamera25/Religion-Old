@@ -20,7 +20,7 @@
 #include "Ask.h"// 通信補助DLL、Askに関するヘッダファイル
 
 /* ゲーム本体のまとめ構造体 */
-typedef struct GameManage{
+struct GameManage{
 	PlayerChara *PC;
 	Stage *STG;
 	NPC_Head *NPC_H;
@@ -81,7 +81,7 @@ int Operation::OpsMission1_Shinryoku(){
 			GMG.NPC_H->LoadEnemyModelAddName( EnemyNames[i], 0, 0);// 敵をロードします
 		}
 
-		GMG.NPC_H->SetEnemyPosByNaviPointArray( &Stg, EnemyNames[0], EnemyOnNaviLine, EnemyOnNaviPoint, 5);//敵の座標を設定
+//		GMG.NPC_H->SetEnemyPosByNaviPointArray( &Stg, EnemyNames[0], EnemyOnNaviLine, EnemyOnNaviPoint, 5);//敵の座標を設定
 		/* 敵の設定ここまで */
 
 

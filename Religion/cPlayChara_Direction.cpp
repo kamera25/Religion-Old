@@ -27,16 +27,18 @@ int PlayerChara::TurnBackDir( int Qid, D3DXVECTOR3 WantDeg, int FixFlag){
 
 
 	/*キャラクターモデルの方向を初期化します*/
-	ech = E3DRotateInit( Get_BodyModel());
-	_ASSERT( ech != 1 );//エラーチェック
+	Act->RotateInit();
+	//ech = E3DRotateInit( Get_BodyModel());
+	//_ASSERT( ech != 1 );//エラーチェック
 
 	/*「首付け根」部分のモーションはどうか調べます*/
 	ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
 	_ASSERT( ech != 1 );//エラーチェック
 
 	/*「首付け根」部分のクォータニオンを調べます*/
-	ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Qid);
-	_ASSERT( ech != 1 );//エラーチェック
+	Act->GetBoneQ( "首付け根", ""aaaa);
+	//ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Qid);
+	//_ASSERT( ech != 1 );//エラーチェック
 
 	/*向きたい方向への計算を行います*/
 	ech = E3DLookAtQ( Qid, WantDeg, BASEVEC, 0, 0);
@@ -56,8 +58,9 @@ int PlayerChara::TurnBackDir( int Qid, D3DXVECTOR3 WantDeg, int FixFlag){
 	_ASSERT( ech != 1 );//エラーチェック
 
 	/*キャラクターを回転させます*/
-	ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
-	_ASSERT( ech != 1 );//エラーチェック
+	Act->RotateY( Get_PC_Deg_XZ());
+	//ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
+	//_ASSERT( ech != 1 );//エラーチェック
 
 
 	return 0;
@@ -159,7 +162,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 	int ech = 0;//エラー確認変数
 	int MotionID = 0;//MLから取得した現在の「首付け根」モーションID
 	int FrameNo = 0;//MLから取得した現在の「首付け根」モーションが現在再生している番号
-	vector<NPC_t>::iterator NearEnemyID;//一番近い敵キャラの識別番号
+	map<string, NPC_t>::iterator NearEnemyID;//一番近い敵キャラの識別番号
 	int EnemyConflict = 0;//敵に当たった数の合計
 	int Wall_HitResult = 0;//当たり判定モデルが壁に当たっているかどうか調べます
 	int EneHitResult = 0;//敵が照準に入っているかの結果を入れます
@@ -179,7 +182,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 	D3DXVECTOR3 OriginPos( 0.0, 0.0, 0.0);//キャラクターをおくべき原点座標
 	D3DXVECTOR3 GarbageD3DVec( 0.0, 0.0, 0.0);//要らないXYZのデータの一次入れ
 	POINT ScreenPos = { ScreenPosArray[0], ScreenPosArray[1]};//2Dスクリーン座標構造体
-	vector<NPC_t>::iterator it;// イテレータ
+	map<string, NPC_t>::iterator it;// イテレータ
 
 	/* 装備をきちんとつけていれば */
 	if( Get_Wp_equipment() != -1){
@@ -211,7 +214,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 						/*敵にあたっていないかチェックします*/
 						for( it = NPC_H->Get_NPC_begin(); it != NPC_H->NPC_endit(); it++){//エネミーの数だけ
 
-											ech = E3DPickFace( System::scid1, (*it).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult
+											ech = E3DPickFace( System::scid1, (*it).second.NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult
 																, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 											_ASSERT( ech != 1 );//エラーチェック
 											if( (EneHitResult != 0) && ( EneDistance < EneNearDistance) ){
@@ -223,7 +226,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 						}
 
 						if( (EnemyConflict == 1) && ( Wall_HitDistance > EneNearDistance) ){//敵に銃先を向ける
-								ech = E3DPickFace( System::scid1, (*NearEnemyID).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
+								ech = E3DPickFace( System::scid1, (*NearEnemyID).second.NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
 								_ASSERT( ech != 1 );//エラーチェック
 						}
 						else{//壁に銃先を向ける
@@ -236,8 +239,9 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 						if( HitResult != -1){
 
 								/*「首付け根」部分の座標を取得します*/
-								ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
-								_ASSERT( ech != 1 );//エラーチェック
+								StomachPos  = Act->BonePos( "首付け根");
+								//ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
+								//_ASSERT( ech != 1 );//エラーチェック
 
 								WantVec.x =  GunTargetPos.x - StomachPos.x;
 								WantVec.y =  GunTargetPos.y - StomachPos.y;

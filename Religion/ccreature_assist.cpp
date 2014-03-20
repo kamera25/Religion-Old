@@ -4,10 +4,10 @@
 #include "ccreature.h"// 生物クラスのヘッダファイル
 
 /* MaxHP変数の取得関数 */
-int Creature::Get_BodyModel() const{
-
-	return BodyModel;
-}
+//int Creature::Get_BodyModel() const{
+//
+//	return BodyModel;
+//}
 /* HP変数の取得関数 */
 int Creature::Get_HP() const{
 
@@ -88,12 +88,12 @@ int Creature::Set_Branch( int Number){
 	return 0;
 }
 
-int Creature::Set_BodyModel( int Number){
-
-	BodyModel = Number;
-
-	return 0;
-}
+//int Creature::Set_BodyModel( int Number){
+//
+//	BodyModel = Number;
+//
+//	return 0;
+//}
 
 int Creature::Set_HP( int Number){
 

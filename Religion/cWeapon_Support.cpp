@@ -117,9 +117,14 @@ int Weapon_Support::WeaponTreatment( const int WeaponLight, Stage *Stg){
 
 	int ech = 0;// エラーチェック変数
 	static float Acceleration = 0.0f;//グレネードの落ちる加速度
-	static int sw=0;
+	//static int sw=0;
+	static bool HitGranadeOnGround = false;// グレネードが地面にあたったか
+	int Garbage;
+	int Revface;// 裏面かどうか
 	int GroundResult = 0;//地面の当たり判定の結果
-	D3DXVECTOR3 GranadePos( 0.0, 0.0, 0.0);//グレネードを置く座
+	D3DXVECTOR3 BefGranadePos( 0.0, 0.0, 0.0);
+	D3DXVECTOR3 AftGranadePos( 0.0, 0.0, 0.0);//グレネードを置く座
+	D3DXVECTOR3 GranadePos( 0.0, 0.0, 0.0);
 	D3DXVECTOR3 GroundOnPos( 0.0, 0.0, 0.0);//地面の座標
 	D3DXVECTOR3 ReflectVec( 0.0, 0.0, 0.0);//反射座標
 
@@ -128,29 +133,46 @@ int Weapon_Support::WeaponTreatment( const int WeaponLight, Stage *Stg){
 			Acceleration = 0.0f;
 	}
 	else if( Get_NowFireFlag() == 1){// グレネードを投げているときなら
+		
 
-			ech = E3DGetPos( Get_Model(), &GranadePos);
+			/* グレネードの軌道を計算します */
+			ech = E3DGetPos( Get_Model(), &BefGranadePos);
 			_ASSERT( ech != 1 );//エラーチェック
 
-			if( sw == 0) GranadePos.y = GranadePos.y - Acceleration;
+			Acceleration = Acceleration - 7.0f;
 
-			/* 地面との当たり判定を取ります */
-			ech = E3DChkConfGround( Get_Model(), Stg->Stage_hsid[0], 1, 100, -1000, &GroundResult, &GroundOnPos, &ReflectVec);
-			_ASSERT( ech != 1 );//エラーチェック
+			if( HitGranadeOnGround == false)
+			{
+				AftGranadePos = BefGranadePos;
+				AftGranadePos.y = BefGranadePos.y + Acceleration;
 
-			/* 地面からほとんど離れてないなら */
-			if( GranadePos.y - GroundOnPos.y < 50){
-
-					GranadePos.y = GroundOnPos.y;
-					sw = 1;
 			}
 
-			/* グレネードを計算した座標におきます */
-			ech = E3DSetPos( Get_Model(), GranadePos);
+			ech = E3DSetPos( Get_Model(), AftGranadePos);
 			_ASSERT( ech != 1 );//エラーチェック
 
-			Acceleration = Acceleration + 7.0f;
-			if( 100.0f <= Acceleration) Acceleration = 100.0f;// 空気抵抗を考慮する
+		
+			/* 地面との当たり判定を取ります */
+			//ech = E3DChkConfGround( Get_Model(), Stg->Stage_hsid[0], 1, 100000, -1000, &GroundResult, &GroundOnPos, &ReflectVec);
+			//_ASSERT( ech != 1 );//エラーチェック
+			ech = E3DChkConfLineAndFace( BefGranadePos, AftGranadePos, Stg->Stage_hsid[0], 1, &GroundResult
+										, &Garbage, &GroundOnPos, &ReflectVec, &Revface);
+
+
+			/* 地面からほとんど離れてなく、表面なら */
+			//float HeightFromGround = GranadePos.y - GroundOnPos.y;
+			if( GroundResult != -1 && Revface == 0){
+
+					AftGranadePos.y = GroundOnPos.y;
+
+					/* 反動の加速度を加える */
+					Acceleration = ReflectVec.y * abs(Acceleration) ;
+			}
+
+
+
+			//Acceleration = Acceleration + 7.0f;
+			//if( 100.0f <= Acceleration) Acceleration = 100.0f;// 空気抵抗を考慮する
 
 	}
 
@@ -160,6 +182,8 @@ int Weapon_Support::WeaponTreatment( const int WeaponLight, Stage *Stg){
 
 	return 0;
 }
+
+
 
 /* 武器を発砲・投げしてもよいか確認し、OKなら発射フラグをたてます */
 int Weapon_Support::ChkWeaponLaunch(){;

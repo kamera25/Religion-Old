@@ -8,6 +8,7 @@
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include <string>
 
 
 /*最初にロードしたスプライトの倍率や描画指定*/
@@ -46,7 +47,19 @@ int Batch_Render::BatchSpriteSet( const PlayerChara *PcC){
 
 int Batch_Render::LoadSprite( const char *ObjPath, const float MagX, const float MagY, const float X, const float Y, const float Z, const int DeleteFromBRFlag){
 
-	LoadSprite_AddName( ObjPath, "", MagX, MagY, X, Y, Z, DeleteFromBRFlag);
+	static int Number = 0;// 名前をつけないスプライトは、数字のみで管理
+	char cbuf[5];
+
+	wsprintf( cbuf, "%d\0", Number);
+	LoadSprite_AddName( ObjPath, cbuf, MagX, MagY, X, Y, Z, DeleteFromBRFlag);
+
+	Number++;
+	if( Number >= 10000)
+	{
+		Number = 0;
+	}
+
+	
 
 	return 0;
 }
@@ -82,11 +95,9 @@ int Batch_Render::LoadSpriteFromID( const int ID, const char *Name, const float 
 	SptC.X = X;
 	SptC.Y = Y;
 	SptC.Z = Z;
-	SptC.ViewFlag = 1;
-	wsprintf( SptC.Name, "%s", Name);
+	SptC.ViewFlag = true;
 
-	Spt.push_back( SptC);
-
+	Spt.insert( make_pair( string(Name), SptC));
 
 	return 0;
 }
@@ -97,57 +108,73 @@ int Batch_Render::Set_SpriteMagX( const char *ObjName, const float Value){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
-	vector<Sprite>::iterator it;
+	map<string, Sprite>::iterator it;
 	
-	ech = SearchSpriteFromName( ObjName, &it);// イテレータ
-
-	if( ech != 0){
-			_ASSERT( 1);
+	if( Spt.count(ObjName))
+	{
+		it = Spt.find(ObjName);
+	}
+	else// 検索した文字が見つからなければ
+	{
+			_ASSERT( 1 );//エラー
 			return -1;
 	}
 	
 	/* MagXの設定 */
-	(*it).MagX = Value;
+	(*it).second.MagX = Value;
 	
 	return 0;
 }
 
-int Batch_Render::SearchSpriteFromName( const char *ObjName, vector<Sprite>::iterator *it){
-
-	/* 変数の初期化&宣言 */
-	vector<Sprite>::iterator iit;// イテレータ
-
-	for( iit = Spt.begin(); iit != Spt.end(); iit++){
-			if( strcmp( ObjName, (*iit).Name) == 0){
-					*it = iit;
-					return 0;// ループを抜け出す
-			}
-	}
-
-	// 検索した文字が見つからなければ
-	_ASSERT( 1 );//エラーチェック
-
-
-	return -1;
-}
+//int Batch_Render::SearchSpriteFromName( const char *ObjName, vector<Sprite>::iterator *it){
+//
+//	/* 変数の初期化&宣言 */
+//	//map<string, Sprite>::iterator iit;// イテレータ
+//
+//	//for( iit = Spt.begin(); iit != Spt.end(); iit++){
+//	//		if( strcmp( ObjName, (*iit).Name) == 0){
+//	//				*it = iit;
+//	//				return 0;// ループを抜け出す
+//	//		}
+//	//}
+//
+//	// 検索した文字が見つからなければ
+//	_ASSERT( 1 );//エラーチェック
+//
+//
+//	return -1;
+//}
 
 int Batch_Render::SetSpriteAlpha( const char *Name, E3DCOLOR4UC AlfaColor){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
-	vector<Sprite>::iterator it;
+	map<string, Sprite>::iterator it;
 	
-	ech = SearchSpriteFromName( Name, &it);// イテレータ
-
-	if( ech != 0){
-			_ASSERT( 1 );
+	if( Spt.count(Name))
+	{
+		it = Spt.find(Name);
+	}
+	else// 検索した文字が見つからなければ
+	{
+			_ASSERT( 1 );//エラー
 			return -1;
 	}
 
 	/*半透明化します*/
-	ech = E3DSetSpriteARGB( (*it).ID, AlfaColor);
+	ech = E3DSetSpriteARGB( (*it).second.ID, AlfaColor);
 	_ASSERT( ech != 1 );//エラーチェック
 
 
 	return 0;
 }
+
+//int Batch_Render::RenderSprite_Alpha( int Alpha, int Times, int SpID)
+//{
+//
+//	SetSpriteAlpha( const char *Name, E3DCOLOR4UC AlfaColor)
+//	BatchSpriteRender( true);
+//	Batch_Present();
+//
+//	return 0;
+//}

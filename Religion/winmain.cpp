@@ -46,6 +46,8 @@ int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int n
 	WNDCLASSEX winc;
 	HWND hwnd;
 
+	//_CrtSetDbgFlag(_CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	//ウィンドウズクラス製作
 
 	winc.cbSize		   = sizeof(WNDCLASSEX);//クラスのサイズ
@@ -65,12 +67,29 @@ int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int n
 	if(!RegisterClassEx(&winc)) return 1;//もし、0の戻り値なら終了
 	
 
+
 	//メインウィンドウを作るョ
 	hwnd = CreateWindow(
 						"WndCls","Religion Gram_Ver 0.02",//どのクラスか、タイトルバーの名前
 						WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME,CW_USEDEFAULT,0,640,480,//オーバーラップウィンドウ、場所はY=0でX=任意、大きさは640×480
 						NULL,NULL,hInst,NULL//親ウィンドウなし、メニュー使わない、インスタンス、プロシージャからのパラメータのポインタ
 	);
+
+	/* 640×480のWindowサイズにする */
+
+	RECT rcc;// クライアントの幅
+	RECT rcw;// ウィンドウの幅
+	LONG WindSX;
+	LONG WindSY;
+
+	GetWindowRect( hwnd, &rcw);
+	GetClientRect( hwnd, &rcc);
+	WindSX = 640 + ((rcw.right - rcw.left) - (rcc.right - rcc.left));
+    WindSY = 480 + ((rcw.bottom - rcw.top) - (rcc.bottom - rcc.top));
+	SetWindowPos( hwnd, NULL, 0, 0, WindSX, WindSY, (SWP_NOZORDER|SWP_NOOWNERZORDER|SWP_NOMOVE) );
+
+
+
 
 	//もし、ウィンドウ作成に失敗したらエラーで終了
 	if(hwnd == NULL) return 1;

@@ -13,13 +13,13 @@ int Batch_Render::BatchRender( const int SceneEndFlg){
 	int ech = 0;// エラーチェック用の確認変数
 	int i = 0;
 	int Render_hsids[30];
-	vector<Model>::iterator it;// イテレータ
+	map< string, Model>::iterator it;// イテレータ
 
 	for( it = Mdl.begin(); it != Mdl.end(); it++ ){
 		
 			/*変数の初期化*/
-			if(( ((*it).ID != 0)) && ( (*it).ViewFlag == true)){
-					Render_hsids[i] = (*it).ID;
+		if(( ((*it).second.ID != 0)) && ( (*it).second.ViewFlag == true)){
+					Render_hsids[i] = (*it).second.ID;
 					i++;
 			}
 	}
@@ -56,7 +56,7 @@ int Batch_Render::BatchSpriteRender( const int SceneEndFlg){
 
 	/*変数の初期化*/
 	int ech = 0;//エラー確認変数の初期化
-	vector<Sprite>::iterator it;// イテレータ
+	map<string, Sprite>::iterator it;// イテレータ
 
 	/*
 	//描画処理の開始
@@ -76,9 +76,9 @@ int Batch_Render::BatchSpriteRender( const int SceneEndFlg){
 	for( it = Spt.begin(); it != Spt.end(); it++ ){
 		
 			/*変数の初期化*/
-			if( (*it).ViewFlag == true){
-					D3DXVECTOR3 ScreenPos( (*it).X, (*it).Y, (*it).Z);//描画位置を指定する構造体
-					ech = E3DRenderSprite( (*it).ID, (*it).MagX, (*it).MagY, ScreenPos);
+			if( (*it).second.ViewFlag == true){
+					D3DXVECTOR3 ScreenPos( (*it).second.X, (*it).second.Y, (*it).second.Z);//描画位置を指定する構造体
+					ech = E3DRenderSprite( (*it).second.ID, (*it).second.MagX, (*it).second.MagY, ScreenPos);
 					_ASSERT( ech != 1 );//エラーダイアログを表示
 			}
 	}
@@ -118,7 +118,7 @@ int Batch_Render::BatchChkInView(){
 
 	int garbage = 0;//いらない変数を格納します
 	int ech = 0;//エラーチェック用の確認変数 
-	vector<Model>::iterator it;// イテレータ
+	map< string, Model>::iterator it;// イテレータ
 
 
 //	for(int i=0; i<40; i++){
@@ -132,8 +132,8 @@ int Batch_Render::BatchChkInView(){
 
 	for( it = Mdl.begin(); it != Mdl.end(); it++){
 		/*視野角内のチェックを行います*/
-		if( (*it).ID != 0 ){//空のモデルデータ以外なら
-			ech = E3DChkInView( System::scid1, (*it).ID, &garbage);
+		if( (*it).second.ID != 0 ){//空のモデルデータ以外なら
+			ech = E3DChkInView( System::scid1, (*it).second.ID, &garbage);
 			_ASSERT( ech != 1 );//エラーチェック
 		}
 	};

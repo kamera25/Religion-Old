@@ -41,12 +41,15 @@ private:
 
 	int BeforeAirOnPC;// キャラが前回、空中にいたか代入します
 
-
 public:
 
 	/* クラスの宣言 */
 	Weapon_Head Wpn;// ウェポンクラスの実体
 	Item Item;// アイテムクラスの実体
+
+	static const int AirOff = 0;
+	static const int AirOn = 1;
+
 
 	/* 関数の宣言 */
 	int MovePosOnGround( Stage *Stg) ;// キャラクターをグラウンドの上に置くための関数
@@ -55,6 +58,7 @@ public:
 	Soldier( const int selchara, const int Wpselect_equipment);// コンストラクタ、兵士モデルのロード等を行ないます
 	virtual ~Soldier();//仮想コンストラクタ
 
+	virtual int StatusReset();// ソルジャークラスの状態を初期に戻します(リスタート等で利用)
 
 	/* アシスト(取得・代入)関数の宣言 */
 	int Get_Wp_equipment() const; // Wp_equipmentの取得関数

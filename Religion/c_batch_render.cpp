@@ -3,11 +3,15 @@
 */
 
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
-#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
+#include <crtdbg.h>//エラーチェックが出来るようにするための
+#include <string>
+#include <map>
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
+
 
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
+
 
 
 /*コンストラクタ、ステージやプレイヤークラスを元に情報を収集、構成します*/
@@ -28,14 +32,14 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, NPC_Head 
 	/*描画、視野角データの構築を行います*/
 	BatchReset( PcC, StgC, NPC_H, Cam);
 
-
+					
 	/* /////////////////////////////////////////////////////// */
 	//次にスプライトのロードを行います、同時にデータも代入します
 	/* /////////////////////////////////////////////////////// */
 
 	/*カーソル画像のロードを行う 配列は[0]番*/
 	LoadSprite_AddName( "data\\img\\cursol\\cursol1.png", "Cursol1", 0.7f, 0.7f, 0.0f, 0.0f, 0.0f, true);
-
+	
 	/*半透明化します*/
 	SetSpriteAlpha( "Cursol1", AlfaColor);
 
@@ -44,13 +48,13 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, NPC_Head 
 	/* ///////////////// */
 
 	/*左ステータス画像の背景のロードを行う*/
-	LoadSprite( "data\\img\\parameter\\parameter_leftBG.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.0f, true);
+	LoadSprite( "data\\img\\parameter\\parameter_leftBG.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.00002f, true);
 
 	/*左HPのバーのロードを行う*/
-	LoadSprite_AddName( "data\\img\\parameter\\hpber.png", "HPber", 100.0f, 1.0f, 24.0f, 412.0f, 0.0f, true);
+	LoadSprite_AddName( "data\\img\\parameter\\hpber.png", "HPber", 100.0f, 1.0f, 24.0f, 412.0f, 0.00001f, true);
 
 	/*左スタミナのバーのロードを行う*/
-	LoadSprite_AddName( "data\\img\\parameter\\stnber.png", "Staminaber", 100.0f, 0.5f, 24.0f, 435.0f, 0.0f, true);
+	LoadSprite_AddName( "data\\img\\parameter\\stnber.png", "Staminaber", 100.0f, 0.5f, 24.0f, 435.0f, 0.00001f, true);
 
 	/*左ステータス画像のロードを行う*/
 	LoadSprite( "data\\img\\parameter\\parameter_left.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.0f, true);
@@ -61,13 +65,13 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, NPC_Head 
 	/* ///////////////// */
 
 	/*右ステータス画像の背景のロードを行う*/
-	LoadSprite( "data\\img\\parameter\\parameter_rightBG.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.0f, true);
+	LoadSprite( "data\\img\\parameter\\parameter_rightBG.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.00002f, true);
 
 	/*右弾薬数のバーのロードを行う*/
-	LoadSprite_AddName( "data\\img\\parameter\\ammber.png", "Ammober", 100.0f, 0.8125f, 530.0f, 407.0f, 0.0f, true);
+	LoadSprite_AddName( "data\\img\\parameter\\ammber.png", "Ammober", 100.0f, 0.8125f, 530.0f, 407.0f, 0.00001f, true);
 
 	/*右マガジン数のバーのロードを行う*/
-	LoadSprite_AddName( "data\\img\\parameter\\magber.png", "Magber",100.0f, 0.8125f, 530.0f, 436.0f, 0.0f, true);
+	LoadSprite_AddName( "data\\img\\parameter\\magber.png", "Magber",100.0f, 0.8125f, 530.0f, 436.0f, 0.00001f, true);
 
 	/*右ステータス画像のロードを行う*/
 	LoadSprite( "data\\img\\parameter\\parameter_right.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.0f, true);
@@ -94,6 +98,10 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, NPC_Head 
 	/* グレネード*/
 	if( PcC->Wpn.Get_WeaponPointer(2) != NULL) LoadSpriteFromID( PcC->Wpn.Get_WeaponPointer(2)->Get_Sprite(), "SupportWp", 1.0f, 1.0f, 506.0f, 326.0f, 0.0f, false);
 
+	
+
+	// ログを2個事前に入れておきます(エラー回避)
+
 
 	return ;
 };
@@ -105,11 +113,11 @@ Batch_Render::~Batch_Render(){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック用の確認変数 
-	vector<Sprite>::iterator it;// イテレータ	
+	map< string, Sprite>::iterator it;// イテレータ	
 
 	for( it = Spt.begin(); it != Spt.end(); it++){//ロードしたスプライトの削除
-			if( (*it).DeleteFromBRFlag == true){// Batch_Renderから消してもよいスプライトなら
-					ech = E3DDestroySprite( (*it).ID);
+			if( (*it).second.DeleteFromBRFlag == true){// Batch_Renderから消してもよいスプライトなら
+					ech = E3DDestroySprite( (*it).second.ID);
 					_ASSERT( ech != 1 );//エラーチェック
 			}
 	}
@@ -125,12 +133,12 @@ int Batch_Render::BatchBeforePos(){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック用の確認変数 
-	vector<Model>::iterator it;// イテレータ
+	map< string, Model>::iterator it;// イテレータ
 
 
 	for( it = Mdl.begin(); it != Mdl.end(); it++ ){
-			if( (*it).ID != 0){
-					ech = E3DSetBeforePos( (*it).ID);
+			if( (*it).second.ID != 0){
+					ech = E3DSetBeforePos( (*it).second.ID);
 					_ASSERT( ech != 1 );//エラーチェック
 			}
 	}
@@ -138,3 +146,15 @@ int Batch_Render::BatchBeforePos(){
 
 	return 0;
 }
+
+///* モデルをロードします */
+//int Batch_Render::LoadModel( const char Path, )
+//{
+//
+//
+//
+//
+//
+//
+//	return 0;
+//}

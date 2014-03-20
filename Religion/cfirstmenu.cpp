@@ -21,7 +21,7 @@ int MainMenu::InMainMenu(){
 	int MenuMode = 0;
 	int MenuSelectNo = 0;
 	 ;//キー情報配列を作成 
-	D3DXVECTOR3 MainSpritePos( 0.0, -28.0, 0.0);//背景の位置
+	D3DXVECTOR3 MainSpritePos( 0.0, 0.0, 0.0);//背景の位置
 	D3DXVECTOR3 PushKeySpritePos( 180.0, 390.0, 0.0);//PushKeyIMGの位置
 	D3DXVECTOR3 MenuSpritePos1( 150.0, 400, 0.0);//モードの位置
 	D3DXVECTOR3 MenuSpritePos2( 270.0, 400, 0.0);//背景の位置

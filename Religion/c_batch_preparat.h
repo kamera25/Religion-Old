@@ -3,6 +3,9 @@
 //関数を自動的に実行することができるようにするためのクラスヘッダファイル
 */
 #include <vector>
+#include <map>
+#include <time.h>
+#include "cActor.h"
 
 using namespace std;
 
@@ -23,13 +26,17 @@ struct Sprite{// スプライト構造体
 	float X;// スプライト位置X
 	float Y;// スプライト位置Y
 	float Z;// スプライト奥行Z
-	char Name[20];// 識別される名前
+//	char Name[20];// 識別される名前
 };
 
-struct Model{// モデル構造体
-	int ID;
-	bool ViewFlag;
-	char Name[20];// 識別される名前
+//struct Model{// モデル構造体
+//	int ID;
+//	bool ViewFlag;
+//	//char Name[20];// 識別される名前
+//};
+
+struct GameLog{// ゲームログ構造体
+	char Messeage[120];
 };
 
 
@@ -39,10 +46,13 @@ class Batch_Render{
 private:
 
 	/* モデルデータの配列を宣言します */
-	vector<Model> Mdl;
+	map< string, Actor> Mdl;
 
 	/*スプライト関係の変数を宣言します*/
-	vector<Sprite> Spt;
+	map<string, Sprite> Spt;
+
+	/* ログ関係の変数を宣言します */
+	vector<GameLog> Log;
 
 	int BumpMapFlag;// バンプマップを表示するかどうかのフラグ変数
 	int ShadowFlag;// 影を表示するかどうかのフラグ変数
@@ -67,7 +77,8 @@ public:
 	int BatchReset( const PlayerChara *PcC, const Stage *StgC, NPC_Head *NPCC,
 					const Camera *Cam);//構築していた、まとめデータを再構築する
 	int BatchBeforePos();//一つ前の座標をまとめて保存するための関数
-	int BatchFont( const int SceneEndFlg, const PlayerChara *PcC);//文字を描画することや設定をしたりする関数
+
+		
 	int BatchEnableBumpMap( const int BumpFlug);//バンプマップを有効/無効にします
 	int BatchGetBumpMapStatus() const;//バンプマップ変数の取得を行ないます
 	int BatchCreateShadow();// 影を作成するために関係する処理を行ないます
@@ -75,11 +86,16 @@ public:
 	int Batch_BillBoard( const int SceneEndFlg);// ビルボードの描画処理を行います。
 	int RenderFont( char *Str, float Posx, float Posy, float MagScl, E3DCOLOR4UC Color);// 英文字を描画します
 
+	/* 文字関係の関数 */
+	int BatchFont( const int SceneEndFlg, const PlayerChara *PcC, const struct GameTimer Timer);//文字を描画することや設定をしたりする関数
+	int PutLog( const char *Messeage);// ログを表示する関数
+	int ResetLog();//ログを消す関数
+
 	/* モデル関係の関数 */
 	int	SetModel( const int ID, const bool ViewFlag);
 	int SetModel_AddName( const int ID, const char *Name, const bool ViewFlag);
 	// vector<Model>::iterator SearchModelFromName( const char *ObjName);
-	int Batch_Render::SearchModelFromName( const char *ObjName, vector<Model>::iterator *it);
+	//int SearchModelFromName( const char *ObjName, map< const char *, Model>::iterator *it);
 	int SetModel_ViewFlag( const char *Name, const bool ViewFlag);
 
 	/* スプライト関係の関数 */
@@ -93,9 +109,10 @@ public:
 	int Set_SpriteY( const char *ObjName, const float Value);
 	int Set_ViewFlag( const char *ObjName, const bool Value);
 	//vector<Sprite>::iterator Batch_Render::SearchSpriteFromName( const char *ObjName);
-	int SearchSpriteFromName( const char *ObjName, vector<Sprite>::iterator *it);
+	//int SearchSpriteFromName( const char *ObjName, vector<Sprite>::iterator *it);
 
 	int BatchSpriteRender( const int SceneEndFlg);//まとめられたスプライトをレンダリングするための関数
 	int BatchSpriteSet( const PlayerChara *PcC);//最初にロードしたスプライトの倍率や描画指定するための関数
 
+	int test();
 };

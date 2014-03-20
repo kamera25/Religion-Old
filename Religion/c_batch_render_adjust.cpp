@@ -11,6 +11,7 @@
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 #include "ccamera.h"//カメラ関係のクラスヘッダファイル
+#include <string>
 
 /* 武器の変更があった際、描画すべき道具を変更します。 */
 int Batch_Render::BacthGunTrade( const int Wp_equipment){
@@ -114,14 +115,14 @@ int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, NPC_Hea
 	/*カメラダミーモデルを読み込みます*/
 	SetModel( Cam->DummyModel, false);
 
-	vector<NPC_t>::iterator it;// イテレータ
+	map<string, NPC_t>::iterator it;// イテレータ
 
 	for( it = NPCC->Get_NPC_begin(); it != NPCC->NPC_endit(); it++){
-			SetModel( (*it).NPC_Mdl->Get_BodyModel(), true);
-			SetModel( (*it).NPC_Mdl->Get_WeaponH()->Get_WeaponPointer(0)->Get_Model(), true);
+			SetModel( (*it).second.NPC_Mdl->Get_BodyModel(), true);
+			SetModel( (*it).second.NPC_Mdl->Get_WeaponH()->Get_WeaponPointer(0)->Get_Model(), true);
 	}
 
-
+//	BacthGunTrade( PcC->Get_Wp_equipment());
 
 
 	return 0;
@@ -130,7 +131,17 @@ int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, NPC_Hea
 
 int Batch_Render::SetModel( const int ID, const bool ViewFlag){
 
-	SetModel_AddName( ID, "", ViewFlag);
+	static int Number = 0;// 名前をつけないモデルは、数字のみで管理
+	char cbuf[5];
+
+	wsprintf( cbuf, "%d\0", Number);	
+	SetModel_AddName( ID, cbuf, ViewFlag);
+
+	Number++;
+	if( Number >= 10000)
+	{
+		Number = 0;
+	}
 
 	return 0;
 }
@@ -143,47 +154,53 @@ int Batch_Render::SetModel_AddName( const int ID, const char *Name, const bool V
 
 	/* MdlC構造体に情報を代入します */
 	MdlC.ID = ID;
-	wsprintf( MdlC.Name, "%s", Name);
 	MdlC.ViewFlag = ViewFlag;
 
-	Mdl.push_back( MdlC);// 登録した情報をMdlベクターにプッシュする
+	Mdl.insert( make_pair( string(Name), MdlC));
+	//Mdl.push_back( MdlC);// 登録した情報をMdlベクターにプッシュする
 
 	return 0;
 }
 
-int Batch_Render::SearchModelFromName( const char *ObjName, vector<Model>::iterator *it){
-
-	vector<Model>::iterator iit;
-
-	for( iit = Mdl.begin(); iit != Mdl.end(); iit++){
-			if( strcmp( ObjName, (*iit).Name) == 0){
-					*it = iit;
-					return 0;// ループを抜け出す
-			}
-	}
-
-	/* 以下、検索された文字が見つからなかったときの処理 */
-	_ASSERT( 1 );//エラー
-
-	return -1;
-}
+//int Batch_Render::SearchModelFromName( const char *ObjName, map< const char *, Model>::iterator *it){
+//	
+//
+//
+//	//vector<Model>::iterator iit;
+//
+//	//for( iit = Mdl.begin(); iit != Mdl.end(); iit++){
+//	//		if( strcmp( ObjName, (*iit).Name) == 0){
+//	//				*it = iit;
+//	//				return 0;// ループを抜け出す
+//	//		}
+//	//}
+//
+//	/* 以下、検索された文字が見つからなかったときの処理 */
+//	
+//
+//	return -1;
+//}
 
 int Batch_Render::SetModel_ViewFlag( const char *Name, const bool ViewFlag){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
-	vector<Model>::iterator it;
-		
-	ech = SearchModelFromName( Name, &it);// イテレータ
+	map< string, Model>::iterator it;
 
-	// 検索した文字が見つからなければ
-	if( ech != 0){
+
+	if( Mdl.count(Name))
+	{
+		it = Mdl.find(Name);
+	}
+	else// 検索した文字が見つからなければ
+	{
 			_ASSERT( 1 );//エラー
 			return -1;
 	}
+
 		
 	// 検索した文字が見つかれば	
-	(*it).ViewFlag = ViewFlag;
+	(*it).second.ViewFlag = ViewFlag;
 
 
 	return 0;

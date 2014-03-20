@@ -42,5 +42,9 @@ public:
 	int TurnBackDir(  int Qid, D3DXVECTOR3 WantDeg, int FixFlag);// 肩を回転させる
 	int PCDashControl();// ダッシュ関係の処理を行います
 	int PCSideAvoidanceControl();// 横っ飛びの処理をさせます。
-	float RegulateMoveSpeed( float SpeedIncrease, float SpeedDecrease, float LimitSpeed, float FixedMoveSpeed);// キャラクタの動くスピードを設定、制限します
+	float RegulateMoveSpeed( float Acceleration, float FixedMoveSpeed, float LimitSpeed);// キャラクタの動くスピードを設定、制限します
+	int EventPublish();//ゲームオーバやクリアなどのイベントを発行します
+	int StatusReset();// ソルジャークラスの状態を初期に戻します(リスタート等で利用)
+	int JumpPosition( D3DXVECTOR3 CatPos, const double Degree, const double UpAcceleration, const double Speed);// 座標を指定して、ジャンプをさせる
+	int MoveModel( double WantDeg, double SumSpeed);
 };

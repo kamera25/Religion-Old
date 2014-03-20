@@ -84,8 +84,9 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 					break;
 			}
 			case 6:{// レトリスなら
-					LoadStage_Retolis( StageKind, &FogDist);
-					break;
+					//LoadStage_Retolis( StageKind, &FogDist);
+					LoadStageFromProfile( "st_retolis.mpd");
+				break;
 			}
   			case 7:{// 島なら
 					LoadStageFromProfile( "st_island.mpd");
@@ -283,7 +284,7 @@ int Stage::LoadStageFromProfile( const char *ProfPath){
 
 		if( strcmp( pstr, ".sig") == 0){// Sigファイル
 
-				ech = E3DSigLoad( LoadPath, 0, Magnifc, &Stage_hsid[i]);
+				ech = E3DSigLoad( LoadPath, 0, (float)Magnifc, &Stage_hsid[i]);
 				if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
 					return 1;//問題ありで終了
@@ -291,7 +292,7 @@ int Stage::LoadStageFromProfile( const char *ProfPath){
 		}
 		else if( strcmp( pstr, ".mqo") == 0){// Mqoファイル
 
-				ech = E3DLoadMQOFileAsChara( LoadPath, Magnifc, 0, BONETYPE_RDB2, &Stage_hsid[i]);
+				ech = E3DLoadMQOFileAsChara( LoadPath, (float)Magnifc, 0, BONETYPE_RDB2, &Stage_hsid[i]);
 				if(ech != 0 ){//エラーチェック
 					_ASSERT( 0 );//エラーダイアログ
 					return 1;//問題ありで終了
@@ -304,8 +305,14 @@ int Stage::LoadStageFromProfile( const char *ProfPath){
 
 	}
 
-	/* 壁データをロードする */
-	for( int i = 0; fscanf_s( fp, "%lf %s", &Magnifc, &Loadstr, 256 ) !=EOF && i < 3; i++){
+	/* 「ナビレール」の先頭ヘッダまで移動 */
+	while( strcmp( Loadstr, "MPD_W") != 0 ){
+		ech = fscanf_s( fp, "%s", Loadstr, 256);
+		if(ech == EOF) break;
+	}
+
+	/* 壁データをロードする /
+	for( int i = 0; fscanf_s( fp, "%lf %s", &Magnifc, &Loadstr, 256 ) !=EOF && i < 3 && Magnifc != 0.0 && Magnifc != 0.0; i++){
 		
 		wsprintf( LoadPath,  "%s\\data\\3d\\map\\%s", System::path, Loadstr);
 		ech = E3DLoadMQOFileAsMovableArea( LoadPath, Magnifc, &Wall_hsid[i]);
@@ -313,7 +320,18 @@ int Stage::LoadStageFromProfile( const char *ProfPath){
 			_ASSERT( 0 );//エラーダイアログ
 			return 1;//問題ありで終了
 		};
+	}*/
+
+	/* 「ナビレール」の先頭ヘッダまで移動 */
+	while( strcmp( Loadstr, "MPD_NV") != 0 ){
+		ech = fscanf_s( fp, "%s", Loadstr, 256);
 	}
+
+	// ナビデータ読み込み
+	if( fscanf_s( fp, "%s", &Loadstr, 256 ) !=EOF){;
+		Navi.NVFLoading( Loadstr);
+	}
+
 
 
 	if( fclose(fp) == EOF){

@@ -11,7 +11,7 @@
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "ccamera.h"//カメラ関係のクラスヘッダファイル
-
+#include "cMission.h"
 
 
 int PlayerChara::ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]){
@@ -85,28 +85,33 @@ int PlayerChara::ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 
 
 	/*キャラクターモデルの方向を初期化します*/
-	ech = E3DRotateInit( Get_BodyModel());
-	_ASSERT( ech != 1 );//エラーチェック
+	Act->RotateInit();
+	//ech = E3DRotateInit( Get_BodyModel());
+	//_ASSERT( ech != 1 );//エラーチェック
 
 	/*座標を取得する*/
-	ech = E3DGetPos( Get_BodyModel(), &MyPos1);
-	_ASSERT( ech != 1 );//エラーチェック
+	MyPos1 = Act->GetPos();
+	//ech = E3DGetPos( Get_BodyModel(), &MyPos1);
+	//_ASSERT( ech != 1 );//エラーチェック
 
 	/*キャラクターモデルの「首つけ根」の座標を取得します*/
-	ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
-	_ASSERT( ech != 1 );//エラーチェック
+	StomachPos = Act->BonePos( "首付け根");
+	//ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
+	//_ASSERT( ech != 1 );//エラーチェック
 
 	MyPos2.x = StomachPos.x * -1;
 	MyPos2.y = StomachPos.y * -1;
 	MyPos2.z = StomachPos.z * -1;
 
 	/*座標を原点にする*/
-	ech = E3DSetPos( Get_BodyModel(), MyPos2);
-	_ASSERT( ech != 1 );//エラーチェック
+	Act->SetPos( MyPos2);
+	//ech = E3DSetPos( Get_BodyModel(), MyPos2);
+	//_ASSERT( ech != 1 );//エラーチェック
 
 	/*キャラクターモデルの「首つけ根」の座標を取得します*/
-	ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
-	_ASSERT( ech != 1 );//エラーチェック
+	Act->BonePos( "首つけ根");
+	//ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
+	//_ASSERT( ech != 1 );//エラーチェック
 
 	WantDeg.x = float( TurnPos.x - 0);//X座標の向く方向のベクトルを取得
 	WantDeg.y = float( TurnPos.y - 0);//Y座標の向く方向のベクトルを取得
@@ -133,12 +138,14 @@ int PlayerChara::ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 	_ASSERT( ech != 1 );//エラーチェック
 
 	/*本来の自分の座標に戻す*/
-	ech = E3DSetPos( Get_BodyModel(), MyPos1);
-	_ASSERT( ech != 1 );//エラーチェック
+	Act->SetPos( MyPos1);
+	//ech = E3DSetPos( Get_BodyModel(), MyPos1);
+	//_ASSERT( ech != 1 );//エラーチェック
 
 	/*キャラクターを回転させます*/
-	ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
-	_ASSERT( ech != 1 );//エラーチェック
+	Act->RotateY( Get_PC_Deg_XZ());
+	//ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
+	//_ASSERT( ech != 1 );//エラーチェック
 
 
 
@@ -152,7 +159,8 @@ int PlayerChara::ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 }
 
 // ダッシュ関係の処理を行います
-int PlayerChara::PCDashControl(){
+int PlayerChara::PCDashControl()
+{
 
 
 	/* //////////////////////////// */
@@ -409,20 +417,71 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 }
 
 /* キャラクタの動くスピードを設定、制限します */
-float PlayerChara::RegulateMoveSpeed( float SpeedIncrease, float SpeedDecrease, float LimitSpeed, float FixedMoveSpeed){
-
+float PlayerChara::RegulateMoveSpeed( float Acceleration, float FixedMoveSpeed, float LimitSpeed)
+{
 	/* 初期化 */
-	//.....
+	float TempSpeed = (float)Get_MoveSpeed();
 
-	/*スピードを増加させる*/
-	Set_MoveSpeed( Get_MoveSpeed() + 0.8f);
-
-	//スピードに制限をかける
-	if( LimitSpeed <= Get_MoveSpeed() ){
-				Set_MoveSpeed( LimitSpeed);
+	/* 速度が所定速度より遅ければ */
+	if( TempSpeed <= FixedMoveSpeed)
+	{
+		TempSpeed = FixedMoveSpeed;
 	}
 
-	return float( FixedMoveSpeed + Get_MoveSpeed() );
+	if( LimitSpeed < TempSpeed){
+		TempSpeed = TempSpeed - 1 * abs(Acceleration);
+	}
+	else
+	{
+		TempSpeed = TempSpeed + Acceleration;
+	}
+	
+
+
+
+	
+	/* スピードに制限をかける */
+	if( LimitSpeed - Acceleration/2.0f <= TempSpeed 
+		&& TempSpeed <= LimitSpeed + Acceleration/2.0f)
+	{
+		TempSpeed = LimitSpeed;
+	}
+	else if( -1 * abs(Acceleration) + 0.0f <= TempSpeed
+		&& TempSpeed <= 0.0f + abs(Acceleration))
+	{
+		TempSpeed =  0.0f;
+	}
+
+
+	Set_MoveSpeed( TempSpeed);
+
+	return TempSpeed;
+
+	///* 初期化 */
+	//float SumSpeed = 0.0f;
+	////.....
+
+	///*スピードを増加させる*/
+	//Set_MoveSpeed( Get_MoveSpeed() + Speed);
+	//if( )
+	//{
+
+	//}
+
+
+	////
+	//if( LimitSpeed - Speed/2.0f <= Get_MoveSpeed() && Get_MoveSpeed() <= LimitSpeed + Speed/2.0f )
+	//{
+	//	Set_MoveSpeed( LimitSpeed);
+	//}
+	//else if( Get_MoveSpeed() <= 0.0f)
+	//{
+	//	Set_MoveSpeed( 0.0f);
+	//}
+
+	//SumSpeed = FixedMoveSpeed + Get_MoveSpeed();
+
+	//return float( SumSpeed );
 }
 
 /*キャラを動かします、前後左右に動けます*/
@@ -432,14 +491,13 @@ int PlayerChara::MoveChara(){
 	int ech = 0;//エラー確認変数
 	int KeyMov = 0;//キーを押してどの方向に動くかの変数
 	int MovOn = 0;//動いていいかのフラグ
-	float WantDeg = 0;//向きたい方向の変数
+	static float WantDeg = 0;//向きたい方向の変数
 	float FixedMoveSpeed = 0.0f;//それぞれの状態の固定速度
 	float SumSpeed = 0.0f;// 合計の速さ 
-	D3DXVECTOR3 SubPos( 0.0, 0.0, 0.0);//キャラクターを置く場所の座標
-	D3DXVECTOR3 PCPos( 0.0, 0.0, 0.0);//プレイヤーキャラクターの位置の座標
+	//D3DXVECTOR3 SubPos( 0.0, 0.0, 0.0);//キャラクターを置く場所の座標
+	//D3DXVECTOR3 PCPos( 0.0, 0.0, 0.0);//プレイヤーキャラクターの位置の座標
 
 	/*ダッシュ操作がオンになっていないかチェック*/
-
 
 	/* キーの状態を取得する */
 	if( System::GetKeyData( System::KEY_A) == 1){//左
@@ -547,87 +605,153 @@ int PlayerChara::MoveChara(){
 				MovOn = 1;//絶対動く
 	}
 
+	// カタパルトジャンプを利用中なら
+	if( Get_MyState() == S_JUMP)
+	{
+		WantDeg = Get_PC_Deg_XZ();
+		MovOn = 0;//絶対に動かない
+	}
+
 	/*動く方向を決めるよ*/
 	switch(MovOn){
 			case 1:{
 					switch(Get_MyState()){
 							case 0:{//通常状態なら
-									if( Get_AirOnPC() == 0){//地上にいれば
+
+									if( Get_AirOnPC() == AirOff){//地上にいれば
 											if(Get_Attitude() == 0){//姿勢が「立っている状態」なら
-													SumSpeed = RegulateMoveSpeed( 0.8f, 0.8f, 25.0f, 50.0f);
+													SumSpeed = RegulateMoveSpeed( 1.2f, 25.0f, 70.0f);
 											}
 											else if(Get_Attitude() == 1){//姿勢が「しゃがみ状態」なら
-													SumSpeed = RegulateMoveSpeed( 0.4f, 0.4f, 20.0f, 30.0f);
+													SumSpeed = RegulateMoveSpeed( 0.8f, 20.0f, 50.0f);
 											}
 									}
-									if( Get_AirOnPC() == 1){//空中にいるなら
-											SumSpeed = RegulateMoveSpeed( 0.3f, 0.3f, 10.0f, 20.0f);
+									if( Get_AirOnPC() == AirOn){//空中にいるなら
+											SumSpeed = RegulateMoveSpeed( 0.3f, 10.0f, 20.0f);
 									}
 									break;
 						    }
 							case 2:{//ダッシュの時
-									if( Get_AirOnPC() == 0){//地上にいるなら
-											SumSpeed = RegulateMoveSpeed( 2.0f, 2.0f, 40.0f, 70.0f);
+
+									if( Get_AirOnPC() == AirOff)//地上にいるなら
+									{
+											SumSpeed = RegulateMoveSpeed( 2.0f, 60.0f, 120.0f);
 									}
-									if( Get_AirOnPC() == 1){//空中にいるなら
-											SumSpeed = RegulateMoveSpeed( 2.0f, 2.0f, 40.0f, 70.0f);
+									else if( Get_AirOnPC() == AirOn)//空中にいるなら
+									{
+											SumSpeed = RegulateMoveSpeed( 2.0f, 40.0f, 70.0f);
 									}
 									break;
 							}
 							case 3:// 横っ飛びのとき
 							case 4:{
-									SumSpeed = RegulateMoveSpeed( 5.0f, 0.0f, 50.0f, 120.0f);
+									SumSpeed = RegulateMoveSpeed( 5.0f, 50.0f, 120.0f);
 									break;
 							}
 					}
 
-					/*ダミーモデルの座標に設定*/
-					ech = E3DRotateInit ( Get_DummyModel());
-					_ASSERT( ech != 1 );//エラーチェック
-
-					ech = E3DGetPos( Get_BodyModel(), &PCPos);
-					_ASSERT( ech != 1 );//エラーチェック
-
-					ech = E3DSetPos( Get_DummyModel(), PCPos);
-					_ASSERT( ech != 1 );//エラーチェック
-
-					ech = E3DRotateY( Get_DummyModel(), WantDeg);
-					_ASSERT( ech != 1 );//エラーチェック
-
-					ech = E3DPosForward( Get_DummyModel(), SumSpeed);
-					_ASSERT( ech != 1 );//エラーチェック
-
-					ech = E3DGetPos( Get_DummyModel(), &SubPos);
-					_ASSERT( ech != 1 );//エラーチェック
-
-					ech = E3DSetPos( Get_BodyModel(), SubPos);
-					_ASSERT( ech != 1 );//エラーチェック
+					MoveModel( WantDeg, SumSpeed);
 
 					break;
 		    }
 			default:{
-					if( Get_AirOnPC() == 0){//空中にいるなら
-								if( Get_Attitude() == 0) Set_MoveSpeed( Get_MoveSpeed() - 0.8f);//姿勢が「通常状態」なら
-								if( Get_Attitude() == 1) Set_MoveSpeed( Get_MoveSpeed() - 1.0f);//姿勢が「しゃがみ状態」なら
+					if( Get_AirOnPC() == AirOff){// 地上にいるなら
+
+								if( Get_Attitude() == 0)//姿勢が「通常状態」なら
+								{
+									SumSpeed = RegulateMoveSpeed( -14.0f, 0.0f, 500.0f);
+								}
+								else if( Get_Attitude() == 1)//姿勢が「しゃがみ状態」なら
+								{
+									SumSpeed = RegulateMoveSpeed( -14.0f, 0.0f, 500.0f);
+								}
 					}
-					if( Get_AirOnPC() == 1) Set_MoveSpeed( Get_MoveSpeed() - 0.6f);//姿勢が「しゃがみ状態」なら
+					else if( Get_AirOnPC() == AirOn)// 空中にいるなら
+					{
+						if( Get_MyState() == S_JUMP)
+						{
+							SumSpeed = RegulateMoveSpeed( 0.0f, 0.0f, 500.0f);
+						}
+						else
+						{
+							SumSpeed = RegulateMoveSpeed( -2.0f, 0.0f, 500.0f);
+						}
 
 
-					//RegulateMoveSpeed( 0.0f, 0.8f, 0.0f, 0.0f);
-
-					//スピードに制限をかける
-					if( Get_MoveSpeed() <= 0.0 ){
-								Set_MoveSpeed( 0.0f);
 					}
 
+					MoveModel( WantDeg, SumSpeed);
 
 					Set_UnderMotion(0);
 			}
 	}
 
+	return 0;
+}
 
-	
+int PlayerChara::MoveModel( double WantDeg, double SumSpeed)
+{
+	/* 初期化 */
+	int ech;
+	D3DXVECTOR3 SubPos( 0.0, 0.0, 0.0);//キャラクターを置く場所の座標
+	D3DXVECTOR3 PCPos( 0.0, 0.0, 0.0);//プレイヤーキャラクターの位置の座標
 
+	/*ダミーモデルの座標に設定*/
+	Act->RotateInit();
+	PCPos = Act->GetPos();
+
+	Act->Dummy->SetPos( PCPos);
+	Act->Dummy->RotateY( WantDeg);
+	Act->Dummy->Forward( SumSpeed);
+	SubPos = Act->Dummy->GetPos();
+
+	Act->SetPos(SubPos);
+
+	return 0;
+}
+
+
+/* ゲームオーバやクリアなどのイベントを発行します */
+int PlayerChara::EventPublish()
+{
+	/* 変数の初期化 */
+	int ech;
+
+	int Event = Mission::NORMAL;// イベント変数
+
+	D3DXVECTOR3 MyPos1( 0.0, 0.0, 0.0);
+
+	/* ゲームオーバの関係 */
+
+	/* 自分の位置が最底辺のY座標を超えたら */
+	ech = E3DGetPos( Get_BodyModel(), &MyPos1);
+	_ASSERT( ech != 1 );//エラーチェック
+	if( MyPos1.y < -10000.0f)
+	{
+		return Mission::GAMEOVER;
+	}
+
+
+
+
+
+	return Event;
+}
+
+/* 座標を指定して、ジャンプをさせる */
+int PlayerChara::JumpPosition( D3DXVECTOR3 CatPos, const double Degree, const double UpAcceleration, const double Speed)
+{
+	double WantDeg;
+
+	//WantDeg = Degree + Get_PC_Deg_XZ(); 
+	Set_MyState( S_JUMP);
+	Set_AirOnPC( AirOn );
+	Set_MoveSpeed( Speed );
+	Set_PC_Deg_XZ( (float)Degree);
+
+	//E3DSetPos( Get_BodyModel(), CatPos);
+
+	Set_Acceleration( Get_Acceleration() + UpAcceleration);
 
 	return 0;
 }

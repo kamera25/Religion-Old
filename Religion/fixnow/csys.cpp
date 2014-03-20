@@ -7,12 +7,50 @@
 
 #include "cWeapon_head.h"// 武器統括に関することのクラスヘッダファイル
 #include "csys_statics.h"// システムクラスの静動変数・関数周りをまとめたヘッダファイル
-#include "cGUI.h"// GUIのサブセットを使います
 
+
+// ゲームを開始します
+int Start(){
+	
+	/*変数の初期化&宣言*/
+	int MenuSelectNo = 0;//どのメニューが選択されたか格納します
+
+	while( WM_QUIT != System::msg.message){
+
+			/*メインメニューをに入ります*/
+			{
+				MainMenu MainMenu;
+				MenuSelectNo = MainMenu.InMainMenu();
+			}
+
+			/*セレクト変数によって分岐します*/
+			switch( MenuSelectNo){
+				case 1:{//オペレーションモードが選択されたら
+					OperationMenu OpsMenu;//オプスメニュークラスを作成
+					OpsMenu.InOpsMenu();
+					break;
+				}
+				case 0:{
+						Operation OPS;//オペレーションを作る
+						OPS.OpsMissionBranchStart( 0);// 新緑の少女を呼ぶ
+						break;
+				}
+			}
+	}
+
+	
+	return ;
+}
 
 // コンストラクタ:Easy3Dの処理を開始するよ。
 System::System( const HINSTANCE chInst, const HWND chwnd){
 
+
+};
+
+// システムの初期化を行います。 
+System::Intialize( const HINSTANCE chInst){
+	
 	/*変数の*/
 	int ech = 0;//エラーチェック用の変数宣言
 	int index = 0;//何文字目か
@@ -20,6 +58,45 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	char *p;//ポインタ、後ろから
 	char ch = '\\' ;//検索する文字
 	char szpath[256] = "";//実行中のパスを入れる文字列変数
+	WNDCLASSEX winc;
+
+
+	/* /////////////// */
+	/* Windowの初期化 */
+	/* /////////////// */
+
+	//ウィンドウズクラス製作
+
+	winc.cbSize		   = sizeof(WNDCLASSEX);//クラスのサイズ
+	winc.style		   = CS_HREDRAW | CS_VREDRAW;//横・縦がサイズ変更があったら再描画
+	winc.lpfnWndProc   = WndProc;//どのプロシージャに返すか
+	winc.cbClsExtra    = 0;//ウィンドウクラスの補足バイトを指定、たいてい0でOK
+	winc.cbWndExtra    = 0;//ウィンドウインスタンスの補足バイトを指定、大抵0でOK
+	winc.hInstance     = hInst;//どのインスタンスハンドルを指定
+	winc.hIcon         = LoadIcon( chInst, "KIRIN");//アイコンの指定
+	winc.hCursor       = LoadCursor(NULL,IDC_ARROW);//カーソルの指定
+	winc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);//背景の指定、ここでは白
+	winc.lpszMenuName  = NULL;//メニューバーの指定、ここでは使わないからなし
+	winc.lpszClassName = "WndCls";//作ったウィンドウクラス名
+	winc.hIconSm       = LoadIcon( chInst, "KIRIN");//アイコンの指定
+
+	//ウィンドウクラス完成！(↓ウィンドウクラスの登録
+	if(!RegisterClassEx(&winc)) return 1;//もし、0の戻り値なら終了
+	
+
+	//メインウィンドウを作るョ
+	hwnd = CreateWindow(
+						"WndCls","Religion 20121013",//どのクラスか、タイトルバーの名前
+						WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME,CW_USEDEFAULT,0,640,480,//オーバーラップウィンドウ、場所はY=0でX=任意、大きさは640×480
+						NULL,NULL,chInst,NULL//親ウィンドウなし、メニュー使わない、インスタンス、プロシージャからのパラメータのポインタ
+	);
+
+	//もし、ウィンドウ作成に失敗したらエラーで終了
+	if(hwnd == NULL) return 1;
+
+	//WinAPIによるウィンドウ作成終了
+	//以下より、クラス・SystemによりE3D環境を作成
+
 
 	//パスの取得
 
@@ -47,14 +124,6 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	//変数操作
 
 	hInst = chInst;
-	hwnd = chwnd;
-
-	/*キー取得命令のためのキー配列その1*/
-
-
-
-
-	/*キー取得命令のためのキー配列その2*/
 
 
 	/*マウスを使うために初期化します*/
@@ -82,9 +151,6 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	ech = E3DCreateSwapChain( chwnd, &scid2);
 	_ASSERT( ech != 1 );//エラーチェック
 
-	/**/
-	cGUI::Initialize();
-
 
 	/* **************
 	// 最低限必要な画像のロードを行います
@@ -94,8 +160,7 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	// メニュー画面での上部白いバーをロードします。
 	wsprintf( loadname, "%s\\data\\img\\sys\\loading.png", path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteID[0]);
-	
-			_ASSERT( ech != 1 );//エラーチェック
+	_ASSERT( ech != 1 );//エラーチェック
 
 	// 画面全体を暗くするための、黒画像
 	wsprintf( loadname, "%s\\data\\img\\oth\\black.png", System::path);
@@ -103,7 +168,16 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	_ASSERT( ech != 1 );//エラーチェック
 
 	
-};
+	// 画面の表示
+	ShowWindow(hwnd, nShowCmd);//ウィンドウハンドルの指定、アプリの初期化･･･？
+	UpdateWindow(hwnd);//プロシージャにWM_PAINT(再描画)の命令をする。
+	
+	
+	return 0;
+}
+
+
+
 // デストラクタ:Easy3Dの終了処理を行うよ。
 System::~System(){
 
@@ -119,8 +193,6 @@ System::~System(){
 	/* スワップチェインを削除 */
 	ech = E3DDestroySwapChain(scid2);
 	_ASSERT( ech != 1 );//エラーチェック
-
-	cGUI::Finalize();// GUI関連のシステムをファイナライズ
 
 	/* Easy3D終了処理 */
 	ech = E3DBye();
@@ -465,29 +537,25 @@ int System::KeyRenewal( const int SelectMode){
 int System::WaitRender(){
 
 	int ech = 0;//エラーチェック変数
-	D3DXVECTOR3 SpritePos1( 0.0, 0.0, 0.0);//背景の位置
+	D3DXVECTOR3 SpritePos1( 0.0, -25.0, 0.0);//背景の位置
 	//POINT TextPos;//テキストの座標変数
 
 	/*描画準備を行います*/
-	ech = E3DBeginScene( scid1, 0, -1);
-	_ASSERT( ech != 1 );//エラーチェック
-	ech = E3DBeginSprite();
-	_ASSERT( ech != 1 );//エラーチェック
+	E3DBeginScene( scid1, 1, -1);
+	E3DBeginSprite();
 
 	ech = E3DRenderSprite( SpriteID[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景
 	_ASSERT( ech != 1 );//エラーチェック
 
 	/*ここで、描画完了*/
-	ech = E3DEndSprite();
-	_ASSERT( ech != 1 );//エラーチェック
+	E3DEndSprite();
+
 					/*文字"バックパック"の描画を行います*/
 					//TextPos.x = 440;/**/TextPos.y = 5;
 					//E3DDrawTextByFontID( System::scid1, TextID[0], TextPos, "バックパック", NormalColor1);
 
-	ech = E3DEndScene();
-	_ASSERT( ech != 1 );//エラーチェック
-	ech = E3DPresent(scid1);
-	_ASSERT( ech != 1 );//エラーチェック
+	E3DEndScene();
+	E3DPresent(scid1);
 
 
 
@@ -654,6 +722,36 @@ int System::SetMouseBeforePos(){
 
 /* キーインプットを取得する関数 */
 bool System::GetKeyData( const int KeyNum){
+	
 
 	return keyin[ KeyNum ];
 }
+
+//ウィンドウズプロージャー
+LRESULT CALLBACK System::WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp){
+
+	int Whole = 0;//ホイールの移動量を格納する変数
+
+	switch (msg){
+		case WM_MOUSEWHEEL://マウスホール
+				Whole = HIWORD(wp)/120;// 上は1、下は545
+				if( Whole == 1) System::MouseWhole = 1;
+				if( Whole == 545) System::MouseWhole = 2;
+
+				break;
+
+		case WM_DESTROY:
+				PostQuitMessage(0);
+
+				break;
+
+
+
+
+	};
+
+	return DefWindowProc(hwnd, msg, wp, lp);
+};
+
+
+
