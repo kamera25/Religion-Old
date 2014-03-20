@@ -261,6 +261,32 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 
 	////////////////
 
+	if(StageID == 5){//基地前
+
+		if(StageKind == 0){
+						wsprintf( loadname, "%s\\data\\3d\\map\\st_kichimae\\kichimae.sig", sys->path);
+						ech = E3DLoadSigFileAsGround(loadname, 20.0, 0, &Stage_hsid[0]);
+						if(ech != 0 ){//エラーチェック
+								_ASSERT( 0 );//エラーダイアログ
+								return 1;//問題ありで終了
+						};
+		
+
+		};
+
+		/*モヤの設定*/
+		E3DCOLOR4UC FogColor = {100,100,100,100};
+		E3DSetLinearFogParams(1, FogColor, 15000, 100000, -1);//ファグをかけます。
+		if(ech != 0 ){//エラーチェック
+								_ASSERT( 0 );//エラーダイアログ
+								return 1;//問題ありで終了
+		}
+
+		Stage_GunTarget = 0;//ステージの銃操作を"通常"にする
+		Stage_GndMode = 0;//キャラ地面操作を"通常にする"
+
+	};
+
 	/*
 		以下より、光源を用意します。
 	*/

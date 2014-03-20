@@ -355,6 +355,7 @@ int PlayerChara::MoveChara(){
 	int ech = 0;//エラー確認変数
 	int KeyMov = 0;//キーを押してどの方向に動くかの変数
 	int MovOn = 0;//動いていいかのフラグ
+	int keyin[20];//キー情報配列を作成 
 	float WantDeg = 0;//向きたい方向の変数
 	float FixedMoveSpeed = 0.0f;//それぞれの状態の固定速度
 	D3DXVECTOR3 SubPos( 0.0, 0.0, 0.0);//キャラクターを置く場所の座標
@@ -364,16 +365,19 @@ int PlayerChara::MoveChara(){
 
 
 	/*キーによる分岐*/
-	if( sys->keyin[0] == 1){//左
+
+	sys->GetKeyData(keyin);//キー情報を格納
+
+	if( keyin[0] == 1){//左
 				KeyMov = KeyMov +1;
 	}
-	if( sys->keyin[1] == 1){//上
+	if( keyin[1] == 1){//上
 				KeyMov = KeyMov +2;
 	}
-	if( sys->keyin[2] == 1){//右
+	if( keyin[2] == 1){//右
 				KeyMov = KeyMov +4;
 	}
-	if( sys->keyin[3] == 1){//下
+	if( keyin[3] == 1){//下
 				KeyMov = KeyMov +8;
 	}
 
@@ -445,6 +449,18 @@ int PlayerChara::MoveChara(){
 	//空中で、ダッシュ状態なら
 	if( ( AirOnPC == 1) && ( MyState == 2)){
 				WantDeg = PC_Deg_XZ;//まっすぐ進む
+				MovOn = 1;//絶対動く
+	}
+
+	//左飛び状態なら
+	if( MyState == 3) {
+				WantDeg = -90.0f + PC_Deg_XZ;
+				MovOn = 1;//絶対動く
+	}
+
+	//右飛び状態なら
+	if( MyState == 4) {
+				WantDeg = 90.0f + PC_Deg_XZ; 
 				MovOn = 1;//絶対動く
 	}
 
@@ -522,7 +538,13 @@ int PlayerChara::MoveChara(){
 									FixedMoveSpeed = 70.0f;
 							}
 					}
+					if( ( MyState == 3) || ( MyState == 4)){//左飛び状態なら
+									/*スピードを固定*/
+									MoveSpeed = 0.0f;
 
+									//固定スピードの設定（しゃがみ）
+									FixedMoveSpeed = 90.0f;
+					}
 
 
 
@@ -547,7 +569,7 @@ int PlayerChara::MoveChara(){
 								_ASSERT( 0 );//エラーダイアログ
 					};
 
-					ech = E3DPosForward( DummyModel, MoveSpeed + FixedMoveSpeed);
+					ech = E3DPosForward( DummyModel, (float)MoveSpeed + FixedMoveSpeed);
 					if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
 					};
@@ -615,15 +637,22 @@ int PlayerChara::MovePosOnGround( Stage *Stg){
 						_ASSERT( 0 );//エラーダイアログ
 			};
 
-			/*もし地面の高さがかなり離れていれば*/
-			if( 400 < MyPos.y - GroundOnPos.y ){
+			/*もし地面の高さがかなり離れているか、横っ飛び状態なら*/
+			if( (400 < MyPos.y - GroundOnPos.y) || ( MyState == 3) || ( MyState == 4) ){
 
 						/*加速度を追加する*/
 						Acceleration = Acceleration - 8.0;
 
-						/*ダッシュ中で前回は飛んでなかった場合*/
-						if( ( MyState == 2) && ( BeforeAirOnPC == 0)) {
-									Acceleration = 100;//空中でジャンプしたことにする
+						/*前回はとんでなかった場合*/
+						if( BeforeAirOnPC == 0){
+									/*ダッシュ中の場合*/
+									if( ( MyState == 2) && ( BeforeAirOnPC == 0)) {
+												Acceleration = 100;//空中でジャンプしたことにする
+									}
+									/*横っ飛び状態なら*/
+									if( (MyState == 3) || ( MyState == 4)) {
+												Acceleration = 70;//空中でジャンプしたことにする
+									}
 						}
 
 						/*加速度に制限をかける*/

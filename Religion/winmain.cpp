@@ -7,6 +7,7 @@
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
 
+
 //ここにある関数を宣言。
 int GMStart();//ゲームメインループの宣言
 
@@ -20,17 +21,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp){
 	int Whole = 0;//ホイールの移動量を格納する変数
 
 	switch (msg){
-		case WM_DESTROY:
-				PostQuitMessage(0);
-
-				return 0;
-
 		case WM_MOUSEWHEEL://マウスホール
 				Whole = HIWORD(wp)/120;// 上は1、下は545
 				if( Whole == 1) sys->MouseWhole = 1;
 				if( Whole == 545) sys->MouseWhole = 2;
 
 				return 0;
+
+		case WM_DESTROY:
+				PostQuitMessage(0);
+
+				return 0;
+
+
+
 
 	};
 
@@ -50,6 +54,7 @@ int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int n
 	//パスの取得
 
 	char path[256] = "";
+	char Iconpath[256] = "";
 	char *p;//ポインタ、後ろから
 	char ch = '\\' ;//検索する文字
 	int index;//何文字目か
@@ -63,6 +68,7 @@ int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int n
 
 	strncpy_s(path, szpath, index);//path変数にszpath変数から最後の\までの文字を取得
 
+	wsprintf( Iconpath, "%s\\data\\img\\sys\\icon.ico", path);//アイコン名登録
 
 	//ウィンドウズクラス製作
 
@@ -72,12 +78,12 @@ int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInstance,LPSTR lpCmdLine,int n
 	winc.cbClsExtra    = 0;//ウィンドウクラスの補足バイトを指定、たいてい0でOK
 	winc.cbWndExtra    = 0;//ウィンドウインスタンスの補足バイトを指定、大抵0でOK
 	winc.hInstance     = hInst;//どのインスタンスハンドルを指定
-	winc.hIcon         = NULL;//LoadIcon(NULL,MAKEINTRESOURCE(IDI_ICON1));//アイコンの指定
+	winc.hIcon         = (HICON)LoadImage( hInst, Iconpath, IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED | LR_LOADFROMFILE);//アイコンの指定
 	winc.hCursor       = LoadCursor(NULL,IDC_ARROW);//カーソルの指定
 	winc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);//背景の指定、ここでは白
 	winc.lpszMenuName  = NULL;//メニューバーの指定、ここでは使わないからなし
 	winc.lpszClassName = "WndCls";//作ったウィンドウクラス名
-	winc.hIconSm       = NULL;//= LoadIcon(hInst,MAKEINTRESOURCE(IDI_ICON1)) ;//小さいアイコンの指定
+	winc.hIconSm       = (HICON)LoadImage( hInst, Iconpath, IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_SHARED | LR_LOADFROMFILE);;//= LoadIcon(hInst,MAKEINTRESOURCE(IDI_ICON1)) ;//小さいアイコンの指定
 
 	//ウィンドウクラス完成！(↓ウィンドウクラスの登録
 	if(!RegisterClassEx(&winc)) return 1;//もし、0の戻り値なら終了

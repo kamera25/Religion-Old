@@ -1595,8 +1595,8 @@ MotHandler : AddMotion å„êi, framenum 31
 check !!! : mchandler : AddParentMC : addcookie 11, srcidling 0
 check !!! mafile : ReadTrunk : curcookie 11
 check !!! mafile : ReadTrunk : fullname c:\Users\Taka\Documents\religion\Debug\data\3d\chara\motion\âEîÚÇ—Ç¬Ç´.qua
-quafile : LoadQuaFile : framenum 21
-MotHandler : AddMotion âEîÚÇ—Ç¬Ç´, framenum 21
+quafile : LoadQuaFile : framenum 22
+MotHandler : AddMotion âEîÚÇ—Ç¬Ç´, framenum 22
 check !!! : mchandler : AddParentMC : addcookie 12, srcidling 0
 check !!! mafile : ReadTrunk : curcookie 12
 check !!! mafile : ReadTrunk : fullname c:\Users\Taka\Documents\religion\Debug\data\3d\chara\motion\ÇµÇ·Ç™Ç›_ë“ã@.qua
@@ -1669,6 +1669,16 @@ quafile : LoadQuaFile : framenum 12
 MotHandler : AddMotion ÇµÇ·Ç™Ç›_ãÛíÜóéâ∫, framenum 12
 check !!! : mchandler : AddParentMC : addcookie 26, srcidling 0
 check !!! mafile : ReadTrunk : curcookie 26
+check !!! mafile : ReadTrunk : fullname c:\Users\Taka\Documents\religion\Debug\data\3d\chara\motion\ç∂îÚÇ—Ç¬Ç´.qua
+quafile : LoadQuaFile : framenum 22
+MotHandler : AddMotion ç∂îÚÇ—Ç¬Ç´, framenum 22
+check !!! : mchandler : AddParentMC : addcookie 27, srcidling 0
+check !!! mafile : ReadTrunk : curcookie 27
+check !!! mafile : ReadTrunk : fullname c:\Users\Taka\Documents\religion\Debug\data\3d\chara\motion\ÉAÉTÉãÉg_ë“ã@.qua
+quafile : LoadQuaFile : framenum 1
+MotHandler : AddMotion ÉAÉTÉãÉg_ë“ã@, framenum 1
+check !!! : mchandler : AddParentMC : addcookie 28, srcidling 0
+check !!! mafile : ReadTrunk : curcookie 28
 CTreeHandler : Add2ElemIndex : serino 0
 CShdHandler : AddShdElem : srcseri 0, brono 0, srcdepth 0
 CShdHandler : constructor : check : s2shd_leng 1
@@ -2522,8 +2532,8 @@ CShdHandler : AddShdElem : srcseri 0, brono 0, srcdepth 0
 CShdHandler : constructor : check : s2shd_leng 1
 CMotHandler : AddMotionCtrl : srcseri 0, brono 0, srcdepth 0
 CMotHandler : constructor : check : s2mot_leng 1
-e3d : SetResDir : RESDIR : c:\Users\Taka\Documents\religion\Debug\data\3d\map\st_kamigaichi\
-sh : SetDirName : m_dirname c:\Users\Taka\Documents\religion\Debug\data\3d\map\st_kamigaichi\
+e3d : SetResDir : RESDIR : c:\Users\Taka\Documents\religion\Debug\data\3d\map\st_kichimae\
+sh : SetDirName : m_dirname c:\Users\Taka\Documents\religion\Debug\data\3d\map\st_kichimae\
 sigfile : LoadSigFile : im2enableflag 1 !!!
 sigfile : LoadSigFile : start Load Loop 0
 CTreeHandler : Add2ElemIndex : serino 1
@@ -2539,10 +2549,10 @@ CMotHandler : AddMotionCtrl : srcseri 2, brono 0, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 1092, n 364, total 397488
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 468, n 156, total 73008
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 1092, optpleng 639
+Polymesh2 : CreateOptData : oldpleng 468, optpleng 140
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 3
 CShdHandler : AddShdElem : srcseri 3, brono 1, srcdepth 2
@@ -2550,10 +2560,10 @@ CMotHandler : AddMotionCtrl : srcseri 3, brono 1, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 102, n 34, total 3468
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 2364, n 788, total 1862832
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 102, optpleng 52
+Polymesh2 : CreateOptData : oldpleng 2364, optpleng 443
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 4
 CShdHandler : AddShdElem : srcseri 4, brono 2, srcdepth 2
@@ -2561,10 +2571,10 @@ CMotHandler : AddMotionCtrl : srcseri 4, brono 2, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 186, n 62, total 11532
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 198, n 66, total 13068
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 186, optpleng 92
+Polymesh2 : CreateOptData : oldpleng 198, optpleng 82
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 5
 CShdHandler : AddShdElem : srcseri 5, brono 3, srcdepth 2
@@ -2572,10 +2582,10 @@ CMotHandler : AddMotionCtrl : srcseri 5, brono 3, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 228, n 76, total 17328
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 936, n 312, total 292032
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 228, optpleng 113
+Polymesh2 : CreateOptData : oldpleng 936, optpleng 200
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 6
 CShdHandler : AddShdElem : srcseri 6, brono 4, srcdepth 2
@@ -2583,10 +2593,10 @@ CMotHandler : AddMotionCtrl : srcseri 6, brono 4, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 138, n 46, total 6348
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 2490, n 830, total 2066700
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 138, optpleng 64
+Polymesh2 : CreateOptData : oldpleng 2490, optpleng 1259
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 7
 CShdHandler : AddShdElem : srcseri 7, brono 5, srcdepth 2
@@ -2594,10 +2604,10 @@ CMotHandler : AddMotionCtrl : srcseri 7, brono 5, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 102, n 34, total 3468
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 18, n 6, total 108
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 102, optpleng 52
+Polymesh2 : CreateOptData : oldpleng 18, optpleng 12
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 8
 CShdHandler : AddShdElem : srcseri 8, brono 6, srcdepth 2
@@ -2605,10 +2615,10 @@ CMotHandler : AddMotionCtrl : srcseri 8, brono 6, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 30, n 10, total 300
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 1728, n 576, total 995328
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 30, optpleng 20
+Polymesh2 : CreateOptData : oldpleng 1728, optpleng 660
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 9
 CShdHandler : AddShdElem : srcseri 9, brono 7, srcdepth 2
@@ -2616,10 +2626,10 @@ CMotHandler : AddMotionCtrl : srcseri 9, brono 7, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 138, n 46, total 6348
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 246, n 82, total 20172
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 138, optpleng 64
+Polymesh2 : CreateOptData : oldpleng 246, optpleng 164
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 10
 CShdHandler : AddShdElem : srcseri 10, brono 8, srcdepth 2
@@ -2627,189 +2637,33 @@ CMotHandler : AddMotionCtrl : srcseri 10, brono 8, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 618, n 206, total 127308
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 714, n 238, total 169932
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 618, optpleng 340
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 11
-CShdHandler : AddShdElem : srcseri 11, brono 9, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 11, brono 9, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 618, n 206, total 127308
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 618, optpleng 340
+Polymesh2 : CreateOptData : oldpleng 714, optpleng 370
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 12
-CShdHandler : AddShdElem : srcseri 12, brono 10, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 12, brono 10, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 990, n 330, total 326700
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 990, optpleng 510
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 13
-CShdHandler : AddShdElem : srcseri 13, brono 11, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 13, brono 11, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 990, n 330, total 326700
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 990, optpleng 510
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 14
-CShdHandler : AddShdElem : srcseri 14, brono 12, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 14, brono 12, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 120, n 40, total 4800
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 120, optpleng 80
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 15
-CShdHandler : AddShdElem : srcseri 15, brono 13, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 15, brono 13, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 288, n 96, total 27648
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 288, optpleng 144
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 16
-CShdHandler : AddShdElem : srcseri 16, brono 14, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 16, brono 14, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 504, n 168, total 84672
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 504, optpleng 288
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 17
-CShdHandler : AddShdElem : srcseri 17, brono 15, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 17, brono 15, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 972, n 324, total 314928
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 972, optpleng 552
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 18
-CShdHandler : AddShdElem : srcseri 18, brono 16, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 18, brono 16, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 84, n 28, total 2352
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 84, optpleng 36
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 19
-CShdHandler : AddShdElem : srcseri 19, brono 17, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 19, brono 17, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 426, n 142, total 60492
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 426, optpleng 232
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 20
-CShdHandler : AddShdElem : srcseri 20, brono 18, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 20, brono 18, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 30, n 10, total 300
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 30, optpleng 20
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 21
-CShdHandler : AddShdElem : srcseri 21, brono 19, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 21, brono 19, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 1194, n 398, total 475212
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 1194, optpleng 718
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 22
-CShdHandler : AddShdElem : srcseri 22, brono 20, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 22, brono 20, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 24, n 8, total 192
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 24, optpleng 16
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 23
-CShdHandler : AddShdElem : srcseri 23, brono 21, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 23, brono 21, srcdepth 2
-sigfile : start LoadPolyMesh2
-shddata.cpp : Destroy3DObj
-polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 504, n 168, total 84672
-polymesh2 : CreateBuffers : end
-shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 504, optpleng 336
-sigfile : end LoadPolyMesh2
-CTreeHandler : Add2ElemIndex : serino 25
-CShdHandler : AddShdElem : srcseri 25, brono 22, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 25, brono 22, srcdepth 2
-sigfile : LoadInfScope : not found infscope before : IS25
+CShdHandler : AddShdElem : srcseri 12, brono 9, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 12, brono 9, srcdepth 2
+sigfile : LoadInfScope : not found infscope before : IS12
 CTreeHandler : End : GetParent reached to vacume warning !!!
-CTreeHandler : Add2ElemIndex : serino 24
-CShdHandler : AddShdElem : srcseri 24, brono 1, srcdepth 1
-CMotHandler : AddMotionCtrl : srcseri 24, brono 1, srcdepth 1
+CTreeHandler : Add2ElemIndex : serino 11
+CShdHandler : AddShdElem : srcseri 11, brono 1, srcdepth 1
+CMotHandler : AddMotionCtrl : srcseri 11, brono 1, srcdepth 1
 shddata.cpp : Destroy3DObj
 charpos2.cpp : CMeshInfo : NewMeshInfo : m 0, n 0, total 0
 CPart : CreatePart : srcmeshinfo->hascolor 0, meshinfo->hascolor 0
 shddata.cpp : Create3DObj
 CShdColor : SetColors 
-sh  : SetMikoAnchorApply : disp obj É}ÉìÉVÉáÉì, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉrÉãÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉrÉãÇQ, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉrÉãÇR, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉrÉãÇS, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ä≈î¬ïtÉrÉãÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj äKíiïtÉrÉãÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj äKíiïtÉrÉãÇQ, no fixed apply
-sh  : SetMikoAnchorApply : disp obj óÜê˘äKíiÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj óÜê˘äKíiÇQ, no fixed apply
-sh  : SetMikoAnchorApply : disp obj óÜê˘äKíiçÚÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj óÜê˘äKíiçÚÇQ, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ä≈î¬, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉâÉ_Å[ÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉâÉ_Å[2, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉâÉ_Å[3, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ínñ , no fixed apply
-sh  : SetMikoAnchorApply : disp obj îwåiåöë¢ï®, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉtÉFÉìÉX, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉKÅ[ÉhÉåÅ[Éã, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ï«, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉGÉAÉRÉìé∫äOã@, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ìπòH, no fixed apply
+sh  : SetMikoAnchorApply : disp obj é≈ê∂, no fixed apply
+sh  : SetMikoAnchorApply : disp obj äÓínï«, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ä‚, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ìyîX, no fixed apply
+sh  : SetMikoAnchorApply : disp obj îwåi, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ÉhÉâÉÄÉJÉì, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ä˜ÅEà÷éq, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ñÿ, no fixed apply
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\sys\loading.png
 texbank : CreateTexData : data allready set, skip !!!
@@ -2848,122 +2702,71 @@ texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover grip L.png
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
-sh  : SetMikoAnchorApply : disp obj É}ÉìÉVÉáÉì, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉrÉãÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉrÉãÇQ, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉrÉãÇR, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉrÉãÇS, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ä≈î¬ïtÉrÉãÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj äKíiïtÉrÉãÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj äKíiïtÉrÉãÇQ, no fixed apply
-sh  : SetMikoAnchorApply : disp obj óÜê˘äKíiÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj óÜê˘äKíiÇQ, no fixed apply
-sh  : SetMikoAnchorApply : disp obj óÜê˘äKíiçÚÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj óÜê˘äKíiçÚÇQ, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ä≈î¬, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉâÉ_Å[ÇP, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉâÉ_Å[2, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉâÉ_Å[3, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ínñ , no fixed apply
-sh  : SetMikoAnchorApply : disp obj îwåiåöë¢ï®, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉtÉFÉìÉX, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉKÅ[ÉhÉåÅ[Éã, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ï«, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ÉGÉAÉRÉìé∫äOã@, no fixed apply
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : MetalBase0081_2_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : PlywoodNew0046_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : BronzeCopper0018_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : FabricPlain0055_3_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : RockGrassy0003_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltDamaged0035_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Landscapes0131_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : DoorsRollup0019_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0145_1_L.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_T.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Grass0052_7_M.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_1_S.png
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_2_S.png
+sh  : SetMikoAnchorApply : disp obj ìπòH, no fixed apply
+sh  : SetMikoAnchorApply : disp obj é≈ê∂, no fixed apply
+sh  : SetMikoAnchorApply : disp obj äÓínï«, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ä‚, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ìyîX, no fixed apply
+sh  : SetMikoAnchorApply : disp obj îwåi, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ÉhÉâÉÄÉJÉì, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ä˜ÅEà÷éq, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ñÿ, no fixed apply
 handlerset : Restore : bef CreateDispObj
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7171, invalidPrim 0, pracPrim 7171
+CD3DDisp : CreateDispData : totalPrim 7119, invalidPrim 0, pracPrim 7119
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7205, invalidPrim 0, pracPrim 7205
+CD3DDisp : CreateDispData : totalPrim 7907, invalidPrim 0, pracPrim 7907
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7267, invalidPrim 0, pracPrim 7267
+CD3DDisp : CreateDispData : totalPrim 8039, invalidPrim 0, pracPrim 8039
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7343, invalidPrim 0, pracPrim 7343
+CD3DDisp : CreateDispData : totalPrim 8663, invalidPrim 0, pracPrim 8663
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7389, invalidPrim 0, pracPrim 7389
+CD3DDisp : CreateDispData : totalPrim 9493, invalidPrim 0, pracPrim 9493
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7423, invalidPrim 0, pracPrim 7423
+CD3DDisp : CreateDispData : totalPrim 9499, invalidPrim 0, pracPrim 9499
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7433, invalidPrim 0, pracPrim 7433
+CD3DDisp : CreateDispData : totalPrim 10075, invalidPrim 0, pracPrim 10075
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7479, invalidPrim 0, pracPrim 7479
+CD3DDisp : CreateDispData : totalPrim 10239, invalidPrim 0, pracPrim 10239
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7891, invalidPrim 0, pracPrim 7891
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 8303, invalidPrim 0, pracPrim 8303
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 8633, invalidPrim 0, pracPrim 8633
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 8963, invalidPrim 0, pracPrim 8963
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9043, invalidPrim 0, pracPrim 9043
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9139, invalidPrim 0, pracPrim 9139
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9307, invalidPrim 0, pracPrim 9307
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9631, invalidPrim 0, pracPrim 9631
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9687, invalidPrim 0, pracPrim 9687
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9829, invalidPrim 0, pracPrim 9829
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9849, invalidPrim 0, pracPrim 9849
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10645, invalidPrim 0, pracPrim 10645
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10653, invalidPrim 0, pracPrim 10653
-d3ddisp : CreateSkinMat : 1
-d3ddisp : CreateSkinMat : 1
-polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10821, invalidPrim 0, pracPrim 10821
+CD3DDisp : CreateDispData : totalPrim 10715, invalidPrim 0, pracPrim 10715
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 handlerset : Restore : aft CreateDispObj
 CShdHandler : SetTexTransParent
 bgdisp2 : CheckMultiTexOk : caps : maxtexcoord 8, maxstages 8, maxsimu 8, moduleop 8
 bgdisp2 : multitexok 1
-BgDisp : CreateTexture : fixx 1990, fixy 480
+BgDisp : CreateTexture : fixx 4000, fixy 962
 CTreeHandler : Add2ElemIndex : serino 0
 CShdHandler : AddShdElem : srcseri 0, brono 0, srcdepth 0
 CShdHandler : constructor : check : s2shd_leng 1
@@ -3056,7 +2859,35 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover grip L
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\hare.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : MetalBase0081_2_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : PlywoodNew0046_1_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : BronzeCopper0018_1_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : FabricPlain0055_3_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : RockGrassy0003_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltDamaged0035_1_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Landscapes0131_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : DoorsRollup0019_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0145_1_L.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_T.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Grass0052_7_M.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_1_S.png
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_2_S.png
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\night.jpg
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : honmei3.png
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : honmei2.png
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : honmei.png
@@ -3064,11 +2895,11 @@ sh  : SetMikoAnchorApply : disp obj obj1, no fixed apply
 sh  : SetMikoAnchorApply : disp obj obj2, no fixed apply
 handlerset : Restore : bef CreateDispObj
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10833, invalidPrim 0, pracPrim 10833
+CD3DDisp : CreateDispData : totalPrim 10727, invalidPrim 0, pracPrim 10727
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10841, invalidPrim 0, pracPrim 10841
+CD3DDisp : CreateDispData : totalPrim 10735, invalidPrim 0, pracPrim 10735
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 handlerset : Restore : aft CreateDispObj
@@ -3154,7 +2985,35 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover grip L
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\hare.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : MetalBase0081_2_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : PlywoodNew0046_1_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : BronzeCopper0018_1_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : FabricPlain0055_3_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : RockGrassy0003_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltDamaged0035_1_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Landscapes0131_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : DoorsRollup0019_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0145_1_L.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_T.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_S.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Grass0052_7_M.jpg
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_1_S.png
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_2_S.png
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\night.jpg
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : honmei3.png
 texbank : CreateTexData : data allready set, skip !!!
@@ -3164,7 +3023,7 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : honmei.png
 sh  : SetMikoAnchorApply : disp obj obj1, no fixed apply
 handlerset : Restore : bef CreateDispObj
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10853, invalidPrim 0, pracPrim 10853
+CD3DDisp : CreateDispData : totalPrim 10747, invalidPrim 0, pracPrim 10747
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 handlerset : Restore : aft CreateDispObj
@@ -3183,41 +3042,69 @@ mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\img\menu
 mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\img\menu\menuber.png
 mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\img\menu\menu_up_ber.png
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\menu\menubg.png
-texbank : DestroyNotDirty : DestroyTexture 32
+texbank : DestroyNotDirty : DestroyTexture 46
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\menu\menuber.png
-texbank : DestroyNotDirty : DestroyTexture 33
+texbank : DestroyNotDirty : DestroyTexture 47
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\menu\menu_up_ber.png
-texbank : DestroyNotDirty : DestroyTexture 34
+texbank : DestroyNotDirty : DestroyTexture 48
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\carsol.png
-texbank : DestroyNotDirty : DestroyTexture 23
+texbank : DestroyNotDirty : DestroyTexture 37
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter3.png
-texbank : DestroyNotDirty : DestroyTexture 24
+texbank : DestroyNotDirty : DestroyTexture 38
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter4.png
-texbank : DestroyNotDirty : DestroyTexture 25
+texbank : DestroyNotDirty : DestroyTexture 39
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\hpber.png
-texbank : DestroyNotDirty : DestroyTexture 26
+texbank : DestroyNotDirty : DestroyTexture 40
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\stnber.png
-texbank : DestroyNotDirty : DestroyTexture 27
+texbank : DestroyNotDirty : DestroyTexture 41
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\ammber.png
-texbank : DestroyNotDirty : DestroyTexture 28
+texbank : DestroyNotDirty : DestroyTexture 42
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\magber.png
-texbank : DestroyNotDirty : DestroyTexture 29
+texbank : DestroyNotDirty : DestroyTexture 43
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter1.png
-texbank : DestroyNotDirty : DestroyTexture 30
+texbank : DestroyNotDirty : DestroyTexture 44
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter2.png
-texbank : DestroyNotDirty : DestroyTexture 31
+texbank : DestroyNotDirty : DestroyTexture 45
 CTreeHandler : destructor : free s2e
 CShdHandler : destructor : delete elem
 CMotHandler : destructor : delete elem
 texbank : DestroyNotDirty : DestroyTexture honmei3.png
-texbank : DestroyNotDirty : DestroyTexture 20
+texbank : DestroyNotDirty : DestroyTexture 34
 texbank : DestroyNotDirty : DestroyTexture honmei2.png
-texbank : DestroyNotDirty : DestroyTexture 21
+texbank : DestroyNotDirty : DestroyTexture 35
 texbank : DestroyNotDirty : DestroyTexture honmei.png
-texbank : DestroyNotDirty : DestroyTexture 22
+texbank : DestroyNotDirty : DestroyTexture 36
 CTreeHandler : destructor : free s2e
 CShdHandler : destructor : delete elem
 CMotHandler : destructor : delete elem
+texbank : DestroyNotDirty : DestroyTexture MetalBase0081_2_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 19
+texbank : DestroyNotDirty : DestroyTexture PlywoodNew0046_1_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 20
+texbank : DestroyNotDirty : DestroyTexture BronzeCopper0018_1_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 21
+texbank : DestroyNotDirty : DestroyTexture FabricPlain0055_3_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 22
+texbank : DestroyNotDirty : DestroyTexture RockGrassy0003_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 23
+texbank : DestroyNotDirty : DestroyTexture AsphaltDamaged0035_1_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 24
+texbank : DestroyNotDirty : DestroyTexture Landscapes0131_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 25
+texbank : DestroyNotDirty : DestroyTexture DoorsRollup0019_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 26
+texbank : DestroyNotDirty : DestroyTexture ConcreteBare0145_1_L.jpg
+texbank : DestroyNotDirty : DestroyTexture 27
+texbank : DestroyNotDirty : DestroyTexture Roads0059_4_T.jpg
+texbank : DestroyNotDirty : DestroyTexture 28
+texbank : DestroyNotDirty : DestroyTexture Roads0059_4_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 29
+texbank : DestroyNotDirty : DestroyTexture Grass0052_7_M.jpg
+texbank : DestroyNotDirty : DestroyTexture 30
+texbank : DestroyNotDirty : DestroyTexture Trees0018_1_S.png
+texbank : DestroyNotDirty : DestroyTexture 31
+texbank : DestroyNotDirty : DestroyTexture Trees0018_2_S.png
+texbank : DestroyNotDirty : DestroyTexture 32
 CTreeHandler : destructor : free s2e
 CShdHandler : destructor : delete elem
 CMotHandler : destructor : delete elem
@@ -3235,8 +3122,8 @@ texbank : DestroyNotDirty : DestroyTexture meisai1.png
 texbank : DestroyNotDirty : DestroyTexture 6
 texbank : DestroyNotDirty : DestroyTexture inner.png
 texbank : DestroyNotDirty : DestroyTexture 7
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\hare.jpg
-texbank : DestroyNotDirty : DestroyTexture 19
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\night.jpg
+texbank : DestroyNotDirty : DestroyTexture 33
 CTreeHandler : destructor : free s2e
 CShdHandler : destructor : delete elem
 CMotHandler : destructor : delete elem

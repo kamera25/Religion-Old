@@ -1,5 +1,5 @@
 #pragma once
-/*生物クラスのキャラ・敵の宣言をするヘッダファイル。
+/*キャラクタークラスのキャラをするヘッダファイル。
 //
 */
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
@@ -8,6 +8,7 @@
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 #include "ccamera.h"//カメラに関することのクラスヘッダファイル
 class Batch_Preparat;//循環変数対策
+
 
 //プレイヤーキャラクタークラスを作成、初期化（その他キャラはcharaクラスにて作成可能）
 class PlayerChara{
@@ -69,12 +70,13 @@ public:
 	int MyState;//自分の動作状態を入れる変数
 	int AirOnPC;//自分が空中にいるか指定する変数
 
+
 	/*説明*//*
 	Atitude変数
 	0:立ち  1:しゃがみ
 	//
 	MyState変数
-	0:通常状態	1:キック状態  2:ダッシュ状態
+	0:通常状態	1:キック状態  2:ダッシュ状態  3:左横っ飛び状態　4:右横っ飛び状態
 	//
 	AirOnPC変数
 	0:地上  1:空中
@@ -101,11 +103,12 @@ public:
 
 	//基本的な銃のまとめ関数の宣言
 	int ThirdGunSys( Stage *Stg, Batch_Preparat *BatPre);//3人称視点からの銃関連まとめ関数
-	int ShoulderGunSys( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam);//肩射ち視点からの銃関連まとめ関数
+	int ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int ScreenPos[2]);//肩射ち視点からの銃関連まとめ関数
 	int GunPutOnHand();//現在持ってる銃を持つためのモーション・システムを管轄する関数
 	int MoveChara();//キャラを動かします、前後左右に動けます
 	int MovePosOnGround( Stage *Stg);//キャラクターをグラウンドの上に置くための関数
 	int ShoulderGunSysBefore();//キャラクターののち処理を行う関数
-	int GunConflictTarget( POINT ScreenPos, Stage *Stg, Enemy *Ene);//自分の向くべき方向を調節したり、射撃したりする関数
+	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene);//自分の向くべき方向を調節する関数
 	int NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam);//普通のゲーム内での処理を行なう関数
+	int GunSystem( Enemy *Ene);//銃について作動させる関数、リロード、次打てるまでの時間計算、敵へのあたり判定、ダメージ計算など
 };

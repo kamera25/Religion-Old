@@ -15,7 +15,7 @@ extern System *sys;//システムクラスを指す、クラスのポインタ
 
 
 /*肩射ち視点からの銃関連まとめ関数*/
-int PlayerChara::ShoulderGunSys( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam){
+int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int ScreenPos[2]){
 
 	/*全体で使う変数の初期化*/
 	int ech = 0;//エラー確認変数
@@ -41,6 +41,10 @@ int PlayerChara::ShoulderGunSys( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene,
 
 	if(( MyState == 0) || ( (MyState == 2) && ( AirOnPC == 0))){//通常・空中ダッシュモードでなければ、以下取得せず
 				PC_Deg_XZ = PC_Deg_XZ + float(0.30*(sys->MousePos.x - (sys->BeforeMousePos.x - sys->rewin.left)));
+				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( sys->MousePos.y - sys->BeforeMousePos.y + sys->rewin.top);
+	}
+
+	if( ( MyState == 3) || ( MyState == 4)){//よっこ飛びの時は
 				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( sys->MousePos.y - sys->BeforeMousePos.y + sys->rewin.top);
 	}
 
@@ -145,8 +149,6 @@ int PlayerChara::ShoulderGunSys( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene,
 
 
   /*カメラの位置を設定します、位置は自分の肩の後ろに設置します*/
-	D3DXVECTOR3 CameraPos( 0.0, 0.0, 0.0);//カメラの座標
-	D3DXVECTOR3 CameraTarget( 0.0, 0.0, 0.0);//カメラの注意点
 
 	/*キャラクターモデルの「首つけ根」の！今！の座標を取得します*/
 	ech = E3DGetCurrentBonePos( cha_hsid[0], bone[2], 1, &StomachPos);
@@ -159,23 +161,19 @@ int PlayerChara::ShoulderGunSys( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene,
 
 	
 
-  /*キャラクターモデルを壁があれば壁に向ける
-	なければ銃の攻撃が届く範囲までの距離を取得し、そこに向ける*/
-	POINT ScreenPos;//2Dスクリーン座標
-	ScreenPos.x = 320;/**/ScreenPos.y = 220;
-
-	//体の向きや、射撃を行う関数を呼び出し
-	GunConflictTarget( ScreenPos, Stg, Ene);
 
 
 	BatPre->SpriteData[0][2] = 320 - 16.0f;//カーソルのX座標
 	BatPre->SpriteData[0][3] = 220 - 18.0f;//カーソルのY座標
-	
+
+	ScreenPos[0] = 320;/**/ScreenPos[1] = 220;
 
 	return 0;
 }
 /*自分の向くべき方向を調節したり、射撃したりする関数*/
-int PlayerChara::GunConflictTarget( POINT ScreenPos, Stage *Stg, Enemy *Ene){
+int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene){
+    /*キャラクターモデルを壁があれば壁に向ける
+	なければ銃の攻撃が届く範囲までの距離を取得し、そこに向ける*/
 
 	/*変数の初期化*/
 
@@ -203,8 +201,9 @@ int PlayerChara::GunConflictTarget( POINT ScreenPos, Stage *Stg, Enemy *Ene){
 	D3DXVECTOR3 MyPos1( 0.0, 0.0, 0.0);//最初自分の座標
 	D3DXVECTOR3 OriginPos( 0.0, 0.0, 0.0);//キャラクターをおくべき原点座標
 	D3DXVECTOR3 GarbageD3DVec( 0.0, 0.0, 0.0);//要らないXYZのデータの一次入れ
+	POINT ScreenPos = { ScreenPosArray[0], ScreenPosArray[1]};//2Dスクリーン座標構造体
 
-	/*装備に依存しているのなら*/
+	/*装備をしていないのなら*/
 	if( Wp_equipment != -1){
 
 			NowWpKind = wp_data[(Wp_equipment)][1][0];
@@ -226,7 +225,7 @@ int PlayerChara::GunConflictTarget( POINT ScreenPos, Stage *Stg, Enemy *Ene){
 
 	if(Wp_equipment != -1){//装備をきちんとつけていれば
 		/*武器の種類が、ハンドガンであれば*/
-		if(NowWpKind == 1){
+		if((NowWpKind == 1) || (NowWpKind == 4)){
 			
 				/*敵5にあたっていないかチェックします*/
 				for( int i = 0; i < 15; i++){//エネミーの数だけ
@@ -251,13 +250,8 @@ int PlayerChara::GunConflictTarget( POINT ScreenPos, Stage *Stg, Enemy *Ene){
 						};
 				}
 				else{//壁に銃先を向ける
-						GunTargetPos.x = Wall_GunTargetPos.x;
-						GunTargetPos.y = Wall_GunTargetPos.y;
-						GunTargetPos.z = Wall_GunTargetPos.z;
-
-						ReflectVec.x = Wall_ReflectVec.x;
-						ReflectVec.y = Wall_ReflectVec.y;
-						ReflectVec.z = Wall_ReflectVec.z;
+						GunTargetPos = Wall_GunTargetPos;
+						ReflectVec = Wall_ReflectVec;
 				}
 			
 
@@ -330,7 +324,7 @@ int PlayerChara::GunConflictTarget( POINT ScreenPos, Stage *Stg, Enemy *Ene){
 
 	return 0;
 }
-/*キャラクターののち処理を行う関数*/
+/*キャラクターの後処理を行う関数、モーションや姿勢など*/
 int PlayerChara::ShoulderGunSysBefore(){
 
 	/*変数の初期化*/
@@ -846,7 +840,36 @@ int PlayerChara::ShoulderGunSysBefore(){
 					};
 			}
 	}
+	if( MyState == 3){//左横っ飛び状態なら
+					/*モーションで動かす部分の指定*/
+					MotionList[0] = bone[6];//「移動先」のボーンを指定
+					MotionList[1] = 0;//指定終了
 
+					/*モーションで動かさない部分の指定*/
+					NoMotionList[0] = bone[5];//「おなか」ボーンを指定
+					NoMotionList[1] = 0;//指定終了
+
+					/*モーションを設定する*/
+					ech = E3DSetMOAEventNoML( cha_hsid[0], 27, MotionList, NoMotionList);
+					if(ech != 0){//エラーチェック
+								_ASSERT(0);//エラーダイアログを表示
+					};
+	}
+	if( MyState == 4){//右横っ飛び状態なら
+					/*モーションで動かす部分の指定*/
+					MotionList[0] = bone[6];//「移動先」のボーンを指定
+					MotionList[1] = 0;//指定終了
+
+					/*モーションで動かさない部分の指定*/
+					NoMotionList[0] = bone[5];//「おなか」ボーンを指定
+					NoMotionList[1] = 0;//指定終了
+
+					/*モーションを設定する*/
+					ech = E3DSetMOAEventNoML( cha_hsid[0], 12, MotionList, NoMotionList);
+					if(ech != 0){//エラーチェック
+								_ASSERT(0);//エラーダイアログを表示
+					};
+	}
 
 
 
@@ -877,13 +900,19 @@ int PlayerChara::ShoulderGunSysBefore(){
 
 	return 0;
 }
-/*普通のゲーム内での処理を行います、銃器の出し入れ、敵へのあたり、銃を手に置くなど…etc*/
+/*普通のゲーム内での処理を行う関数、銃器の出し入れ、敵へのあたり、銃を手に置くなど…etc*/
 int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam){
 
 	/*変数の初期化*/
 	int ech = 0;
 	int MotionID = 0;//モーションIDを入れます
+	int Garbage = 0;//ゴミデータを入れます
 	int MotionFrameNo = 0;//モーションのフレーム番号を入れます
+	int ScreenPos[2] = { 0, 0};//スクリーン座標配列を初期化
+	int keyin[20];//キー情報配列を作成 
+
+	/*キーを取得する*/
+	sys->GetKeyData(keyin);
 
 	/*キャラクターを動かす*/
 	MoveChara();
@@ -892,9 +921,13 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	MovePosOnGround( Stg);
 
 	/*視点関連の処理、切り替えや関数呼び出し等*/
-	ShoulderGunSys( Stg, BatPre, Ene, Cam);//肩撃ち視点
+	ShoulderGunSys( BatPre, Cam, ScreenPos);//肩撃ち視点
+
+	//体の向きや、射撃を行う関数を呼び出し
+	GunConflictTarget( ScreenPos, Stg, Ene);
 
 	/*敵への当たり判定の処理*/
+
 
 	/*装備武器変更の処理*/
 	if( sys->MouseWhole == 1){//もし、マウスホイールが上へ行ったのなら
@@ -928,7 +961,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	}
 
 	/*姿勢変換「立つ⇔しゃがむ」の処理*/
-	if( (sys->keyin[8] == 1) && (AirOnPC == 0)){//キーが押され、空中でない
+	if( (keyin[8] == 1) && (AirOnPC == 0)){//キーが押され、空中でない
 				Attitude = Attitude + 1;//姿勢変数を一つ増やす
 				if( Attitude == 2){//変数が行き過ぎなら
 						Attitude = 0;//「立つ」に固定
@@ -936,7 +969,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	}
 
 	/*格闘攻撃をする処理を行います*/
-	if( ( sys->keyin[11] == 1) && ( Attitude == 0) && ( MyState == 0)){//キーが押され、しゃがみ状態でなく、他の動作を行ってない
+	if( ( keyin[11] == 1) && ( Attitude == 0) && ( MyState == 0)){//キーが押され、しゃがみ状態でなく、他の動作を行ってない
 				MyState = 1;//キックをする
 	}
 
@@ -972,6 +1005,34 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 						MyState = 0;//ダッシュを止める
 						sys->KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
 						sys->keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
+				}
+	}
+
+	/*横っ飛び関係の処理を行います*/
+	if( ( ( sys->keyinQuick[0] == 1) || ( sys->keyinQuick[2] == 1)) && ( Attitude == 0) //左右キーが連続で押され、しゃがみ状態でなく、
+		&& ( MyState == 0) && ( AirOnPC == 0) && ( 0 < Stamina)){//他の動作を行ってなくて、地上で、スタミナがなくなってないなら
+
+				if( sys->keyinQuick[0] == 1) MyState = 3;//左横っ飛び状態にする;
+				if( sys->keyinQuick[2] == 1) MyState = 4;//右横っ飛び状態にする;
+				if(( sys->keyinQuick[0] == 1) && ( sys->keyinQuick[2] == 1)) MyState = 0;//通常状態にする
+	}
+
+	//横っ飛び状態なら
+	if( (MyState == 3) || ( MyState == 4)){
+				//移動先のモーション状態はどうか確かめる
+				ech = E3DGetMotionFrameNoML( cha_hsid[0], bone[6], &Garbage, &MotionFrameNo);
+				if(ech != 0 ){//エラーチェック
+							_ASSERT( 0 );//エラーダイアログ
+				};
+
+				Stamina = Stamina - 1;//スタミナを減らす
+
+				if( MotionFrameNo == 20){//モーションが終了してたら
+							MyState = 0;//通常状態に戻す
+							sys->KeyQuickPush[0][2] = 0;//ダッシュキーが押されてない状態にする
+							sys->KeyQuickPush[2][2] = 0;//ダッシュキーが押されてない状態にする
+							sys->keyinQuick[0] = 0;//横っ飛びフラグをオフにする
+							sys->keyinQuick[2] = 0;//横っ飛びフラグをオフにする
 				}
 	}
 

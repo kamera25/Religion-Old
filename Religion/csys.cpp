@@ -37,6 +37,7 @@ System::System( HINSTANCE chInst, HWND chwnd, char runpath[256]){
 	hwnd = chwnd;
 	strcpy_s( path, runpath);
 
+
 	/*キー取得命令のためのキー配列その1*/
 	keydata1[0][0] = 1<<0; keydata1[0][1] = 0x25;//左キー
 	keydata1[1][0] = 1<<1; keydata1[1][1] = 0x26;//上キー
@@ -166,21 +167,28 @@ int System::MsgQ(int fps){
 	MouseWhole = 0;//マウスホイールの移動量を初期化する
 
 	GotMes = PeekMessage( &msg, NULL, 0, 0, PM_REMOVE);
+	if( msg.message == WM_QUIT){
+				return 0;
+	}
+	if( GotMes != 0){//メッセージが来たら
+				DispatchMessage(&msg);
+				TranslateMessage(&msg);
+				GetWindowRect( hwnd, &rewin);
+	}
 	ech = E3DWaitbyFPS( fps, &rfps);
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
-	DispatchMessage(&msg);
-	GetWindowRect( hwnd, &rewin);
+
 
 
 	return 0;//ここの数字で終了処理を決めろ。
 
 };
 
-
-int System::Keyget(int SelectMode){
+/*キー情報を更新する関数*/
+int System::KeyRenewal( int SelectMode){
 
 
 	 /*初期化します*/
@@ -364,6 +372,7 @@ int System::Keyget(int SelectMode){
 
 	return 0;
 }
+/*ロード画面を描画する関数*/
 int System::WaitRender(){
 
 	int ech = 0;//エラーチェック変数
@@ -389,6 +398,18 @@ int System::WaitRender(){
 	E3DEndScene();
 	E3DPresent(scid1);
 
+
+
+	return 0;
+}
+
+/*キー情報を入手するための関数*/
+int System::GetKeyData( int *KeyDataArray){
+
+	//キーが押されたかの情報を格納します
+	for( int i=0; i<20; i++){
+		*(KeyDataArray + i) = keyin[i];
+	}
 
 
 	return 0;

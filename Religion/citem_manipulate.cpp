@@ -213,11 +213,14 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 
 	do{
 
+			sys->MsgQ(30);//メッセージループ
+
 			/*変数の初期化*/
 			int ech = 0;//エラーチェック変数
 			int ExitFlag = 0;//このフラグがオンになったとき脱出します。
 			int Counter = 0;//カウンター変数
 			int ItemNumber = -1;//どのアイテムを選んだか、代入します
+			int keyin[20];//キー情報配列を作成
 			D3DXVECTOR3 SpritePos1( 0.0, -25.0, 0.0);//背景の位置
 			D3DXVECTOR3 SpritePos2( 0.0, -60.0, 0.0);//十字バーの位置
 			D3DXVECTOR3 SpritePos3( 380.0, 45.0, 0.0);//上部の白いバー
@@ -228,7 +231,8 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			E3DCOLOR4UC SetColor = { 255,0,120,170};//青色の武器が選ばれている色
 			POINT TextPos;//文字の位置を格納する構造体
 
-			sys->Keyget(1);
+			sys->KeyRenewal(1);
+			sys->GetKeyData(keyin);
 
 			/*描画準備をスルヨ*/
 			E3DBeginScene( sys->scid1, 0, -1);//描画の開始準備
@@ -396,7 +400,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
-							if(sys->keyin[9] == 1){//クリックしたら
+							if(keyin[9] == 1){//クリックしたら
 										ChoseItem = 0;//ループ脱出フラグをオンにする。
 							}
 					}	
@@ -413,7 +417,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
-							if(sys->keyin[9] == 1){//クリックしたら
+							if(keyin[9] == 1){//クリックしたら
 										ChoseItem = 1;//ループ脱出フラグをオンにする。
 							}
 					}
@@ -430,7 +434,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
-							if(sys->keyin[9] == 1){//クリックしたら
+							if(keyin[9] == 1){//クリックしたら
 										ChoseItem = 2;//ループ脱出フラグをオンにする。
 							}
 					}	
@@ -447,7 +451,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
-							if(sys->keyin[9] == 1){//クリックしたら
+							if(keyin[9] == 1){//クリックしたら
 										ChoseItem = 3;//ループ脱出フラグをオンにする。
 							}
 					}	
@@ -464,7 +468,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
-							if(sys->keyin[9] == 1){//クリックしたら
+							if(keyin[9] == 1){//クリックしたら
 										ChoseItem = 4;//ループ脱出フラグをオンにする。
 							}
 					}	
@@ -481,7 +485,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 							if(ech != 0){//エラーチェック
 										_ASSERT(0);//エラーダイアログを表示
 							};
-							if(sys->keyin[9] == 1){//クリックしたら
+							if(keyin[9] == 1){//クリックしたら
 										ExitFlag = 1;//ループ脱出フラグをオンにする。
 							}
 					}	
@@ -541,9 +545,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			if(ech != 0){//エラーチェック
 						_ASSERT(0);//エラーダイアログを表示
 			};
-	
 
-			sys->MsgQ(30);//メッセージループ
 
 			if( ExitFlag == 1 ){//もしゲームループを抜けてOKなら
 						break;//ループを抜ける
@@ -552,7 +554,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 	}while(WM_QUIT != sys->msg.message);
 
 
-	sys->Keyget(1);//自動終了を行わないようにするための、キーチェック
+	sys->KeyRenewal(1);//自動終了を行わないようにするための、キーチェック
 
 
 	return 0;

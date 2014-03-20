@@ -22,16 +22,16 @@ int GMStart(){
 	E3DCreateProgressBar();//プログレスバーを作ります
 	
 	PlayerChara wfarmy(1,0);
-		E3DSetProgressBar( 20);//プログレスバーを進歩させる
-	wfarmy.GunLoad(0,4,0);
-	wfarmy.GunLoad(1,1,0);
-		E3DSetProgressBar( 40);//プログレスバーを進歩させる
+	/**/E3DSetProgressBar( 20);//プログレスバーを進歩させる
+	wfarmy.GunLoad(0,4,0);//銃のロード
+	wfarmy.GunLoad(1,1,0);//銃のロード
+	/**/E3DSetProgressBar( 40);//プログレスバーを進歩させる
 	Stage trm;
-	trm.LoadStage(3,0,0);
-		E3DSetProgressBar( 80);//プログレスバーを進歩させる
+	trm.LoadStage(5,0,2);
+	/**/E3DSetProgressBar( 80);//プログレスバーを進歩させる
 	Enemy ene;
 	ene.LoadEnemyModel( -1, 0);
-		E3DSetProgressBar( 90);//プログレスバーを進歩させる
+	/**/E3DSetProgressBar( 90);//プログレスバーを進歩させる
 	Camera cam;
 	Batch_Preparat bp( &wfarmy, &trm, &ene, &cam);
 	Menu menu;
@@ -44,19 +44,20 @@ int GMStart(){
 	sys->MsgQ(30);//メッセージループ
 
 	/**/
-	D3DXVECTOR3 GroundOnPos( 23000.0, 1200.0, 0.0);//
+	D3DXVECTOR3 GroundOnPos( 18000.0, 300.0, -23000.0);//
 	E3DSetPos( wfarmy.cha_hsid[0], GroundOnPos);
 	/**/
 
 
 
 	do{
+		sys->MsgQ(30);//メッセージループ
 
 		//とりあえずここに書いてみる、後で複雑にいりこませる。
 		//変数の宣言
 		int ech = 0;//エラーチェック用の変数宣言
 
-		sys->Keyget(1);
+		sys->KeyRenewal(1);
 		bp.BatchChkInView();
 
 		//wfarmy.ThirdGunSys( &trm, &bp);
@@ -80,7 +81,7 @@ int GMStart(){
 		bp.BatchBeforePos();
 		wfarmy.ShoulderGunSysBefore();
 
-		sys->MsgQ(30);//メッセージループ
+
 
 	}while( WM_QUIT != sys->msg.message );
 
