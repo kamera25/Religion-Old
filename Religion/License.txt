@@ -1,0 +1,36 @@
+
+*License of SourceCode(Written by CrowSullCore) and Models.
+
+The MIT License (MIT)
+
+Copyright (c) 2014-2007 Hiroki Yamane(CrowSullCore), Takahiro Nakaoku(CrowSullCore). 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*License of CGTextures's Textures.
+
+ CGTextures offers photographs of materials ("Textures") on its website (www.cgtextures.com) for game developers, special effects artists, graphic designers and other professions. No payment or royalties are required to use these Textures. The use of Textures is non-exclusive, royalty free, and you have the right to modify them for the uses permitted under the clause Conditions of Use.
+Most Textures on the CGTextures website are photographed by CGTextures. A small part is photographed by third party contributors ("Contributors"). CGTextures has separate agreements with these Contributors in which they grant CGTextures permission to add their Textures to the website. All terms and conditions in this License apply to both groups of Textures.
+All Textures and materials remain in ownership of CGTextures or the Contributor and the Textures and materials are licensed to you, not sold.
+
+The license granted for the use of the textures gives you no lawful right to submit, use or otherwise make available the textures in Second Life or otherwise to Linden Research, Inc. Use of the textures in such manner will be an infringement of the intellectual property rights if CGTextures and CGTextures reserves its right to take action to prevent any such infringement.
+
+*License of Ask.cpp
+
+Ask.cpp is made by f_the_darudaru. So you must follow his software License.
