@@ -23,11 +23,13 @@
 int Operation::OpsMission1_Shinryoku(){
 
 		/* 定数の宣言 */
+		int ech = 0;//エラーチェック用の変数宣言
+		int ScreenPosArray[2] ={0};
 		const int EnemyOnNaviLine[6] = { 2, 1, 1, 0, 0};
 		const int EnemyOnNaviPoint[6] = { 17, 10, 6, 3, 1};
 
 		/* クラスの実体化を行う */
-		PlayerChara Player(1,0);
+		PlayerChara Player(1,1);
 		Stage Stg;
 		Enemy Ene;
 
@@ -39,10 +41,8 @@ int Operation::OpsMission1_Shinryoku(){
 		/**/E3DSetProgressBar( 20);// プログレスバーを進歩させる
 	
 		/* Weapon関係処理 */		
-		//Player.Wpn.GunLoad(0,3,0);// 銃のロード
-		Player.Wpn.GunLoad(1,0,0);// 銃のロード
-		//Player.Wpn.GunLoad(2,7,0);// 銃のロード
-		Player.Wpn.SetInitWeaponData();// 弾薬の初期化
+		Player.Wpn.WpLoad(1,0,0);// 銃のロード
+		Player.Wpn.SetInitWeapon( -1);// 弾薬の初期化
 
 		/**/E3DSetProgressBar( 40);// プログレスバーを進歩させる
 
@@ -79,42 +79,28 @@ int Operation::OpsMission1_Shinryoku(){
 
 				System::MsgQ(30);//メッセージループ
 
-				//とりあえずここに書いてみる、後で複雑にいりこませる。
-				//変数の宣言
-				int ech = 0;//エラーチェック用の変数宣言
-				int ScreenPosArray[2];
-
-
-
 			//	if( Player.Get_Wp_equipment() != -1 ) System::KeyRenewal( Player.Wpn.GetWeaponData( Player.Get_Wp_equipment(), 7) + 1);
 				/*else*/ System::KeyRenewal(1);
 				BatP.BatchChkInView();
-				Player.Wpn.ChkWeaponLaunch( Player.Get_Wp_equipment());
+				Player.Wpn.ChkWeaponsLaunch( Player.Get_Wp_equipment());
 
 				Player.NormallyPCSystem( &Stg, &BatP, &Ene, &Cam, ScreenPosArray);
-				Player.Wpn.AttackEnemy( &Ene, &Player, ScreenPosArray, &Stg);
+				Player.Wpn.AttackEnemys( &Ene, &Player, ScreenPosArray, &Stg);
 				Ene.MoveEnemys( &Stg);
 
 				BatP.BatchSpriteSet( &Player);
 				BatP.BatchRender( 0);
-				Player.Wpn.TreatmentWhileGame( Player.Get_Wp_equipment());
+				Player.Wpn.WeaponsTreatment( Player.Get_Wp_equipment());
 				BatP.BatchSpriteRender( 0);
 				BatP.BatchFont( 1, &Player);
 
 
-				BatP.Batch_Present();// Present
+				BatP.Batch_Present();
 
 				Menu.FarstInMenu( &BatP, &Player);
 				BatP.BatchBeforePos();
 				Player.Batch_PeopleMotion();
 
-				/*D3DXVECTOR3 MyPos( 0.0, 0.0, 0.0);//自分のキャラクター座標
-				ech = E3DGetPos( Player.Get_BodyModel(), &MyPos);
-				if( ech != 0){
-					_ASSERT( ech != 1 );
-				}*/
-
-				//netP.NetMessage();
 		}
 
 

@@ -23,65 +23,72 @@ int Batch_Render::BatchFont( const int SceneEndFlg, const PlayerChara *PcC){
 	const E3DCOLOR4UC Red = { 255, 255, 100, 100};//色構造体、赤を指定
 	const E3DCOLOR4UC Bule = { 255, 100, 100, 250};//色構造体、青を指定
 	const E3DCOLOR4UC Yellow = { 255, 255, 255, 100};//色構造体、黄を指定
+	int Eqip = 0;
+	int NowAmmo = 0;
+	int Ammo = 0;
+	int Magazine = 0;
+	int NowMagazine = 0;
 
 	/*文字の描画*/
 	//HP部分の描画
 	Pos.x = 28.0f;/**/Pos.y = 394.0f;
 	ech = E3DDrawText( Pos, Scale, Gray, "F19");
-	
-			_ASSERT( ech != 1 );//エラーチェック
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	if( PcC->Get_Wp_equipment() != -1){ //武器がなし以外なら
 
+			Eqip = PcC->Get_Wp_equipment();
+			NowAmmo = PcC->Wpn.Get_WeaponPointer(Eqip)->Get_NowAmmo();
+			Ammo = PcC->Wpn.Get_WeaponPointer(Eqip)->Get_Ammo();
+			Magazine = PcC->Wpn.Get_WeaponPointer(Eqip)->Get_Magazine();
+			NowMagazine = PcC->Wpn.Get_WeaponPointer(Eqip)->Get_NowMagazine();
+
+
 			/*現在のAmmoの数を表示します*/
-			if( PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0) == 0){//弾薬がなくなったら
+			if( NowAmmo == 0){//弾薬がなくなったら
 					Color = Red;// 赤色にします
 			}
-			else if( PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 2) < PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0)){//弾が増えているならなら
+			else if( Ammo < NowAmmo){//弾が増えているならなら
 					Color = Bule;// 青にします
 			}
-			else if( double(PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0)) / double(PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 2)) < 0.3){//弾薬が3割以下なら
+			else if( double(NowAmmo) / double(Ammo) < 0.3){//弾薬が3割以下なら
 					Color = Yellow;// 黄にします
 			}
 			else{//通常モードなら
 					Color = White;// 白にします
 			}
-			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0));
+			wsprintf( ParometaString, "%d", NowAmmo);
 			Pos.x = 558.0f;/**/Pos.y = 394.0f;
 			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
-			
-				_ASSERT( ech != 1 );//エラーチェック
+			_ASSERT( ech != 1 );//エラーチェック
 
 			/*Ammoの数を表示します*/
-			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 2));
+			wsprintf( ParometaString, "%d", Ammo);
 			Pos.x = 588.0f;/**/Pos.y = 394.0f;
 			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
-			
-				_ASSERT( ech != 1 );//エラーチェック
+			_ASSERT( ech != 1 );//エラーチェック
 
 			/*現在のMagの数を表示します*/
-			if( PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 1) == 0){//マガジンがなくなったら
+			if( NowMagazine == 0){//マガジンがなくなったら
 					Color = Red;// 赤色にします
 			}
-			else if( double(PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 1)) / double(PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 3)) < 0.3){//弾薬が3割以下なら
+			else if( double(NowMagazine) / double(Magazine) < 0.35){//弾薬が3割以下なら
 					Color = Yellow;// 黄にします
 			}
 			else{//通常モードなら
 					Color = White;// 白にします
 			}
-			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 1));
+			wsprintf( ParometaString, "%d", NowMagazine, 1);
 			Pos.x = 558.0f;/**/Pos.y = 424.0f;
 			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
-			
-				_ASSERT( ech != 1 );//エラーチェック
+			_ASSERT( ech != 1 );//エラーチェック
 
 			/*Magの数を表示します*/
-			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 3));
+			wsprintf( ParometaString, "%d", Magazine, 3);
 			Pos.x = 588.0f;/**/Pos.y = 424.0f;
 			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
-			
-				_ASSERT( ech != 1 );//エラーチェック
+			_ASSERT( ech != 1 );//エラーチェック
 
 	}
 
@@ -92,8 +99,7 @@ int Batch_Render::BatchFont( const int SceneEndFlg, const PlayerChara *PcC){
 	if( SceneEndFlg == 1){
 
 		ech = E3DEndScene();
-		
-				_ASSERT( ech != 1 );//エラーチェック
+		_ASSERT( ech != 1 );//エラーチェック
 	}
 
 	return 0;

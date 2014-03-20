@@ -5,42 +5,23 @@
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
-#include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include "cWeapon_Gun.h"//武器に関することのクラスヘッダファイル
 
 
 /* グレネードの情報をロードする関数 */
-int Weapon::GunLoad_Grenade( const int Selectkind, const int Wpno){
+int Weapon_Gun::GunLoad_Grenade( const int Wpno){
 
-
-
-	//変数の初期化
+	/* 変数の初期化 */
 	int ech = 0;
 	char loadname[256] = "";
 
+	// 存在がエラーなので強制終了
+	return -1;
+
 	//一時的な変数（モデル格納等など）
-	int hsid;//銃モデルのID
-	int g_spid;//銃スプライトのスプライトID
+	int hsid = 0;//銃モデルのID
+	int g_spid = 0;//銃スプライトのスプライトID
 	int Garbage = 0;//いらない変数を格納します
-
-
-
-	if(Wpno == 0){//グレネード
-
-			//モデルデータのロード
-			wsprintf( loadname, "%s\\data\\3d\\weapon\\grenade\\grenade\\grenade.sig", System::path);
-			ech = E3DSigLoad( loadname, 0, 0.01f, &hsid);
-			_ASSERT( ech != 1 );//エラーチェック
-
-			//武器スプライトのロード
-			wsprintf( loadname, "%s\\data\\3d\\weapon\\rifle\\sr-25\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
-			_ASSERT( ech != 1 );//エラーチェック
-
-
-	}
-
-
-
 
 
 
@@ -48,9 +29,9 @@ int Weapon::GunLoad_Grenade( const int Selectkind, const int Wpno){
 
 
 	//変数をメンバー変数に格納します
-	WeaponModel[Selectkind] = hsid;//武器のモデルを格納
-	WeaponSprite[Selectkind] = g_spid;//武器スプライトを格納
-	WeaponOtherModel[Selectkind][0] = 0;//武器の使用済み弾薬モデルを格納
+	Set_Model( hsid);//武器のモデルを格納
+	Set_Sprite( g_spid);//武器スプライトを格納
+	OtherModel = 0;//武器の使用済み弾薬モデルを格納
 
 
 

@@ -64,21 +64,6 @@
     <Filter Include="ヘッダー ファイル\Class\Ask">
       <UniqueIdentifier>{0f1aca27-27aa-45eb-92e2-490be2abdf8a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Class\Weapon">
-      <UniqueIdentifier>{5c309927-a6ac-4cd1-8526-7f03a4680935}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Class\Weapon\While_Game">
-      <UniqueIdentifier>{72995aac-641f-4242-8fce-f53b0c2720f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Class\Weapon\NotWhile_Game">
-      <UniqueIdentifier>{2c5f94d9-9a47-4484-b246-58d4a686b800}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Class\Weapon\NotWhile_Game\LoadData">
-      <UniqueIdentifier>{f2a9041e-a41d-4051-8ebe-a1202eb89a3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData">
-      <UniqueIdentifier>{5a5d99b8-b924-4dcc-a849-d85578bc693c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Class\Batch_Render">
       <UniqueIdentifier>{0766f3d6-ca2b-45a5-8689-7ae332cad5df}</UniqueIdentifier>
     </Filter>
@@ -90,6 +75,30 @@
     </Filter>
     <Filter Include="ソース ファイル\Class\Creature\Creature">
       <UniqueIdentifier>{f26a2f35-92de-4d94-93bd-953bdd55ce7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Class\Weapon">
+      <UniqueIdentifier>{456014bf-79e7-44cc-b3c2-cb902dc35cb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Creature\PlayerChara\While_Game">
+      <UniqueIdentifier>{7ea1e913-babd-482d-b70c-a0f99a899843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Creature\PlayerChara\Not_While_Game">
+      <UniqueIdentifier>{0e6d3823-9868-4162-8299-adc30cd3d4d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon">
+      <UniqueIdentifier>{d2d7a53a-c94b-47be-980a-3d93100424ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon\Support">
+      <UniqueIdentifier>{7efeb67b-ac73-4b88-8141-8898f7d240f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon\Gun">
+      <UniqueIdentifier>{40ed3c18-4e91-47bc-974e-48a089b69f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon\Gun\Load">
+      <UniqueIdentifier>{6a33204d-e041-492e-9bde-79b0e4a52443}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Weapon\Head">
+      <UniqueIdentifier>{7027c6e6-28a1-493f-a68f-37687cde4b0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -168,18 +177,6 @@
     <ClCompile Include="cpeople_assist.cpp">
       <Filter>ソース ファイル\Class\Creature\People</Filter>
     </ClCompile>
-    <ClCompile Include="cplaychara1.cpp">
-      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
-    </ClCompile>
-    <ClCompile Include="cplaychara2.cpp">
-      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
-    </ClCompile>
-    <ClCompile Include="cplaychara3.cpp">
-      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
-    </ClCompile>
-    <ClCompile Include="cplaychara4.cpp">
-      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
-    </ClCompile>
     <ClCompile Include="c_optionmenu.cpp">
       <Filter>ソース ファイル\Class\Menu</Filter>
     </ClCompile>
@@ -191,39 +188,6 @@
     </ClCompile>
     <ClCompile Include="ask.cpp">
       <Filter>ソース ファイル\Ask</Filter>
-    </ClCompile>
-    <ClCompile Include="cweapon_assist.cpp">
-      <Filter>ソース ファイル\Class\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="Load_Assault.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
-    </ClCompile>
-    <ClCompile Include="Load_SMG.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
-    </ClCompile>
-    <ClCompile Include="Load_HandGun.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
-    </ClCompile>
-    <ClCompile Include="Load_ShotGun.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
-    </ClCompile>
-    <ClCompile Include="Load_MachineGun.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
-    </ClCompile>
-    <ClCompile Include="Load_Rifle.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
-    </ClCompile>
-    <ClCompile Include="cweaponload.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData</Filter>
-    </ClCompile>
-    <ClCompile Include="cweapon.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game</Filter>
-    </ClCompile>
-    <ClCompile Include="cweapon_while1.cpp">
-      <Filter>ソース ファイル\Class\Weapon\While_Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Load_Grenade.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
     </ClCompile>
     <ClCompile Include="c_batch_render_assist.cpp">
       <Filter>ソース ファイル\Class\Batch_Render</Filter>
@@ -252,8 +216,59 @@
     <ClCompile Include="ccreature_assist.cpp">
       <Filter>ソース ファイル\Class\Creature\Creature</Filter>
     </ClCompile>
+    <ClCompile Include="cPlayChara.cpp">
+      <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayChara_Direction.cpp">
+      <Filter>ソース ファイル\Class\Creature\PlayerChara\While_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayChara2_Common.cpp">
+      <Filter>ソース ファイル\Class\Creature\PlayerChara\While_Game</Filter>
+    </ClCompile>
     <ClCompile Include="Load_Support.cpp">
-      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
+      <Filter>ソース ファイル\Class\Weapon\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="cweapon_assist.cpp">
+      <Filter>ソース ファイル\Class\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_Rifle.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_Assault.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_Grenade.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_HandGun.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_MachineGun.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_ShotGun.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_SMG.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="cWeapon_Load.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="cWeapon_Gun.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="cWeapon_Support.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="cWeapon.cpp">
+      <Filter>ソース ファイル\Class\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="cWeapon_Head.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Head</Filter>
+    </ClCompile>
+    <ClCompile Include="cWeapon_Gun_assist.cpp">
+      <Filter>ソース ファイル\Class\Weapon\Gun</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -273,9 +288,6 @@
       <Filter>ヘッダー ファイル\Class</Filter>
     </ClInclude>
     <ClInclude Include="csys.h">
-      <Filter>ヘッダー ファイル\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="cweapon.h">
       <Filter>ヘッダー ファイル\Class</Filter>
     </ClInclude>
     <ClInclude Include="cnetplay.h">
@@ -316,6 +328,18 @@
     </ClInclude>
     <ClInclude Include="Ask.h">
       <Filter>ヘッダー ファイル\Class\Ask</Filter>
+    </ClInclude>
+    <ClInclude Include="cweapon.h">
+      <Filter>ヘッダー ファイル\Class\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="cWeapon_head.h">
+      <Filter>ヘッダー ファイル\Class\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="cWeapon_Support.h">
+      <Filter>ヘッダー ファイル\Class\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="cWeapon_Gun.h">
+      <Filter>ヘッダー ファイル\Class\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

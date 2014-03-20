@@ -28,9 +28,9 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, const Ene
 	BatchReset( PcC, StgC, EneC, Cam);
 
 
-	/*
+	/* /////////////////////////////////////////////////////// */
 	//次にスプライトのロードを行います、同時にデータも代入します
-	*/
+	/* /////////////////////////////////////////////////////// */
 
 	/*カーソル画像のロードを行う 配列は[0]番*/
 	wsprintf( loadname, "%s\\data\\img\\carsol.png", System::path);

@@ -59,7 +59,7 @@ int Enemy::LoadEnemyModel( const int Ene_Kind, const int Ene_No){
 					Ene[EnemyNum]->Set_UnderMotion( 1);
 
 					/* 武器のロード */
-					Ene[EnemyNum]->Get_Weapon()->GunLoad(0,0,0);// アサルトライフルの入手
+					Ene[EnemyNum]->Get_WeaponH()->WpLoad(0,0,0);// アサルトライフルの入手
 			}
 	}
 

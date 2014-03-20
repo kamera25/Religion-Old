@@ -5,14 +5,14 @@
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
-#include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include "cWeapon_Gun.h"//武器に関することのクラスヘッダファイル
 
 
 
 /* ハンドガンの情報をロードする関数 */
-int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
+int Weapon_Gun::GunLoad_Hand( const int Wpno){
 
-	//変数の初期化
+	/* 変数の初期化 */
 	int ech = 0;
 	char loadname[256] = "";
 
@@ -142,13 +142,13 @@ int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
 
 
 		//変数をメンバー変数に格納します
-		WeaponModel[Selectkind] = hsid;//武器のモデルを格納
-		WeaponSprite[Selectkind] = g_spid;//武器スプライトを格納
-		WeaponOtherModel[Selectkind][0] = 0;//武器の使用済み弾薬モデルを格納
-		WeaponBone[Selectkind][0] = bone[0];//銃口手前のボーンを格納
-		WeaponBone[Selectkind][1] = bone[1];//銃口手先のボーンを格納
-		WeaponSoundEfeect[Selectkind][0] = sound[0];
-		WeaponSoundEfeect[Selectkind][1] = sound[1];
+		Set_Model( hsid);//武器のモデルを格納
+		Set_Sprite( g_spid);//武器スプライトを格納
+		OtherModel = 0;//武器の使用済み弾薬モデルを格納
+		Set_Bones( bone[0], 0);//銃口手前のボーンを格納
+		Set_Bones( bone[1], 1);//銃口手先のボーンを格納
+		Set_Sounds( sound[0], 0);
+		Set_Sounds( sound[1], 1);
 
 
 	return 0;

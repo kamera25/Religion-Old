@@ -63,7 +63,7 @@ int Batch_Render::BatchSpriteRender( const int SceneEndFlg){
 	*/
 
 	for(int i=0; i<15; i++ ){
-		if(( ChkIn_hsids[i] != 0) && (ChkIn_hsids[i] != -1 )){//データがちゃんとあれば
+		if( SpriteIDs[i] != 0){//データがちゃんとあれば
 			/*変数の初期化*/
 			D3DXVECTOR3 ScreenPos( SpriteData[i][2], SpriteData[i][3], SpriteData[i][4]);//描画位置を指定する構造体
 

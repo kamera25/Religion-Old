@@ -2,7 +2,7 @@
 // アシスト関数とはクラスにおけるプライベート変数の取得・代入を行なうだけの関数の総称です。
 */
 #include "csoldier.h"// 兵士クラスの宣言ヘッダファイル
-
+#include "cWeapon_head.h"// 武器統括に関することのクラスヘッダファイル
 
 
 
@@ -55,7 +55,7 @@ int Soldier::Set_Quaternion( int QNo, int Number){
 	return 0;
 }
 /* ウェポンポインタの取得関数 */
-Weapon* Soldier::Get_Weapon(){
+Weapon_Head* Soldier::Get_WeaponH(){
 
 	return &Wpn;
 }

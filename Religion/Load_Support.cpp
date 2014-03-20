@@ -5,19 +5,20 @@
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
-#include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include "cWeapon_Support.h"//サポート武器関係のヘッダファイル
 
 
-/* サポート武器に関する情報をロードする関数 */
-int Weapon::WpLoad_Support( const int Selectkind, const int Wpno){
+
+/* サポート系の情報をロードする関数 */
+int Weapon_Support::WpLoad_Support( const int Wpno){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
 	char loadname[256] = "";
 
 	//一時的な変数（モデル格納等など）
-	int hsid;//銃モデルのID
-	int g_spid;//銃スプライトのスプライトID
+	int hsid = 0;//銃モデルのID
+	int s_spid = 0;//銃スプライトのスプライトID
 	int Garbage = 0;//いらない変数を格納します
 
 
@@ -31,7 +32,7 @@ int Weapon::WpLoad_Support( const int Selectkind, const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\m26\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 1, 0, &s_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 	if(Wpno == 1){//M67
@@ -43,7 +44,7 @@ int Weapon::WpLoad_Support( const int Selectkind, const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\m67\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 1, 0, &s_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 	if(Wpno == 2){//M18 クレイモア
@@ -55,7 +56,7 @@ int Weapon::WpLoad_Support( const int Selectkind, const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\m18\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 1, 0, &s_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 	if(Wpno == 3){//C4
@@ -67,7 +68,7 @@ int Weapon::WpLoad_Support( const int Selectkind, const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\c4\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 1, 0, &s_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 
@@ -78,17 +79,10 @@ int Weapon::WpLoad_Support( const int Selectkind, const int Wpno){
 
 
 	//変数をメンバー変数に格納します
-	WeaponModel[Selectkind] = hsid;//武器のモデルを格納
-	WeaponSprite[Selectkind] = g_spid;//武器スプライトを格納
-	WeaponOtherModel[Selectkind][0] = 0;//武器の使用済み弾薬モデルを格納
+	Set_Model( hsid);//武器のモデルを格納
+	Set_Sprite( s_spid);//武器スプライトを格納
+	Set_Sounds( -1, 0);
+	Set_Sounds( -1, 1);
 
-
-
-
-
-
-
-
-
-	return 0;
+	return 1;
 }

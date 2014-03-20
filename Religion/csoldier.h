@@ -3,7 +3,7 @@
 // !兵士!クラスは人間クラス(親は生物)を継承してつくられています
 */
 #include "cpeople.h"// 人間クラスのヘッダファイル
-#include "cweapon.h"// 武器に関することのクラスヘッダファイル
+#include "cWeapon_head.h"// 武器統括に関することのクラスヘッダファイル
 #include "citem.h"// アイテムの宣言ヘッダファイル
 
 /* プロトタイプ宣言 */
@@ -45,7 +45,7 @@ private:
 public:
 
 	/* クラスの宣言 */
-	Weapon Wpn;// ウェポンクラスの実体
+	Weapon_Head Wpn;// ウェポンクラスの実体
 	Item Item;// アイテムクラスの実体
 
 	/* 関数の宣言 */
@@ -65,6 +65,6 @@ public:
 	int Set_Bone_ID( int BoneNo, int Number);// ボーンIDの代入関数
 	int Get_Quaternion( int QNo) const;// クォータニオンの取得関数
 	int Set_Quaternion( int QNo, int Number);// クォータニオンの代入関数
-	Weapon* Get_Weapon();// ウェポンポインタの取得関数
+	Weapon_Head* Get_WeaponH();// ウェポン統括クラスポインタの取得関数
 
 };

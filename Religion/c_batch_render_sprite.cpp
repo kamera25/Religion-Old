@@ -13,6 +13,9 @@
 /*Å‰‚Éƒ[ƒh‚µ‚½ƒXƒvƒ‰ƒCƒg‚Ì”{—¦‚â•`‰æw’è*/
 int Batch_Render::BatchSpriteSet( const PlayerChara *PcC){
 
+	/* •Ï”‚Ì‰Šú‰»&éŒ¾ */
+	int NowEqip = PcC->Get_Wp_equipment();
+
 	/*ƒXƒvƒ‰ƒCƒg‚Ì”{—¦‚ğ•ÏX‚µ‚Ü‚·*/
 
 	//HPƒo[‚É‚Â‚¢‚Ä‚Ì”{—¦‘ã“ü
@@ -35,14 +38,16 @@ int Batch_Render::BatchSpriteSet( const PlayerChara *PcC){
 	}
 	else{//•Ší‚ ‚è‚È‚ç
 				//e‚Ì’e–ò‚É‚Â‚¢‚Ä‚Ì”{—¦•ÏŠ·
-				SpriteData[5][0] = float( PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 0)) / float(PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 2)) * 100.0f;
+				SpriteData[5][0] = float( PcC->Wpn.Get_WeaponPointer( NowEqip)->Get_NowAmmo()) / float(PcC->Wpn.Get_WeaponPointer( NowEqip)->Get_Ammo()) * 100.0f;
 
 				//e‚Ìƒ}ƒKƒWƒ“‚É‚Â‚¢‚Ä‚Ì”{—¦•ÏŠ·
-				SpriteData[6][0] = float( PcC->Wpn.GetWeaponDataWhileGame( PcC->Get_Wp_equipment(), 1)) / float(PcC->Wpn.GetWeaponData( PcC->Get_Wp_equipment(), 3)) * 100.0f;
+				SpriteData[6][0] = float( PcC->Wpn.Get_WeaponPointer( NowEqip)->Get_NowMagazine()) / float(PcC->Wpn.Get_WeaponPointer( NowEqip)->Get_Magazine() ) * 100.0f;
 
 				//•\¦‚·‚×‚«‰æ‘œ‚ğSpriteIDs‚É‘ã“ü‚·‚é
-				SpriteIDs[9] = PcC->Wpn.GetSpriteData( PcC->Get_Wp_equipment());
+				SpriteIDs[9] = PcC->Wpn.Get_WeaponPointer( NowEqip)->Get_Sprite();
 	}
+	
+	
 
 	return 0;
 }

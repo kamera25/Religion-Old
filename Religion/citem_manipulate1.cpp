@@ -101,12 +101,14 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 	// ******************************
 	*/
 
+	PC->Wpn.Get_WeaponPointer(PC->Get_Wp_equipment())->Get_Sprite();
+
 	/*次に武器の画像を読み込みます*/
 	for( int i = 0; i<3; i++){
-			if( PC->Wpn.GetSpriteData(i) != 0){//装備していれば
-					BackPack_Weapon[i][0] = PC->Wpn.GetSpriteData(i) ;//画像データをロードする
-					BackPack_Weapon[i][1] = PC->Wpn.GetWeaponData( i, 0);//武器の種類を代入する
-					BackPack_Weapon[i][2] = PC->Wpn.GetWeaponData( i, 1);//武器のナンバーを代入する
+			if( PC->Wpn.Get_WeaponPointer(i) != NULL){//装備していれば
+					BackPack_Weapon[i][0] = PC->Wpn.Get_WeaponPointer(i)->Get_Sprite() ;//画像データをロードする
+					BackPack_Weapon[i][1] = PC->Wpn.Get_WeaponPointer(i)->Get_Kind();//武器の種類を代入する
+					BackPack_Weapon[i][2] = PC->Wpn.Get_WeaponPointer(i)->Get_Number();//武器のナンバーを代入する
 			}
 			else{//装備していなければ -> 空データロードします
 					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//空アイテム画像をロードします。

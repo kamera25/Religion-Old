@@ -114,9 +114,13 @@
     <ClCompile Include="cStg_Kamigaichi.cpp" />
     <ClCompile Include="cStg_Mall.cpp" />
     <ClCompile Include="cStg_Retolis.cpp" />
-    <ClCompile Include="cweapon.cpp" />
-    <ClCompile Include="cweaponload.cpp" />
+    <ClCompile Include="cWeapon.cpp" />
     <ClCompile Include="cweapon_assist.cpp" />
+    <ClCompile Include="cWeapon_Gun.cpp" />
+    <ClCompile Include="cWeapon_Gun_assist.cpp" />
+    <ClCompile Include="cWeapon_Head.cpp" />
+    <ClCompile Include="cWeapon_Load.cpp" />
+    <ClCompile Include="cWeapon_Support.cpp" />
     <ClCompile Include="c_batch_render.cpp" />
     <ClCompile Include="c_batch_render_adjust.cpp" />
     <ClCompile Include="c_batch_render_assist.cpp" />
@@ -140,13 +144,11 @@
     <ClCompile Include="cenemy.cpp" />
     <ClCompile Include="citem_manipulate1.cpp" />
     <ClCompile Include="cmenu.cpp" />
-    <ClCompile Include="cplaychara1.cpp" />
-    <ClCompile Include="cplaychara2.cpp" />
-    <ClCompile Include="cplaychara3.cpp" />
-    <ClCompile Include="cplaychara4.cpp" />
+    <ClCompile Include="cPlayChara.cpp" />
+    <ClCompile Include="cPlayChara_Direction.cpp" />
+    <ClCompile Include="cPlayChara2_Common.cpp" />
     <ClCompile Include="cstage.cpp" />
     <ClCompile Include="csys.cpp" />
-    <ClCompile Include="cweapon_while1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ask.h" />
@@ -158,6 +160,9 @@
     <ClInclude Include="coperation.h" />
     <ClInclude Include="copsmenu.h" />
     <ClInclude Include="cpeople.h" />
+    <ClInclude Include="cWeapon_Gun.h" />
+    <ClInclude Include="cWeapon_head.h" />
+    <ClInclude Include="cWeapon_Support.h" />
     <ClInclude Include="c_batch_preparat.h" />
     <ClInclude Include="ccamera.h" />
     <ClInclude Include="cenemy.h" />

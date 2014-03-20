@@ -2,6 +2,7 @@
 /*　生物クラスの宣言をするヘッダファイル。
 //　生物系クラスのスーパークラスです
 */
+#include "cWeapon_head.h"// 武器統括に関することのクラスヘッダファイル
 
 class Weapon;
 class Stage;
@@ -62,7 +63,7 @@ public:
 	virtual int Batch_PeopleMotion() = 0;
 	virtual int GunPutOnHand() = 0;
 	virtual int MovePosOnGround( Stage *Stg) = 0;
-	virtual Weapon* Get_Weapon() = 0;
+	virtual Weapon_Head* Get_WeaponH() = 0;
 
 	/* ライフやスタミナなどの属性を代入する関数 */
 	int Set_StateFromBranch( const int Branch);

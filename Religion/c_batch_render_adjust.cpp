@@ -139,14 +139,20 @@ int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, const E
 	/**/
 
 	/*メインウェポンからデータを読み込みます*/
-	PCWp_hsids[0][0][0] = PcC->Wpn.GetWeaponModelID( 0, 0); //武器モデルID
-	PCWp_hsids[0][0][1] = PcC->Wpn.GetWeaponModelID( 0, 1); //使用済み弾薬モデルID
+	if( PcC->Wpn.Get_WeaponPointer(0) != NULL){
+			PCWp_hsids[0][0][0] = PcC->Wpn.Get_WeaponPointer(0)->Get_Model(); //武器モデルID
+			PCWp_hsids[0][0][1] = 0; //使用済み弾薬モデルID
+	}
 	/*サブウェポンからデータを読み込みます*/
-	PCWp_hsids[0][1][0] = PcC->Wpn.GetWeaponModelID( 1, 0); 
-	PCWp_hsids[0][1][1] = PcC->Wpn.GetWeaponModelID( 0, 1);
+	if( PcC->Wpn.Get_WeaponPointer(1) != NULL){
+			PCWp_hsids[0][1][0] = PcC->Wpn.Get_WeaponPointer(1)->Get_Model(); 
+			PCWp_hsids[0][1][1] = 0;
+	}
 	/*グレネード系からデータを読み込みます*/
-	PCWp_hsids[0][2][0] = PcC->Wpn.GetWeaponModelID( 2, 0);
-	PCWp_hsids[0][2][1] = PcC->Wpn.GetWeaponModelID( 0, 1);
+	if( PcC->Wpn.Get_WeaponPointer(2) != NULL){
+			PCWp_hsids[0][2][0] = PcC->Wpn.Get_WeaponPointer(2)->Get_Model();
+			PCWp_hsids[0][2][1] = 0;
+	}
 
 
 	/*PCのキャラクターモデルデータを読み込みます*/
@@ -202,7 +208,7 @@ int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, const E
 
 	for(int i=0; i < EneC->EnemyNum; i++){
 			Render_hsids[ 7 + i ] = EneC->Ene[i]->Get_BodyModel();
-			Render_hsids[ 7 + EneC->EnemyNum + i ] = EneC->Ene[i]->Get_Weapon()->GetWeaponModelID( 0, 0);
+			Render_hsids[ 7 + EneC->EnemyNum + i ] = EneC->Ene[i]->Get_WeaponH()->Get_WeaponPointer(0)->Get_Model();
 	}
 	
 	/*

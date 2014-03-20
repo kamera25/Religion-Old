@@ -102,138 +102,54 @@ int Soldier::GunPutOnHand(){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック変数
-	int NowWpKind = Wpn.GetWeaponData( Wp_equipment, 0);//今の武器の種類を取得します
-	int NowWpNo = Wpn.GetWeaponData( Wp_equipment, 1);//今の武器のナンバーを取得します
-	int NowGunhsid = Wpn.GetWeaponModelID( Wp_equipment, 0);//今の武器のモデルデータIDを取得します
+	int NowWpKind = Wpn.Get_WeaponPointer(Wp_equipment)->Get_Kind();//今の武器の種類を取得します
+	int NowWpNo = Wpn.Get_WeaponPointer(Wp_equipment)->Get_Number();//今の武器のナンバーを取得します
+	int NowGunhsid = Wpn.Get_WeaponPointer(Wp_equipment)->Get_Model();//今の武器のモデルデータIDを取得します
 	D3DXVECTOR3 GunOnPos( 0.0, 0.0, 0.0);//銃を置く座標
 	D3DXVECTOR3 GunHitPos( 0.0, 0.0, 0.0);//当たり判定モデルを置く座標
 	D3DXVECTOR3 MoveVec( 0.0, 0.0, 0.0);
 	D3DXVECTOR3 BaseVec( 0.0, 0.0, -1.0);
 
+
+
+
+
 	/*以下、種類によって振り分けを行います*/
+	switch(NowWpKind){
+			case 0://武器の種類が、ハンドガンであれば
+			case 2://武器の種類が、ショットガンであれば
+			case 3://武器の種類が、アサルトライフルであれば
+			case 4://武器の種類が、マシンガンであれば
+			case 5://武器の種類が、アサルトライフルであれば
+				{
 
-	if(NowWpKind == 0){//武器の種類が、ハンドガンであれば
+					/*銃の置くボーンの座標を求めます*/
+					ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(0), 1, &GunOnPos);
+					_ASSERT( ech != 1 );//エラーチェック
 
+					/*銃を求めた座標におきます*/
+					ech = E3DSetPos( NowGunhsid, GunOnPos);
+					_ASSERT( ech != 1 );//エラーチェック
 
+					/*銃の向きになるボーンのクォータニオンを取得*/
+					ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(1), 2, Get_Quaternion(0));//手先の向きを取得
+					_ASSERT( ech != 1 );//エラーチェック
 
-				/*銃の置くボーンの座標を求めます*/
-				ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(0), 1, &GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
+					/*向きたい方向への計算を行います*/
+					ech = E3DLookAtQ( Get_Quaternion(0), MoveVec, BaseVec, 0, 0);
+					_ASSERT( ech != 1 );//エラーチェック
 
-				/*銃を求めた座標におきます*/
-				ech = E3DSetPos( NowGunhsid, GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
+					/*銃の向きをセットします*/
+					ech = E3DSetDirQ2( NowGunhsid, Get_Quaternion(0));
+					_ASSERT( ech != 1 );//エラーチェック
 
-				/*銃の向きになるボーンのクォータニオンを取得*/
-				ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(1), 2, Get_Quaternion(0));//手先の向きを取得
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*向きたい方向への計算を行います*/
-				ech = E3DLookAtQ( Get_Quaternion(0), MoveVec, BaseVec, 0, 0);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きをセットします*/
-				ech = E3DSetDirQ2( NowGunhsid, Get_Quaternion(0));
-				_ASSERT( ech != 1 );//エラーチェック
-
-
-
-	}
-	if(NowWpKind == 2){//武器の種類が、ショットガンであれば
-
-				/*銃の置くボーンの座標を求めます*/
-				ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(0), 1, &GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃を求めた座標におきます*/
-				ech = E3DSetPos( NowGunhsid, GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きになるボーンのクォータニオンを取得*/
-				ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(1), 2, Get_Quaternion(0));//手先の向きを取得
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*向きたい方向への計算を行います*/
-				ech = E3DLookAtQ( Get_Quaternion(0), MoveVec, BaseVec, 0, 0);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きをセットします*/
-				ech = E3DSetDirQ2( NowGunhsid, Get_Quaternion(0));
-				_ASSERT( ech != 1 );//エラーチェック
-
-	}
-	if(NowWpKind == 3){//武器の種類が、アサルトライフルであれば
-
-				/*銃の置くボーンの座標を求めます*/
-				ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(0), 1, &GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃を求めた座標におきます*/
-				ech = E3DSetPos( NowGunhsid, GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きになるボーンのクォータニオンを取得*/
-				ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(1), 2, Get_Quaternion(0));//手先の向きを取得
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*向きたい方向への計算を行います*/
-				ech = E3DLookAtQ( Get_Quaternion(0), MoveVec, BaseVec, 0, 0);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きをセットします*/
-				ech = E3DSetDirQ2( NowGunhsid, Get_Quaternion(0));
-				_ASSERT( ech != 1 );//エラーチェック
-
-	}
-	if(NowWpKind == 4){//武器の種類が、マシンガンであれば
-
-				/*銃の置くボーンの座標を求めます*/
-				ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(0), 1, &GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃を求めた座標におきます*/
-				ech = E3DSetPos( NowGunhsid, GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きになるボーンのクォータニオンを取得*/
-				ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(1), 2, Get_Quaternion(0));//手先の向きを取得
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*向きたい方向への計算を行います*/
-				ech = E3DLookAtQ( Get_Quaternion(0), MoveVec, BaseVec, 0, 0);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きをセットします*/
-				ech = E3DSetDirQ2( NowGunhsid, Get_Quaternion(0));
-				_ASSERT( ech != 1 );//エラーチェック
-
-	}
-	if(NowWpKind == 5){//武器の種類が、アサルトライフルであれば
-
-				/*銃の置くボーンの座標を求めます*/
-				ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(0), 1, &GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃を求めた座標におきます*/
-				ech = E3DSetPos( NowGunhsid, GunOnPos);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きになるボーンのクォータニオンを取得*/
-				ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(1), 2, Get_Quaternion(0));//手先の向きを取得
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*向きたい方向への計算を行います*/
-				ech = E3DLookAtQ( Get_Quaternion(0), MoveVec, BaseVec, 0, 0);
-				_ASSERT( ech != 1 );//エラーチェック
-
-				/*銃の向きをセットします*/
-				ech = E3DSetDirQ2( NowGunhsid, Get_Quaternion(0));
-				_ASSERT( ech != 1 );//エラーチェック
-
+					break;
+			}
 	}
 
-		ech = E3DSetNewPoseML( NowGunhsid);
-		_ASSERT( ech != 1 );//エラーチェック
+	
+	ech = E3DSetNewPoseML( NowGunhsid);
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 
@@ -247,6 +163,7 @@ int Soldier::Batch_PeopleMotion(){
 	int ech = 0;//エラー確認変数
 	int MotionID = 0;//MLから取得した現在の「首付け根」モーションID
 	int FrameNo = 0;//MLから取得した現在の「首付け根」モーションが現在再生している番号
+	int NowEquipmentKind = 0;
 	int MotionList[10];//動かす部分を指定する配列
 	int NoMotionList[10];//動かさない部分を指定する配列
 	D3DXVECTOR3 Squat( 0.0, 0.0, 0.0);//しゃがんだ状態の座標を入れる
@@ -258,13 +175,19 @@ int Soldier::Batch_PeopleMotion(){
 			NoMotionList[i] = 0;//動かさない部分を指定する配列を初期化
 	}
 
+	/* 装備識別番号が装備してい以外で、その装備が存在していれば */
+	if( ( Wpn.Get_WeaponPointer(Wp_equipment) != NULL) && ( Wp_equipment != -1)){
+			NowEquipmentKind = Wpn.Get_WeaponPointer(Wp_equipment)->Get_Kind();
+	}
+
+
 	if( Get_MyState() == 0){
 			/**/
 			/*上半身のモーション設定*/
 
 			if( Get_Attitude() == 0){//しゃがみモードがオフなら
 					if( Wp_equipment != -1){//武器を装備している状態なら
-						if( Wpn.GetWeaponData( Wp_equipment, 0) == 1){//ハンドガンを撃つのなら
+						if( NowEquipmentKind == 0){//ハンドガンを撃つのなら
 										if( Get_UpMotion() == 0){//普通の構え
 
 												/*モーションで動かす部分の指定*/
@@ -280,7 +203,7 @@ int Soldier::Batch_PeopleMotion(){
 														_ASSERT( ech != 1 );//エラーチェック
 										}
 							}
-							if( Wpn.GetWeaponData( Wp_equipment, 0) == 3){//ショットガンを撃つのなら
+							if( NowEquipmentKind == 2){//ショットガンを撃つのなら
 										if( Get_UpMotion() == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/
@@ -296,7 +219,7 @@ int Soldier::Batch_PeopleMotion(){
 														_ASSERT( ech != 1 );//エラーチェック
 										}
 							}
-							if( Wpn.GetWeaponData( Wp_equipment, 0) == 4){//アサルトを撃つのなら
+							if( NowEquipmentKind == 3){//アサルトを撃つのなら
 										if( Get_UpMotion() == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/
@@ -312,7 +235,7 @@ int Soldier::Batch_PeopleMotion(){
 														_ASSERT( ech != 1 );//エラーチェック
 										}
 							}
-							if( Wpn.GetWeaponData( Wp_equipment, 0) == 5){//マシンガンを撃つのなら
+							if( NowEquipmentKind == 4){//マシンガンを撃つのなら
 										if( Get_UpMotion() == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/
@@ -328,7 +251,7 @@ int Soldier::Batch_PeopleMotion(){
 														_ASSERT( ech != 1 );//エラーチェック
 										}
 							}
-							if( Wpn.GetWeaponData( Wp_equipment, 0) == 6){//ライフルを撃つのなら
+							if( NowEquipmentKind == 5){//ライフルを撃つのなら
 										if( Get_UpMotion() == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/
@@ -364,7 +287,7 @@ int Soldier::Batch_PeopleMotion(){
 			/**/
 			if( Get_Attitude() == 1){//しゃがみモードがオンなら
 					if( Wp_equipment != -1){//武器を装備している状態なら
-							if( Wpn.GetWeaponData( Wp_equipment, 0) == 1){//ハンドガンを撃つのなら
+							if( NowEquipmentKind == 0){//ハンドガンを撃つのなら
 										if( Get_UpMotion() == 0){//普通の構え
 
 												/*モーションで動かす部分の指定*/
@@ -380,7 +303,7 @@ int Soldier::Batch_PeopleMotion(){
 														_ASSERT( ech != 1 );//エラーチェック
 										}
 							}
-							if( Wpn.GetWeaponData( Wp_equipment, 0) == 4){//アサルトを撃つのなら
+							if( NowEquipmentKind == 3){//アサルトを撃つのなら
 										if( Get_UpMotion() == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/
@@ -821,8 +744,7 @@ int Soldier::Batch_PeopleMotion(){
 
 	/*マルチレイヤーに沿って新モーションを当てる*/
 	ech = E3DSetNewPoseML( Get_BodyModel());
-	
-			_ASSERT( ech != 1 );//エラーチェック
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*「首付け根」部分のモーションはどうか調べます*/
 	ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
