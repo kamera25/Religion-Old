@@ -30,8 +30,8 @@ public:
 	//関数の宣言
 	Menu();//コンストラクタ、メニュー画面で使うスプライトをロードします
 	~Menu();//デコントラクタ、メニュー画面で使ったスプライトなどを削除します
-	int FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep, Item *item);//メニュー画面に入って、自動的に通常描画モードからメニュー画面に半透過していきます。
-	int PoseMenu( PlayerChara *PC, Weapon *Wep, Item *item);//ポーズメニューに入ります、必要最低限のメニューです。
+	int FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC);//メニュー画面に入って、自動的に通常描画モードからメニュー画面に半透過していきます。
+	int PoseMenu( PlayerChara *PC);//ポーズメニューに入ります、必要最低限のメニューです。
 	int PutStetus( PlayerChara *PC);//下のステータスの表示
 
 };

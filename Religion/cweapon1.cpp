@@ -136,7 +136,7 @@ int Weapon::GunLoad_Data( int Selectkind, int Wpkind, int Wpno){
 	return 0;
 }
 /*武器モデルIDの取得を行います*/
-int Weapon::GetWeaponModelID( int ItemNumber, int DataNumber){
+int Weapon::GetWeaponModelID( int ItemNumber, int DataNumber) const{
 
 	/*変数の初期化*/
 	int DataID = 0;//返すIDを格納する変数
@@ -154,19 +154,19 @@ int Weapon::GetWeaponModelID( int ItemNumber, int DataNumber){
 	return DataID;
 }
 /*武器の詳細データを取得します*/
-int Weapon::GetWeaponData( int ItemNumber, int DataNumber){
+int Weapon::GetWeaponData( int ItemNumber, int DataNumber) const{
 
 
 	return WeaponData[ItemNumber][DataNumber];
 }
 /*ゲーム中の武器の詳細データを取得します*/
-int Weapon::GetWeaponDataWhileGame( int ItemNumber, int DataNumber){
+int Weapon::GetWeaponDataWhileGame( int ItemNumber, int DataNumber) const{
 
 
 	return WeaponDataWhileGame[ItemNumber][DataNumber];
 }
 /*武器スプライトを取得します*/
-int Weapon::GetSpriteData( int ItemNumber){
+int Weapon::GetSpriteData( int ItemNumber) const{
 
 
 	return WeaponSprite[ItemNumber];

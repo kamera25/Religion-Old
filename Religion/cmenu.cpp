@@ -96,7 +96,7 @@ Menu::~Menu(){
 
 
 /*ポーズメニュー、コアの部分です。*/
-int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep, Item *item){
+int Menu::PoseMenu( PlayerChara *PC){
 
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
@@ -226,8 +226,9 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep, Item *item){
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							if(keyin[9] == 1){//クリックしたら
-										Item_Manipulate BackPack( Wep, item);//バックパックを呼び出します。
+										Item_Manipulate BackPack( PC);//バックパックを呼び出します。
 										BackPack.InItemPack( PC);//バックパックに入ります
+										keyin[9] = 0;// キー操作を無効に
 							}
 					}
 
@@ -305,7 +306,7 @@ int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep, Item *item){
 	return 0;
 }
 /*メニュー画面に入って、自動的に通常描画モードからメニュー画面に半透過していきます。*/
-int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep, Item *item){
+int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
 
 	/*変数の宣言*/
 	int keyin[20];//キー情報配列を作成
@@ -366,7 +367,7 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep, I
 			}/*ここまで*/
 
 
-			PoseMenu( PC, Wep, item);//ポーズメニューに入る
+			PoseMenu( PC);//ポーズメニューに入る
 
 
 			/*終了時のループに入ります。*/

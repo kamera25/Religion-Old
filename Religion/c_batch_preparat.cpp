@@ -19,7 +19,7 @@
 
 /*コンストラクタ、ステージやプレイヤークラスを元に情報を収集、構成します*/
 Batch_Preparat::Batch_Preparat( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, 
-								const Camera *Cam, Weapon *Wep){
+								const Camera *Cam){
 
 	/*
 	//////まずはじめにすべての変数を初期化します。
@@ -30,7 +30,7 @@ Batch_Preparat::Batch_Preparat( const PlayerChara *PcC, const Stage *StgC, const
 
 	
 	/*描画、視野角データの構築を行います*/
-	BatchReset( PcC, StgC, EneC, Cam, Wep);
+	BatchReset( PcC, StgC, EneC, Cam);
 
 
 	/*
@@ -343,7 +343,7 @@ int Batch_Preparat::BacthGunTrade( int Wp_equipment){
 	return 0;
 };
 /*まとめられたデータを再構築します。この操作は装備品を変えた状態などで必要になります*/
-int Batch_Preparat::BatchReset( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, const Camera *Cam, Weapon *Wep){
+int Batch_Preparat::BatchReset( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, const Camera *Cam){
 
 
 	/*PCが持っている武器モデルデータ配列の初期化*/
@@ -423,14 +423,14 @@ int Batch_Preparat::BatchReset( const PlayerChara *PcC, const Stage *StgC, const
 	/**/
 
 	/*メインウェポンからデータを読み込みます*/
-	PCWp_hsids[0][0][0] = Wep->GetWeaponModelID( 0, 0); //武器モデルID
-	PCWp_hsids[0][0][1] = Wep->GetWeaponModelID( 0, 1); //使用済み弾薬モデルID
+	PCWp_hsids[0][0][0] = PcC->Wpn.GetWeaponModelID( 0, 0); //武器モデルID
+	PCWp_hsids[0][0][1] = PcC->Wpn.GetWeaponModelID( 0, 1); //使用済み弾薬モデルID
 	/*サブウェポンからデータを読み込みます*/
-	PCWp_hsids[0][1][0] = Wep->GetWeaponModelID( 1, 0); 
-	PCWp_hsids[0][1][1] = Wep->GetWeaponModelID( 0, 1);
+	PCWp_hsids[0][1][0] = PcC->Wpn.GetWeaponModelID( 1, 0); 
+	PCWp_hsids[0][1][1] = PcC->Wpn.GetWeaponModelID( 0, 1);
 	/*グレネード系からデータを読み込みます*/
-	PCWp_hsids[0][2][0] = Wep->GetWeaponModelID( 2, 0);
-	PCWp_hsids[0][2][1] = Wep->GetWeaponModelID( 0, 1);
+	PCWp_hsids[0][2][0] = PcC->Wpn.GetWeaponModelID( 2, 0);
+	PCWp_hsids[0][2][1] = PcC->Wpn.GetWeaponModelID( 0, 1);
 
 
 	/*PCのキャラクターモデルデータを読み込みます*/
@@ -510,7 +510,7 @@ int Batch_Preparat::BatchReset( const PlayerChara *PcC, const Stage *StgC, const
 	return 0;
 };
 /*最初にロードしたスプライトの倍率や描画指定*/
-int Batch_Preparat::BatchSpriteSet( const PlayerChara *PcC, Weapon *Wep){
+int Batch_Preparat::BatchSpriteSet( const PlayerChara *PcC){
 
 	/*スプライトの倍率を変更します*/
 
@@ -534,19 +534,19 @@ int Batch_Preparat::BatchSpriteSet( const PlayerChara *PcC, Weapon *Wep){
 	}
 	else{//武器ありなら
 				//銃の弾薬についての倍率変換
-				SpriteData[5][0] = float( Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0)) / float(Wep->GetWeaponData( PcC->Wp_equipment, 2)) * 100.0f;
+				SpriteData[5][0] = float( PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0)) / float(PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 2)) * 100.0f;
 
 				//銃のマガジンについての倍率変換
-				SpriteData[6][0] = float( Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 1)) / float(Wep->GetWeaponData( PcC->Wp_equipment, 3)) * 100.0f;
+				SpriteData[6][0] = float( PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 1)) / float(PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 3)) * 100.0f;
 
 				//表示すべき画像をSpriteIDsに代入する
-				SpriteIDs[9] = Wep->GetSpriteData( PcC->Wp_equipment);
+				SpriteIDs[9] = PcC->Wpn.GetSpriteData( PcC->Wp_equipment);
 	}
 
 	return 0;
 }
 /*文字を描画することや設定をしたりします*/
-int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC, Weapon *Wep){
+int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック用の確認変数
@@ -572,19 +572,19 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC, Weapon *
 	if( PcC->Wp_equipment != -1){ //武器がなし以外なら
 
 			/*現在のAmmoの数を表示します*/
-			if( Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0) == 0){//弾薬がなくなったら
+			if( PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0) == 0){//弾薬がなくなったら
 					Color = Red;// 赤色にします
 			}
-			else if( Wep->GetWeaponData( PcC->Wp_equipment, 2) < Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0)){//弾が増えているならなら
+			else if( PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 2) < PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0)){//弾が増えているならなら
 					Color = Bule;// 青にします
 			}
-			else if( double(Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0)) / double(Wep->GetWeaponData( PcC->Wp_equipment, 2)) < 0.3){//弾薬が3割以下なら
+			else if( double(PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0)) / double(PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 2)) < 0.3){//弾薬が3割以下なら
 					Color = Yellow;// 黄にします
 			}
 			else{//通常モードなら
 					Color = White;// 白にします
 			}
-			wsprintf( ParometaString, "%d", Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0));
+			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 0));
 			Pos.x = 558.0f;/**/Pos.y = 394.0f;
 			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
 			if(ech != 0){//エラーチェック
@@ -592,7 +592,7 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC, Weapon *
 			};
 
 			/*Ammoの数を表示します*/
-			wsprintf( ParometaString, "%d", Wep->GetWeaponData( PcC->Wp_equipment, 2));
+			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 2));
 			Pos.x = 588.0f;/**/Pos.y = 394.0f;
 			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
 			if(ech != 0){//エラーチェック
@@ -600,16 +600,16 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC, Weapon *
 			};
 
 			/*現在のMagの数を表示します*/
-			if( Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 1) == 0){//マガジンがなくなったら
+			if( PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 1) == 0){//マガジンがなくなったら
 					Color = Red;// 赤色にします
 			}
-			else if( double(Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 1)) / double(Wep->GetWeaponData( PcC->Wp_equipment, 3)) < 0.3){//弾薬が3割以下なら
+			else if( double(PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 1)) / double(PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 3)) < 0.3){//弾薬が3割以下なら
 					Color = Yellow;// 黄にします
 			}
 			else{//通常モードなら
 					Color = White;// 白にします
 			}
-			wsprintf( ParometaString, "%d", Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 1));
+			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponDataWhileGame( PcC->Wp_equipment, 1));
 			Pos.x = 558.0f;/**/Pos.y = 424.0f;
 			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
 			if(ech != 0){//エラーチェック
@@ -617,7 +617,7 @@ int Batch_Preparat::BatchFont( int SceneEndFlg, const PlayerChara *PcC, Weapon *
 			};
 
 			/*Magの数を表示します*/
-			wsprintf( ParometaString, "%d", Wep->GetWeaponData( PcC->Wp_equipment, 3));
+			wsprintf( ParometaString, "%d", PcC->Wpn.GetWeaponData( PcC->Wp_equipment, 3));
 			Pos.x = 588.0f;/**/Pos.y = 424.0f;
 			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
 			if(ech != 0){//エラーチェック

@@ -16,13 +16,13 @@
 
 
 /*銃の現在持ってる銃を持つためのモーション・システムを管轄する関数*/
-int PlayerChara::GunPutOnHand( Weapon *Wep){
+int PlayerChara::GunPutOnHand(){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック変数
-	int NowWpKind = Wep->GetWeaponData( Wp_equipment, 0);//今の武器の種類を取得します
-	int NowWpNo = Wep->GetWeaponData( Wp_equipment, 1);//今の武器のナンバーを取得します
-	int NowGunhsid = Wep->GetWeaponModelID( Wp_equipment, 0);//今の武器のモデルデータIDを取得します
+	int NowWpKind = Wpn.GetWeaponData( Wp_equipment, 0);//今の武器の種類を取得します
+	int NowWpNo = Wpn.GetWeaponData( Wp_equipment, 1);//今の武器のナンバーを取得します
+	int NowGunhsid = Wpn.GetWeaponModelID( Wp_equipment, 0);//今の武器のモデルデータIDを取得します
 	D3DXVECTOR3 GunOnPos( 0.0, 0.0, 0.0);//銃を置く座標
 	D3DXVECTOR3 GunHitPos( 0.0, 0.0, 0.0);//当たり判定モデルを置く座標
 	D3DXVECTOR3 MoveVec( 0.0, 0.0, 0.0);

@@ -16,7 +16,7 @@
 
 
 /*自分の向くべき方向を調節したり、射撃したりする関数*/
-int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene, Weapon *Wep){
+int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene){
     /*キャラクターモデルを壁があれば壁に向ける
 	なければ銃の攻撃が届く範囲までの距離を取得し、そこに向ける*/
 
@@ -51,8 +51,8 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	/*装備をきちんとつけていれば*/
 	if( Wp_equipment != -1){
 
-			NowWpKind = Wep->GetWeaponData( Wp_equipment, 0);
-			NowWpRange = float( Wep->GetWeaponData( Wp_equipment, 4) * 500);
+			NowWpKind = Wpn.GetWeaponData( Wp_equipment, 0);
+			NowWpRange = float( Wpn.GetWeaponData( Wp_equipment, 4) * 500);
 			EneNearDistance = float(NowWpRange);
 	}
 
@@ -179,7 +179,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	return 0;
 }
 /*普通のゲーム内での処理を行う関数、銃器の出し入れ、敵へのあたり、銃を手に置くなど…etc*/
-int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, Weapon *Wep, int ScreenPos[2]){
+int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, int ScreenPos[2]){
 
 	/*変数の初期化*/
 	int ech = 0;
@@ -209,13 +209,13 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 
 	//体の向きや、射撃を行う関数を呼び出し
-	GunConflictTarget( ScreenPos, Stg, Ene, Wep);
+	GunConflictTarget( ScreenPos, Stg, Ene);
 
 	/*敵への当たり判定の処理*/
 
 
 	/*装備武器変更の処理*/
-	if( Wep->GetWeaponRapidFire() == 0){// 武器攻撃可能なら
+	if( Wpn.GetWeaponRapidFire() == 0){// 武器攻撃可能なら
 		if( System::MouseWhole == 1){//もし、マウスホイールが上へ行ったのなら
 			for(int i=0; i<3; i++){//
 					Wp_equipment = Wp_equipment - 1;//装備順を一つ繰り上げる
@@ -225,7 +225,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 					if( Wp_equipment == -2){//装備が行き過ぎたら
 							Wp_equipment = 1;//装備を「サブウェポン」にする
 					}
-					if( Wep->GetWeaponModelID( Wp_equipment, 0) != 0){//もし、武器が確認されているなら
+					if( Wpn.GetWeaponModelID( Wp_equipment, 0) != 0){//もし、武器が確認されているなら
 							break;//ループを抜ける、装備確定
 					}
 			}
@@ -239,7 +239,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 							Wp_equipment = -1;//装備を「サブウェポン」にする
 							break;//ループから抜ける、素手に確定
 					}
-					if( Wep->GetWeaponModelID( Wp_equipment, 0) != 0){//もし、武器が確認されているなら
+					if( Wpn.GetWeaponModelID( Wp_equipment, 0) != 0){//もし、武器が確認されているなら
 							break;//ループを抜ける、装備確定
 					}
 			}
@@ -331,7 +331,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 	/*武器をもち手のあるべき場所へ移動させる*/
 	if( Wp_equipment != -1){
-				GunPutOnHand( Wep);
+				GunPutOnHand();
 	}
 
 

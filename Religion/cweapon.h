@@ -59,10 +59,10 @@ public:
 
 	/*関数の宣言*/
 	int GunLoad( int Selectkind, int Wpkind, int Wpno);//武器をロードするための関数
-	int GetWeaponModelID( int ItemNumber, int DataNumber);//モデルIDの取得を行う関数
-	int GetWeaponData( int ItemNumber, int DataNumber);//モデルの詳細データを取得します
-	int GetWeaponDataWhileGame( int ItemNumber, int DataNumber);//ゲーム中の武器の詳細データを取得します
-	int GetSpriteData( int ItemNumber);//武器スプライトを取得します
+	int GetWeaponModelID( int ItemNumber, int DataNumber) const;//モデルIDの取得を行う関数
+	int GetWeaponData( int ItemNumber, int DataNumber) const;//モデルの詳細データを取得します
+	int GetWeaponDataWhileGame( int ItemNumber, int DataNumber) const;//ゲーム中の武器の詳細データを取得します
+	int GetSpriteData( int ItemNumber) const;//武器スプライトを取得します
 	int GetWeaponRapidFire();//武器の連射カウンタを取得します
 	int SetInitWeaponData();//武器の状態を初期化し、銃弾やマガジンを一杯にする関数
 	int TreatmentWhileGame( int Wp_equipment);// ゲーム中の銃の操作に関することをする関数

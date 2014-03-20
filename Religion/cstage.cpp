@@ -301,7 +301,7 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 		};
 
 		E3DCOLOR4UC FogColor = {100,100,100,100};
-		E3DSetLinearFogParams(1, FogColor, 15000, 100000, -1);//ファグをかけます。
+		E3DSetLinearFogParams(1, FogColor, 8000, 100000, -1);//ファグをかけます。
 		if(ech != 0 ){//エラーチェック
 								_ASSERT( 0 );//エラーダイアログ
 								return 1;//問題ありで終了

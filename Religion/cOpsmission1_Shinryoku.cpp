@@ -23,83 +23,85 @@
 int Operation::OpsMission1_Shinryoku(){
 
 	
-			E3DCreateProgressBar();//プログレスバーを作ります
-			System::SetUpdataSoundSys( 1);//音声情報フラグをオンにする
+		/* クラスの実体化を行う */
+		PlayerChara Player(1,0);
+		Stage Stg;
+		Enemy Ene;
+
+		E3DCreateProgressBar();// プログレスバーを作ります
+		/**/E3DSetProgressBar( 10);// プログレスバーを進歩させる
+
+		System::SetUpdataSoundSys( 1);// 音声情報フラグをオンにする
+
+		/**/E3DSetProgressBar( 20);// プログレスバーを進歩させる
 	
-			PlayerChara wfarmy(1,0);
-			/**/E3DSetProgressBar( 20);//プログレスバーを進歩させる
-			Weapon weapon;//武器を使えるようにします
-			weapon.GunLoad(0,4,0);//銃のロード
-			weapon.GunLoad(1,1,0);//銃のロード
-			weapon.SetInitWeaponData();//弾薬の初期化
+		/* Weapon関係処理 */		
+		Player.Wpn.GunLoad(0,4,0);// 銃のロード
+		Player.Wpn.GunLoad(1,1,0);// 銃のロード
+		Player.Wpn.SetInitWeaponData();// 弾薬の初期化
 
-			Item item;// アイテムの実体を作成
+		/**/E3DSetProgressBar( 40);// プログレスバーを進歩させる
 
-			/**/E3DSetProgressBar( 40);//プログレスバーを進歩させる
-			Stage trm;
-			trm.LoadStage(6,0,0);
-			/**/E3DSetProgressBar( 80);//プログレスバーを進歩させる
-			Enemy ene;
-			ene.LoadEnemyModel( -1, 0);
-			/**/E3DSetProgressBar( 90);//プログレスバーを進歩させる
-			Camera cam;
-			Batch_Preparat bp( &wfarmy, &trm, &ene, &cam, &weapon);
-			Menu menu;
+		Stg.LoadStage(6,0,0);// ステージをロードします
+		/**/E3DSetProgressBar( 60);// プログレスバーを進歩させる
+		Ene.LoadEnemyModel( -1, 0);// 敵をロードします
 
-	
-			//NetPlay netP(0);
-	
+		/**/E3DSetProgressBar( 90);// プログレスバーを進歩させる
 
-			E3DDestroyProgressBar();//プログレスバーを壊します
+		Batch_Preparat BatP( &Player, &Stg, &Ene, &Cam);// バッチプレパラートにすべての描画準備をさせます。
 
-			System::MsgQ(30);//メッセージループ
-			SetCursorPos( System::rewin.left + 320, System::rewin.top + 240);//マウスをウィンドウ真ん中に設置
-			System::MsgQ(30);//メッセージループ
+		E3DDestroyProgressBar();// プログレスバーを壊します		
 
-			/*
-			D3DXVECTOR3 GroundOnPos( 18000.0, 300.0, -23000.0);//
-			E3DSetPos( wfarmy.cha_hsid[0], GroundOnPos);
-			*/
+		System::MsgQ(30);//メッセージループ
+		SetCursorPos( System::rewin.left + 320, System::rewin.top + 240);//マウスをウィンドウ真ん中に設置
+		System::MsgQ(30);//メッセージループ
+
+
+		
+		BatP.BatchChkInView();
+		D3DXVECTOR3 GroundOnPos( 0.0, 10000.0, 0.0);//
+		E3DSetPos( Player.cha_hsid[0], GroundOnPos);
+		
 
 
 
-			while( WM_QUIT != System::msg.message ){
+		while( WM_QUIT != System::msg.message ){
 
-					System::MsgQ(30);//メッセージループ
+				System::MsgQ(30);//メッセージループ
 
-					//とりあえずここに書いてみる、後で複雑にいりこませる。
-					//変数の宣言
-					int ech = 0;//エラーチェック用の変数宣言
-					int ScreenPosArray[2];
-
-
-
-					System::KeyRenewal( weapon.GetWeaponData( wfarmy.Wp_equipment, 7) + 1);
-					bp.BatchChkInView();
-					weapon.ChkWeaponLaunch( wfarmy.Wp_equipment);
-
-					wfarmy.NormallyPCSystem( &trm, &bp, &ene, &cam, &weapon, ScreenPosArray);
-					weapon.AttackEnemy( &ene, &wfarmy, ScreenPosArray, &trm);
-					ene.MoveEnemys( &trm);
-
-					bp.BatchSpriteSet( &wfarmy, &weapon);
-					bp.BatchRender( 0);
-					weapon.TreatmentWhileGame( wfarmy.Wp_equipment);
-					bp.BatchSpriteRender( 0);
-					bp.BatchFont( 1, &wfarmy, &weapon);
+				//とりあえずここに書いてみる、後で複雑にいりこませる。
+				//変数の宣言
+				int ech = 0;//エラーチェック用の変数宣言
+				int ScreenPosArray[2];
 
 
-					ech = E3DPresent( System::scid1);
-					if(ech != 0){//エラーチェック
-								_ASSERT(0);//エラーダイアログを表示
-					};
 
-					menu.FarstInMenu( &bp, &wfarmy, &weapon, &item);
-					bp.BatchBeforePos();
-					wfarmy.ShoulderGunSysBefore( &weapon);
+				System::KeyRenewal( Player.Wpn.GetWeaponData( Player.Wp_equipment, 7) + 1);
+				BatP.BatchChkInView();
+				Player.Wpn.ChkWeaponLaunch( Player.Wp_equipment);
 
-					//netP.NetMessage();
-			}
+				Player.NormallyPCSystem( &Stg, &BatP, &Ene, &Cam, ScreenPosArray);
+				Player.Wpn.AttackEnemy( &Ene, &Player, ScreenPosArray, &Stg);
+				Ene.MoveEnemys( &Stg);
+
+				BatP.BatchSpriteSet( &Player);
+				BatP.BatchRender( 0);
+				Player.Wpn.TreatmentWhileGame( Player.Wp_equipment);
+				BatP.BatchSpriteRender( 0);
+				BatP.BatchFont( 1, &Player);
+
+
+				ech = E3DPresent( System::scid1);
+				if(ech != 0){//エラーチェック
+							_ASSERT(0);//エラーダイアログを表示
+				};
+
+				Menu.FarstInMenu( &BatP, &Player);
+				BatP.BatchBeforePos();
+				Player.ShoulderGunSysBefore();
+
+				//netP.NetMessage();
+		}
 
 
 

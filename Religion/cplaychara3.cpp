@@ -161,7 +161,7 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, int ScreenPos[2]){
 }
 
 /*キャラクターの後処理を行う関数、モーションや姿勢など*/
-int PlayerChara::ShoulderGunSysBefore( Weapon *Wep){
+int PlayerChara::ShoulderGunSysBefore( ){
 
 	/*変数の初期化*/
 	int ech = 0;//エラー確認変数
@@ -184,7 +184,7 @@ int PlayerChara::ShoulderGunSysBefore( Weapon *Wep){
 
 			if( Attitude == 0){//しゃがみモードがオフなら
 					if( Wp_equipment != -1){//武器を装備している状態なら
-						if( Wep->GetWeaponData( Wp_equipment, 0) == 1){//ハンドガンを撃つのなら
+						if( Wpn.GetWeaponData( Wp_equipment, 0) == 1){//ハンドガンを撃つのなら
 										if( UpMotion == 0){//普通の構え
 
 												/*モーションで動かす部分の指定*/
@@ -201,7 +201,7 @@ int PlayerChara::ShoulderGunSysBefore( Weapon *Wep){
 												};
 										}
 							}
-							if( Wep->GetWeaponData( Wp_equipment, 0) == 4){//アサルトを撃つのなら
+							if( Wpn.GetWeaponData( Wp_equipment, 0) == 4){//アサルトを撃つのなら
 										if( UpMotion == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/
@@ -239,7 +239,7 @@ int PlayerChara::ShoulderGunSysBefore( Weapon *Wep){
 			/**/
 			if( Attitude == 1){//しゃがみモードがオンなら
 					if( Wp_equipment != -1){//武器を装備している状態なら
-							if( Wep->GetWeaponData( Wp_equipment, 0) == 1){//ハンドガンを撃つのなら
+							if( Wpn.GetWeaponData( Wp_equipment, 0) == 1){//ハンドガンを撃つのなら
 										if( UpMotion == 0){//普通の構え
 
 												/*モーションで動かす部分の指定*/
@@ -256,7 +256,7 @@ int PlayerChara::ShoulderGunSysBefore( Weapon *Wep){
 												};
 										}
 							}
-							if( Wep->GetWeaponData( Wp_equipment, 0) == 4){//アサルトを撃つのなら
+							if( Wpn.GetWeaponData( Wp_equipment, 0) == 4){//アサルトを撃つのなら
 										if( UpMotion == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/

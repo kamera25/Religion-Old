@@ -2,6 +2,9 @@
 /*キャラクタークラスのキャラをするヘッダファイル。
 //
 */
+#include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include "citem.h"//アイテムの宣言ヘッダファイル
+
 
 //プロトタイプ宣言
 class Stage;
@@ -14,13 +17,21 @@ class Enemy;
 //プレイヤーキャラクタークラスを作成、初期化（その他キャラはcharaクラスにて作成可能）
 class PlayerChara{
 
+private:
+
+
+
 public:
 
-	//変数の宣言
+	/* PCクラスにふくんでいるクラス */
+	Weapon Wpn;// ウェポンクラスの実体
+	Item Item;// アイテムクラスの実体
 
+	//変数の宣言
 	int MaxHP;//キャラクタの最大HP
 	int HP;//キャラクタのHP
 	int Stamina;//キャラクタのスタミナ
+
 
 	//モデルデータ
 	int cha_hsid[2];//キャラクタのモデルID [0]ノーマルモデルのhsid [1]手のモデルのhsid
@@ -77,11 +88,11 @@ public:
 	//基本的な銃のまとめ関数の宣言
 	int ThirdGunSys( Stage *Stg, Batch_Preparat *BatPre);//3人称視点からの銃関連まとめ関数
 	int ShoulderGunSys( Batch_Preparat *BatPre, int ScreenPos[2]);//肩射ち視点からの銃関連まとめ関数
-	int GunPutOnHand( Weapon *Wep);//現在持ってる銃を持つためのモーション・システムを管轄する関数
+	int GunPutOnHand();//現在持ってる銃を持つためのモーション・システムを管轄する関数
 	int MoveChara();//キャラを動かします、前後左右に動けます
 	int MovePosOnGround( Stage *Stg);//キャラクターをグラウンドの上に置くための関数
-	int ShoulderGunSysBefore( Weapon *Wep);//キャラクターののち処理を行う関数
-	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene, Weapon *Wep);//自分の向くべき方向を調節する関数
-	int NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, Weapon *Wep, int ScreenPos[2]);//普通のゲーム内での処理を行なう関数
+	int ShoulderGunSysBefore();//キャラクターののち処理を行う関数
+	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene);//自分の向くべき方向を調節する関数
+	int NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, int ScreenPos[2]);//普通のゲーム内での処理を行なう関数
 	int GunSystem( Enemy *Ene);//銃について作動させる関数、リロード、次打てるまでの時間計算、敵へのあたり判定、ダメージ計算など
 };
