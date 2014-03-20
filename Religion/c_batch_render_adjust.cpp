@@ -16,43 +16,27 @@
 int Batch_Render::BacthGunTrade( const int Wp_equipment){
 
 
-	if( Wp_equipment == -1){//装備品がなにもなしなら
-			Render_hsids[4] = 0;
-			Render_hsids[5] = 0;
-			Render_hsids[6] = 0;
-			ChkIn_hsids[4] = 0;
-			ChkIn_hsids[5] = 0;
-			ChkIn_hsids[6] = 0;
+	SetModel_ViewFlag( "MainWp", false);
+	SetModel_ViewFlag( "SubWp", false);
+	SetModel_ViewFlag( "SupportWp", false);
+
+	switch(Wp_equipment){
+			case 0:{//装備品がメインウェポンなら
+
+					SetModel_ViewFlag( "MainWp", true);
+					break;
+			}
+			case 1:{
+
+					SetModel_ViewFlag( "SubWp", true);
+					break;
+			}
+			case 2:{
+
+					SetModel_ViewFlag( "SupportWp", true);
+					break;
+			}
 	}
-	if( Wp_equipment == 0){//装備品がメインウェポンなら
-			Render_hsids[4] = PCWp_hsids[0][0][0];
-			Render_hsids[5] = PCWp_hsids[0][0][1];
-			Render_hsids[6] = PCWp_hsids[0][0][2];
-			ChkIn_hsids[4] = PCWp_hsids[0][0][0];
-			ChkIn_hsids[5] = PCWp_hsids[0][0][1];
-			ChkIn_hsids[6] = PCWp_hsids[0][0][2];
-	}
-	if( Wp_equipment == 1){//装備品がサブウェポンなら
-			Render_hsids[4] = PCWp_hsids[0][1][0];
-			Render_hsids[5] = PCWp_hsids[0][1][1];
-			Render_hsids[6] = PCWp_hsids[0][1][2];
-			ChkIn_hsids[4] = PCWp_hsids[0][1][0];
-			ChkIn_hsids[5] = PCWp_hsids[0][1][1];
-			ChkIn_hsids[6] = PCWp_hsids[0][1][2];
-	}
-	if( Wp_equipment == 2){//装備品がグレネード系なら
-			Render_hsids[4] = PCWp_hsids[0][2][0];
-			Render_hsids[5] = PCWp_hsids[0][2][1];
-			Render_hsids[6] = PCWp_hsids[0][2][2];
-			ChkIn_hsids[4] = PCWp_hsids[0][2][0];
-			ChkIn_hsids[5] = PCWp_hsids[0][2][1];
-			ChkIn_hsids[6] = PCWp_hsids[0][2][2];
-	}
-
-
-
-
-
 
 
 	return 0;
@@ -61,106 +45,36 @@ int Batch_Render::BacthGunTrade( const int Wp_equipment){
 /* まとめられたデータを再構築します。この操作は装備品を変えた状態などで必要になります */
 int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, const Camera *Cam){
 
+	
 
-	/*PCが持っている武器モデルデータ配列の初期化*/
-	for(int i=0; i<2; i++){
-		for(int j=0; j<3; j++){
-			for(int k=0; k<4; k++){
-				PCWp_hsids[i][j][k] = 0;
-			}
-		}
-	};
 
-	/*ロードしているPCモデルデータ配列の初期化*/
-	for(int i=0; i<2; i++){
-		PCmodel_hsid[i] = 0;
-	};
 
-	/*描画が必要な武器モデルデータ配列の初期化*/
-	for(int i=0; i<2; i++){
-		for(int j=0; j<4; j++){
-			Wp_hsids[i][j] = 0;
-		}
-	}
 
-	/*ステージモデルデータ配列の初期化*/
-	for(int i=0; i<3; i++){
-		Stage_hsids[i] = 0;
-	};
 
-	/*PCダミーモデルデータ配列の初期化*/
-	for(int i=0; i<2; i++){
-		PCDummyModel_hsids[i] = 0;
-	}
-
-	/*壁モデル配列の初期化*/
-	for(int i=0; i<3; i++){
-		Wall_hsids[i] = 0;
-	};
-
-	/*当たり判定モデル配列の初期化*/
-	for(int i=0; i<2; i++){
-		Hitmodel_hsids[i] = 0;
-	};
-
-	/*視野角内チェックが必要なモデルデータ配列の初期化*/
-	for(int i=0; i<40; i++){
-		ChkIn_hsids[i] = 0;
-	};
-
-	/*描画が必要なモデルデータ配列の初期化*/
-	for(int i=0; i<30; i++){
-		Render_hsids[i] = 0;
-	};
-
-	/*敵モデル配列の初期化*/
-	for(int i=0; i<15; i++){
-		Enemy_hsids[i] = 0;
-	}
-
-	/*スプライトのデータを格納するための配列の初期化*/
-	for(int i=0; i<15; i++){
-		for(int j=0; j<5; j++){
-			SpriteData[i][j] = 0.0f;
-		}
-	}
-
-	/*スプライトの識別IDを格納する配列の初期化*/
-	for(int i=0; i<15; i++){
-		SpriteIDs[i] = 0;
-	}
-
-	/*カメラのダミーモデルIDを初期化*/
-	CamDummyModel_hsid = 0;
-
-	/**/
-	///////すべての初期化の終了。
-	/////続いて、ステージクラスとプレイヤークラスからデータを読み込みます。
-	/**/
+	/* ////////////////////////////////////////////////////////////////// */
+	// 続いて、ステージクラスとプレイヤークラスからデータを読み込みます。
+	/* ////////////////////////////////////////////////////////////////// */
 
 	/*メインウェポンからデータを読み込みます*/
 	if( PcC->Wpn.Get_WeaponPointer(0) != NULL){
-			PCWp_hsids[0][0][0] = PcC->Wpn.Get_WeaponPointer(0)->Get_Model(); //武器モデルID
-			PCWp_hsids[0][0][1] = 0; //使用済み弾薬モデルID
+			SetModel_AddName( PcC->Wpn.Get_WeaponPointer(0)->Get_Model(), "MainWp", true);
 	}
 	/*サブウェポンからデータを読み込みます*/
 	if( PcC->Wpn.Get_WeaponPointer(1) != NULL){
-			PCWp_hsids[0][1][0] = PcC->Wpn.Get_WeaponPointer(1)->Get_Model(); 
-			PCWp_hsids[0][1][1] = 0;
+			SetModel_AddName( PcC->Wpn.Get_WeaponPointer(1)->Get_Model(), "SubWp", true);
 	}
 	/*グレネード系からデータを読み込みます*/
 	if( PcC->Wpn.Get_WeaponPointer(2) != NULL){
-			PCWp_hsids[0][2][0] = PcC->Wpn.Get_WeaponPointer(2)->Get_Model();
-			PCWp_hsids[0][2][1] = 0;
+			SetModel_AddName( PcC->Wpn.Get_WeaponPointer(2)->Get_Model(), "SupportWp", true);
 	}
 
 
 	/*PCのキャラクターモデルデータを読み込みます*/
-	PCmodel_hsid[0] = PcC->Get_BodyModel();
+	SetModel( PcC->Get_BodyModel(), true);
 
 	/*ステージモデルデータを読み込みます*/
 	for(int i=0; i<3; i++){
-		Stage_hsids[i] = StgC->Stage_hsid[i];
+		SetModel( StgC->Stage_hsid[i], true);
 	};
 
 
@@ -170,65 +84,75 @@ int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, const E
 	
 	/*壁モデルデータを読み込みます*/
 	for(int i=0; i<3; i++){
-		Wall_hsids[i] = StgC->Stage_hsid[i];
+		SetModel( StgC->Stage_hsid[i], false);
 	};
-	/*ダミーモデルデータを読み込みます*/
-	PCDummyModel_hsids[0] = PcC->Get_BodyModel();
+
 
 	/*カメラダミーモデルを読み込みます*/
-	CamDummyModel_hsid = Cam->DummyModel;
-
-
-	/**/
-	/////ステージクラスとプレイヤークラスからデータを読み込みが終わりますた。
-	///次に、レンダリングが必要なモデルデータをRender_hsids配列に書き込みます
-	/**/
-
-	Render_hsids[0] = PCmodel_hsid[0];//PCモデル
-	Render_hsids[1] = Stage_hsids[0];////
-	Render_hsids[2] = Stage_hsids[1];//ステージデータ
-	Render_hsids[3] = Stage_hsids[2];////
-
-	if( PcC->Get_Wp_equipment() == -1){//装備品がなにもなしなら
-			Render_hsids[4] = 0;
-			Render_hsids[5] = 0;
-	}
-	if( PcC->Get_Wp_equipment() == 0){//装備品がメインウェポンなら
-			Render_hsids[4] = PCWp_hsids[0][0][0];
-			Render_hsids[5] = PCWp_hsids[0][0][1];
-	}
-	if( PcC->Get_Wp_equipment() == 1){//装備品がサブウェポンなら
-			Render_hsids[4] = PCWp_hsids[0][1][0];
-			Render_hsids[5] = PCWp_hsids[0][1][1];
-	}
-	if( PcC->Get_Wp_equipment() == 2){//装備品がグレネード系なら
-			Render_hsids[4] = PCWp_hsids[0][2][0];
-			Render_hsids[5] = PCWp_hsids[0][2][1];
-	}
+	SetModel( Cam->DummyModel, false);
 
 	for(int i=0; i < EneC->EnemyNum; i++){
-			Render_hsids[ 7 + i ] = EneC->Ene[i]->Get_BodyModel();
-			Render_hsids[ 7 + EneC->EnemyNum + i ] = EneC->Ene[i]->Get_WeaponH()->Get_WeaponPointer(0)->Get_Model();
+			SetModel( EneC->Ene[i]->Get_BodyModel(), true);
+			SetModel( EneC->Ene[i]->Get_WeaponH()->Get_WeaponPointer(0)->Get_Model(), true);
 	}
-	
-	/*
-	////レンダリングが必要なモデルデータの書き込みが終了しました
-	//次に、視野角内チェックが必要なデータ
-	*/
-
-	for(int i=0; i<22; i++){
-			ChkIn_hsids[i] = Render_hsids[i];
-	}
-
-	ChkIn_hsids[23] = Wall_hsids[0];////
-	ChkIn_hsids[24] = Wall_hsids[1];//壁データ
-	ChkIn_hsids[25] = Wall_hsids[2];////
-
-	ChkIn_hsids[26] = PCDummyModel_hsids[0];//PCダミーモデルデータ
-	ChkIn_hsids[26] = CamDummyModel_hsid;//Camダミーモデルデータ
 
 
 
 
 	return 0;
 };
+
+
+int Batch_Render::SetModel( const int ID, const bool ViewFlag){
+
+	SetModel_AddName( ID, "", ViewFlag);
+
+	return 0;
+}
+
+
+int Batch_Render::SetModel_AddName( const int ID, const char *Name, const bool ViewFlag){
+
+	/* 変数の初期化&宣言 */
+	Model MdlC;
+
+	/* MdlC構造体に情報を代入します */
+	MdlC.ID = ID;
+	wsprintf( MdlC.Name, "%s", Name);
+	MdlC.ViewFlag = ViewFlag;
+
+	Mdl.push_back( MdlC);// 登録した情報をMdlベクターにプッシュする
+
+	return 0;
+}
+
+vector<Model>::iterator Batch_Render::SearchModelFromName( const char *ObjName){
+
+	/* 変数の初期化&宣言 */
+	vector<Model>::iterator it;// イテレータ
+
+	for( it = Mdl.begin(); it != Mdl.end(); it++){
+			if( strcmp( ObjName, (*it).Name) == 0){
+					break;// ループを抜け出す
+			}
+	}
+
+	if( it == Mdl.end()){// 検索した文字が見つからなければ
+			_ASSERT( 1 , "Such Name is not found!");//エラーチェック
+	}
+
+
+	return it;
+}
+
+int Batch_Render::SetModel_ViewFlag( const char *Name, const bool ViewFlag){
+
+	/* 変数の初期化&宣言 */
+	int ech = 0;
+	vector<Model>::iterator it = SearchModelFromName( Name);// イテレータ
+
+	(*it).ViewFlag = ViewFlag;
+
+
+	return 0;
+}

@@ -7,9 +7,16 @@
 
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
 
+/* プレイヤーキャラクターのコンストラクタ */
+PlayerChara::PlayerChara( int selchara, int Wpselect_equipment) : Soldier( selchara, Wpselect_equipment){
 
 
-/*プレイヤーキャラクターのデコンストラクタ*/
+	ChangePerspectiveMode = 0;
+
+	return;
+}
+
+/*プレイヤーキャラクターのデストラクタ*/
 PlayerChara::~PlayerChara(){
 
 	int ech = 0;//エラー確認変数の初期化

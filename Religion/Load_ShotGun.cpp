@@ -32,7 +32,7 @@ int Weapon_Gun::GunLoad_Shot(  const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\shotgun\\m1897\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &g_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 
 			//武器のモーションを読み込み
@@ -54,7 +54,37 @@ int Weapon_Gun::GunLoad_Shot(  const int Wpno){
 
 
 	}
+	if(Wpno == 2){//SPAS-12
 
+			//モデルデータのロード
+			wsprintf( loadname, "%s\\data\\3d\\weapon\\shotgun\\sppas-12\\sppas-12.sig", System::path);
+			ech = E3DSigLoad( loadname, 0, 0.10f, &hsid);
+			_ASSERT( ech != 1 );//エラーチェック
+
+			//武器スプライトのロード
+			wsprintf( loadname, "%s\\data\\3d\\weapon\\shotgun\\sppas-12\\pict.png", System::path);
+			ech = E3DCreateSprite( loadname, 0, 0, &g_spid);
+			_ASSERT( ech != 1 );//エラーチェック
+
+			//武器のモーションを読み込み
+			wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m1911\\wait.qua", System::path);
+			//ech = E3DAddMotion( hsid, loadname, 1, &Garbage, &Garbage);
+			_ASSERT( ech != 1 );//エラーチェック
+
+
+			/**/
+			//ボーンデータのロードを行います
+			/**/
+
+			//ボーンネームからボーンIDの取得「銃もち手_X+」
+			E3DGetBoneNoByName( hsid, "銃根", &bone[0]);
+			_ASSERT( ech != 1 );//エラーチェック
+			//ボーンネームからボーンIDの取得「銃もち手先_X+」
+			E3DGetBoneNoByName( hsid, "銃先", &bone[1]);
+			_ASSERT( ech != 1 );//エラーチェック
+
+
+	}
 
 
 

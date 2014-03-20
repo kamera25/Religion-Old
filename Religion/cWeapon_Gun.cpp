@@ -139,8 +139,7 @@ int Weapon_Gun::WeaponTreatment( const int WeaponLight){
 					
 					/* マズルフラッシュカウンターを表示させます */
 					Set_FlashCounter(4);
-					/* 弾薬をひとつ減らします */
-					Set_NowAmmo( Get_NowAmmo() -1 );
+
 					/*連射カウンタに一定数値を代入し射撃を一定停止させます*/
 					Set_WaitingTime( RapidTime);
 
@@ -284,6 +283,7 @@ int Weapon_Gun::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2],
 	/* 武器の種類によって武器の処理を分岐させます。 */
 	switch(NowWpKind){
 			case 0://ハンドガンなら
+			case 2:
 			case 3:
 			case 4:
 			{
@@ -337,6 +337,7 @@ int Weapon_Gun::ChkWeaponLaunch(){
 	if( ( keyin[9] == 1) && ( Get_NowFireFlag() == 0)){//左クリックされ、発射可能がオフなら
 			if( 0 < Get_NowAmmo() ){//Ammoが残っていれば
 					Set_NowFireFlag(1);// 発射状態にする
+					Set_NowAmmo( Get_NowAmmo() -1 );// 弾薬をひとつ減らします
 			}
 			else{//弾なしで空撃ち状態なら
 					Set_NowFireFlag(2);//空撃ち状態する

@@ -5,6 +5,8 @@
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
+#include "cWeapon_head.h"// 武器統括に関することのクラスヘッダファイル
+
 /*静動変数の宣言*/
 //
 int System::UpdataSoundflag;//音声情報を更新するかのフラグ
@@ -29,7 +31,7 @@ POINT System::MousePos;//マウスの位置を格納するPoint構造体
 POINT System::BeforeMousePos;//前回のマウスの位置を格納する構造体
 
 
-//コンストラクタ:Easy3Dの処理を開始するよ。
+// コンストラクタ:Easy3Dの処理を開始するよ。
 System::System( const HINSTANCE chInst, const HWND chwnd){
 
 	/*変数の*/
@@ -122,7 +124,7 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 
 	
 };
-//デストラクタ:Easy3Dの終了処理を行うよ。
+// デストラクタ:Easy3Dの終了処理を行うよ。
 System::~System(){
 
 	/* 変数の初期化 */
@@ -144,7 +146,7 @@ System::~System(){
 
 
 };
-/*メッセージのループ処理*/
+/* メッセージのループ処理 */
 int System::MsgQ( const int fps){
 
 	/*初期化をする*/
@@ -188,7 +190,7 @@ int System::MsgQ( const int fps){
 	return 0;//ここの数字で終了処理を決めろ。
 
 };
-/*キー情報を更新する関数*/
+/* キー情報を更新する関数 */
 int System::KeyRenewal( const int SelectMode){
 
 
@@ -198,8 +200,8 @@ int System::KeyRenewal( const int SelectMode){
 	const int KeyTrigger[3][2] = // トリガーとなるキー番号をそれぞれの状況で指定したconst変数
 	{
 		{ 0 , 0 },									// メニュー中
-		{ (1<<10)+(1<<13)+(1<<28) , (1<<2) },		// ゲーム中,連続不可
-		{ (1<<7)+(1<<10)+(1<<13)+(1<<28) , (1<<2) }	// ゲーム中,連続可
+		{ (1<<10)+(1<<13)+(1<<28)+(1<<8) , (1<<2) },		// ゲーム中,連続不可
+		{ (1<<7)+(1<<10)+(1<<13)+(1<<28)+(1<<8) , (1<<2) }	// ゲーム中,連続可
 	};
 	const int KeyData[2][30] = {// キーの番号を格納した変数
 		{
@@ -410,7 +412,7 @@ int System::KeyRenewal( const int SelectMode){
 
 	return 0;
 }
-/*ロード画面を描画する関数*/
+/* ロード画面を描画する関数 */
 int System::WaitRender(){
 
 	int ech = 0;//エラーチェック変数
@@ -438,7 +440,7 @@ int System::WaitRender(){
 
 	return 0;
 }
-/*キー情報を入手するための関数*/
+/* キー情報を入手するための関数 */
 int System::GetKeyData( int *KeyDataArray){
 
 	//キーが押されたかの情報を格納します
@@ -449,14 +451,14 @@ int System::GetKeyData( int *KeyDataArray){
 
 	return 0;
 }
-/*音声情報を更新するかどうかの関数*/
+/* 音声情報を更新するかどうかの関数 */
 int System::SetUpdataSoundSys( const int Soundflag){
 
 	UpdataSoundflag = Soundflag;
 
 	return 0;
 }
-/*画像をフェードアウトさせる処理の関数*/
+/* 画像をフェードアウトさせる処理の関数 */
 int System::SetFadeOutOfScid( const int FadeTime){
 
 	/*変数の初期化*/
@@ -551,6 +553,45 @@ int System::SetFadeOutOfScid( const int FadeTime){
 
 
 
+
+
+	return 0;
+}
+/* 銃クラスを元にキー情報の取得を変更する関数 */
+int System::KeyRenewalFromWp( const Weapon_Head *Wpn, const int Equipment){
+	
+	if( ( Equipment == -1) || ( Equipment == 2)){// 装備なしかサポート武器なら
+			System::KeyRenewal(1);
+	}
+	else{
+		if( Wpn->Get_WeaponPointer(Equipment)->Get_NowAmmo() != 0){
+				System::KeyRenewal( Wpn->Get_WeaponPointer(Equipment)->Get_RapidFire() + 1);
+		}
+		else{
+				System::KeyRenewal(1);
+		}
+
+	}
+
+
+	return 0;
+}
+/* マウス座標をセットする関数 */
+int System::SetMouseCursol( const int X, const int Y){
+
+	SetCursorPos( System::rewin.left + X, System::rewin.top + Y);
+
+	return 0;
+}
+/* 現在のマウス座標をBeforeMousePosにセットする関数 */
+int System::SetMouseBeforePos(){
+
+	/* 変数の初期化 */
+	POINT BeforeMousePoseAddRewin;
+
+	GetCursorPos( &BeforeMousePoseAddRewin);
+	System::BeforeMousePos.x = BeforeMousePoseAddRewin.x - System::rewin.left;
+	System::BeforeMousePos.y = BeforeMousePoseAddRewin.y - System::rewin.top;
 
 
 	return 0;

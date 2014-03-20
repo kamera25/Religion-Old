@@ -16,8 +16,13 @@ int Weapon_Gun::Get_Magazine() const{
 
 	return Magazine;
 }
+int Weapon_Gun::Get_RapidFire() const{
 
-int Weapon_Gun::Get_Range() const{
+	
+	return RapidFire;
+}
+int Weapon_Gun::Set_RapidFire( int Number){
 
-	return Range;
+	RapidFire = Number;
+	return 0;
 }

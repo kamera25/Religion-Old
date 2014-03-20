@@ -31,7 +31,7 @@ public:
 	int SetInitWeapon( int WpKind);// 武器のデータの初期化を行います 
 	int ChkWeaponsLaunch( int Equipment);// すべての武器を発射・投降しているかチェックする
 	int AttackEnemys( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);// 敵の当たり判定チェックを行います
-	int WeaponsTreatment( int Equipment);//
+	int WeaponsTreatment( int Equipment, Stage *Stg);//
 
 	Weapon *Get_WeaponPointer( int Now_Equipment) const;// 武器の実体のポインターが代入されているポインターを得る関数
 	Weapon_Head();//コンストラクタ、変数の初期化を行います

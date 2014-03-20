@@ -100,6 +100,15 @@
     <Filter Include="ソース ファイル\Class\Weapon\Head">
       <UniqueIdentifier>{7027c6e6-28a1-493f-a68f-37687cde4b0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Class\Menu2">
+      <UniqueIdentifier>{57001331-b889-429a-8d78-1eb1fc93a430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Class\Menu2">
+      <UniqueIdentifier>{7a238966-e407-43f6-9aa8-3e6b3928ee97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Menu2\Foundation">
+      <UniqueIdentifier>{f596c80a-5a42-4ab5-ad70-c1f7c2d59a18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamecore.cpp">
@@ -116,9 +125,6 @@
     </ClCompile>
     <ClCompile Include="cnetplay.cpp">
       <Filter>ソース ファイル\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="cmenu.cpp">
-      <Filter>ソース ファイル\Class\Menu</Filter>
     </ClCompile>
     <ClCompile Include="copsmenu.cpp">
       <Filter>ソース ファイル\Class\Menu</Filter>
@@ -270,6 +276,15 @@
     <ClCompile Include="cWeapon_Gun_assist.cpp">
       <Filter>ソース ファイル\Class\Weapon\Gun</Filter>
     </ClCompile>
+    <ClCompile Include="cMenu2.cpp">
+      <Filter>ソース ファイル\Class\Menu2\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="cPoseMEnu.cpp">
+      <Filter>ソース ファイル\Class\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="c_Batch_Render_SpriteAssist.cpp">
+      <Filter>ソース ファイル\Class\Batch_Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="c_batch_preparat.h">
@@ -294,9 +309,6 @@
       <Filter>ヘッダー ファイル\Class</Filter>
     </ClInclude>
     <ClInclude Include="copsmenu.h">
-      <Filter>ヘッダー ファイル\Class\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="cmenu.h">
       <Filter>ヘッダー ファイル\Class\Menu</Filter>
     </ClInclude>
     <ClInclude Include="cfirstmenu.h">
@@ -340,6 +352,12 @@
     </ClInclude>
     <ClInclude Include="cWeapon_Gun.h">
       <Filter>ヘッダー ファイル\Class\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="cPoseMenu.h">
+      <Filter>ヘッダー ファイル\Class\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="cMenu.h">
+      <Filter>ヘッダー ファイル\Class\Menu2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

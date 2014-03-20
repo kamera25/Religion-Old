@@ -136,6 +136,18 @@ int Weapon::Set_NowFireFlag( int Number){
 
 	return 0;
 }
+int Weapon::Get_Range() const{
+	
+	return Range;
+};
+int Weapon::Set_Range( int Number){
+
+	Range = Number;
+
+	return 0;
+}
+
+
 
 /* 仮想関数 */
 int Weapon::Get_NowMagazine() const{
@@ -148,8 +160,13 @@ int Weapon::Get_Magazine() const{
 	_ASSERT( 1 );//エラーダイアログを表示
 	return -1;
 };
-int Weapon::Get_Range() const{
-	
-	_ASSERT( 1 );//エラーダイアログを表示	
+int Weapon::Get_RapidFire() const{
+
+	_ASSERT( 1 );//エラーダイアログを表示
 	return -1;
-};
+}
+int Weapon::Set_RapidFire( int Number){
+
+	_ASSERT( 1 );//エラーダイアログを表示
+	return -1;
+}

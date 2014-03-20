@@ -32,7 +32,7 @@ int Weapon_Gun::GunLoad_Assault(  const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\assault\\m4\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &g_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 
 			//武器のモーションを読み込み
@@ -62,7 +62,7 @@ int Weapon_Gun::GunLoad_Assault(  const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\assault\\ak-74u\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &g_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 
 			//武器のモーションを読み込み
@@ -92,7 +92,7 @@ int Weapon_Gun::GunLoad_Assault(  const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\assault\\hk_416\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &g_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 
 			//武器のモーションを読み込み
@@ -119,12 +119,12 @@ int Weapon_Gun::GunLoad_Assault(  const int Wpno){
 	/*サウンドをロードします*/
 	//発射音
 	wsprintf( loadname, "%s\\data\\sound\\se\\shot\\rifle_fire.wav", System::path);
-	ech = E3DLoadSound( loadname, 1, 1, 20, &sound[0]);
+	ech = E3DLoadSound( loadname, 1, 1, 30, &sound[0]);
 	_ASSERT( ech != 1 );//エラーチェック
 
 	//空撃ち
 	wsprintf( loadname, "%s\\data\\sound\\se\\shot\\sky_fire.wav", System::path);
-	ech = E3DLoadSound( loadname, 1, 1, 20, &sound[1]);
+	ech = E3DLoadSound( loadname, 1, 1, 30, &sound[1]);
 	_ASSERT( ech != 1 );//エラーチェック
 
 	/*音が届く範囲を指定*/
@@ -143,7 +143,7 @@ int Weapon_Gun::GunLoad_Assault(  const int Wpno){
 	Set_Bones( bone[0], 0);//銃口手前のボーンを格納
 	Set_Bones( bone[1], 0);//銃口手先のボーンを格納
 	Set_Sounds( sound[0], 0);
-	Set_Sounds( sound[1], 0);
+	Set_Sounds( sound[1], 1);
 
 
 

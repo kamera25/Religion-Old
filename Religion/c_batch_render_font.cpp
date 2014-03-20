@@ -44,6 +44,12 @@ int Batch_Render::BatchFont( const int SceneEndFlg, const PlayerChara *PcC){
 			Magazine = PcC->Wpn.Get_WeaponPointer(Eqip)->Get_Magazine();
 			NowMagazine = PcC->Wpn.Get_WeaponPointer(Eqip)->Get_NowMagazine();
 
+			/* サポート系に対する処理 */
+			if( Magazine == -1){
+					Magazine = 0;
+					NowMagazine = 0;
+			}
+
 
 			/*現在のAmmoの数を表示します*/
 			if( NowAmmo == 0){//弾薬がなくなったら

@@ -50,8 +50,8 @@ int Weapon_Gun::GunLoad_Data( const int Wpkind, const int Wpno){
 	const int C_MINUS = 11;	// C-
 
 	// 定数列挙  "連射可能・不可"
-	const int Enable_Rapid_Fire = 0;// 可能
-	const int Disable_Rapid_Fire = 1;// 不可能
+	const int Enable_Rapid_Fire = 1;// 可能
+	const int Disable_Rapid_Fire = 0;// 不可能
 
 
 	// ここまで//
@@ -60,7 +60,7 @@ int Weapon_Gun::GunLoad_Data( const int Wpkind, const int Wpno){
 
 		//品目：使用弾薬, 威力, 射程距離, 精度, 装弾数, マガジン数,  連射できる銃か
 		
-		// ハンドガン
+		// ハンドガン 0
 		{	 
 			{ _45ACP, 100, 150,	B,		  7,  8, Disable_Rapid_Fire},// M1911
 			{ _45ACP,  80, 105,	B,		  5, 10, Disable_Rapid_Fire},// Offficers
@@ -70,7 +70,7 @@ int Weapon_Gun::GunLoad_Data( const int Wpkind, const int Wpno){
 			{ _9MM,   80,  230,	A,		 15,  3, Disable_Rapid_Fire} // sauerP226
 		},
 
-		// サブマシンガン
+		// サブマシンガン 1
 		{
 			{ _9MM,     70,  120,	A,		 30,  5, Enable_Rapid_Fire}, // TMP
 			{ _45ACP,   70,   75,	B,		 20,  5, Enable_Rapid_Fire}, // INGLAM
@@ -80,7 +80,7 @@ int Weapon_Gun::GunLoad_Data( const int Wpkind, const int Wpno){
 			{ _5_75MM,  80,  110,	B_MINUS, 50,  2, Enable_Rapid_Fire} // P90
 		},
 
-		// ショットガン
+		// ショットガン 2
 		{
 			{ _12GAGE,     50,  60,	 C,		  5,  4, Disable_Rapid_Fire}, // M31
 			{ _12GAGE,     40,  90,	 C_PULS,  7,  3, Disable_Rapid_Fire}, // Benel M3
@@ -90,7 +90,7 @@ int Weapon_Gun::GunLoad_Data( const int Wpkind, const int Wpno){
 
 		},
 
-		// アサルトライフル
+		// アサルトライフル 3
 		{
 			{ _5_56MM, 140,  320, A,	   30,  5, Enable_Rapid_Fire}, // M4 A5
 			{ _5_45MM, 160,  380, B,	   30,  4, Enable_Rapid_Fire}, // AK-74
@@ -99,14 +99,14 @@ int Weapon_Gun::GunLoad_Data( const int Wpkind, const int Wpno){
 			{ _5_56MM, 140,  340, S_PULS,  30,  5, Enable_Rapid_Fire} // HK 416
 		},
 
-		// マシンガン
+		// マシンガン 4
 		{
 			{ _5_56MM,  90,  440, C_MINUS, 150,  2, Enable_Rapid_Fire}, // MINIMI
 			{ _5_56MM,  90,  360, C_PULS,	90,  3, Enable_Rapid_Fire}, // M4 machine
 			{ _7_62MM, 110,  400, C,		75,  4, Enable_Rapid_Fire} // RPK
 		},
 
-		// ライフル
+		// ライフル 5 
 		{
 			{ _7_62MM, 300,  500, A,	   5, 10, Disable_Rapid_Fire}, // M700
 			{ _5_56MM, 140,  420, B_PULS, 20,  4, Disable_Rapid_Fire}, // SPR Mk12
@@ -115,7 +115,7 @@ int Weapon_Gun::GunLoad_Data( const int Wpkind, const int Wpno){
 			{ _50BMG,  850,  500, C,	   5,  3, Disable_Rapid_Fire} // M82
 		},
 
-		// グレネード
+		// グレネード 6
 		{
 			{ _40MM, 350,  80,  A,	      6,   2, Disable_Rapid_Fire}, // MGL
 			{ _40MM, 400,  100, A,	      1,  15, Disable_Rapid_Fire}, // M79
@@ -200,8 +200,9 @@ int Weapon_Gun::GunLoad_Data( const int Wpkind, const int Wpno){
 	Set_Number( Wpno);
 
 	Set_Attack( GunData[Wpkind][Wpno][1]);
-	Range = GunData[Wpkind][Wpno][2];
+	Set_Range( GunData[Wpkind][Wpno][2]);
 	Set_Ammo( GunData[Wpkind][Wpno][4]);
+	Set_RapidFire( GunData[Wpkind][Wpno][6]);
 	Magazine =  GunData[Wpkind][Wpno][5];
 
 	RapidTime = int( 30 / GunDoubleData[Wpkind][Wpno][0] );

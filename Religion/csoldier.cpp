@@ -105,6 +105,7 @@ int Soldier::GunPutOnHand(){
 	int NowWpKind = Wpn.Get_WeaponPointer(Wp_equipment)->Get_Kind();//今の武器の種類を取得します
 	int NowWpNo = Wpn.Get_WeaponPointer(Wp_equipment)->Get_Number();//今の武器のナンバーを取得します
 	int NowGunhsid = Wpn.Get_WeaponPointer(Wp_equipment)->Get_Model();//今の武器のモデルデータIDを取得します
+	int NowFireFlag = Wpn.Get_WeaponPointer(Wp_equipment)->Get_NowFireFlag();//今の武器の打っているかの情報を取得します
 	D3DXVECTOR3 GunOnPos( 0.0, 0.0, 0.0);//銃を置く座標
 	D3DXVECTOR3 GunHitPos( 0.0, 0.0, 0.0);//当たり判定モデルを置く座標
 	D3DXVECTOR3 MoveVec( 0.0, 0.0, 0.0);
@@ -145,6 +146,35 @@ int Soldier::GunPutOnHand(){
 
 					break;
 			}
+			case 7:{//武器の種類が、サポート武器であれば
+
+					if( NowFireFlag == 0){// 武器を撃っていないなら
+								/*サポート武器の置くボーンの座標を求めます*/
+								ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(0), 1, &GunOnPos);
+								_ASSERT( ech != 1 );//エラーチェック
+
+								/*サポート武器を求めた座標におきます*/
+								ech = E3DSetPos( NowGunhsid, GunOnPos);
+								_ASSERT( ech != 1 );//エラーチェック
+
+								/*サポート武器の向きになるボーンのクォータニオンを取得*/
+								ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(1), 2, Get_Quaternion(0));//手先の向きを取得
+								_ASSERT( ech != 1 );//エラーチェック
+
+								/*向きたい方向への計算を行います*/
+								ech = E3DLookAtQ( Get_Quaternion(0), MoveVec, BaseVec, 0, 0);
+								_ASSERT( ech != 1 );//エラーチェック
+
+								/*サポート武器の向きをセットします*/
+								ech = E3DSetDirQ2( NowGunhsid, Get_Quaternion(0));
+								_ASSERT( ech != 1 );//エラーチェック
+					}
+
+
+
+
+					break;
+			}
 	}
 
 	
@@ -176,11 +206,11 @@ int Soldier::Batch_PeopleMotion(){
 	}
 
 	/* 装備識別番号が装備してい以外で、その装備が存在していれば */
-	if( ( Wpn.Get_WeaponPointer(Wp_equipment) != NULL) && ( Wp_equipment != -1)){
+	if( Wp_equipment != -1){
 			NowEquipmentKind = Wpn.Get_WeaponPointer(Wp_equipment)->Get_Kind();
 	}
 
-
+	
 	if( Get_MyState() == 0){
 			/**/
 			/*上半身のモーション設定*/
@@ -234,6 +264,7 @@ int Soldier::Batch_PeopleMotion(){
 												
 														_ASSERT( ech != 1 );//エラーチェック
 										}
+
 							}
 							if( NowEquipmentKind == 4){//マシンガンを撃つのなら
 										if( Get_UpMotion() == 0){//普通の構え
@@ -267,6 +298,21 @@ int Soldier::Batch_PeopleMotion(){
 														_ASSERT( ech != 1 );//エラーチェック
 										}
 							}
+							if( NowEquipmentKind == 7){//サポート関連の動きなら
+										if( Get_UpMotion() == 0){//普通の構え
+					
+												/*モーションで動かす部分の指定*/
+												MotionList[0] = Get_Bone_ID(5);//「おなか」のボーンを指定
+												MotionList[1] = 0;//指定終了
+							
+												/*モーションで動かさない部分の指定*/
+												NoMotionList[0] = 0;//指定終了
+
+												/*モーションを設定する*/
+												ech = E3DSetMOAEventNoML( Get_BodyModel(), 33, MotionList, NoMotionList);//アサルト構え
+												_ASSERT( ech != 1 );//エラーチェック
+										}
+						}
 					}
 					else{//武器を装備していない状態なら
 							/*モーションで動かす部分の指定*/
@@ -278,9 +324,8 @@ int Soldier::Batch_PeopleMotion(){
 												NoMotionList[0] = 0;//指定終了
 
 												/*モーションを設定する*/
-												ech = E3DSetMOAEventNoML( Get_BodyModel(), 3, MotionList, NoMotionList);//ハンドガン構え
-												
-														_ASSERT( ech != 1 );//エラーチェック
+												ech = E3DSetMOAEventNoML( Get_BodyModel(), 32, MotionList, NoMotionList);//待機
+												_ASSERT( ech != 1 );//エラーチェック
 					}
 			}
 
@@ -331,11 +376,9 @@ int Soldier::Batch_PeopleMotion(){
 
 												/*モーションを設定する*/
 												ech = E3DSetMOAEventNoML( Get_BodyModel(), 3, MotionList, NoMotionList);//ハンドガン構え
-												
-														_ASSERT( ech != 1 );//エラーチェック
+												_ASSERT( ech != 1 );//エラーチェック
 					}
 			}
-
 
 			
 
@@ -697,6 +740,35 @@ int Soldier::Batch_PeopleMotion(){
 					
 							_ASSERT( ech != 1 );//エラーチェック
 			}
+			if( Wp_equipment != -1){
+								if( NowEquipmentKind == 3){//保持の構え
+					
+										/*モーションで動かす部分の指定*/
+										MotionList[0] = Get_Bone_ID(5);//「おなか」のボーンを指定
+										MotionList[1] = 0;//指定終了
+							
+										/*モーションで動かさない部分の指定*/
+										NoMotionList[0] = 0;//指定終了
+
+										/*モーションを設定する*/
+										ech = E3DSetMOAEventNoML( Get_BodyModel(), 31, MotionList, NoMotionList);//アサルト構え
+										_ASSERT( ech != 1 );//エラーチェック
+								}
+			}
+			else{
+						/*モーションで動かす部分の指定*/
+						MotionList[0] = Get_Bone_ID(5);//「おなか」のボーンを指定
+						MotionList[1] = 0;//指定終了
+							
+						/*モーションで動かさない部分の指定*/
+						NoMotionList[0] = 0;//指定終了
+
+						/*モーションを設定する*/
+						ech = E3DSetMOAEventNoML( Get_BodyModel(), 32, MotionList, NoMotionList);//アサルト構え
+						_ASSERT( ech != 1 );//エラーチェック
+
+
+		}
 	}
 	if( Get_MyState() == 3){//左横っ飛び状態なら
 					/*モーションで動かす部分の指定*/

@@ -10,18 +10,29 @@
 /* まとめられたデータを描画します。 */
 int Batch_Render::BatchRender( const int SceneEndFlg){
 
-	int ech = 0;//エラーチェック用の確認変数
+	int ech = 0;// エラーチェック用の確認変数
+	int i = 0;
+	int Render_hsids[30];
+	vector<Model>::iterator it;// イテレータ
 
+	for( it = Mdl.begin(); it != Mdl.end(); it++ ){
+		
+			/*変数の初期化*/
+			if(( ((*it).ID != 0)) && ( (*it).ViewFlag == true)){
+					Render_hsids[i] = (*it).ID;
+					i++;
+			}
+	}
 
 	switch(ShadowFlag){
 			case 0:{// レンダリング(ノーマル)
-					ech = E3DRenderBatch( System::scid1, &Render_hsids[30], 30, 1, 0);
+					ech = E3DRenderBatch( System::scid1, &Render_hsids[0], 30, 1, 0);
 					_ASSERT( ech !=1 );//エラーダイアログを表示
 
 					break;
 		    }
 			case 1:{// 影付きレンダリング
-					ech = E3DRenderWithShadow( System::scid1, ShadowScid, ShadowTexture, &Render_hsids[30], 30, 0);
+					ech = E3DRenderWithShadow( System::scid1, ShadowScid, ShadowTexture, &Render_hsids[0], 30, 0);
 					_ASSERT( ech != 1 );//エラーダイアログを表示
 
 					break;
@@ -45,7 +56,7 @@ int Batch_Render::BatchSpriteRender( const int SceneEndFlg){
 
 	/*変数の初期化*/
 	int ech = 0;//エラー確認変数の初期化
-
+	vector<Sprite>::iterator it;// イテレータ
 
 	/*
 	//描画処理の開始
@@ -62,15 +73,14 @@ int Batch_Render::BatchSpriteRender( const int SceneEndFlg){
 	//描画を行います、ループ中に描画されます
 	*/
 
-	for(int i=0; i<15; i++ ){
-		if( SpriteIDs[i] != 0){//データがちゃんとあれば
+	for( it = Spt.begin(); it != Spt.end(); it++ ){
+		
 			/*変数の初期化*/
-			D3DXVECTOR3 ScreenPos( SpriteData[i][2], SpriteData[i][3], SpriteData[i][4]);//描画位置を指定する構造体
-
-			ech = E3DRenderSprite( SpriteIDs[i], SpriteData[i][0], SpriteData[i][1], ScreenPos);
-			_ASSERT( ech != 1 );//エラーダイアログを表示
-
-		}
+			if( (*it).ViewFlag == true){
+					D3DXVECTOR3 ScreenPos( (*it).X, (*it).Y, (*it).Z);//描画位置を指定する構造体
+					ech = E3DRenderSprite( (*it).ID, (*it).MagX, (*it).MagY, ScreenPos);
+					_ASSERT( ech != 1 );//エラーダイアログを表示
+			}
 	}
 
 	ech = E3DEndSprite();
@@ -92,7 +102,6 @@ int Batch_Render::BatchSpriteRender( const int SceneEndFlg){
 
 /* バックバッファの内容を、プライマリバッファに転送します */
 int Batch_Render::Batch_Present(){
-
 	/* 変数の初期化 */
 	int ech = 0;//エラーチェック用の確認変数 
 
@@ -109,12 +118,22 @@ int Batch_Render::BatchChkInView(){
 
 	int garbage = 0;//いらない変数を格納します
 	int ech = 0;//エラーチェック用の確認変数 
+	vector<Model>::iterator it;// イテレータ
 
 
-	for(int i=0; i<40; i++){
-		/*視野角内のチェックを行います*/
+//	for(int i=0; i<40; i++){
+		/*視野角内のチェックを行います
 		if(( ChkIn_hsids[i] != 0) && (ChkIn_hsids[i] != -1 )){//空のモデルデータ以外なら
 			ech = E3DChkInView( System::scid1, ChkIn_hsids[i], &garbage);
+			_ASSERT( ech != 1 );//エラーチェック
+		}
+	};
+	*/
+
+	for( it = Mdl.begin(); it != Mdl.end(); it++){
+		/*視野角内のチェックを行います*/
+		if( (*it).ID != 0 ){//空のモデルデータ以外なら
+			ech = E3DChkInView( System::scid1, (*it).ID, &garbage);
 			_ASSERT( ech != 1 );//エラーチェック
 		}
 	};
@@ -122,22 +141,3 @@ int Batch_Render::BatchChkInView(){
 
 	return 0;
 };
-
-/*一つ前の座標をまとめて保存するのに使います*/
-int Batch_Render::BatchBeforePos(){
-
-	/*変数の初期化*/
-	int ech = 0;//エラーチェック用の確認変数 
-
-
-	for(int i=0; i<40; i++){
-		/*視野角内のチェックを行います*/
-		if(( ChkIn_hsids[i] != 0) && (ChkIn_hsids[i] != -1 )){//空のモデルデータ以外なら
-			ech = E3DSetBeforePos( ChkIn_hsids[i]);
-			_ASSERT( ech != 1 );//エラーチェック
-		}
-	};
-
-
-	return 0;
-}

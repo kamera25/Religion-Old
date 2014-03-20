@@ -27,12 +27,12 @@ int Weapon_Support::WpLoad_Support( const int Wpno){
 
 			//モデルデータのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\m26\\m26.sig", System::path);
-			ech = E3DSigLoad( loadname, 0, 0.01f, &hsid);
+			ech = E3DSigLoad( loadname, 0, 0.02f, &hsid);
 			_ASSERT( ech != 1 );//エラーチェック
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\m26\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &s_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &s_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 	if(Wpno == 1){//M67
@@ -44,7 +44,7 @@ int Weapon_Support::WpLoad_Support( const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\m67\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &s_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &s_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 	if(Wpno == 2){//M18 クレイモア
@@ -56,7 +56,7 @@ int Weapon_Support::WpLoad_Support( const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\m18\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &s_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &s_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 	if(Wpno == 3){//C4
@@ -68,7 +68,7 @@ int Weapon_Support::WpLoad_Support( const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\support\\c4\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &s_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &s_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 

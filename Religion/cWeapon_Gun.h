@@ -13,7 +13,6 @@ class Weapon_Gun : public Weapon{
 private:
 
 	/* 変数の宣言 */
-	int Range;//  武器の射程距離
 	int AmmoKind;//  使用弾薬の種類
 	int Accuracy;// 武器の精度
 	int RapidFire;//  武器が連射可能( 0:可能 1:不可能)
@@ -22,7 +21,6 @@ private:
 
 	int RapidTime;//  1秒間に打てる連射回数
 	int ReloadTime;//  リロード時間
-
 
 	/* ゲーム中の変数 */
 	int NowMagazine;//  ゲーム中のマガジン数
@@ -49,7 +47,8 @@ public:
 	/* アシスト関数 */
 	int Get_NowMagazine() const;
 	int Get_Magazine() const;
-	int Get_Range() const;
+	int Get_RapidFire() const;
+	int Set_RapidFire( int Number);
 
 	/* 関数の宣言 */
 	//int WpLoad( const int Selectkind, const int Wpkind, const int Wpno);//武器をロードするための関数

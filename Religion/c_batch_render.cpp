@@ -7,6 +7,7 @@
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
+#include "clive.h"//敵やキャラの宣言ヘッダファイル
 
 
 /*コンストラクタ、ステージやプレイヤークラスを元に情報を収集、構成します*/
@@ -33,134 +34,67 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, const Ene
 	/* /////////////////////////////////////////////////////// */
 
 	/*カーソル画像のロードを行う 配列は[0]番*/
-	wsprintf( loadname, "%s\\data\\img\\carsol.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[0]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
+	LoadSprite_AddName( "data\\img\\cursol\\cursol1.png", "Cursol1", 0.7f, 0.7f, 0.0f, 0.0f, 0.0f, true);
 
 	/*半透明化します*/
-	ech = E3DSetSpriteARGB( SpriteIDs[0], AlfaColor);
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[0][0] = 0.1f;//X倍率（1/10）
-	SpriteData[0][1] = 0.1f;//Y倍率（1/10）
-	SpriteData[0][4] = 0.0f;//Z座標奥行（一番手前）
+	SetSpriteAlpha( "Cursol1", AlfaColor);
 
 
-	/*右ステータス画像の背景のロードを行う 配列は[1]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter3.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[1]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[1][0] = 1.0f;//X倍率
-	SpriteData[1][1] = 1.0f;//Y倍率
-	SpriteData[1][2] = 0.0f;//X座標
-	SpriteData[1][3] = 390.0f;//Y座標
-	SpriteData[1][4] = 0.0f;//Z座標奥行（一番手前）
+	/*右ステータス画像の背景のロードを行う*/
+	LoadSprite( "data\\img\\parameter\\parameter3.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.0f, true);
+
+	/*右ステータス画像の背景のロードを行う*/
+	LoadSprite( "data\\img\\parameter\\parameter4.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.0f, true);
+
+	/*左HPのバーのロードを行う*/
+	LoadSprite_AddName( "data\\img\\parameter\\hpber.png", "HPber", 100.0f, 1.0f, 24.0f, 412.0f, 0.0f, true);
+
+	/*左スタミナのバーのロードを行う*/
+	LoadSprite_AddName( "data\\img\\parameter\\stnber.png", "Staminaber", 100.0f, 0.5f, 24.0f, 435.0f, 0.0f, true);
+
+	/*右弾薬数のバーのロードを行う*/
+	LoadSprite_AddName( "data\\img\\parameter\\ammber.png", "Ammober", 100.0f, 0.8125f, 530.0f, 407.0f, 0.0f, true);
+
+	/*右マガジン数のバーのロードを行う*/
+	LoadSprite_AddName( "data\\img\\parameter\\magber.png", "Magber",100.0f, 0.8125f, 530.0f, 436.0f, 0.0f, true);
+
+	/*左ステータス画像のロードを行う*/
+	LoadSprite( "data\\img\\parameter\\parameter1.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.0f, true);
+
+	/*右ステータス画像のロードを行う*/
+	LoadSprite( "data\\img\\parameter\\parameter2.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.0f, true);
+
+	/* ///////////////////////////////////////////////////
+	/* PCクラスからの武器スプライトをIDから読み込みます */
+	/* ///////////////////////////////////////////////////
+
+	/* メインウェポン*/
+	if( PcC->Wpn.Get_WeaponPointer(0) != NULL) LoadSpriteFromID( PcC->Wpn.Get_WeaponPointer(0)->Get_Sprite(), "MainWp", 1.0f, 1.0f, 506.0f, 326.0f, 0.0f, false);
+
+	/* サブウェポン*/
+	if( PcC->Wpn.Get_WeaponPointer(1) != NULL) LoadSpriteFromID( PcC->Wpn.Get_WeaponPointer(1)->Get_Sprite(), "SubWp", 1.0f, 1.0f, 506.0f, 326.0f, 0.0f, false);
+
+	/* グレネード*/
+	if( PcC->Wpn.Get_WeaponPointer(2) != NULL) LoadSpriteFromID( PcC->Wpn.Get_WeaponPointer(2)->Get_Sprite(), "SupportWp", 1.0f, 1.0f, 506.0f, 326.0f, 0.0f, false);
 
 
-	/*右ステータス画像の背景のロードを行う 配列は[2]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter4.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[2]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[2][0] = 1.0f;//X倍率
-	SpriteData[2][1] = 1.0f;//Y倍率
-	SpriteData[2][2] = 506.0f;//X座標
-	SpriteData[2][3] = 390.0f;//Y座標
-	SpriteData[2][4] = 0.0f;//Z座標奥行（手前）
-
-
-	/*左HPのバーのロードを行う 配列は[3]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\hpber.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[3]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[3][0] = 100.0f;//X倍率
-	SpriteData[3][1] = 1.0f;//Y倍率
-	SpriteData[3][2] = 24.0f;//X座標
-	SpriteData[3][3] = 412.0f;//Y座標
-	SpriteData[3][4] = 0.0f;//Z座標奥行（手前）
-
-
-	/*左スタミナのバーのロードを行う 配列は[4]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\stnber.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[4]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[4][0] = 100.0f;//X倍率
-	SpriteData[4][1] = 0.5f;//Y倍率
-	SpriteData[4][2] = 24.0f;//X座標
-	SpriteData[4][3] = 435.0f;//Y座標
-	SpriteData[4][4] = 0.0f;//Z座標奥行（手前）
-
-
-	/*右弾薬数のバーのロードを行う 配列は[5]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\ammber.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[5]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[5][0] = 100.0f;//X倍率
-	SpriteData[5][1] = 0.8125f;//Y倍率(13pix)
-	SpriteData[5][2] = 530.0f;//X座標
-	SpriteData[5][3] = 407.0f;//Y座標
-	SpriteData[5][4] = 0.0f;//Z座標奥行（手前）
-
-
-	/*右マガジン数のバーのロードを行う 配列は[6]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\magber.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[6]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[6][0] = 100.0f;//X倍率
-	SpriteData[6][1] = 0.8125f;//Y倍率(13pix)
-	SpriteData[6][2] = 530.0f;//X座標
-	SpriteData[6][3] = 436.0f;//Y座標
-	SpriteData[6][4] = 0.0f;//Z座標奥行（手前）
-
-
-	/*左ステータス画像のロードを行う 配列は[7]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter1.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[7]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[7][0] = 1.0f;//X倍率
-	SpriteData[7][1] = 1.0f;//Y倍率
-	SpriteData[7][2] = 0.0f;//X座標
-	SpriteData[7][3] = 390.0f;//Y座標
-	SpriteData[7][4] = 0.0f;//Z座標奥行（一番手前）
-
-
-	/*右ステータス画像のロードを行う 配列は[8]番*/
-	wsprintf( loadname, "%s\\data\\img\\parameter\\parameter2.png", System::path);
-	ech = E3DCreateSprite( loadname, 0, 0, &SpriteIDs[8]);//カーソルのロード
-	_ASSERT( ech != 1 );//エラーチェック
-	/*データの格納*/
-	SpriteData[8][0] = 1.0f;//X倍率
-	SpriteData[8][1] = 1.0f;//Y倍率
-	SpriteData[8][2] = 506.0f;//X座標
-	SpriteData[8][3] = 390.0f;//Y座標
-	SpriteData[8][4] = 0.0f;//Z座標奥行（一番手前）
-
-
-	/*兵器に関する画像の設定、配列は[9]番*/
-	SpriteData[9][0] = 1.0f;//X倍率
-	SpriteData[9][1] = 1.0f;//Y倍率
-	SpriteData[9][2] = 506.0f;//X座標
-	SpriteData[9][3] = 326.0f;//Y座標
-	SpriteData[9][4] = 0.0f;//Z座標奥行（一番手前）
-
-
+	return ;
 };
+
+
 
 /* デストラクタ、スプライトを削除します */
 Batch_Render::~Batch_Render(){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック用の確認変数 
-		
-	for(int i=0; i<9; i++){//ロードしたスプライトの削除
-			ech = E3DDestroySprite( SpriteIDs[i]);
-			_ASSERT( ech != 1 );//エラーチェック
+	vector<Sprite>::iterator it;// イテレータ	
+
+	for( it = Spt.begin(); it != Spt.end(); it++){//ロードしたスプライトの削除
+			if( (*it).DeleteFromBRFlag == true){// Batch_Renderから消してもよいスプライトなら
+					ech = E3DDestroySprite( (*it).ID);
+					_ASSERT( ech != 1 );//エラーチェック
+			}
 	}
 
 	if( ShadowFlag == 1){// 影用レンダーテクスチャが生成されているなら
@@ -168,4 +102,22 @@ Batch_Render::~Batch_Render(){
 			_ASSERT( ech != 1 );//エラーチェック
 	}
 
+}
+
+int Batch_Render::BatchBeforePos(){
+
+	/*変数の初期化*/
+	int ech = 0;//エラーチェック用の確認変数 
+	vector<Model>::iterator it;// イテレータ
+
+
+	for( it = Mdl.begin(); it != Mdl.end(); it++ ){
+			if( (*it).ID != 0){
+					ech = E3DSetBeforePos( (*it).ID);
+					_ASSERT( ech != 1 );//エラーチェック
+			}
+	}
+
+
+	return 0;
 }

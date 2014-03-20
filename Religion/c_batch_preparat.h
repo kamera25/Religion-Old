@@ -2,6 +2,10 @@
 /*ここでは、モデルやスプライトの描画に必要な情報を収集、また描画で必要な
 //関数を自動的に実行することができるようにするためのクラスヘッダファイル
 */
+#include <vector>
+
+using namespace std;
+
 
 //プロトタイプ宣言
 class PlayerChara;
@@ -10,42 +14,37 @@ class Enemy;
 class Camera;
 class Weapon;
 
+struct Sprite{// スプライト構造体
+	int ID;
+	bool ViewFlag;// 表示フラグ
+	bool DeleteFromBRFlag;// Batch_Renderからスプライトを消すかのフラグ
+	float MagX;// スプライトの倍率X
+	float MagY;// スプライトの倍率Y
+	float X;// スプライト位置X
+	float Y;// スプライト位置Y
+	float Z;// スプライト奥行Z
+	char Name[20];// 識別される名前
+};
+
+struct Model{// モデル構造体
+	int ID;
+	bool ViewFlag;
+	char Name[20];// 識別される名前
+};
+
 
 /*描画準備で必要な変数などを宣言するクラス*/
 class Batch_Render{	
 
 private:
 
-	//変数の宣言
-	int PCWp_hsids[2][3][4];//プレイヤーキャラクターが持っている武器モデルデータの配列
-
-	/*以下、見えるモデルデータのレンダリング*/
-	int PCmodel_hsid[2];//ロードしているプレイヤーモデルデータでレンダリングが必要なデータの変数
-	int Wp_hsids[2][4];//ロードしている武器モデルデータでレンダリングが必要なデータの配列
-	int Stage_hsids[3];//ロードしているステージモデルデータでレンダリングが必要なデータの配列
-	int Enemy_hsids[15];//ロードしている敵データでレンダリングが必要なデータの配列
-
-	/*以下、見えないモデルデータでE3DChkInViewが必要なデータ*/
-	int Wall_hsids[3];//ロードしている壁モデルデータで視野角内チェックが必要なデータの配列
-	int PCDummyModel_hsids[2];//ロードしているPCダミーモデルデータで視野角内チェックが必要なデータの配列
-	int Hitmodel_hsids[2];//武器の当たり判定で必要なモデルデータで視野角内チェックが必要なデータの変数
-	int CamDummyModel_hsid;//ロードしているカメラダミーモデルデータで視野角内チェックが必要なデータの配列
-
-	/*以下、総合的にレンダリングが必要なモデルデータの配列*/
-	int Render_hsids[30];
-
-	/*以下、総合的にE3DChkInViewが必要なモデルデータの配列*/
-	int ChkIn_hsids[40];
+	/* モデルデータの配列を宣言します */
+	vector<Model> Mdl;
 
 
 	/*スプライト関係の変数を宣言します*/
+	vector<Sprite> Spt;
 
-	/*	SpriteData配列には以下のようなデータが格納されています
-	//	一番目の配列 スプライトIDと同じ番号にデータが格納されています
-	//	二番目の配列 [0]スプライトの倍率X [1]スプライトの倍率Y
-	//				 [2]スプライト位置X [3]スプライト位置Y [4]スプライト奥行Z
-	*/
-	int SpriteIDs[15];//スプライトのIDを格納します
 
 	int BumpMapFlag;// バンプマップを表示するかどうかのフラグ変数
 	int ShadowFlag;// 影を表示するかどうかのフラグ変数
@@ -55,10 +54,7 @@ private:
 	int ShadowTexture;// 影をレンダリングするテクスチャ識別変数
 
 
-
 public:
-
-	float SpriteData[15][5];//スプライトのデータを格納します
 
 
 
@@ -72,14 +68,31 @@ public:
 	int BatchReset( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC,
 					const Camera *Cam);//構築していた、まとめデータを再構築する
 	int BatchBeforePos();//一つ前の座標をまとめて保存するための関数
-	int BatchSpriteRender( const int SceneEndFlg);//まとめられたスプライトをレンダリングするための関数
-	int BatchSpriteSet( const PlayerChara *PcC);//最初にロードしたスプライトの倍率や描画指定するための関数
 	int BatchFont( const int SceneEndFlg, const PlayerChara *PcC);//文字を描画することや設定をしたりする関数
 	int BatchEnableBumpMap( const int BumpFlug);//バンプマップを有効/無効にします
 	int BatchGetBumpMapStatus() const;//バンプマップ変数の取得を行ないます
 	int BatchCreateShadow();// 影を作成するために関係する処理を行ないます
 	int Batch_Present();// バックバッファの内容を、プライマリバッファに転送します
 
+	/* モデル関係の関数 */
+	int	SetModel( const int ID, const bool ViewFlag);
+	int SetModel_AddName( const int ID, const char *Name, const bool ViewFlag);
+	vector<Model>::iterator SearchModelFromName( const char *ObjName);
+	int SetModel_ViewFlag( const char *Name, const bool ViewFlag);
 
+	/* スプライト関係の関数 */
+	int LoadSprite( const char *ObjPath, const float MagX, const float MagY, const float X, const float Y, const float Z, const int DeleteFromBRFlag);
+	int LoadSprite_AddName( const char *ObjPath, const char *Name, const float MagX, const float MagY, const float X, const float Y, const float Z, const int DeleteFromBRFlag);
+	int LoadSpriteFromID( const int ID, const char *Name, const float MagX, const float MagY, const float X, const float Y, const float Z, const int DeleteFromBRFlag);
+	int SetSpriteAlpha( const char *Name, E3DCOLOR4UC AlfaColor);
+	int Set_SpriteMagX( const char *ObjName, const float Value);
+	int Set_SpriteMagY( const char *ObjName, const float Value);
+	int Set_SpriteX( const char *ObjName, const float Value);
+	int Set_SpriteY( const char *ObjName, const float Value);
+	int Set_ViewFlag( const char *ObjName, const bool Value);
+	vector<Sprite>::iterator Batch_Render::SearchSpriteFromName( const char *ObjName);
+
+	int BatchSpriteRender( const int SceneEndFlg);//まとめられたスプライトをレンダリングするための関数
+	int BatchSpriteSet( const PlayerChara *PcC);//最初にロードしたスプライトの倍率や描画指定するための関数
 
 };

@@ -127,6 +127,8 @@ int Enemy::MoveEnemys( Stage *Stg){
 /* 敵の座標をナビポイントを基に設定します*/
 int Enemy::SetEnemyPosByNaviPoint( Stage *Stg, const int EnemyNum, const int NaviLine, const int NaviPoint){
 
+	if( Stg->AvailableNaviLineFlag != true) return 0;// ナビラインが利用不可なら、抜ける
+
 	Stg->Navi.SetPosByNaviPoint( Ene[EnemyNum]->Get_BodyModel(), NaviLine, NaviPoint);
 
 	return 0;

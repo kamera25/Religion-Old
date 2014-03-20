@@ -254,3 +254,16 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 
 	return 0;
 }
+
+/* 三人称視点でのカメラを設定する関数 */
+/*int Camera::CamThreePersonGunBack( const int cha_hsid, const int Qid, const int bone, const float PC_Deg_XZ, const Stage *Stg){
+
+
+
+
+
+
+
+
+	return 0;
+}*/

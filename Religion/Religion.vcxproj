@@ -71,7 +71,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -98,6 +98,7 @@
     <ClCompile Include="ccreature_assist.cpp" />
     <ClCompile Include="citem_manipulate2.cpp" />
     <ClCompile Include="cfirstmenu.cpp" />
+    <ClCompile Include="cMenu2.cpp" />
     <ClCompile Include="cNaviRail.cpp" />
     <ClCompile Include="cnetplay.cpp" />
     <ClCompile Include="cOperation.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="c_batch_render_font.cpp" />
     <ClCompile Include="c_batch_render_redsys.cpp" />
     <ClCompile Include="c_batch_render_sprite.cpp" />
+    <ClCompile Include="c_Batch_Render_SpriteAssist.cpp" />
     <ClCompile Include="c_optionmenu.cpp" />
     <ClCompile Include="gamecore.cpp" />
     <ClCompile Include="cStg_Tronp.cpp" />
@@ -143,7 +145,7 @@
     <ClCompile Include="ccamera.cpp" />
     <ClCompile Include="cenemy.cpp" />
     <ClCompile Include="citem_manipulate1.cpp" />
-    <ClCompile Include="cmenu.cpp" />
+    <ClCompile Include="cPoseMEnu.cpp" />
     <ClCompile Include="cPlayChara.cpp" />
     <ClCompile Include="cPlayChara_Direction.cpp" />
     <ClCompile Include="cPlayChara2_Common.cpp" />
@@ -152,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ask.h" />
+    <ClInclude Include="cMenu.h" />
     <ClInclude Include="csoldier.h" />
     <ClInclude Include="ccreature.h" />
     <ClInclude Include="cfirstmenu.h" />
@@ -168,7 +171,7 @@
     <ClInclude Include="cenemy.h" />
     <ClInclude Include="citem_manipulate.h" />
     <ClInclude Include="clive.h" />
-    <ClInclude Include="cmenu.h" />
+    <ClInclude Include="cPoseMenu.h" />
     <ClInclude Include="cstage.h" />
     <ClInclude Include="csys.h" />
     <ClInclude Include="cweapon.h" />

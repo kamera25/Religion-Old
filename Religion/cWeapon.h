@@ -26,7 +26,7 @@ private:
 	int Number;//　武器の識別番号
 	int Attack;//  武器の威力
 	int Ammo;//  武器の銃弾数 or 投げ可能数
-
+	int Range;//  武器の射程距離
 		
 	// [0]銃口手前 [1]銃口先 [2]飛弾先 [3]銃弾丸ストック [4]当たり判定モデル一番先 [5]当たり判定モデル一番手前
 	int Bones[6];// ボーン情報を格納します
@@ -55,6 +55,7 @@ public:
 	virtual int InitWeapon(){ _ASSERT( 0 );return -1;};// 武器の状態を初期にする
 	virtual int ReloadWeapon(){ _ASSERT( 0 );return -1;}// 武器のリロードを行います
 	virtual int WeaponTreatment( const int WeaponLight){ _ASSERT( 0 );return -1;};
+	virtual int WeaponTreatment( const int WeaponLight, Stage *Stg){ _ASSERT( 0 );return -1;};
 
 	/* アシスト関数 */
 	int Set_Model( const int Number);
@@ -83,11 +84,16 @@ public:
 	int Set_WaitingTime( const int Number);
 	int Get_NowFireFlag() const;
 	int Set_NowFireFlag( int Number);
+	int Get_Range() const;
+	int Set_Range( int Number);
+
 
 	/* 仮想関数 */
 	virtual int Get_NowMagazine() const;
 	virtual int Get_Magazine() const;
-	virtual int Get_Range() const;
+	virtual int Get_RapidFire() const;
+	virtual int Set_RapidFire( int Number);
+
 };
 
 

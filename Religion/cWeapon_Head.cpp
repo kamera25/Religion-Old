@@ -6,6 +6,7 @@
 #include "cWeapon_head.h"// 武器統括に関することのクラスヘッダファイル
 #include "cWeapon_Gun.h"//銃に関することのクラスヘッダファイル
 #include "cWeapon_Support.h"//サポート武器に関することのクラスヘッダファイル
+#include "cstage.h"//ステージ関係のクラスヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
 /* コンストラクタ、変数の初期化を行います */
@@ -185,16 +186,21 @@ int Weapon_Head::AttackEnemys( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2
 }
 
 /* 武器のマズルフラッシュ・リロード・ */
-int Weapon_Head::WeaponsTreatment( int Equipment){
+int Weapon_Head::WeaponsTreatment( int Equipment, Stage *Stg){
 
 	/* 変数の初期化 */
 	int ech = 0;
 
 	/* 装備中の武器があれば、当たり判定を行う */
-	for( int i=0; i<3; i++){
+	for( int i=0; i<2; i++){
 			if( Get_WeaponPointer(i) != NULL){
 					Get_WeaponPointer(i)->WeaponTreatment( WeaponLight);
 			}
+	}
+
+	/* サポート武器は引数が違うので別記述 */
+	if( Get_WeaponPointer(2) != NULL){
+					Get_WeaponPointer(2)->WeaponTreatment( WeaponLight, Stg);
 	}
 
 

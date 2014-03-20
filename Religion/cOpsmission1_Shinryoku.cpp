@@ -14,7 +14,7 @@
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 #include "ccamera.h"//カメラ関係のクラスヘッダファイル
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
-#include "cmenu.h"//メニュークラスに関するヘッダファイル
+#include "cPoseMenu.h"//メニュークラスに関するヘッダファイル
 #include "cnetplay.h"//ネットワーク接続に関するヘッダファイル
 #include "citem.h"//アイテムの宣言ヘッダファイル
 #include "Ask.h"// 通信補助DLL、Askに関するヘッダファイル
@@ -42,11 +42,13 @@ int Operation::OpsMission1_Shinryoku(){
 	
 		/* Weapon関係処理 */		
 		Player.Wpn.WpLoad(1,0,0);// 銃のロード
+		Player.Wpn.WpLoad(0,2,2);// 銃のロード
+		Player.Wpn.WpLoad(2,7,0);// 銃のロード
 		Player.Wpn.SetInitWeapon( -1);// 弾薬の初期化
 
 		/**/E3DSetProgressBar( 40);// プログレスバーを進歩させる
 
-		Stg.LoadStage(6,0,2);// ステージをロードします
+		Stg.LoadStage(6,0,0);// ステージをロードします
 		/**/E3DSetProgressBar( 60);// プログレスバーを進歩させる
 		for( int i=0; i<5; i++){
 			Ene.LoadEnemyModel( 0, 0);// 敵をロードします
@@ -63,8 +65,7 @@ int Operation::OpsMission1_Shinryoku(){
 		BatP.BatchEnableBumpMap(0);// バンプマップを有効にします 
 		//BatP.BatchCreateShadow();// 影を有効にします
 
-		SetCursorPos( System::rewin.left + 320, System::rewin.top + 240);//マウスをウィンドウ真ん中に設置
-
+		System::SetMouseCursol( 320, 240);//マウスをウィンドウ真ん中に設置
 
 
 		
@@ -78,9 +79,9 @@ int Operation::OpsMission1_Shinryoku(){
 		while( WM_QUIT != System::msg.message ){
 
 				System::MsgQ(30);//メッセージループ
+				System::KeyRenewalFromWp( &Player.Wpn, Player.Get_Wp_equipment());
 
-			//	if( Player.Get_Wp_equipment() != -1 ) System::KeyRenewal( Player.Wpn.GetWeaponData( Player.Get_Wp_equipment(), 7) + 1);
-				/*else*/ System::KeyRenewal(1);
+
 				BatP.BatchChkInView();
 				Player.Wpn.ChkWeaponsLaunch( Player.Get_Wp_equipment());
 
@@ -90,7 +91,7 @@ int Operation::OpsMission1_Shinryoku(){
 
 				BatP.BatchSpriteSet( &Player);
 				BatP.BatchRender( 0);
-				Player.Wpn.WeaponsTreatment( Player.Get_Wp_equipment());
+				Player.Wpn.WeaponsTreatment( Player.Get_Wp_equipment(), &Stg);
 				BatP.BatchSpriteRender( 0);
 				BatP.BatchFont( 1, &Player);
 

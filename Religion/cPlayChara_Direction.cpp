@@ -44,8 +44,8 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 
 	//最初に回転の計算します
 	if(( Get_MyState() == 0) || ( (Get_MyState() == 2) && ( Get_AirOnPC() == 0))){//通常・空中ダッシュモードでなければ、以下取得せず
-				Set_PC_Deg_XZ( Get_PC_Deg_XZ() + float(0.30*(System::MousePos.x - (System::BeforeMousePos.x - System::rewin.left))) );
-				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( System::MousePos.y - System::BeforeMousePos.y + System::rewin.top);
+				Set_PC_Deg_XZ( Get_PC_Deg_XZ() + float(0.30*(System::MousePos.x - System::BeforeMousePos.x)) );
+				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( System::MousePos.y - System::BeforeMousePos.y);
 	}
 
 	if( ( Get_MyState() == 3) || ( Get_MyState() == 4)){//よっこ飛びの時は
@@ -64,9 +64,8 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 	if(Tm_DegQ_Y< -0.6){
 				Tm_DegQ_Y = -0.6;
 	}
-
-	SetCursorPos( System::rewin.left + 320, System::rewin.top + 240);//マウス座標を真ん中へ
-	GetCursorPos( &System::BeforeMousePos);//マウス座標を格納します
+	System::SetMouseCursol( 320, 240);//マウス座標を真ん中へ
+	System::SetMouseBeforePos();//マウス座標を格納します
 
 	Cos_XZ = cos(4.8);//XZ座標コサインの取得
 	Sin_XZ = sin(4.8);//XZ座標サインの取得
@@ -138,8 +137,8 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 
 	
 	/*スプライトの位置を決めて終了します*/
-	BatPre->SpriteData[0][2] = 320 - 16.0f;//カーソルのX座標
-	BatPre->SpriteData[0][3] = 220 - 18.0f;//カーソルのY座標
+	BatPre->Set_SpriteX( "Cursol1", 320 - 25.0f);//カーソルのX座標
+	BatPre->Set_SpriteY( "Cursol1", 220 - 27.0f);//カーソルのY座標
 
 	ScreenPos[0] = 320;/**/ScreenPos[1] = 220;
 
@@ -204,6 +203,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 		/*武器の種類が、ハンドガンであれば*/
 		switch(NowWpKind){
 				case 0:
+				case 2:
 				case 3:
 				case 4:
 				{

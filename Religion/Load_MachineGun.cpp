@@ -31,7 +31,7 @@ int Weapon_Gun::GunLoad_Machine( const int Wpno){
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\machinegun\\m4_machine\\pict.png", System::path);
-			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
+			ech = E3DCreateSprite( loadname, 0, 0, &g_spid);
 			_ASSERT( ech != 1 );//エラーチェック
 
 			//武器のモーションを読み込み

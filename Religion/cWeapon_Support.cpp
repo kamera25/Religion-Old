@@ -7,7 +7,7 @@
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
 #include "cWeapon_Support.h"//サポート武器に関することのクラスヘッダファイル
-
+#include "cstage.h"//ステージ関係のクラスヘッダファイル
 
 
 // サポート武器クラスのコンストラクタ(ロードを行います) //
@@ -45,7 +45,7 @@ Weapon_Support::Weapon_Support( const int Wpno){
 	Set_Effects( EffectNo);
 
 	/* サポート武器データのロードをする */
-	
+	SupportLoad_Data( 7, Wpno);
 
 	return;
 }
@@ -57,4 +57,141 @@ Weapon_Support::~Weapon_Support(){
 
 
 	return;
+}
+
+int Weapon_Support::SupportLoad_Data( int Wpkind, int Wpno){
+
+		/* 変数の宣言・初期化 */
+
+	// 定数列挙  "連射可能・不可"
+	const int Enable_Rapid_Fire = 0;// 可能
+	const int Disable_Rapid_Fire = 1;// 不可能
+
+
+	// ここまで//
+
+	const int GunData[4][3] = {
+
+		//品目： 威力, 射程距離, 装弾数
+		
+		// ハンドガン
+
+			{ 350,  15, 5},// M26
+			{ 280,  18, 5},// M67
+			{  50,  60, 5},// M18
+			{ 420,   3, 3},// C4
+	};
+
+
+
+	Set_Kind( Wpkind);
+	Set_Number( Wpno);
+
+	Set_Attack( GunData[Wpno][0]);
+	Set_Range( GunData[Wpno][1]);
+	Set_Ammo( GunData[Wpno][2]);
+
+
+	return 0;
+}
+
+/* 武器の情報を初期化する */
+int Weapon_Support::InitWeapon(){
+
+	/* それぞれの武器を初期状態にする */
+	Set_NowAmmo( Get_Ammo());
+
+	return 0;
+}
+
+/* ゲーム中の敵とのあたり&攻撃判定を行います。 */
+int Weapon_Support::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){
+
+
+
+	return 0;
+}
+
+/* ゲーム中の武器の操作に関することをします */
+int Weapon_Support::WeaponTreatment( const int WeaponLight, Stage *Stg){
+
+	int ech = 0;// エラーチェック変数
+	static float Acceleration = 0.0f;//グレネードの落ちる加速度
+	static int sw=0;
+	int GroundResult = 0;//地面の当たり判定の結果
+	D3DXVECTOR3 GranadePos( 0.0, 0.0, 0.0);//グレネードを置く座
+	D3DXVECTOR3 GroundOnPos( 0.0, 0.0, 0.0);//地面の座標
+	D3DXVECTOR3 ReflectVec( 0.0, 0.0, 0.0);//反射座標
+
+	/* グレネードのみの処理なのです！！ */
+	if( Get_NowFireFlag() == 0){// グレネードを構えているときなら
+			Acceleration = 0.0f;
+	}
+	else if( Get_NowFireFlag() == 1){// グレネードを投げているときなら
+
+			ech = E3DGetPos( Get_Model(), &GranadePos);
+			_ASSERT( ech != 1 );//エラーチェック
+
+			if( sw == 0) GranadePos.y = GranadePos.y - Acceleration;
+
+			/* 地面との当たり判定を取ります */
+			ech = E3DChkConfGround( Get_Model(), Stg->Stage_hsid[0], 1, 100, -1000, &GroundResult, &GroundOnPos, &ReflectVec);
+			_ASSERT( ech != 1 );//エラーチェック
+
+			/* 地面からほとんど離れてないなら */
+			if( GranadePos.y - GroundOnPos.y < 50){
+
+					GranadePos.y = GroundOnPos.y;
+					sw = 1;
+			}
+
+			/* グレネードを計算した座標におきます */
+			ech = E3DSetPos( Get_Model(), GranadePos);
+			_ASSERT( ech != 1 );//エラーチェック
+
+			Acceleration = Acceleration + 7.0f;
+			if( 100.0f <= Acceleration) Acceleration = 100.0f;// 空気抵抗を考慮する
+
+	}
+
+
+
+
+
+	return 0;
+}
+
+/* 武器を発砲・投げしてもよいか確認し、OKなら発射フラグをたてます */
+int Weapon_Support::ChkWeaponLaunch(){;
+
+	/* 変数の初期化 */
+	int keyin[20];//キー情報配列を作成
+	static int KeyContinuity = 0;
+
+	/* キーを取得する */
+	System::GetKeyData(keyin);
+
+
+	/* 発射可能ならフラグを立てます */
+	
+	if( 10 <= KeyContinuity ){
+				KeyContinuity = 10;
+				if( ( keyin[10] == 0) && ( Get_NowFireFlag() == 0)){//左クリックが話されたら
+						Set_NowFireFlag(1);// 発射状態にする
+						Set_NowAmmo( Get_NowAmmo() -1 );// 弾薬をひとつ減らします
+				}
+	}
+
+	/* キーのチェックを行います */
+	if( keyin[10] == 1){
+			KeyContinuity = KeyContinuity + 1;
+	}
+	else{
+			KeyContinuity = 0;
+	}
+
+
+
+
+	return 0;
 }

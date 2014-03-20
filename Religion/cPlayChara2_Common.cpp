@@ -14,6 +14,144 @@
 
 
 
+int PlayerChara::ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]){
+
+	/*全体で使う変数の初期化*/
+	int ech = 0;//エラー確認変数
+	const D3DXVECTOR3 BaseVec( 0.0, 0.0, -1.0);//向きの初期方向ベクトル
+	const D3DXVECTOR3 CameraUpVec( 0.0, 1.0, 0.0);//カメラの上部のベクトル
+
+	/*キャラクターの位置を設定します*/
+	int MotionID = 0;//MLから取得した現在の「首付け根」モーションID
+	int FrameNo = 0;//MLから取得した現在の「首付け根」モーションが現在再生している番号
+	static double Tm_DegQ_Y = 0.50;//ブレがある前の角度変数Y
+	double Sin_Y = 0.0;//Y座標サイン変数
+	const  double Sin_XZ = sin(4.8);//XZ座標サイン変数
+	double Cos_Y = 0.0;//Y座標コサイン変数
+	const double Cos_XZ = cos(4.8);//XZ座標コサイン変数
+	D3DXVECTOR3 TurnPos( 0.0, 0.0, 0.0);//向くべきYベクトル
+	D3DXVECTOR3 StomachPos( 0.0, 0.0, 0.0);//「首つけ根」の座標
+	D3DXVECTOR3 WantDeg( 0.0, 0.0, 0.0);//向きたい方向へのベクトル
+	D3DXVECTOR3 OriginPos( 0.0, 0.0, 0.0);//キャラクターをおくべき原点座標
+	D3DXVECTOR3 MyPos1( 0.0, 0.0, 0.0);//最初自分の座標
+	D3DXVECTOR3 MyPos2( 0.0, 0.0, 0.0);//次の自分の座標
+
+
+	/**/
+	//自分の向きを回転させます。
+	/**/
+
+	//最初に回転の計算します
+	if(( Get_MyState() == 0) || ( (Get_MyState() == 2) && ( Get_AirOnPC() == 0))){//通常・空中ダッシュモードでなければ、以下取得せず
+
+				if( ( System::MousePos.x < 100) || (  580< System::MousePos.x)){
+
+						Set_PC_Deg_XZ( Get_PC_Deg_XZ() + float(0.30*(System::MousePos.x - System::BeforeMousePos.x) ));
+						System::SetMouseCursol( System::BeforeMousePos.x, System::BeforeMousePos.y);// マウス座標を真ん中へ
+
+				}
+				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( System::MousePos.y - System::BeforeMousePos.y);
+	}
+
+	if( ( Get_MyState() == 3) || ( Get_MyState() == 4)){//よっこ飛びの時は
+				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( System::MousePos.y - System::BeforeMousePos.y);
+	}
+
+	if( Get_PC_Deg_XZ() < 0){
+				Set_PC_Deg_XZ( Get_PC_Deg_XZ() + 360);
+	}
+	if( 360 < Get_PC_Deg_XZ()){
+				Set_PC_Deg_XZ( Get_PC_Deg_XZ() - 360);
+	}
+	if(Tm_DegQ_Y> 0.9){
+				Tm_DegQ_Y = 0.9;
+	}
+	if(Tm_DegQ_Y< -0.6){
+				Tm_DegQ_Y = -0.6;
+	}
+
+
+
+	Sin_Y = sin(Tm_DegQ_Y);//Y座標サインの取得
+	Cos_Y = cos(Tm_DegQ_Y);//Y座標のコサインの取得
+	TurnPos.x = float(Cos_XZ * Cos_Y * 2000);//向くべき方向のX座標
+	TurnPos.y = float(Sin_Y * 2000);//向くべき方向のY座標を取得
+	TurnPos.z = float(Sin_XZ * Cos_Y * 2000);//向くべき方向のZ座標を取得
+
+	/**/
+	//次に座標を取得したりしてモデルのボーンを操作します
+	/**/
+	System::SetMouseBeforePos();// マウス座標を格納します
+
+
+	/*キャラクターモデルの方向を初期化します*/
+	ech = E3DRotateInit( Get_BodyModel());
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*座標を取得する*/
+	ech = E3DGetPos( Get_BodyModel(), &MyPos1);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*キャラクターモデルの「首つけ根」の座標を取得します*/
+	ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	MyPos2.x = StomachPos.x * -1;
+	MyPos2.y = StomachPos.y * -1;
+	MyPos2.z = StomachPos.z * -1;
+
+	/*座標を原点にする*/
+	ech = E3DSetPos( Get_BodyModel(), MyPos2);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*キャラクターモデルの「首つけ根」の座標を取得します*/
+	ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	WantDeg.x = float( TurnPos.x - 0);//X座標の向く方向のベクトルを取得
+	WantDeg.y = float( TurnPos.y - 0);//Y座標の向く方向のベクトルを取得
+	WantDeg.z = float( TurnPos.z - 0);//Z座標の向く方向のベクトルを取得
+
+	/*「首付け根」部分のモーションはどうか調べます*/
+	ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*「首付け根」部分のクォータニオンを調べます*/
+	ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Get_Quaternion(3));
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*向きたい方向への計算を行います*/
+	ech = E3DLookAtQ( Get_Quaternion(3), WantDeg, BaseVec, 0, 2);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*計算したクォーターニオンを代入します*/
+	ech = E3DSetBoneQ( Get_BodyModel(), Get_Bone_ID(2), MotionID, FrameNo, Get_Quaternion(3));
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*マルチレイヤーモーションの計算を行います*/
+	ech = E3DCalcMLMotion( Get_BodyModel());
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*本来の自分の座標に戻す*/
+	ech = E3DSetPos( Get_BodyModel(), MyPos1);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*キャラクターを回転させます*/
+	ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
+	_ASSERT( ech != 1 );//エラーチェック
+
+
+
+
+	BatPre->Set_SpriteX( "Cursol1", System::MousePos.x - 25.0f);//カーソルのX座標
+	BatPre->Set_SpriteY( "Cursol1", System::MousePos.y - 48.0f);//カーソルのY座標
+	ScreenPos[0] = System::MousePos.x;/**/ScreenPos[1] = System::MousePos.y;
+
+
+	return 0;
+}
+
+
 
 
 /*普通のゲーム内での処理を行う関数、銃器の出し入れ、敵へのあたり、銃を手に置くなど…etc*/
@@ -35,15 +173,27 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, Enemy *Ene,
 	/*キャラクターを地面に置く*/
 	MovePosOnGround( Stg);
 
-	/*視点関連の処理、切り替えや関数呼び出し等*/
-	ShoulderGunSys( BatPre, ScreenPos);//肩撃ち視点
 
-	/* ////////////////////////////////////////////////////// */
-	//カメラの位置を設定します、位置は自分の肩の後ろに設置します
-	/* ////////////////////////////////////////////////////// */
+	switch(ChangePerspectiveMode){
+			case 0:{
+					/*視点関連の処理、切り替えや関数呼び出し等*/
+					ThreePersonGunSys( BatPre, ScreenPos);//肩撃ち視点
 
-	//条件を基にカメラをセットします
-	Cam->CamShoulderGunBack( Get_BodyModel(), Get_Quaternion(3), Get_Bone_ID(2), Get_PC_Deg_XZ(), Stg);
+
+					break;		
+			}
+			case 1:{// 肩撃ちモード
+
+					/*視点関連の処理、切り替えや関数呼び出し等*/
+					ShoulderGunSys( BatPre, ScreenPos);//肩撃ち視点
+
+					//条件を基にカメラをセットします
+					Cam->CamShoulderGunBack( Get_BodyModel(), Get_Quaternion(3), Get_Bone_ID(2), Get_PC_Deg_XZ(), Stg);
+
+					break;
+			}
+	}
+
 
 	//体の向きや、射撃を行う関数を呼び出し
 	GunConflictTarget( ScreenPos, Stg, Ene);
@@ -128,6 +278,15 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, Enemy *Ene,
 				Set_Stamina( 0 );//スタミナを固定する
 	}
 
+	/* 視点変えの切り替え制御を行う */
+	if( keyin[14] == 1){// ホイールクリックが押されたら
+				ChangePerspectiveMode++;// 視点モードを進める
+				if( ChangePerspectiveMode == 2){// 視点が行き過ぎたら
+						ChangePerspectiveMode = 0;
+				}
+	}
+
+
 	/*武器をもち手のあるべき場所へ移動させる*/
 	if( Get_Wp_equipment() != -1){
 				GunPutOnHand();
@@ -143,7 +302,10 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 
 	/* 変数の宣言&初期化 */
 	int Eqipment = Get_Wp_equipment();
+	int keyin[20];//キー情報配列を作成 
 
+	/*キーを取得する*/
+	System::GetKeyData(keyin);
 
 	/*装備武器変更の処理*/
 	if( Eqipment != -1){//現在の状態が武器持ち
@@ -158,6 +320,11 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 	/* 武器の変更を行う */
 	switch(System::MouseWhole){
 			case 1:{
+					if( Get_Wp_equipment() == 2){
+							Set_Wp_equipment(-1);//装備を「素手」にする
+							break;
+					}
+
 					for(int i=0; i<3; i++){//
 							Set_Wp_equipment( Get_Wp_equipment() - 1);//装備順を一つ繰り上げる
 							if( Get_Wp_equipment() == -1){//装備が「素手」になったら
@@ -174,10 +341,15 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 					break;
 			}
 			case 2:{//もし、マウスホイールが下へ行ったのなら
+					if( Get_Wp_equipment() == 2){
+							Set_Wp_equipment(-1);//装備を「素手」にする
+							break;
+					}
+
 					for(int i=0; i<3; i++){//
 								Set_Wp_equipment( Get_Wp_equipment() + 1);//装備順を一つ繰り下げる
 								if( Get_Wp_equipment() == 2){//装備が行き過ぎたら
-										Set_Wp_equipment(-1);//装備を「サブウェポン」にする
+										Set_Wp_equipment(-1);//装備を「素手」にする
 										break;//ループから抜ける、素手に確定
 								}
 								if( Wpn.Get_WeaponPointer( Get_Wp_equipment()) != 0){//もし、武器が確認されているなら
@@ -187,6 +359,16 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 							
 					break;
 			}
+	}
+
+	/* サポート武器への変更確認と変更を行う */
+	if( ( keyin[10] == 1) && ( Wpn.Get_WeaponPointer(2) != NULL)){//右クリックとサポート武器を所持していれば
+			Set_Wp_equipment(2);// サポート武器に装備確定
+	}
+
+	/* サポート武器を装備しているときに、左クリックをしたとき */
+	if( ( Get_Wp_equipment() == 2) && ( keyin[9] == 1) ){
+			Set_Wp_equipment(-1);//装備を「素手」にする
 	}
 
 	// 描画、視野角内チェックの武器変更
@@ -217,6 +399,7 @@ int PlayerChara::MoveChara(){
 
 	System::GetKeyData(keyin);//キー情報を格納
 
+	/* キーの状態を取得する */
 	if( keyin[0] == 1){//左
 				KeyMov = KeyMov +1;
 	}
@@ -231,63 +414,72 @@ int PlayerChara::MoveChara(){
 	}
 
 	/*キーから取得した情報を変換*/
-	if(KeyMov == 1){//左
+	switch(KeyMov){//左
+		case 1:{
 				WantDeg = -90.0f + Get_PC_Deg_XZ();
 				MovOn = 1;
 
 				/*モーションを「左歩き」にする*/
 				Set_UnderMotion(3);
-	}
-	if(KeyMov == 3){//左上
-				WantDeg = -45.0f + Get_PC_Deg_XZ(); 
-				MovOn = 1;
-
-				/*モーションを「左前進」にする*/
-				Set_UnderMotion(4);
-	}
-	if(KeyMov == 2){//上
+				break;
+		}
+		case 2:{//上
 				WantDeg = Get_PC_Deg_XZ(); 
 				MovOn = 1;
 
 				/*モーションを「歩行」にする*/
 				Set_UnderMotion(1);//通常
-
-	}
-	if(KeyMov == 6){//右上
-				WantDeg = 45.0f + Get_PC_Deg_XZ(); 
+				break;
+		}
+		case 3:{//左上
+				WantDeg = -45.0f + Get_PC_Deg_XZ(); 
 				MovOn = 1;
 
 				/*モーションを「左前進」にする*/
-				Set_UnderMotion(5);
-	}
-	if(KeyMov == 4){//右
+				Set_UnderMotion(4);
+				break;
+		}
+		case 4:{//右
 				WantDeg = 90.0f + Get_PC_Deg_XZ(); 
 				MovOn = 1;
 
 				/*モーションを「右歩き」にする*/
 				Set_UnderMotion(2);
-	}
-	if(KeyMov == 12){//右下
-				WantDeg = 135.0f + Get_PC_Deg_XZ(); 
+				break;
+		}
+		case 6:{//右上
+				WantDeg = 45.0f + Get_PC_Deg_XZ(); 
 				MovOn = 1;
 
-				/*モーションを「右後進」にする*/
-				Set_UnderMotion(7);
-	}
-	if(KeyMov == 8){//下
+				/*モーションを「左前進」にする*/
+				Set_UnderMotion(5);
+				break;
+		}
+		case 8:{//下
 				WantDeg = 180.0f + Get_PC_Deg_XZ(); 
 				MovOn = 1;
 
 				/*モーションを「後進」にする*/
 				Set_UnderMotion(8);
-	}
-	if(KeyMov == 9){//左下
+				break;
+		}
+		case 9:{//左下
 				WantDeg = -135.0f + Get_PC_Deg_XZ(); 
 				MovOn = 1;
 
 				/*モーションを「左後進」にする*/
 				Set_UnderMotion(6);
+				break;
 
+	    }
+		case 12:{//右下
+				WantDeg = 135.0f + Get_PC_Deg_XZ(); 
+				MovOn = 1;
+
+				/*モーションを「右後進」にする*/
+				Set_UnderMotion(7);
+				break;
+		}
 	}
 
 	//キーが入力されていても、キック中なら
@@ -313,89 +505,90 @@ int PlayerChara::MoveChara(){
 				MovOn = 1;//絶対動く
 	}
 
-
 	/*動く方向を決めるよ*/
-	if(MovOn == 1){
+	switch(MovOn){
+			case 1:{
+					switch(Get_MyState()){
+							case 0:{//通常状態なら
+									if( Get_AirOnPC() == 0){//空中でなければ
+											if(Get_Attitude() == 0){//姿勢が「立っている状態」なら
+													/*スピードを増加させる*/
+													Set_MoveSpeed( Get_MoveSpeed() + 0.8f);
 
-					if( Get_MyState() == 0){//通常状態なら
-							if( Get_AirOnPC() == 0){//空中でなければ
-									if(Get_Attitude() == 0){//姿勢が「立っている状態」なら
-											/*スピードを増加させる*/
-											Set_MoveSpeed( Get_MoveSpeed() + 0.8f);
+													//スピードに制限をかける
+													if( 25.0f <= Get_MoveSpeed() ){
+																Set_MoveSpeed( 25.0f);
+													}
 
-											//スピードに制限をかける
-											if( 25.0f <= Get_MoveSpeed() ){
-														Set_MoveSpeed( 25.0f);
+													//固定スピードの設定（立ち）
+													FixedMoveSpeed = 50.0f;
 											}
 
-											//固定スピードの設定（立ち）
-											FixedMoveSpeed = 50.0f;
-									}
+											if(Get_Attitude() == 1){//姿勢が「しゃがみ状態」なら
+													/*スピードを増加させる*/
+													Set_MoveSpeed( Get_MoveSpeed() + 0.4f);
 
-									if(Get_Attitude() == 1){//姿勢が「しゃがみ状態」なら
+													//スピードに制限をかける
+													if( 20.0f <= Get_MoveSpeed() ){
+																Set_MoveSpeed( 20.0f);
+													}
+
+													//固定スピードの設定（しゃがみ）
+													FixedMoveSpeed = 30.0f;
+											}
+									}
+									if( Get_AirOnPC() == 1){//空中にいるなら
+									
 											/*スピードを増加させる*/
-											Set_MoveSpeed( Get_MoveSpeed() + 0.4f);
+											Set_MoveSpeed(Get_MoveSpeed() + 0.3f);
 
 											//スピードに制限をかける
-											if( 20.0f <= Get_MoveSpeed() ){
-														Set_MoveSpeed( 20.0f);
+											if( 10.0f <= Get_MoveSpeed() ){
+														Set_MoveSpeed( 10.0f);
 											}
 
 											//固定スピードの設定（しゃがみ）
-											FixedMoveSpeed = 30.0f;
+											FixedMoveSpeed = 20.0f;
 									}
-							}
-							if( Get_AirOnPC() == 1){//空中にいるなら
-									
-									/*スピードを増加させる*/
-									Set_MoveSpeed(Get_MoveSpeed() + 0.3f);
+									break;
+						    }
+							case 2:{//ダッシュの時
+									if( Get_AirOnPC() == 0){//地上にいるなら
+											/*スピードを増加させる*/
+											Set_MoveSpeed( Get_MoveSpeed() + 2.0f);
 
-									//スピードに制限をかける
-									if( 10.0f <= Get_MoveSpeed() ){
-												Set_MoveSpeed( 10.0f);
+											//スピードに制限をかける
+											if( 40.0f <= Get_MoveSpeed() ){
+														Set_MoveSpeed(40.0f);
+											}
+
+											//固定スピードの設定（しゃがみ）
+											FixedMoveSpeed = 70.0f;
 									}
+									if( Get_AirOnPC() == 1){//空中にいるなら
+											/*スピードを増加させる*/
+											Set_MoveSpeed( Get_MoveSpeed() + 2.0f);
 
-									//固定スピードの設定（しゃがみ）
-									FixedMoveSpeed = 20.0f;
-							}
+											//スピードに制限をかける
+											if( 40.0f <= Get_MoveSpeed() ){
+														Set_MoveSpeed(40.0f);
+											}
 
-					}
-					if( Get_MyState() == 2){//ダッシュ状態なら
-
-							if( Get_AirOnPC() == 0){//地上にいるなら
-									/*スピードを増加させる*/
-									Set_MoveSpeed( Get_MoveSpeed() + 2.0f);
-
-									//スピードに制限をかける
-									if( 40.0f <= Get_MoveSpeed() ){
-												Set_MoveSpeed(40.0f);
+											//固定スピードの設定（しゃがみ）
+											FixedMoveSpeed = 70.0f;
 									}
-
-									//固定スピードの設定（しゃがみ）
-									FixedMoveSpeed = 70.0f;
+									break;
 							}
-							if( Get_AirOnPC() == 1){//空中にいるなら
-									/*スピードを増加させる*/
-									Set_MoveSpeed( Get_MoveSpeed() + 2.0f);
-
-									//スピードに制限をかける
-									if( 40.0f <= Get_MoveSpeed() ){
-												Set_MoveSpeed(40.0f);
-									}
-
-									//固定スピードの設定（しゃがみ）
-									FixedMoveSpeed = 70.0f;
-							}
-					}
-					if( ( Get_MyState() == 3) || ( Get_MyState() == 4)){//左飛び状態なら
+							case 3:// 横っ飛びのとき
+							case 4:{
 									/*スピードを固定*/
 									Set_MoveSpeed(0.0f);
 
 									//固定スピードの設定（しゃがみ）
 									FixedMoveSpeed = 90.0f;
+									break;
+							}
 					}
-
-
 
 					/*ダミーモデルの座標に設定*/
 					ech = E3DRotateInit ( Get_DummyModel());
@@ -418,8 +611,10 @@ int PlayerChara::MoveChara(){
 
 					ech = E3DSetPos( Get_BodyModel(), SubPos);
 					_ASSERT( ech != 1 );//エラーチェック
-	}
-	else{//減速をさせなければならないなら
+
+					break;
+		    }
+			default:{
 					if( Get_AirOnPC() == 0){//空中にいるなら
 								if( Get_Attitude() == 0) Set_MoveSpeed( Get_MoveSpeed() - 0.8f);//姿勢が「通常状態」なら
 								if( Get_Attitude() == 1) Set_MoveSpeed( Get_MoveSpeed() - 1.0f);//姿勢が「しゃがみ状態」なら
@@ -434,9 +629,11 @@ int PlayerChara::MoveChara(){
 
 
 					Set_UnderMotion(0);
+			}
 	}
 
 
+	
 
 
 	return 0;

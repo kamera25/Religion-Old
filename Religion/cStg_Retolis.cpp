@@ -33,14 +33,6 @@ int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 	};
 
 
-	/* //////////////////// */
-	// 霧の指定を行ないます
-	/* /////////////////// */
-
-	ech = E3DSetLinearFogParams(1, FogColor, 0, 20000, -1);//ファグをかけます。
-	_ASSERT( ech != 1 );//エラーダイアログ
-
-
 	*FogDist = 8000.0f;//背景のもやで見えにくくする。
 	Stage_GunTarget = 0;//ステージの銃操作を"通常"にする
 	Stage_GndMode = 0;//キャラ地面操作を"通常にする"

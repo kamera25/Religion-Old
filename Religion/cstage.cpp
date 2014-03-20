@@ -7,7 +7,35 @@
 
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
 
+/* ステージクラスのコンストラクタ、初期化処理を行います */
+Stage::Stage(){
 
+	/* 変数の初期化 */
+	int ech = 0;
+
+	//ステージ上のデータを初期化します。
+	for(int i = 0; i < 3; i++){
+		Stage_hsid[i]= 0;//ステージ配列を初期化します
+		Wall_hsid[i] = 0;//壁配列を初期化します
+	};
+
+	/* //////////////// */
+	// 光源を作成します
+	/* //////////////// */
+	ech = E3DCreateLight( &Light1_ID);//光源1を作成します。
+	if( ech != 0){
+			_ASSERT( 0 );
+	};
+	ech = E3DCreateLight( &Light2_ID);//光源2を作成します。
+	if( ech != 0){
+			_ASSERT( 0 );
+	};
+
+	AvailableBGFlag = false;
+	AvailableNaviLineFlag = false;
+
+	return;
+}
 
 /*ステージをロード・設定する関数です*/
 int Stage::LoadStage(int StageID, int StageKind, int LightKind){
@@ -20,11 +48,7 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 	D3DXVECTOR3 NaviPointPos( 0.0, 0.0, 0.0);//ナビポイント座標を代入する構造体
 
 
-	//ステージ上のデータを初期化します。
-	for(int i = 0; i < 3; i++){
-		Stage_hsid[i]= 0;//ステージ配列を初期化します
-		Wall_hsid[i] = 0;//壁配列を初期化します
-	};
+
 
 
 
@@ -67,9 +91,11 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 	//  以下より、光源を用意します。
 	/* /////////////////////////// */
 
-	//光源の属性を決定します。
+	// 光源の属性を決定します。
 	SetStageLight( LightKind, FogDist);
 
+	// 霧の設定を行います
+	SetStageFog( LightKind);
 
 
 	/* ////////////////////////// */
@@ -83,6 +109,43 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 
 	return 0;
 }
+
+/* ステージにセットする霧の設定を行います */
+int Stage::SetStageFog( const int LightKind){
+
+	/* 変数の初期化 */
+	int ech = 0;// エラーチェック変数
+	E3DCOLOR4UC FogColor = {0,0,0,0};// 霧の色を指定します
+
+	switch( LightKind){
+			case 0:// 昼や朝なら
+			case 1:
+			{
+					return -1;// 現在は設定しない
+
+			}
+			case 2:// 夜なら
+			{ 
+					FogColor.a = 255;
+					FogColor.b = 0;
+					FogColor.g = 0;
+					FogColor.r = 0;
+					break;
+			}
+	}
+
+
+	/* //////////////////// */
+	// 霧の指定を行ないます
+	/* /////////////////// */
+
+	ech = E3DSetLinearFogParams(1, FogColor, 0, 20000, -1);//ファグをかけます。
+	_ASSERT( ech != 1 );//エラーダイアログ
+
+
+	return 0;
+}
+
 /* ステージにセットするライトの設定を行ないます */
 int Stage::SetStageLight( const int LightKind, const float FogDist){
 
@@ -95,18 +158,6 @@ int Stage::SetStageLight( const int LightKind, const float FogDist){
 	E3DCOLOR4UC LightColor = { 0, 0, 0, 0};
 
 
-
-	/* //////////////// */
-	// 光源を作成します
-	/* //////////////// */
-	ech = E3DCreateLight( &Light1_ID);//光源1を作成します。
-	if( ech != 0){
-			_ASSERT( 0 );
-	};
-	ech = E3DCreateLight( &Light2_ID);//光源2を作成します。
-	if( ech != 0){
-			_ASSERT( 0 );
-	};
 
 
 	/* ///////////////// */
@@ -160,7 +211,7 @@ int Stage::SetStageLight( const int LightKind, const float FogDist){
 			_ASSERT( 0 );
 	};
 
-
+	AvailableBGFlag = true;
 
 	//一つ目のバンプマップの光源を指定します
 	ech = E3DSetLightIdOfBumpMap( Light1_ID); 
@@ -196,8 +247,6 @@ Stage::~Stage(){
 	};
 
 
-
-
 	/*光源を削除するよ*/
 
 	//一つ目の光源の削除
@@ -213,10 +262,12 @@ Stage::~Stage(){
 
 
 	//背景を削除します
-	ech = E3DDestroyBG( System::scid1);
-	if( ech != 0){
-				_ASSERT( 0 );
-	};
+	if( AvailableBGFlag == true){
+			ech = E3DDestroyBG( System::scid1);
+			if( ech != 0){
+						_ASSERT( 0 );
+			};
+	}
 
 
 }

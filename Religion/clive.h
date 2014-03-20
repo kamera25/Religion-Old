@@ -17,11 +17,14 @@ class Enemy;
 class PlayerChara: public Soldier{
 
 private:
-	/* N/A */
+	/* 変数の宣言 */
+	int ChangePerspectiveMode;// 視点変更の状態変数
+
+
 public:
 	
 	//関数の宣言
-	PlayerChara( int selchara, int Wpselect_equipment) : Soldier(  selchara, Wpselect_equipment){};//コンストラクタ
+	PlayerChara( int selchara, int Wpselect_equipment);//コンストラクタ
 
 	~PlayerChara();//デストラクタ
 
@@ -29,6 +32,7 @@ public:
 	//基本的な銃のまとめ関数の宣言
 	int ThirdGunSys( Stage *Stg, Batch_Render *BatPre);//3人称視点からの銃関連まとめ関数
 	int ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]);//肩射ち視点からの銃関連まとめ関数
+	int ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]);// 三人称視点からの銃関連まとめ関数
 	int MoveChara();//キャラを動かします、前後左右に動けます
 	int ShoulderGunSysBefore();//キャラクターののち処理を行う関数
 	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene);//自分の向くべき方向を調節する関数

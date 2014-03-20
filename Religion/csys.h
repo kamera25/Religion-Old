@@ -7,7 +7,7 @@
 
 //ここにある関数を宣言。
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp);//プロージャーの登録
-
+class Weapon_Head;
 
 //初期化と終了処理
 class System{
@@ -49,7 +49,8 @@ public:
 	static int WaitRender();//読み込み中を表示するための関数
 	static int SetUpdataSoundSys( const int Soundflag);//音声情報を更新するかどうかの関数
 	static int SetFadeOutOfScid( const int FadeTime);//画像をフェードアウトさせる処理の関数
-
-
+	static int KeyRenewalFromWp( const Weapon_Head *Wpn, const int Equipment);// 今所持している武器からキーの取得をする関数
+	static int SetMouseCursol( const int X, const int Y);// マウス座標をセットする関数
+	static int SetMouseBeforePos();// 現在のマウス座標をBeforeMousePosにセットする関数
 };
 

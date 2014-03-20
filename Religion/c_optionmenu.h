@@ -1,16 +1,15 @@
 /*ここでは、オプションメニューに関することのクラスソースファイルです。
 //
 */
+#include "cMenu.h"
 class Batch_Render;
 
 
-class OptionMenu{
+class OptionMenu: public Menu{
 
 private:
 
 	// 変数の宣言
-	int TextID[3];
-	int MenuSpriteIDs[10];
 
 public:
 
