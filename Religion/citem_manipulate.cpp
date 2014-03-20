@@ -9,13 +9,14 @@
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "cmenu.h"//メニュークラスに関するヘッダファイル
 #include "citem_manipulate.h"//アイテム操作に関するヘッダファイル
+#include "cweapon.h"//武器に関することのクラスヘッダファイル
 
 //ここにグローバル変数を宣言
 extern System *sys;//システムクラスを指す、クラスのポインタ
 
 
 /*コンストラクタ、アイテムのスプライトなどをロードします*/
-Item_Manipulate::Item_Manipulate( PlayerChara *PC){
+Item_Manipulate::Item_Manipulate( PlayerChara *PC, Weapon *Wep){
 
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
@@ -110,10 +111,10 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 
 	/*次に武器の画像を読み込みます*/
 	for( int i = 0; i<3; i++){
-			if( (PC->wp_data[i][0][1]) != 0){//装備していれば
-					BackPack_Weapon[i][0] = PC->wp_data[i][0][1];//空画像データをロードする
-					BackPack_Weapon[i][1] = PC->wp_data[i][1][0];//武器の種類を代入する
-					BackPack_Weapon[i][2] = PC->wp_data[i][1][1];//武器のナンバーを代入する
+			if( Wep->GetSpriteData(i) != 0){//装備していれば
+					BackPack_Weapon[i][0] = Wep->GetSpriteData(i) ;//画像データをロードする
+					BackPack_Weapon[i][1] = Wep->GetWeaponData( i, 0);//武器の種類を代入する
+					BackPack_Weapon[i][2] = Wep->GetWeaponData( i, 1);//武器のナンバーを代入する
 			}
 			else{//装備していなければ -> 空データロードします
 					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", sys->path);//空アイテム画像をロードします。

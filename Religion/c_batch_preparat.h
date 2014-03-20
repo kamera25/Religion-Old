@@ -5,6 +5,7 @@
 #include "clive.h"//敵やキャラのクラスヘッダファイル
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 #include "ccamera.h"//カメラに関することのクラスヘッダファイル
+#include "cweapon.h"//武器クラスの宣言ヘッダファイル
 class PlayerChara;//循環変数対策
 
 /*描画準備で必要な変数などを宣言するクラス*/
@@ -51,15 +52,15 @@ public:
 	
 
 	//関数の宣言
-	Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Camera *Cam);//コンストラクタ、初期化をします
+	Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Camera *Cam, Weapon *Wep);//コンストラクタ、初期化をします
 	~Batch_Preparat();//デストラクタ、スプライトを削除します
 	int BatchRender( int SceneEndFlg);//今までのデータをまとめて描画するための関数
 	int BatchChkInView();//今までのデータをまとめて視野角内チェックするための関数
 	int BacthGunTrade( int Wp_equipment);//武器を交換した後、チェックと描画するモデルを変更する関数
-	int BatchReset();//構築していた、まとめデータを再構築する
+	int BatchReset( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Camera *Cam, Weapon *Wep);//構築していた、まとめデータを再構築する
 	int BatchBeforePos();//一つ前の座標をまとめて保存するための関数
 	int BatchSpriteRender( int SceneEndFlg);//まとめられたスプライトをレンダリングするための関数
-	int BatchSpriteSet( PlayerChara *PcC);//最初にロードしたスプライトの倍率や描画指定するための関数
+	int BatchSpriteSet(  PlayerChara *PcC, Weapon *Wep);//最初にロードしたスプライトの倍率や描画指定するための関数
 	int BatchFont( int SceneEndFlg);//文字を描画することや設定をしたりする関数
 	
 	/*デコンストラクタが必要！！！*/

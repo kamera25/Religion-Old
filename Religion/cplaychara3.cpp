@@ -9,6 +9,7 @@
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include <math.h>//数学計算を使うためのヘッダファイル
 #include "ccamera.h"//カメラに関することのクラスヘッダファイル
+#include "cweapon.h"//武器に関することのクラスヘッダファイル
 
 //ここにグローバル変数を宣言
 extern System *sys;//システムクラスを指す、クラスのポインタ
@@ -171,7 +172,7 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int Screen
 	return 0;
 }
 /*自分の向くべき方向を調節したり、射撃したりする関数*/
-int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene){
+int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene, Weapon *Wep){
     /*キャラクターモデルを壁があれば壁に向ける
 	なければ銃の攻撃が届く範囲までの距離を取得し、そこに向ける*/
 
@@ -206,8 +207,8 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	/*装備をしていないのなら*/
 	if( Wp_equipment != -1){
 
-			NowWpKind = wp_data[(Wp_equipment)][1][0];
-			NowWpRange = float( wp_data[(Wp_equipment)][1][4] * 500);
+			NowWpKind = Wep->GetWeaponData( Wp_equipment, 0);
+			NowWpRange = float( Wep->GetWeaponData( Wp_equipment, 4) * 500);
 			EneNearDistance = float(NowWpRange);
 	}
 
@@ -325,7 +326,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	return 0;
 }
 /*キャラクターの後処理を行う関数、モーションや姿勢など*/
-int PlayerChara::ShoulderGunSysBefore(){
+int PlayerChara::ShoulderGunSysBefore( Weapon *Wep){
 
 	/*変数の初期化*/
 	int ech = 0;//エラー確認変数
@@ -348,7 +349,7 @@ int PlayerChara::ShoulderGunSysBefore(){
 
 			if( Attitude == 0){//しゃがみモードがオフなら
 					if( Wp_equipment != -1){//武器を装備している状態なら
-							if( wp_data[Wp_equipment][1][0] == 1){//ハンドガンを撃つのなら
+						if( Wep->GetWeaponData( Wp_equipment, 0) == 1){//ハンドガンを撃つのなら
 										if( UpMotion == 0){//普通の構え
 
 												/*モーションで動かす部分の指定*/
@@ -365,7 +366,7 @@ int PlayerChara::ShoulderGunSysBefore(){
 												};
 										}
 							}
-							if( wp_data[Wp_equipment][1][0] == 4){//アサルトを撃つのなら
+							if( Wep->GetWeaponData( Wp_equipment, 0) == 4){//アサルトを撃つのなら
 										if( UpMotion == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/
@@ -403,7 +404,7 @@ int PlayerChara::ShoulderGunSysBefore(){
 			/**/
 			if( Attitude == 1){//しゃがみモードがオンなら
 					if( Wp_equipment != -1){//武器を装備している状態なら
-							if( wp_data[Wp_equipment][1][0] == 1){//ハンドガンを撃つのなら
+							if( Wep->GetWeaponData( Wp_equipment, 0) == 1){//ハンドガンを撃つのなら
 										if( UpMotion == 0){//普通の構え
 
 												/*モーションで動かす部分の指定*/
@@ -420,7 +421,7 @@ int PlayerChara::ShoulderGunSysBefore(){
 												};
 										}
 							}
-							if( wp_data[Wp_equipment][1][0] == 4){//アサルトを撃つのなら
+							if( Wep->GetWeaponData( Wp_equipment, 0) == 4){//アサルトを撃つのなら
 										if( UpMotion == 0){//普通の構え
 					
 												/*モーションで動かす部分の指定*/
@@ -901,7 +902,7 @@ int PlayerChara::ShoulderGunSysBefore(){
 	return 0;
 }
 /*普通のゲーム内での処理を行う関数、銃器の出し入れ、敵へのあたり、銃を手に置くなど…etc*/
-int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam){
+int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, Weapon *Wep){
 
 	/*変数の初期化*/
 	int ech = 0;
@@ -924,7 +925,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	ShoulderGunSys( BatPre, Cam, ScreenPos);//肩撃ち視点
 
 	//体の向きや、射撃を行う関数を呼び出し
-	GunConflictTarget( ScreenPos, Stg, Ene);
+	GunConflictTarget( ScreenPos, Stg, Ene, Wep);
 
 	/*敵への当たり判定の処理*/
 
@@ -939,7 +940,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 				if( Wp_equipment == -2){//装備が行き過ぎたら
 						Wp_equipment = 1;//装備を「サブウェポン」にする
 				}
-				if( wp_data[Wp_equipment][0][0] != 0){//もし、武器が確認されているなら
+				if( Wep->GetWeaponModelID( Wp_equipment, 0) != 0){//もし、武器が確認されているなら
 						break;//ループを抜ける、装備確定
 				}
 		}
@@ -953,7 +954,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 						Wp_equipment = -1;//装備を「サブウェポン」にする
 						break;//ループから抜ける、素手に確定
 				}
-				if( wp_data[Wp_equipment][0][0] != 0){//もし、武器が確認されているなら
+				if( Wep->GetWeaponModelID( Wp_equipment, 0) != 0){//もし、武器が確認されているなら
 						break;//ループを抜ける、装備確定
 				}
 		}
@@ -1043,7 +1044,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 	/*武器をもち手のあるべき場所へ移動させる*/
 	if( Wp_equipment != -1){
-				GunPutOnHand();
+				GunPutOnHand( Wep);
 	}
 
 

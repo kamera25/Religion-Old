@@ -4,10 +4,13 @@
 */
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
+#include "cweapon.h"//武器に関することのクラスヘッダファイル
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 #include "ccamera.h"//カメラに関することのクラスヘッダファイル
+
 class Batch_Preparat;//循環変数対策
+class Weapon;//循環変数対策
 
 
 //プレイヤーキャラクタークラスを作成、初期化（その他キャラはcharaクラスにて作成可能）
@@ -37,24 +40,9 @@ public:
 	*/
 	int Qid[10];//クオンターニオンの識別IDを格納します
 	
-	/*
-	//
-	//各データにはそれぞれの固有データを保持してます
-	//
-	// 一番目の要素には武器の種類に夜データが格納されています [0]メインウェポン [1]サブウェポン [2]グレネード
-	//
-	// 先頭[0]番にはモデルデータが格納されています [0]モデルのhsid [1]武器のスプライト画像 [2]武器の当たりモデルのhsid [3]使用済み弾薬のhsid
-	//
-	// 先頭[1]番には銃についての情報が格納されています [0]武器の種類 [1]武器のナンバー [2]弾薬の最大値
-	//												   [3]マガジンの最大値 [4]射程能力 [5]威力
-	//
-	// 先頭[2]番にはボーンデータが格納されています [0]銃口手前 [1]銃口先 [2]飛弾先 [3]銃弾丸ストック [4]当たり判定モデル一番先
-	//												[5]当たり判定モデル一番手前
-	//
-	// 先頭[3]番には弾薬等のゲーム中の情報が格納されています [0]現在の弾薬数 [1]マガジン数
-	*/
 
-	int wp_data[3][4][6];//武器の情報配列
+
+
 
 
 	//アイテムデータ
@@ -99,16 +87,15 @@ public:
 	PlayerChara(int selchara, int Wp_equipment);//コンストラクタ
 	~PlayerChara();//デストラクタ
 
-	int GunLoad( int selwp_kind, int gunkind, int gunno);//武器をロードするための関数
 
 	//基本的な銃のまとめ関数の宣言
 	int ThirdGunSys( Stage *Stg, Batch_Preparat *BatPre);//3人称視点からの銃関連まとめ関数
 	int ShoulderGunSys( Batch_Preparat *BatPre, Camera *Cam, int ScreenPos[2]);//肩射ち視点からの銃関連まとめ関数
-	int GunPutOnHand();//現在持ってる銃を持つためのモーション・システムを管轄する関数
+	int GunPutOnHand( Weapon *Wep);//現在持ってる銃を持つためのモーション・システムを管轄する関数
 	int MoveChara();//キャラを動かします、前後左右に動けます
 	int MovePosOnGround( Stage *Stg);//キャラクターをグラウンドの上に置くための関数
-	int ShoulderGunSysBefore();//キャラクターののち処理を行う関数
-	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene);//自分の向くべき方向を調節する関数
-	int NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam);//普通のゲーム内での処理を行なう関数
+	int ShoulderGunSysBefore( Weapon *Wep);//キャラクターののち処理を行う関数
+	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene, Weapon *Wep);//自分の向くべき方向を調節する関数
+	int NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, Weapon *Wep);//普通のゲーム内での処理を行なう関数
 	int GunSystem( Enemy *Ene);//銃について作動させる関数、リロード、次打てるまでの時間計算、敵へのあたり判定、ダメージ計算など
 };

@@ -236,6 +236,10 @@
 					RelativePath=".\cweapon1.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\cweapon2.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

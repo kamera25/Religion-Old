@@ -1,5 +1,5 @@
 InitFunc: dbgfile created
-E3DInit : Easy3D Version 5304
+E3DInit : Easy3D Version 5309
 CPU Vender: "AuthenticAMD"
 Family: 15  Model: 11  Stepping ID: 0
 Supported CPUID: 1
@@ -2175,6 +2175,146 @@ texbank : SetTextureAlpha : end
 mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\assault\m4\pict.png
 quafile : LoadQuaFile : framenum 60
 MotHandler : AddMotion motion_2009_10_31_11_22_42_88, framenum 60
+HuSound : SoundPrim : LoadSoundFile : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav, 1
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+wave : load : WaveSize 6616
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav success 
+HuSound : LoadSoundFile : success : soundid 1, name c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav
+E3DLoadSound : success : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\rifle_fire.wav
+HuSound : SoundPrim : LoadSoundFile : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav, 1
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+HuSound : LoadSoundFile : success : soundid 2, name c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav
+E3DLoadSound : success : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav
+e3d : SetResDir : RESDIR : c:\Users\Taka\Documents\religion\Debug\data\img\effect\
+sh : SetDirName : m_dirname c:\Users\Taka\Documents\religion\Debug\data\img\effect\
+CTreeHandler : Add2ElemIndex : serino 2
+CShdHandler : AddShdElem : srcseri 2, brono 0, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 2, brono 0, srcdepth 2
+shddata.cpp : Destroy3DObj
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 4, n 2, total 8
+shddata.cpp : Create3DObj
+CShdColor : SetColors 
+CShdHandler : AddTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\effect\explosion1.png
+CD3DDisp : CreateDispData : totalPrim 5449, invalidPrim 0, pracPrim 5449
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+CShdHandler : SetTexTransParent
 CTreeHandler : Add2ElemIndex : serino 0
 CShdHandler : AddShdElem : srcseri 0, brono 0, srcdepth 0
 CShdHandler : constructor : check : s2shd_leng 1
@@ -2358,6 +2498,8 @@ texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : M4A5 HUND GARD.png
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\assault\m4\pict.png
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\effect\explosion1.png
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover balel.png
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover sraid R.png
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover sraid L.png
@@ -2371,27 +2513,27 @@ sh  : SetMikoAnchorApply : disp obj オブジェクト, no fixed apply
 sh  : SetMikoAnchorApply : disp obj グリップ, no fixed apply
 handlerset : Restore : bef CreateDispObj
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 5905, invalidPrim 0, pracPrim 5905
+CD3DDisp : CreateDispData : totalPrim 5907, invalidPrim 0, pracPrim 5907
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 5985, invalidPrim 0, pracPrim 5985
+CD3DDisp : CreateDispData : totalPrim 5987, invalidPrim 0, pracPrim 5987
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 6495, invalidPrim 0, pracPrim 6495
+CD3DDisp : CreateDispData : totalPrim 6497, invalidPrim 0, pracPrim 6497
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 6531, invalidPrim 0, pracPrim 6531
+CD3DDisp : CreateDispData : totalPrim 6533, invalidPrim 0, pracPrim 6533
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 6755, invalidPrim 0, pracPrim 6755
+CD3DDisp : CreateDispData : totalPrim 6757, invalidPrim 0, pracPrim 6757
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 6775, invalidPrim 0, pracPrim 6775
+CD3DDisp : CreateDispData : totalPrim 6777, invalidPrim 0, pracPrim 6777
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 d3ddisp : Copy2IndexBuffer : m_IB not exist skip !!!
@@ -2407,10 +2549,11 @@ charpos2.cpp : CMeshInfo : NewMeshInfo : m 36, n 12, total 432
 polymesh2 : CreateBuffers : end
 PolyMesh2 : SetSamePoint
 Polymesh2 : CreateOptData : oldpleng 36, optpleng 36
-CD3DDisp : CreateDispData : totalPrim 6787, invalidPrim 0, pracPrim 6787
+CD3DDisp : CreateDispData : totalPrim 6789, invalidPrim 0, pracPrim 6789
 d3ddisp : CreateSkinMat : 1
 handlerset : Restore : aft CreateDispObj
 CShdHandler : SetTexTransParent
+e3dhsp : Restore : invalid light type warning -1
 E3DSigLoad : temphsid 5
 CTreeHandler : Add2ElemIndex : serino 0
 CShdHandler : AddShdElem : srcseri 0, brono 0, srcdepth 0
@@ -2494,6 +2637,8 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : M4A5 HUND GARD.pn
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\assault\m4\pict.png
 texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\effect\explosion1.png
+texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover balel.png
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover sraid R.png
@@ -2506,7 +2651,7 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover grip L
 sh  : SetMikoAnchorApply : disp obj obj1, no fixed apply
 handlerset : Restore : bef CreateDispObj
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 6795, invalidPrim 0, pracPrim 6795
+CD3DDisp : CreateDispData : totalPrim 6797, invalidPrim 0, pracPrim 6797
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 d3ddisp : Copy2IndexBuffer : m_IB not exist skip !!!
@@ -2516,10 +2661,11 @@ charpos2.cpp : CMeshInfo : NewMeshInfo : m 36, n 12, total 432
 polymesh2 : CreateBuffers : end
 PolyMesh2 : SetSamePoint
 Polymesh2 : CreateOptData : oldpleng 36, optpleng 36
-CD3DDisp : CreateDispData : totalPrim 6807, invalidPrim 0, pracPrim 6807
+CD3DDisp : CreateDispData : totalPrim 6809, invalidPrim 0, pracPrim 6809
 d3ddisp : CreateSkinMat : 1
 handlerset : Restore : aft CreateDispObj
 CShdHandler : SetTexTransParent
+e3dhsp : Restore : invalid light type warning -1
 E3DSigLoad : temphsid 6
 texbank : CreateTexData : SetTextureAlpha call c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
 texbank : SetTextureAlpha : start
@@ -2527,13 +2673,155 @@ texbank : SetTextureAlpha : end
 mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
 quafile : LoadQuaFile : framenum 60
 MotHandler : AddMotion motion_2009_10_31_11_22_42_88, framenum 60
+HuSound : SoundPrim : LoadSoundFile : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav, 0
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+wave : load : WaveSize 10902
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav success 
+HuSound : LoadSoundFile : success : soundid 3, name c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav
+E3DLoadSound : success : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\fire1.wav
+HuSound : SoundPrim : LoadSoundFile : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav, 0
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+wave : load : WaveSize 27276
+wave : Load : NumChannels 1
+wave : load : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav success 
+HuSound : LoadSoundFile : success : soundid 4, name c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav
+E3DLoadSound : success : c:\Users\Taka\Documents\religion\Debug\data\sound\se\shot\sky_fire.wav
+e3d : SetResDir : RESDIR : c:\Users\Taka\Documents\religion\Debug\data\img\effect\
+sh : SetDirName : m_dirname c:\Users\Taka\Documents\religion\Debug\data\img\effect\
+CTreeHandler : Add2ElemIndex : serino 3
+CShdHandler : AddShdElem : srcseri 3, brono 1, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 3, brono 1, srcdepth 2
+shddata.cpp : Destroy3DObj
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 4, n 2, total 8
+shddata.cpp : Create3DObj
+CShdColor : SetColors 
+texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : AddTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\effect\explosion1.png
+CD3DDisp : CreateDispData : totalPrim 6811, invalidPrim 0, pracPrim 6811
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+CShdHandler : SetTexTransParent
+e3dhsp : Restore : invalid light type warning -1
 CTreeHandler : Add2ElemIndex : serino 0
 CShdHandler : AddShdElem : srcseri 0, brono 0, srcdepth 0
 CShdHandler : constructor : check : s2shd_leng 1
 CMotHandler : AddMotionCtrl : srcseri 0, brono 0, srcdepth 0
 CMotHandler : constructor : check : s2mot_leng 1
-e3d : SetResDir : RESDIR : c:\Users\Taka\Documents\religion\Debug\data\3d\map\st_kichimae\
-sh : SetDirName : m_dirname c:\Users\Taka\Documents\religion\Debug\data\3d\map\st_kichimae\
+e3d : SetResDir : RESDIR : c:\Users\Taka\Documents\religion\Debug\data\3d\map\st_kamigaichi\
+sh : SetDirName : m_dirname c:\Users\Taka\Documents\religion\Debug\data\3d\map\st_kamigaichi\
 sigfile : LoadSigFile : im2enableflag 1 !!!
 sigfile : LoadSigFile : start Load Loop 0
 CTreeHandler : Add2ElemIndex : serino 1
@@ -2549,10 +2837,10 @@ CMotHandler : AddMotionCtrl : srcseri 2, brono 0, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 468, n 156, total 73008
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 558, n 186, total 103788
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 468, optpleng 140
+Polymesh2 : CreateOptData : oldpleng 558, optpleng 207
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 3
 CShdHandler : AddShdElem : srcseri 3, brono 1, srcdepth 2
@@ -2560,10 +2848,10 @@ CMotHandler : AddMotionCtrl : srcseri 3, brono 1, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 2364, n 788, total 1862832
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 1092, n 364, total 397488
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 2364, optpleng 443
+Polymesh2 : CreateOptData : oldpleng 1092, optpleng 639
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 4
 CShdHandler : AddShdElem : srcseri 4, brono 2, srcdepth 2
@@ -2571,10 +2859,10 @@ CMotHandler : AddMotionCtrl : srcseri 4, brono 2, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 198, n 66, total 13068
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 96, n 32, total 3072
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 198, optpleng 82
+Polymesh2 : CreateOptData : oldpleng 96, optpleng 48
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 5
 CShdHandler : AddShdElem : srcseri 5, brono 3, srcdepth 2
@@ -2582,10 +2870,10 @@ CMotHandler : AddMotionCtrl : srcseri 5, brono 3, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 936, n 312, total 292032
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 186, n 62, total 11532
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 936, optpleng 200
+Polymesh2 : CreateOptData : oldpleng 186, optpleng 92
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 6
 CShdHandler : AddShdElem : srcseri 6, brono 4, srcdepth 2
@@ -2593,10 +2881,10 @@ CMotHandler : AddMotionCtrl : srcseri 6, brono 4, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 2490, n 830, total 2066700
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 228, n 76, total 17328
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 2490, optpleng 1259
+Polymesh2 : CreateOptData : oldpleng 228, optpleng 113
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 7
 CShdHandler : AddShdElem : srcseri 7, brono 5, srcdepth 2
@@ -2604,10 +2892,10 @@ CMotHandler : AddMotionCtrl : srcseri 7, brono 5, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 18, n 6, total 108
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 138, n 46, total 6348
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 18, optpleng 12
+Polymesh2 : CreateOptData : oldpleng 138, optpleng 64
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 8
 CShdHandler : AddShdElem : srcseri 8, brono 6, srcdepth 2
@@ -2615,10 +2903,10 @@ CMotHandler : AddMotionCtrl : srcseri 8, brono 6, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 1728, n 576, total 995328
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 102, n 34, total 3468
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 1728, optpleng 660
+Polymesh2 : CreateOptData : oldpleng 102, optpleng 52
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 9
 CShdHandler : AddShdElem : srcseri 9, brono 7, srcdepth 2
@@ -2626,10 +2914,10 @@ CMotHandler : AddMotionCtrl : srcseri 9, brono 7, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 246, n 82, total 20172
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 30, n 10, total 300
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 246, optpleng 164
+Polymesh2 : CreateOptData : oldpleng 30, optpleng 20
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 10
 CShdHandler : AddShdElem : srcseri 10, brono 8, srcdepth 2
@@ -2637,33 +2925,201 @@ CMotHandler : AddMotionCtrl : srcseri 10, brono 8, srcdepth 2
 sigfile : start LoadPolyMesh2
 shddata.cpp : Destroy3DObj
 polymesh2 : CreateBuffers : start
-charpos2.cpp : CMeshInfo : NewMeshInfo : m 714, n 238, total 169932
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 138, n 46, total 6348
 polymesh2 : CreateBuffers : end
 shddata.cpp : Create3DObj
-Polymesh2 : CreateOptData : oldpleng 714, optpleng 370
+Polymesh2 : CreateOptData : oldpleng 138, optpleng 64
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 11
+CShdHandler : AddShdElem : srcseri 11, brono 9, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 11, brono 9, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 618, n 206, total 127308
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 618, optpleng 340
 sigfile : end LoadPolyMesh2
 CTreeHandler : Add2ElemIndex : serino 12
-CShdHandler : AddShdElem : srcseri 12, brono 9, srcdepth 2
-CMotHandler : AddMotionCtrl : srcseri 12, brono 9, srcdepth 2
-sigfile : LoadInfScope : not found infscope before : IS12
+CShdHandler : AddShdElem : srcseri 12, brono 10, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 12, brono 10, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 618, n 206, total 127308
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 618, optpleng 340
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 13
+CShdHandler : AddShdElem : srcseri 13, brono 11, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 13, brono 11, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 1044, n 348, total 363312
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 1044, optpleng 472
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 14
+CShdHandler : AddShdElem : srcseri 14, brono 12, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 14, brono 12, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 1044, n 348, total 363312
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 1044, optpleng 538
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 15
+CShdHandler : AddShdElem : srcseri 15, brono 13, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 15, brono 13, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 120, n 40, total 4800
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 120, optpleng 80
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 16
+CShdHandler : AddShdElem : srcseri 16, brono 14, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 16, brono 14, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 288, n 96, total 27648
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 288, optpleng 144
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 17
+CShdHandler : AddShdElem : srcseri 17, brono 15, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 17, brono 15, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 504, n 168, total 84672
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 504, optpleng 288
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 18
+CShdHandler : AddShdElem : srcseri 18, brono 16, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 18, brono 16, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 972, n 324, total 314928
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 972, optpleng 552
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 19
+CShdHandler : AddShdElem : srcseri 19, brono 17, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 19, brono 17, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 492, n 164, total 80688
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 492, optpleng 275
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 20
+CShdHandler : AddShdElem : srcseri 20, brono 18, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 20, brono 18, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 30, n 10, total 300
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 30, optpleng 20
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 21
+CShdHandler : AddShdElem : srcseri 21, brono 19, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 21, brono 19, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 504, n 168, total 84672
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 504, optpleng 336
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 22
+CShdHandler : AddShdElem : srcseri 22, brono 20, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 22, brono 20, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 1194, n 398, total 475212
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 1194, optpleng 706
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 23
+CShdHandler : AddShdElem : srcseri 23, brono 21, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 23, brono 21, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 24, n 8, total 192
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 24, optpleng 16
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 24
+CShdHandler : AddShdElem : srcseri 24, brono 22, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 24, brono 22, srcdepth 2
+sigfile : start LoadPolyMesh2
+shddata.cpp : Destroy3DObj
+polymesh2 : CreateBuffers : start
+charpos2.cpp : CMeshInfo : NewMeshInfo : m 6, n 2, total 12
+polymesh2 : CreateBuffers : end
+shddata.cpp : Create3DObj
+Polymesh2 : CreateOptData : oldpleng 6, optpleng 4
+sigfile : end LoadPolyMesh2
+CTreeHandler : Add2ElemIndex : serino 26
+CShdHandler : AddShdElem : srcseri 26, brono 23, srcdepth 2
+CMotHandler : AddMotionCtrl : srcseri 26, brono 23, srcdepth 2
+sigfile : LoadInfScope : not found infscope before : IS26
 CTreeHandler : End : GetParent reached to vacume warning !!!
-CTreeHandler : Add2ElemIndex : serino 11
-CShdHandler : AddShdElem : srcseri 11, brono 1, srcdepth 1
-CMotHandler : AddMotionCtrl : srcseri 11, brono 1, srcdepth 1
+CTreeHandler : Add2ElemIndex : serino 25
+CShdHandler : AddShdElem : srcseri 25, brono 1, srcdepth 1
+CMotHandler : AddMotionCtrl : srcseri 25, brono 1, srcdepth 1
 shddata.cpp : Destroy3DObj
 charpos2.cpp : CMeshInfo : NewMeshInfo : m 0, n 0, total 0
 CPart : CreatePart : srcmeshinfo->hascolor 0, meshinfo->hascolor 0
 shddata.cpp : Create3DObj
 CShdColor : SetColors 
 sh  : SetMikoAnchorApply : disp obj 道路, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 芝生, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 基地壁, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 岩, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 土嚢, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 背景, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ドラムカン, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 机・椅子, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 木, no fixed apply
+sh  : SetMikoAnchorApply : disp obj マンション, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ビル１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ビル２, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ビル３, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ビル４, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 看板付ビル１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 階段付ビル１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 階段付ビル２, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 螺旋階段１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 螺旋階段２, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 螺旋階段柵１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 螺旋階段柵２, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 看板, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ラダー１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ラダー2, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ラダー3, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 背景建造物, no fixed apply
+sh  : SetMikoAnchorApply : disp obj フェンス, no fixed apply
+sh  : SetMikoAnchorApply : disp obj エアコン室外機, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ガードレール, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 壁, no fixed apply
+sh  : SetMikoAnchorApply : disp obj obj1, no fixed apply
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\sys\loading.png
 texbank : CreateTexData : data allready set, skip !!!
@@ -2691,6 +3147,8 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : M4A5 HUND GARD.pn
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\assault\m4\pict.png
 texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\effect\explosion1.png
+texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover balel.png
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover sraid R.png
@@ -2702,68 +3160,137 @@ texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover grip L.png
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : MetalBase0081_2_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : PlywoodNew0046_1_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : BronzeCopper0018_1_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : FabricPlain0055_3_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : RockGrassy0003_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltDamaged0035_1_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Landscapes0131_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : DoorsRollup0019_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0145_1_L.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_T.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_S.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Grass0052_7_M.jpg
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_1_S.png
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_2_S.png
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Shops0038_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteNew0012_2_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : C:\Documents and Settings\大樹\デスクトップ\3D\map\神ヶ一\キリンマーク.png
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : キリン.bmp
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Brick.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltLine.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Asphalt.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : GuardRail_edge.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : GuardRail.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0082_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0081_S.jpg
 sh  : SetMikoAnchorApply : disp obj 道路, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 芝生, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 基地壁, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 岩, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 土嚢, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 背景, no fixed apply
-sh  : SetMikoAnchorApply : disp obj ドラムカン, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 机・椅子, no fixed apply
-sh  : SetMikoAnchorApply : disp obj 木, no fixed apply
+sh  : SetMikoAnchorApply : disp obj マンション, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ビル１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ビル２, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ビル３, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ビル４, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 看板付ビル１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 階段付ビル１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 階段付ビル２, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 螺旋階段１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 螺旋階段２, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 螺旋階段柵１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 螺旋階段柵２, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 看板, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ラダー１, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ラダー2, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ラダー3, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 背景建造物, no fixed apply
+sh  : SetMikoAnchorApply : disp obj フェンス, no fixed apply
+sh  : SetMikoAnchorApply : disp obj エアコン室外機, no fixed apply
+sh  : SetMikoAnchorApply : disp obj ガードレール, no fixed apply
+sh  : SetMikoAnchorApply : disp obj 壁, no fixed apply
+sh  : SetMikoAnchorApply : disp obj obj1, no fixed apply
 handlerset : Restore : bef CreateDispObj
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7119, invalidPrim 0, pracPrim 7119
+CD3DDisp : CreateDispData : totalPrim 6997, invalidPrim 0, pracPrim 6997
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 7907, invalidPrim 0, pracPrim 7907
+CD3DDisp : CreateDispData : totalPrim 7361, invalidPrim 0, pracPrim 7361
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 8039, invalidPrim 0, pracPrim 8039
+CD3DDisp : CreateDispData : totalPrim 7393, invalidPrim 0, pracPrim 7393
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 8663, invalidPrim 0, pracPrim 8663
+CD3DDisp : CreateDispData : totalPrim 7455, invalidPrim 0, pracPrim 7455
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9493, invalidPrim 0, pracPrim 9493
+CD3DDisp : CreateDispData : totalPrim 7531, invalidPrim 0, pracPrim 7531
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 9499, invalidPrim 0, pracPrim 9499
+CD3DDisp : CreateDispData : totalPrim 7577, invalidPrim 0, pracPrim 7577
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10075, invalidPrim 0, pracPrim 10075
+CD3DDisp : CreateDispData : totalPrim 7611, invalidPrim 0, pracPrim 7611
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10239, invalidPrim 0, pracPrim 10239
+CD3DDisp : CreateDispData : totalPrim 7621, invalidPrim 0, pracPrim 7621
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10715, invalidPrim 0, pracPrim 10715
+CD3DDisp : CreateDispData : totalPrim 7667, invalidPrim 0, pracPrim 7667
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 8079, invalidPrim 0, pracPrim 8079
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 8491, invalidPrim 0, pracPrim 8491
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 8839, invalidPrim 0, pracPrim 8839
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 9187, invalidPrim 0, pracPrim 9187
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 9267, invalidPrim 0, pracPrim 9267
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 9363, invalidPrim 0, pracPrim 9363
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 9531, invalidPrim 0, pracPrim 9531
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 9855, invalidPrim 0, pracPrim 9855
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 10019, invalidPrim 0, pracPrim 10019
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 10039, invalidPrim 0, pracPrim 10039
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 10207, invalidPrim 0, pracPrim 10207
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 11003, invalidPrim 0, pracPrim 11003
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 11011, invalidPrim 0, pracPrim 11011
+d3ddisp : CreateSkinMat : 1
+d3ddisp : CreateSkinMat : 1
+polymesh2 : CreateOptData : optdata already exist exit !!!
+CD3DDisp : CreateDispData : totalPrim 11013, invalidPrim 0, pracPrim 11013
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 handlerset : Restore : aft CreateDispObj
 CShdHandler : SetTexTransParent
+e3dhsp : Restore : invalid light type warning -1
+e3dhsp : Restore : invalid light type warning -1
 bgdisp2 : CheckMultiTexOk : caps : maxtexcoord 8, maxstages 8, maxsimu 8, moduleop 8
 bgdisp2 : multitexok 1
 BgDisp : CreateTexture : fixx 4000, fixy 962
@@ -2847,6 +3374,8 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : M4A5 HUND GARD.pn
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\assault\m4\pict.png
 texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\effect\explosion1.png
+texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover balel.png
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover sraid R.png
@@ -2859,33 +3388,27 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover grip L
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : MetalBase0081_2_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Shops0038_S.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : PlywoodNew0046_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteNew0012_2_S.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : BronzeCopper0018_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : C:\Documents and Settings\大樹\デスクトップ\3D\map\神ヶ一\キリンマーク.png
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : FabricPlain0055_3_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : キリン.bmp
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : RockGrassy0003_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Brick.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltDamaged0035_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltLine.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Landscapes0131_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Asphalt.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : DoorsRollup0019_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : GuardRail_edge.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0145_1_L.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : GuardRail.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_T.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0082_S.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_S.jpg
-texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Grass0052_7_M.jpg
-texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_1_S.png
-texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_2_S.png
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0081_S.jpg
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\night.jpg
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : honmei3.png
@@ -2895,15 +3418,17 @@ sh  : SetMikoAnchorApply : disp obj obj1, no fixed apply
 sh  : SetMikoAnchorApply : disp obj obj2, no fixed apply
 handlerset : Restore : bef CreateDispObj
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10727, invalidPrim 0, pracPrim 10727
+CD3DDisp : CreateDispData : totalPrim 11025, invalidPrim 0, pracPrim 11025
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10735, invalidPrim 0, pracPrim 10735
+CD3DDisp : CreateDispData : totalPrim 11033, invalidPrim 0, pracPrim 11033
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 handlerset : Restore : aft CreateDispObj
 CShdHandler : SetTexTransParent
+e3dhsp : Restore : invalid light type warning -1
+e3dhsp : Restore : invalid light type warning -1
 E3DSigLoad : temphsid 8
 CTreeHandler : Add2ElemIndex : serino 0
 CShdHandler : AddShdElem : srcseri 0, brono 0, srcdepth 0
@@ -2973,6 +3498,8 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : M4A5 HUND GARD.pn
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\assault\m4\pict.png
 texbank : CreateTexData : data allready set, skip !!!
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\img\effect\explosion1.png
+texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover balel.png
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover sraid R.png
@@ -2985,33 +3512,27 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Arty gover grip L
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : MetalBase0081_2_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Shops0038_S.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : PlywoodNew0046_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteNew0012_2_S.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : BronzeCopper0018_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : C:\Documents and Settings\大樹\デスクトップ\3D\map\神ヶ一\キリンマーク.png
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : FabricPlain0055_3_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : キリン.bmp
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : RockGrassy0003_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Brick.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltDamaged0035_1_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : AsphaltLine.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Landscapes0131_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Asphalt.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : DoorsRollup0019_S.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : GuardRail_edge.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0145_1_L.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : GuardRail.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_T.jpg
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0082_S.jpg
 texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Roads0059_4_S.jpg
-texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Grass0052_7_M.jpg
-texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_1_S.png
-texbank : CreateTexData : data allready set, skip !!!
-CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : Trees0018_2_S.png
+CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : ConcreteBare0081_S.jpg
 texbank : CreateTexData : data allready set, skip !!!
 CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\night.jpg
 texbank : CreateTexData : data allready set, skip !!!
@@ -3023,11 +3544,13 @@ CShdHandler : CreateTexture : D3DTextr_CreateTextureFromFile : honmei.png
 sh  : SetMikoAnchorApply : disp obj obj1, no fixed apply
 handlerset : Restore : bef CreateDispObj
 polymesh2 : CreateOptData : optdata already exist exit !!!
-CD3DDisp : CreateDispData : totalPrim 10747, invalidPrim 0, pracPrim 10747
+CD3DDisp : CreateDispData : totalPrim 11045, invalidPrim 0, pracPrim 11045
 d3ddisp : CreateSkinMat : 1
 d3ddisp : CreateSkinMat : 1
 handlerset : Restore : aft CreateDispObj
 CShdHandler : SetTexTransParent
+e3dhsp : Restore : invalid light type warning -1
+e3dhsp : Restore : invalid light type warning -1
 E3DSigLoad : temphsid 9
 mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\img\carsol.png
 mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter3.png
@@ -3042,72 +3565,106 @@ mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\img\menu
 mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\img\menu\menuber.png
 mysprite : RestoreTexture : c:\Users\Taka\Documents\religion\Debug\data\img\menu\menu_up_ber.png
 texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\menu\menubg.png
-texbank : DestroyNotDirty : DestroyTexture 46
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\menu\menuber.png
-texbank : DestroyNotDirty : DestroyTexture 47
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\menu\menu_up_ber.png
-texbank : DestroyNotDirty : DestroyTexture 48
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\carsol.png
-texbank : DestroyNotDirty : DestroyTexture 37
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter3.png
-texbank : DestroyNotDirty : DestroyTexture 38
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter4.png
-texbank : DestroyNotDirty : DestroyTexture 39
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\hpber.png
-texbank : DestroyNotDirty : DestroyTexture 40
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\stnber.png
-texbank : DestroyNotDirty : DestroyTexture 41
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\ammber.png
-texbank : DestroyNotDirty : DestroyTexture 42
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\magber.png
-texbank : DestroyNotDirty : DestroyTexture 43
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter1.png
 texbank : DestroyNotDirty : DestroyTexture 44
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter2.png
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\menu\menuber.png
 texbank : DestroyNotDirty : DestroyTexture 45
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\menu\menu_up_ber.png
+texbank : DestroyNotDirty : DestroyTexture 46
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\carsol.png
+texbank : DestroyNotDirty : DestroyTexture 35
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter3.png
+texbank : DestroyNotDirty : DestroyTexture 36
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter4.png
+texbank : DestroyNotDirty : DestroyTexture 37
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\hpber.png
+texbank : DestroyNotDirty : DestroyTexture 38
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\stnber.png
+texbank : DestroyNotDirty : DestroyTexture 39
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\ammber.png
+texbank : DestroyNotDirty : DestroyTexture 40
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\magber.png
+texbank : DestroyNotDirty : DestroyTexture 41
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter1.png
+texbank : DestroyNotDirty : DestroyTexture 42
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\parameter\parameter2.png
+texbank : DestroyNotDirty : DestroyTexture 43
 CTreeHandler : destructor : free s2e
 CShdHandler : destructor : delete elem
 CMotHandler : destructor : delete elem
 texbank : DestroyNotDirty : DestroyTexture honmei3.png
-texbank : DestroyNotDirty : DestroyTexture 34
-texbank : DestroyNotDirty : DestroyTexture honmei2.png
-texbank : DestroyNotDirty : DestroyTexture 35
-texbank : DestroyNotDirty : DestroyTexture honmei.png
-texbank : DestroyNotDirty : DestroyTexture 36
-CTreeHandler : destructor : free s2e
-CShdHandler : destructor : delete elem
-CMotHandler : destructor : delete elem
-texbank : DestroyNotDirty : DestroyTexture MetalBase0081_2_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 19
-texbank : DestroyNotDirty : DestroyTexture PlywoodNew0046_1_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 20
-texbank : DestroyNotDirty : DestroyTexture BronzeCopper0018_1_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 21
-texbank : DestroyNotDirty : DestroyTexture FabricPlain0055_3_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 22
-texbank : DestroyNotDirty : DestroyTexture RockGrassy0003_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 23
-texbank : DestroyNotDirty : DestroyTexture AsphaltDamaged0035_1_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 24
-texbank : DestroyNotDirty : DestroyTexture Landscapes0131_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 25
-texbank : DestroyNotDirty : DestroyTexture DoorsRollup0019_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 26
-texbank : DestroyNotDirty : DestroyTexture ConcreteBare0145_1_L.jpg
-texbank : DestroyNotDirty : DestroyTexture 27
-texbank : DestroyNotDirty : DestroyTexture Roads0059_4_T.jpg
-texbank : DestroyNotDirty : DestroyTexture 28
-texbank : DestroyNotDirty : DestroyTexture Roads0059_4_S.jpg
-texbank : DestroyNotDirty : DestroyTexture 29
-texbank : DestroyNotDirty : DestroyTexture Grass0052_7_M.jpg
-texbank : DestroyNotDirty : DestroyTexture 30
-texbank : DestroyNotDirty : DestroyTexture Trees0018_1_S.png
-texbank : DestroyNotDirty : DestroyTexture 31
-texbank : DestroyNotDirty : DestroyTexture Trees0018_2_S.png
 texbank : DestroyNotDirty : DestroyTexture 32
+texbank : DestroyNotDirty : DestroyTexture honmei2.png
+texbank : DestroyNotDirty : DestroyTexture 33
+texbank : DestroyNotDirty : DestroyTexture honmei.png
+texbank : DestroyNotDirty : DestroyTexture 34
 CTreeHandler : destructor : free s2e
 CShdHandler : destructor : delete elem
 CMotHandler : destructor : delete elem
+texbank : DestroyNotDirty : DestroyTexture Shops0038_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 20
+texbank : DestroyNotDirty : DestroyTexture ConcreteNew0012_2_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 21
+texbank : DestroyNotDirty : DestroyTexture C:\Documents and Settings\大樹\デスクトップ\3D\map\神ヶ一\キリンマーク.png
+texbank : DestroyNotDirty : DestroyTexture 22
+texbank : DestroyNotDirty : DestroyTexture キリン.bmp
+texbank : DestroyNotDirty : DestroyTexture 23
+texbank : DestroyNotDirty : DestroyTexture Brick.jpg
+texbank : DestroyNotDirty : DestroyTexture 24
+texbank : DestroyNotDirty : DestroyTexture AsphaltLine.jpg
+texbank : DestroyNotDirty : DestroyTexture 25
+texbank : DestroyNotDirty : DestroyTexture Asphalt.jpg
+texbank : DestroyNotDirty : DestroyTexture 26
+texbank : DestroyNotDirty : DestroyTexture GuardRail_edge.jpg
+texbank : DestroyNotDirty : DestroyTexture 27
+texbank : DestroyNotDirty : DestroyTexture GuardRail.jpg
+texbank : DestroyNotDirty : DestroyTexture 28
+texbank : DestroyNotDirty : DestroyTexture ConcreteBare0082_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 29
+texbank : DestroyNotDirty : DestroyTexture ConcreteBare0081_S.jpg
+texbank : DestroyNotDirty : DestroyTexture 30
+CTreeHandler : destructor : free s2e
+CShdHandler : destructor : delete elem
+CMotHandler : destructor : delete elem
+texbank : DestroyNotDirty : DestroyTexture M4A5 U-RAIL.png
+texbank : DestroyNotDirty : DestroyTexture 8
+texbank : DestroyNotDirty : DestroyTexture M4A5 BODY2.png
+texbank : DestroyNotDirty : DestroyTexture 9
+texbank : DestroyNotDirty : DestroyTexture M4A5 MAG.png
+texbank : DestroyNotDirty : DestroyTexture 10
+texbank : DestroyNotDirty : DestroyTexture M4A5 HUND GARD.png
+texbank : DestroyNotDirty : DestroyTexture 11
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\night.jpg
+texbank : DestroyNotDirty : DestroyTexture 31
+CTreeHandler : destructor : free s2e
+CShdHandler : destructor : delete elem
+CMotHandler : destructor : delete elem
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\assault\m4\pict.png
+texbank : DestroyNotDirty : DestroyTexture 12
+HuSound : DestroySound : soundid not found warning 
+HuSound : DestroySound : soundid not found warning 
+HuSound : DestroySound : soundid not found warning 
+HuSound : DestroySound : soundid not found warning 
+HuSound : DestroySound : soundid not found warning 
+texbank : DestroyNotDirty : DestroyTexture Arty gover balel.png
+texbank : DestroyNotDirty : DestroyTexture 14
+texbank : DestroyNotDirty : DestroyTexture Arty gover sraid R.png
+texbank : DestroyNotDirty : DestroyTexture 15
+texbank : DestroyNotDirty : DestroyTexture Arty gover sraid L.png
+texbank : DestroyNotDirty : DestroyTexture 16
+texbank : DestroyNotDirty : DestroyTexture Arty gover grip R.png
+texbank : DestroyNotDirty : DestroyTexture 17
+texbank : DestroyNotDirty : DestroyTexture Arty gover grip L.png
+texbank : DestroyNotDirty : DestroyTexture 18
+CTreeHandler : destructor : free s2e
+CShdHandler : destructor : delete elem
+CMotHandler : destructor : delete elem
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\3d\weapon\handgun\m1911\pict.png
+texbank : DestroyNotDirty : DestroyTexture 19
+HuSound : DestroySound : soundid not found warning 
+HuSound : DestroySound : soundid not found warning 
+HuSound : DestroySound : soundid not found warning 
+HuSound : DestroySound : soundid not found warning 
+HuSound : DestroySound : soundid not found warning 
 texbank : DestroyNotDirty : DestroyTexture wfkami.jpg
 texbank : DestroyNotDirty : DestroyTexture 1
 texbank : DestroyNotDirty : DestroyTexture usiro.png
@@ -3122,38 +3679,16 @@ texbank : DestroyNotDirty : DestroyTexture meisai1.png
 texbank : DestroyNotDirty : DestroyTexture 6
 texbank : DestroyNotDirty : DestroyTexture inner.png
 texbank : DestroyNotDirty : DestroyTexture 7
-texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\3d\map\360\night.jpg
-texbank : DestroyNotDirty : DestroyTexture 33
-CTreeHandler : destructor : free s2e
-CShdHandler : destructor : delete elem
-CMotHandler : destructor : delete elem
-CTreeHandler : destructor : free s2e
-CShdHandler : destructor : delete elem
-CMotHandler : destructor : delete elem
-texbank : DestroyNotDirty : DestroyTexture M4A5 U-RAIL.png
-texbank : DestroyNotDirty : DestroyTexture 8
-texbank : DestroyNotDirty : DestroyTexture M4A5 BODY2.png
-texbank : DestroyNotDirty : DestroyTexture 9
-texbank : DestroyNotDirty : DestroyTexture M4A5 MAG.png
-texbank : DestroyNotDirty : DestroyTexture 10
-texbank : DestroyNotDirty : DestroyTexture M4A5 HUND GARD.png
-texbank : DestroyNotDirty : DestroyTexture 11
-CTreeHandler : destructor : free s2e
-CShdHandler : destructor : delete elem
-CMotHandler : destructor : delete elem
-texbank : DestroyNotDirty : DestroyTexture Arty gover balel.png
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\effect\explosion1.png
 texbank : DestroyNotDirty : DestroyTexture 13
-texbank : DestroyNotDirty : DestroyTexture Arty gover sraid R.png
-texbank : DestroyNotDirty : DestroyTexture 14
-texbank : DestroyNotDirty : DestroyTexture Arty gover sraid L.png
-texbank : DestroyNotDirty : DestroyTexture 15
-texbank : DestroyNotDirty : DestroyTexture Arty gover grip R.png
-texbank : DestroyNotDirty : DestroyTexture 16
-texbank : DestroyNotDirty : DestroyTexture Arty gover grip L.png
-texbank : DestroyNotDirty : DestroyTexture 17
 CTreeHandler : destructor : free s2e
 CShdHandler : destructor : delete elem
 CMotHandler : destructor : delete elem
+CTreeHandler : destructor : free s2e
+CShdHandler : destructor : delete elem
+CMotHandler : destructor : delete elem
+texbank : DestroyNotDirty : DestroyTexture c:\Users\Taka\Documents\religion\Debug\data\img\sys\loading.png
+texbank : DestroyNotDirty : DestroyTexture 0
 CTreeHandler : destructor : free s2e
 CShdHandler : destructor : delete elem
 CMotHandler : destructor : delete elem

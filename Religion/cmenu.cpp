@@ -9,6 +9,7 @@
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "cmenu.h"//メニュークラスに関するヘッダファイル
 #include "citem_manipulate.h"//アイテム操作に関するヘッダファイル
+#include "cweapon.h"//武器に関することのクラスヘッダファイル
 
 //ここにグローバル変数を宣言
 extern System *sys;//システムクラスを指す、クラスのポインタ
@@ -97,7 +98,7 @@ Menu::~Menu(){
 
 
 /*ポーズメニュー、コアの部分です。*/
-int Menu::PoseMenu( PlayerChara *PC){
+int Menu::PoseMenu( PlayerChara *PC, Weapon *Wep){
 
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
@@ -227,7 +228,7 @@ int Menu::PoseMenu( PlayerChara *PC){
 										_ASSERT(0);//エラーダイアログを表示
 							};
 							if(keyin[9] == 1){//クリックしたら
-										Item_Manipulate BackPack( PC);//バックパックを呼び出します。
+										Item_Manipulate BackPack( PC, Wep);//バックパックを呼び出します。
 										BackPack.InItemPack( PC);//バックパックに入ります
 							}
 					}
@@ -306,7 +307,7 @@ int Menu::PoseMenu( PlayerChara *PC){
 	return 0;
 }
 /*メニュー画面に入って、自動的に通常描画モードからメニュー画面に半透過していきます。*/
-int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
+int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC, Weapon *Wep){
 
 	/*変数の宣言*/
 	int keyin[20];//キー情報配列を作成
@@ -367,7 +368,7 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
 			}/*ここまで*/
 
 
-			PoseMenu( PC);//ポーズメニューに入る
+			PoseMenu( PC, Wep);//ポーズメニューに入る
 
 
 			/*終了時のループに入ります。*/

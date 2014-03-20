@@ -25,7 +25,7 @@ public:
 	int MenuSpriteIDs[10];
 
 	//関数の宣言
-	Item_Manipulate( PlayerChara *PC);//コンストラクタ、アイテムのスプライトなどをロードします
+	Item_Manipulate( PlayerChara *PC, Weapon *Wep);//コンストラクタ、アイテムのスプライトなどをロードします
 	~Item_Manipulate();//デコントラクタ、ロードしたスプライトなどを削除します
 	int InItemPack( PlayerChara *PC);//アイテム処理に入る画像処理などを行います
 
