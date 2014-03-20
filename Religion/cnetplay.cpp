@@ -22,16 +22,16 @@ NetPlay::NetPlay( int NetMode){
 	if( NetMode == 0){
 
 			ech = gHost( "NETTEST" , 50000 , 0 , 0 );
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
+			
+					_ASSERT( ech != 1 );//エラーダイアログを表示
 						SwitchNetWork = 0;
 						return;
 			};
 	}
 	if( NetMode == 1){
 			ech = gConnect( "127.0.0.1" , 50000 ,  0, 0 );
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
+			
+					_ASSERT( ech != 1 );//エラーダイアログを表示
 						SwitchNetWork = 0;
 						return;
 			};
@@ -42,8 +42,8 @@ NetPlay::NetPlay( int NetMode){
 
 	/*接続台数を制限する*/
 	/*ech = gSetMaxPlayers( 16);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
+	
+			_ASSERT( ech != 1 );//エラーダイアログを表示
 				return;
 	};
 
@@ -58,10 +58,7 @@ NetPlay::~NetPlay(){
 	int ech = 0;//エラーチェック用の変数宣言
 
 	//ech = gDisConnect();
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-				return;
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 	return;
 }
@@ -81,7 +78,7 @@ int NetPlay::NetMessage(){
 					/*データが届いているかチェックします*/
 			//		DataOnSys = gCheckBufferText();
 					if(DataOnSys < 0){//エラーチェック
-								_ASSERT(0);//エラーダイアログを表示
+							_ASSERT( ech != 1 );//エラーダイアログを表示
 								return 1;
 					}
 					else if( DataOnSys == 0){//受信データがなしなら
@@ -92,7 +89,7 @@ int NetPlay::NetMessage(){
 					if( 0 < DataOnSys ){
 		//					ech = gGetText( Mes, 256);
 							if(ech < 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
+									_ASSERT( ech != 1 );//エラーダイアログを表示
 										return 1;
 							};
 
@@ -102,7 +99,7 @@ int NetPlay::NetMessage(){
 
 //									ech = gGetText( Mes, 256);//DPNIDを取得します
 									if(ech < 0){//エラーチェック
-												_ASSERT(0);//エラーダイアログを表示
+											_ASSERT( ech != 1 );//エラーダイアログを表示
 												return 1;
 									};
 
@@ -123,7 +120,7 @@ int NetPlay::NetMessage(){
 
 //									ech = gGetText( Mes, 256);//DPNIDを取得します
 									if(ech < 0){//エラーチェック
-												_ASSERT(0);//エラーダイアログを表示
+											_ASSERT( ech != 1 );//エラーダイアログを表示
 												return 1;
 									};
 

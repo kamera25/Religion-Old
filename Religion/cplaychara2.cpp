@@ -218,39 +218,25 @@ int PlayerChara::MoveChara(){
 
 					/*ダミーモデルの座標に設定*/
 					ech = E3DRotateInit ( Get_DummyModel());
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DGetPos( Get_BodyModel(), &PCPos);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DSetPos( Get_DummyModel(), PCPos);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DRotateY( Get_DummyModel(), WantDeg);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DPosForward( Get_DummyModel(), (float)Get_MoveSpeed() + FixedMoveSpeed);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DGetPos( Get_DummyModel(), &SubPos);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DSetPos( Get_BodyModel(), SubPos);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 	}
 	else{//減速をさせなければならないなら
 					if( Get_AirOnPC() == 0){//空中にいるなら

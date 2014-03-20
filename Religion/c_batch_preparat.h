@@ -12,7 +12,7 @@ class Weapon;
 
 
 /*描画準備で必要な変数などを宣言するクラス*/
-class Batch_Preparat{	
+class Batch_Render{	
 
 private:
 
@@ -63,9 +63,9 @@ public:
 
 
 	//関数の宣言
-	Batch_Preparat( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, 
+	Batch_Render( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, 
 					const Camera *Cam);//コンストラクタ、初期化をします
-	~Batch_Preparat();//デストラクタ、スプライトを削除します
+	~Batch_Render();//デストラクタ、スプライトを削除します
 	int BatchRender( const int SceneEndFlg) ;//今までのデータをまとめて描画するための関数
 	int BatchChkInView();//今までのデータをまとめて視野角内チェックするための関数
 	int BacthGunTrade( int Wp_equipment);//武器を交換した後、チェックと描画するモデルを変更する関数
@@ -78,8 +78,8 @@ public:
 	int BatchEnableBumpMap( const int BumpFlug);//バンプマップを有効/無効にします
 	int BatchGetBumpMapStatus() const;//バンプマップ変数の取得を行ないます
 	int BatchCreateShadow();// 影を作成するために関係する処理を行ないます
+	int Batch_Present();// バックバッファの内容を、プライマリバッファに転送します
 
 
-	/*デコンストラクタが必要！！！*/
 
 };

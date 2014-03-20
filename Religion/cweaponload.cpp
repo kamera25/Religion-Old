@@ -17,45 +17,36 @@ int Weapon::GunLoad( const int Selectkind, const int Wpkind, const int Wpno){
 	char loadname[256] = "";
 
 	/*すでに銃を取得しており、その銃データに上書きするなら*/
-	if( WeaponModel[Selectkind] != 0){//選択中のカテゴリにデータがあるのなら
+	if( WeaponModel[Selectkind] != -1){//選択中のカテゴリにデータがあるのなら
 				ech = E3DDestroyHandlerSet( WeaponModel[Selectkind]);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				ech = E3DDestroySprite( WeaponSprite[Selectkind]);//スプライトを削除します
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 	}
 
 
 	/*銃のモデルのロード*/
-	if(Wpkind == 1) GunLoad_Hand( Selectkind, Wpno);//ハンドガン系
-	if(Wpkind == 3) GunLoad_Shot( Selectkind, Wpno);//ショットガン系
-	if(Wpkind == 4) GunLoad_Assault( Selectkind, Wpno);//アサルトライフル系
-	if(Wpkind == 5) GunLoad_Machine( Selectkind, Wpno);//マシンガン系
-	if(Wpkind == 6) GunLoad_Rifle( Selectkind, Wpno);//ライフル系
-	if(Wpkind == 7) GunLoad_Grenade( Selectkind, Wpno);//グレネード系
+	if(Wpkind == 0) GunLoad_Hand( Selectkind, Wpno);//ハンドガン系
+	if(Wpkind == 2) GunLoad_Shot( Selectkind, Wpno);//ショットガン系
+	if(Wpkind == 3) GunLoad_Assault( Selectkind, Wpno);//アサルトライフル系
+	if(Wpkind == 4) GunLoad_Machine( Selectkind, Wpno);//マシンガン系
+	if(Wpkind == 5) GunLoad_Rifle( Selectkind, Wpno);//ライフル系
+	if(Wpkind == 6) GunLoad_Grenade( Selectkind, Wpno);//グレネード系
+	if(Wpkind == 7) WpLoad_Support( Selectkind, Wpno);//サポート系
 
 	//エフェクトビルボードをロードします
 	wsprintf( loadname, "%s\\data\\img\\effect\\explosion1.png", System::path);
 	ech = E3DCreateBillboard ( loadname, 96, 96, 0, 1, 1, &WeaponEffect[Selectkind][0]);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	//エフェクトを予め透過しておく
 	ech = E3DSetBillboardAlpha( WeaponEffect[Selectkind][0], 0.0f);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	//フラッシュの光源を作る(グレネードは爆発光)
 	ech = E3DCreateLight( &WeaponMuzzleLight[Selectkind]);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	/*武器データのロードをする*/
@@ -67,675 +58,201 @@ int Weapon::GunLoad( const int Selectkind, const int Wpkind, const int Wpno){
 /*武器に関するデータを格納する関数*/
 int Weapon::GunLoad_Data( const int Selectkind, const int Wpkind, const int Wpno){
 
-	//一時的な変数（モデル格納等など）
-	int ammo = 0;//弾薬の最大値
-	int mag = 0;//マガジンの最大値
-	int distance = 0;//射程距離の最大値
-	int attack = 0;//武器の攻撃値
-	int rapid_fire = 0;//連射可能銃か
-	int ammokind = 0;// 弾薬の種類
-	int accuracy = 0;// 武器の精度
-	double firecounter = 0.0;//連射の数値
+	/* 変数の宣言・初期化 */
+
+	// 定数列挙  "銃弾種類"
+	const int _45ACP = 0;// .45ACP
+	const int _22L = 1;//  .22L
+	const int _9MM = 2;//  .9mm
+	const int _5_56MM = 3;// 5.56mm
+	const int _5_75MM = 4;// 5.75mm 
+	const int _12GAGE = 5;// 12GAGE
+	const int _SLUG_SHOT = 6;// Slug Shot
+	const int _10GAGE = 7;// 10GAGE
+	const int _5_45MM = 8;// 5.45mm
+	const int _7_62MM = 9;// 7.62mm
+	const int _50BMG = 10;// .50BMG
+	const int _40MM = 11;//  40mm
+	const int _HEAT = 12;//  HEAT
+
+
+	// 定数列挙  "銃精度"
+	const int S_PULS = 0;	// S+
+	const int S = 1;		// S
+	const int S_MINUS = 2;	// S-
+
+	const int A_PULS = 3;	// A+
+	const int A = 4;		// A
+	const int A_MINUS = 5;	// A-
+
+	const int B_PULS = 6;	// B+
+	const int B = 7;		// B
+	const int B_MINUS = 8;	// B-
+
+	const int C_PULS = 9;	// C+
+	const int C = 10;		// C
+	const int C_MINUS = 11;	// C-
+
+	// 定数列挙  "連射可能・不可"
+	const int Enable_Rapid_Fire = 0;// 可能
+	const int Disable_Rapid_Fire = 1;// 不可能
+
+
+	// ここまで//
+
+	const int GunData[7][6][7] = {
+
+		//品目：使用弾薬, 威力, 射程距離, 精度, 装弾数, マガジン数,  連射できる銃か
+		
+		// ハンドガン
+		{	 
+			{ _45ACP, 100, 150,	B,		  7,  8, Disable_Rapid_Fire},// M1911
+			{ _45ACP,  80, 105,	B,		  5, 10, Disable_Rapid_Fire},// Offficers
+			{ _22L,   45,   90,	A,		 50,  4, Enable_Rapid_Fire},// Glock95
+			{ _9MM,   80,  180,	A,		 15,  3, Disable_Rapid_Fire},// M92F
+			{ _9MM,   80,  150, S_MINUS, 15,  3, Disable_Rapid_Fire},// Cz-75
+			{ _9MM,   80,  230,	A,		 15,  3, Disable_Rapid_Fire} // sauerP226
+		},
+
+		// サブマシンガン
+		{
+			{ _9MM,     70,  120,	A,		 30,  5, Enable_Rapid_Fire}, // TMP
+			{ _45ACP,   70,   75,	B,		 20,  5, Enable_Rapid_Fire}, // INGLAM
+			{ _45ACP,   90,  120,	S_MINUS, 25,  4, Enable_Rapid_Fire}, // UMP
+			{ _5_56MM, 120,  130,	C_PULS,	 30,  3, Enable_Rapid_Fire}, // PATORIOT
+			{ _9MM,     70,  150,	S_PULS,  15,  8, Enable_Rapid_Fire}, // MP5kruz
+			{ _5_75MM,  80,  110,	B_MINUS, 50,  2, Enable_Rapid_Fire} // P90
+		},
+
+		// ショットガン
+		{
+			{ _12GAGE,     50,  60,	 C,		  5,  4, Disable_Rapid_Fire}, // M31
+			{ _12GAGE,     40,  90,	 C_PULS,  7,  3, Disable_Rapid_Fire}, // Benel M3
+			{ _SLUG_SHOT, 280,  270, B_MINUS, 7,  3, Disable_Rapid_Fire}, // SPAS-12
+			{ _10GAGE,     58,  135, B,		  2,  5, Disable_Rapid_Fire}, // Gold Stalker
+			{ _12GAGE,     35,  45,	 C,		  7,  3, Disable_Rapid_Fire} // M870
+
+		},
+
+		// アサルトライフル
+		{
+			{ _5_56MM, 140,  320, A,	   30,  5, Enable_Rapid_Fire}, // M4 A5
+			{ _5_45MM, 160,  380, B,	   30,  4, Enable_Rapid_Fire}, // AK-74
+			{ _7_62MM, 200,  410, B_MINUS, 20,  5, Enable_Rapid_Fire}, // M14
+			{ _5_56MM, 140,  340, A_MINUS, 30,  5, Enable_Rapid_Fire}, // G36
+			{ _5_56MM, 140,  340, S_PULS,  30,  5, Enable_Rapid_Fire} // HK 416
+		},
+
+		// マシンガン
+		{
+			{ _5_56MM,  90,  440, C_MINUS, 150,  2, Enable_Rapid_Fire}, // MINIMI
+			{ _5_56MM,  90,  360, C_PULS,	90,  3, Enable_Rapid_Fire}, // M4 machine
+			{ _7_62MM, 110,  400, C,		75,  4, Enable_Rapid_Fire} // RPK
+		},
+
+		// ライフル
+		{
+			{ _7_62MM, 300,  500, A,	   5, 10, Disable_Rapid_Fire}, // M700
+			{ _5_56MM, 140,  420, B_PULS, 20,  4, Disable_Rapid_Fire}, // SPR Mk12
+			{ _7_62MM, 280,  440, B,	  10,  4, Disable_Rapid_Fire}, // SVD
+			{ _7_62MM, 260,  460, B_PULS,  5,  8, Disable_Rapid_Fire}, // PSG-1
+			{ _50BMG,  850,  500, C,	   5,  3, Disable_Rapid_Fire} // M82
+		},
+
+		// グレネード
+		{
+			{ _40MM, 350,  80,  A,	      6,   2, Disable_Rapid_Fire}, // MGL
+			{ _40MM, 400,  100, A,	      1,  15, Disable_Rapid_Fire}, // M79
+			{ _HEAT, 280,  180, C,		  1,   4, Disable_Rapid_Fire}, // RPG-7
+			{ _HEAT, 340,  140, B_MINUS,  4,   2, Disable_Rapid_Fire} // M202A1
+		}
+	};
+
+	const double GunDoubleData[7][6][2] = {
+
+		//品目：連射時間, リロード時間
+		
+		// ハンドガン
+		{	 
+			{ 2.0, 1.0},// M1911
+			{ 2.4, 1.0},// Offficers
+			{ 4.3, 0.8},// Glock95
+			{ 2.8, 1.3},// M92F
+			{ 3.2, 1.3},// Cz-75
+			{ 2.4, 1.7} // sauerP226
+		},
+
+		// サブマシンガン
+		{
+			{ 15.0, 2.0}, // TMP
+			{ 20.0, 1.4}, // INGLAM
+			{ 11.0, 1.3}, // UMP
+			{ 13.0, 1.2}, // PATORIOT
+			{ 15.0, 1.0}, // MP5kruz
+			{ 15.0, 2.8} // P90
+		},
+
+		// ショットガン
+		{
+			{ 1.0,     1.0}, // M31
+			{ 1.8,     1.8}, // Benel M3
+			{ 1.5, 1.8}, // SPAS-12
+			{ 2.0,     2.7}, // Gold Stalker
+			{ 1.0,     1.0} // M870
+
+		},
+
+		// アサルトライフル
+		{
+			{ 13.0, 1.2}, // M4 A5
+			{ 10.0, 1.1}, // AK-74
+			{ 12.5, 1.3}, // M14
+			{ 12.5, 1.5}, // G36
+			{ 11.0, 1.3} // HK 416
+		},
+
+		// マシンガン
+		{
+			{ 10.0,  4.0}, // MINIMI
+			{ 13.0,  3.4}, // M4 machine
+			{ 10.0, 3.7} // RPK
+		},
+
+		// ライフル
+		{
+			{ 1.0, 2.0}, // M4 A5
+			{ 2.0, 2.4}, // AK-74
+			{ 1.8, 1.9}, // M14
+			{ 2.0, 2.7}, // G36
+			{ 0.5, 3.2} // HK 416
+		},
+
+		// グレネード
+		{
+			{ 1.0, 5.7}, // MGL
+			{  -1, 2.4}, // M79
+			{  -1, 4.5}, // RPG-7
+			{ 1.4, 6.4} // M202A1
+		}
+	};
 
 
-	switch(Wpkind){
 
-			/* ハンドガン関係 */
-		    case 1:{
-					switch(Wpno){
-							case 0:{// M1911のデータを格納します。
-									ammokind = 0;
-									attack = 100;
-									firecounter = 2.0;
-									distance = 100;
-									accuracy = 5;
-									ammo = 7;
-									mag = 8;
-
-									rapid_fire = 0;
-
-									break;
-						    }
-							case 1:{// Offisersのデータを格納します。
-									ammokind = 0;
-									attack = 80;
-									firecounter = 2.4;
-									distance = 70;
-									accuracy = 5;
-									ammo = 5;
-									mag = 10;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 2:{// Glock95のデータを格納します。
-									ammokind = 1;
-									attack = 45;
-									firecounter = 4.3;
-									distance = 60;
-									accuracy = 3;
-									ammo = 50;
-									mag = 4;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 3:{// M92FSのデータを格納します。
-									ammokind = 2;
-									attack = 80;
-									firecounter = 2.8;
-									distance = 120;
-									accuracy = 3;
-									ammo = 15;
-									mag = 3;
-
-									rapid_fire = 0;
-
-								break;
-							}
-							case 4:{// Cz-95のデータを格納します。
-									ammokind = 2;
-									attack = 80;
-									firecounter = 3.2;
-									distance = 100;
-									accuracy = 1;// ホントはA-
-									ammo = 15;
-									mag = 3;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 5:{// PYTHONのデータを格納します。
-									ammokind = 6;
-									attack = 150;
-									firecounter = 1.6;
-									distance = 125;
-									accuracy = 7;
-									ammo = 6;
-									mag = 5;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 6:{// sauerP226のデータを格納します。
-									ammokind = 2;
-									attack = 80;
-									firecounter = 2.4;
-									distance = 140;
-									accuracy = 3;
-									ammo = 15;
-									mag = 3;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 7:{// LugerP08のデータを格納します。
-									ammokind = 2;
-									attack = 80;
-									firecounter = 3.5;
-									distance = 55;
-									accuracy = 6;
-									ammo = 32;
-									mag = 3;
-
-									rapid_fire = 0;
-									
-									break;
-							}
-							case 8:{// USP.45のデータを格納します。
-									ammokind = 0;
-									attack = 80;
-									firecounter = 2.8;
-									distance = 80;
-									accuracy = 5;
-									ammo = 13;
-									mag = 3;
-
-									rapid_fire = 0;
-
-									break;
-							}
-					}
-					break;
-			}
-
-			/* サブマシンガン関係 */
-			case 2:{
-					switch(Wpno){
-							case 0:{// TMPのデータを格納します。
-									ammokind = 2;
-									attack = 70;
-									firecounter = 15.0;
-									distance = 80;
-									accuracy = 3;// ホントはA-
-									ammo = 30;
-									mag = 5;
-
-									rapid_fire = 1;
-
-									break;
-						    }
-							case 1:{// INGLAMのデータを格納します。
-									ammokind = 0;
-									attack = 70;
-									firecounter = 20.0;
-									distance = 50;
-									accuracy = 6;
-									ammo = 20;
-									mag = 5;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 2:{// SPECTRE M4のデータを格納します。
-									ammokind = 2;
-									attack = 70;
-									firecounter = 14.0;
-									distance = 75;
-									accuracy = 3;
-									ammo = 50;
-									mag = 3;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 3:{// UMPのデータを格納します。
-									ammokind = 0;
-									attack = 90;
-									firecounter = 11.0;
-									distance = 80;
-									accuracy = 2;
-									ammo = 25;
-									mag = 4;
-
-									rapid_fire = 1;
-
-								break;
-							}
-							case 4:{// PATIRIOTのデータを格納します。
-									ammokind = 9;
-									attack = 120;
-									firecounter =13.0 ;
-									distance = 85;
-									accuracy = 8;
-									ammo = 30;
-									mag = 3;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 5:{// MP5 kruzのデータを格納します。
-									ammokind = 2;
-									attack = 70;
-									firecounter = 15.0;
-									distance = 100;
-									accuracy = 1;
-									ammo = 15;
-									mag = 8;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 6:{// P90のデータを格納します。
-									ammokind = 3;
-									attack = 80;
-									firecounter = 15.0;
-									distance = 70;
-									accuracy = 7;
-									ammo = 50;
-									mag = 2;
-
-									rapid_fire = 1;
-
-									break;
-							}
-					}
-					break;
-			}
-			
-				  
-
-			/* ショットガン関係 */
-		    case 3:{
-					switch(Wpno){
-							case 0:{// M1897のデータを格納します。
-									ammokind = 7;
-									attack = 40;// *9
-									firecounter = 1.0;
-									distance = 20;
-									accuracy = 8;
-									ammo = 5;
-									mag = 15;
-
-									rapid_fire = 0;
-
-									break;
-						    }
-							case 1:{// Benel M3のデータを格納します。
-									ammokind = 7;
-									attack = 40;// *9
-									firecounter = 1.8;
-									distance = 30;
-									accuracy = 7;
-									ammo = 7;
-									mag = 14;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 2:{// SPAS-12のデータを格納します。
-									ammokind = 4;
-									attack = 200;
-									firecounter = 1.5;
-									distance = 120;
-									accuracy = 6;
-									ammo = 7;
-									mag = 14;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 3:{// Gold Stalkerのデータを格納します。
-									ammokind = 8;
-									attack = 50;// *9
-									firecounter = 1.5;
-									distance = 50;
-									accuracy = 5;
-									ammo = 2;
-									mag = 8;
-
-									rapid_fire = 0;
-
-								break;
-							}
-							case 4:{// USAS12のデータを格納します。
-									ammokind = 7;
-									attack = 15;// *9
-									firecounter = 2.2;
-									distance = 20;
-									accuracy = 9;
-									ammo = 12;
-									mag = 2;
-
-									rapid_fire = 0;
-
-									break;
-							}
-					}
-					break;
-		    }
-
-		    /* アサルトライフル関係 */
-		    case 4:{
-					switch(Wpno){
-							case 0:{// M4のデータを格納します。
-									ammokind = 9;
-									attack = 140;
-									firecounter = 13.0;
-									distance = 160;
-									accuracy = 3;
-									ammo = 30;
-									mag = 5;
-
-									rapid_fire = 1;
-
-									break;
-						    }
-							case 1:{// AK-101のデータを格納します。
-									ammokind = 5;
-									attack = 160;
-									firecounter = 10;
-									distance = 190;
-									accuracy = 5;
-									ammo = 30;
-									mag = 4;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 2:{// G11のデータを格納します。
-									ammokind = 10;
-									attack = 150;
-									firecounter = 33.0;
-									distance = 160;
-									accuracy = 4;
-									ammo = 45;
-									mag = 4;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 3:{// M14のデータを格納します。
-									ammokind = 11;
-									attack = 200;
-									firecounter = 12.5;
-									distance = 210;
-									accuracy = 6;
-									ammo = 20;
-									mag = 5;
-
-									rapid_fire = 1;
-
-								break;
-							}
-							case 4:{// G36のデータを格納します。
-									ammokind = 9;
-									attack = 140;
-									firecounter = 12.5;
-									distance = 170;
-									accuracy = 3;// ホントはA-
-									ammo = 30;
-									mag = 5;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 5:{// Taborのデータを格納します。
-									ammokind = 9;
-									attack = 140;
-									firecounter = 12.5;
-									distance = 150;
-									accuracy = 2;
-									ammo = 30;
-									mag = 5;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 6:{// HK 416のデータを格納します。
-									ammokind = 9;
-									attack = 140;
-									firecounter = 11.0;
-									distance = 170;
-									accuracy = 0;
-									ammo = 30;
-									mag = 5;
-
-									rapid_fire = 1;
-
-									break;
-							}
-					}
-					break;
-			}
-
-			/* マシンガン関係 */
-		    case 5:{
-					switch(Wpno){
-							case 0:{// BAR A2のデータを格納します。
-									ammokind = 11;
-									attack = 120;
-									firecounter = 5.0;
-									distance = 160;
-									accuracy = 7;
-									ammo = 20;
-									mag = 8;
-
-									rapid_fire = 1;
-
-									break;
-						    }
-							case 1:{// MINIMIのデータを格納します。
-									ammokind = 9;
-									attack = 90;
-									firecounter = 10.0;
-									distance = 220;
-									accuracy = 9;
-									ammo = 150;
-									mag = 2;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 2:{// M4machineのデータを格納します。
-									ammokind = 9;
-									attack = 90;
-									firecounter = 13.0;
-									distance = 180;
-									accuracy = 7;
-									ammo = 90;
-									mag = 3;
-
-									rapid_fire = 1;
-
-									break;
-							}
-							case 3:{// RPKのデータを格納します。
-									ammokind = 11;
-									attack = 110;
-									firecounter = 10.0;
-									distance = 200;
-									accuracy = 8;
-									ammo = 75;
-									mag = 4;
-
-									rapid_fire = 1;
-
-								break;
-							}
-					}
-					break;
-			}
-
-			/* ライフル関係 */
-		    case 6:{
-					switch(Wpno){
-							case 0:{// M700のデータを格納します。
-									ammokind = 11;
-									attack = 300;
-									firecounter = 1.0;
-									distance = 250;
-									accuracy = 0;
-									ammo = 5;
-									mag = 10;
-
-									rapid_fire = 0;
-
-									break;
-						    }
-							case 1:{// SR-25のデータを格納します。
-									ammokind = 9;
-									attack = 250;
-									firecounter = 2.0;
-									distance = 210;
-									accuracy = 2;
-									ammo = 10;
-									mag = 4;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 2:{// SVDのデータを格納します。
-									ammokind = 11;
-									attack = 280;
-									firecounter = 1.8;
-									distance = 220;
-									accuracy = 1;
-									ammo = 10;
-									mag = 4;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 3:{// PSG-1のデータを格納します。
-									ammokind = 11;
-									attack = 260;
-									firecounter = 2.0;
-									distance = 130;
-									accuracy = 2;
-									ammo = 5;
-									mag = 6;
-
-									rapid_fire = 0;
-
-								break;
-							}
-							case 4:{// X BOWのデータを格納します。
-									ammokind = 12;
-									attack = 250;
-									firecounter = 0.8;
-									distance = 130;
-									accuracy = NULL -1;// 異常
-									ammo = 1;
-									mag = 50;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 5:{// M82のデータを格納します。
-									ammokind = 15;
-									attack = 850;
-									firecounter = 0.5;
-									distance = 250;
-									accuracy = 3;
-									ammo = 5;
-									mag = 3;
-
-									rapid_fire = 0;
-
-									break;
-							}
-					}
-					break;
-			}
-			
-
-			/* グレネード関係 */
-		    case 7:{
-					switch(Wpno){
-							case 0:{// MGLのデータを格納します。
-									ammokind = 13;
-									attack = 350;
-									firecounter = 1.0;
-									distance = 80;
-									accuracy = 3;
-									ammo = 6;
-									mag = 12;
-
-									rapid_fire = 0;
-
-									break;
-						    }
-							case 1:{// M79のデータを格納します。
-									ammokind = 13;
-									attack = 400;
-									firecounter = NULL;//異常
-									distance = 100;
-									accuracy = 3;
-									ammo = NULL;//異常
-									mag = 18;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 2:{// RPG-7のデータを格納します。
-									ammokind = 14;
-									attack = 380;
-									firecounter = 1.0;
-									distance = 180;
-									accuracy = 8;
-									ammo = 1;
-									mag = 5;
-
-									rapid_fire = 0;
-
-									break;
-							}
-							case 3:{// Panzherのデータを格納します。
-									ammokind = 14;
-									attack = 410;
-									firecounter = NULL;//異常
-									distance = 160;
-									accuracy = 6;
-									ammo = 1;
-									mag = 5;
-
-									rapid_fire = 0;
-
-								break;
-							}
-							case 4:{// M202A1のデータを格納します。
-									ammokind = 14;
-									attack = 340;
-									firecounter = 1.4;
-									distance = 140;
-									accuracy = 6;
-									ammo = 4;
-									mag = 8;
-
-									rapid_fire = 0;
-
-									break;
-							}
-					}
-					break;
-		    }
-
-			/* シールド関係 */
-		    case 8:{
-					switch(Wpno){
-							case 0:{// shield + sauerのデータを格納します。
-									ammokind = 2;
-									attack = 80;
-									firecounter = 2.4;
-									distance = 140;
-									accuracy = 5;
-									ammo = 15;
-									mag = 3;
-
-									rapid_fire = 0;
-
-									break;
-						    }
-							case 1:{// shield + TMPのデータを格納します。
-									ammokind = 2;
-									attack = 80;
-									firecounter = 15;
-									distance = 80;
-									accuracy = 6;
-									ammo = 20;
-									mag = 2;
-
-									rapid_fire = 1;
-
-									break;
-							}
-					break;
-					}
-			}
-	}
 
 
 	WeaponData[Selectkind][0] = Wpkind;
 	WeaponData[Selectkind][1] = Wpno;
-	WeaponData[Selectkind][2] = ammo;
-	WeaponData[Selectkind][3] = mag;
-	WeaponData[Selectkind][4] = distance;
-	WeaponData[Selectkind][5] = attack;
-	WeaponData[Selectkind][6] = int( 30 / firecounter) ;
-	WeaponData[Selectkind][7] = rapid_fire;
-	WeaponData[Selectkind][8] = ammokind;
-	WeaponData[Selectkind][9] = accuracy;
+
+	WeaponData[Selectkind][2] = GunData[Wpkind][Wpno][4];
+	WeaponData[Selectkind][3] = GunData[Wpkind][Wpno][5];
+	WeaponData[Selectkind][4] = GunData[Wpkind][Wpno][2];
+	WeaponData[Selectkind][5] = GunData[Wpkind][Wpno][1];
+
+	WeaponData[Selectkind][6] = int( 30 / GunDoubleData[Wpkind][Wpno][0] );
+	WeaponData[Selectkind][7] = int( 30 * GunDoubleData[Wpkind][Wpno][1] );
+
+	WeaponData[Selectkind][8] = GunData[Wpkind][Wpno][0];
+	WeaponData[Selectkind][9] = GunData[Wpkind][Wpno][3];
 
 	return 0;
 }

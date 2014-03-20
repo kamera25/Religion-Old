@@ -23,15 +23,11 @@ int Weapon::PlayWeaponSound( const int Wp_equipment, const int PlayNo, const flo
 
 	/*音の位置と速さを指定します*/
 	ech = E3DSet3DSoundMovement( WeaponSoundEfeect[Wp_equipment][PlayNo], MuzzlePos, MuzzleFlashSound);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*発射音を鳴らします*/
 	ech = E3DPlaySound( WeaponSoundEfeect[Wp_equipment][PlayNo], 0, 0, 0);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	return 0;
@@ -67,32 +63,24 @@ int Weapon::TreatmentWhileGame( const int Wp_equipment){
 
 			/*武器に新しいモーションを当てる*/
 			ech = E3DSetNewPoseML( WeaponModel[Wp_equipment]);
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 
 
 			if( WeaponBone[Wp_equipment][0] != 0){
 				/*銃の置くボーンの座標を求めます*/
 				ech = E3DGetCurrentBonePos( WeaponModel[Wp_equipment], WeaponBone[Wp_equipment][0], 1, &MuzzlePos);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 			}
 
 			/*重厚の位置に爆発エフェクトを置きます*/
 			ech = E3DSetBillboardPos( WeaponEffect[Wp_equipment][0], MuzzlePos); 
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 
 			if( WeaponFireFlag == 1){
 
 						/*ビルボードを回転させます*/
 						ech = E3DRotateBillboard( WeaponEffect[Wp_equipment][0], float( rand() % 360), 1);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						//位置を代入
 						MuzzlePosArray[0] = MuzzlePos.x;
@@ -175,29 +163,21 @@ int Weapon::TreatmentWhileGame( const int Wp_equipment){
 
 				/*透明度を変更する*/
 				ech = E3DSetBillboardAlpha( WeaponEffect[Wp_equipment][0], MuzzleFlashAlpha);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				/*ライトを付ける*/
 				if( MuzzleFlashConter != 1){
 							ech = E3DSetPointLight( WeaponMuzzleLight[Wp_equipment], MuzzlePos, 700.0f, MuzzleFlashColor);
-							if(ech != 0 ){//エラーチェック
-										_ASSERT( 0 );//エラーダイアログ
-							};
+							_ASSERT( ech != 1 );//エラーチェック
 				}
 				else{//ライト消灯のお時間です
 							ech = E3DSetPointLight( WeaponMuzzleLight[Wp_equipment], MuzzlePos, 0.0f, MuzzleFlashColor);
-							if(ech != 0 ){//エラーチェック
-										_ASSERT( 0 );//エラーダイアログ
-							};			
+							_ASSERT( ech != 1 );//エラーチェック			
 				}
 
 
 				/*爆発のエフェクトを(すべてのビルボード)の描画*/
 				ech = E3DRenderBillboard( System::scid1, 0);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				/*フラッシュカウントをひとつ下げる*/
 				MuzzleFlashConter = MuzzleFlashConter -1;
@@ -205,9 +185,7 @@ int Weapon::TreatmentWhileGame( const int Wp_equipment){
 				/*透明度を変更する*/
 				if( MuzzleFlashConter == 0){//カウントが0になったら
 							ech = E3DSetBillboardAlpha( WeaponEffect[Wp_equipment][0], 0.0f);
-							if(ech != 0 ){//エラーチェック
-										_ASSERT( 0 );//エラーダイアログ
-							};	
+							_ASSERT( ech != 1 );//エラーチェック	
 				}
 			}
 
@@ -263,18 +241,14 @@ int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Sta
 					/*通常モード( モデル[0]から取得する )*/
 					if( Stg->Stage_GunTarget == 0){//壁データより敵が手前にいたら攻撃可能なので、ここでカーソル上のステージを取得しています
 							ech = E3DPickFace( System::scid1, Stg->Stage_hsid[0], ScreenPos, NowWpRange, &GarbageInt, &GarbageInt, &GarbageD3DVec, &GarbageD3DVec, &Wall_HitDistance);
-							if(ech != 0 ){//エラーチェック
-										_ASSERT( 0 );//エラーダイアログ
-							};
+							_ASSERT( ech != 1 );//エラーチェック
 					}
 
 					/*当たり判定中にいる敵をチェックします*/
 					for( int i=0; i < Ene->EnemyNum; i++){//エネミーの数だけ
 
 										ech = E3DPickFace( System::scid1, Ene->Ene[i]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
-										if(ech != 0 ){//エラーチェック
-													_ASSERT( 0 );//エラーダイアログ
-										};
+										_ASSERT( ech != 1 );//エラーチェック
 										if( (EneHitResult != 0) && ( EneDistance < EneNearDistance) ){
 													EneNearDistance = EneDistance;//一番近い敵の距離に更新します
 													NearEnemyID = i;//一番近いモデル番号を入れます

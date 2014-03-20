@@ -16,11 +16,7 @@ private:
 
 	//変数の宣言
 	static int UpdataSoundflag;//音声情報を更新するかのフラグ
-	static int keydata1[30][2];//キーのデータを入れている配列変数の一つ目
-	static int keydata2[30][2];//キーのデータを入れている配列変数の二つ目
 	static int keyin[20];//キーが押されているかの情報配列
-	static int keyBox1[30][2];//動的に取得したキー情報を入れる配列
-	static int keyBox2[30][2];
 	static int scid2;// フェードアウトで使うスワップチェイン
 
 	HINSTANCE hInst;//ハンドルインスタンスを格納する。

@@ -19,24 +19,21 @@ PlayerChara::~PlayerChara(){
 
 	//キャラクターモデルを削除します
 	E3DDestroyHandlerSet( Get_BodyModel());
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	//1つ目のキャラクターダミーモデルを削除します
 	E3DDestroyHandlerSet( Get_DummyModel());
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
+
+	//スキル格納変数の削除
+	Delete_Skill();
 
 	/**/
 	//クォータニオンを削除します
 	/**/	
 	for(int i = 0; i<4; i++){
 				ech = E3DDestroyQ( Get_Quaternion(i));
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 	}
 
 

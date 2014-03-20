@@ -19,45 +19,36 @@ OptionMenu::OptionMenu(){
 	/*スプライトをロードします*/
 	wsprintf( loadname, "%s\\data\\img\\menu\\menubg.png", System::path);//メニュー画面での背景をロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[0]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\menuber.png", System::path);//メニュー画面での十字バーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[1]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\menu_up_ber.png", System::path);//メニュー画面での上部白いバーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[2]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 
 
 	/*メニューで使う文字IDを設定します。*/
 	ech = E3DCreateFont( 35, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[0]);//大文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DCreateFont( 30, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[1]);//中文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DCreateFont( 25, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[2]);//小文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 }
 
 /* オプションメニューの中央処理を行ないます */
-int OptionMenu::MainOptionMenu( Batch_Preparat *BatchPre){
+int OptionMenu::MainOptionMenu( Batch_Render *BatchPre){
 
 	/* 変数の初期化 */
 	int keyin[20];//キー情報配列を作成
@@ -100,19 +91,13 @@ int OptionMenu::MainOptionMenu( Batch_Preparat *BatchPre){
 			// 基礎部品スプライトの部品を描画
 			/* ////////////////////////////// */
 			ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 			
 			ech = E3DRenderSprite( MenuSpriteIDs[1], 1, 1, SpritePos2);//十字バーの位置
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 
 			ech = E3DRenderSprite( MenuSpriteIDs[2], 1, 1, SpritePos3);//上部の白いバー
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 
 			E3DEndSprite();//スプライト描画の終了
 			
@@ -152,9 +137,8 @@ int OptionMenu::MainOptionMenu( Batch_Preparat *BatchPre){
 				((340< System::MousePos.y)&&( System::MousePos.y<370))){
 						TextPos.x = 100;/**/TextPos.y = 320;
 						E3DDrawTextByFontID( System::scid1, TextID[2], TextPos, "オプションを閉じる", SelectColor);//選択されている文字にする
-						if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-						};
+						
+						_ASSERT( ech != 1 );//エラーチェック
 
 						if(keyin[9] == 1){//クリックしたら
 							ExitFlag = 1;//ループ脱出フラグをオンにする。
@@ -165,18 +149,16 @@ int OptionMenu::MainOptionMenu( Batch_Preparat *BatchPre){
 
 					TextPos.x = 300;/**/TextPos.y = 330;
 					E3DDrawTextByFontID( System::scid1, TextID[2], TextPos, "影のレンダリング処理(Quality,ON/OFF)", NormalColor);//説明が書かれている文字列を表示する
-					if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-					};
+					
+					_ASSERT( ech != 1 );//エラーチェック
 			}
 			if((100< System::MousePos.x)&&(System::MousePos.x<320) &&// マウス座標が「バンプマップ」らへんの上なら
 				((200< System::MousePos.y)&&( System::MousePos.y<300))){
 
 					TextPos.x = 295;/**/TextPos.y = 330;
 					E3DDrawTextByFontID( System::scid1, TextID[2], TextPos, "マップがデコボコぽく見える処理(ON/OFF)", NormalColor);//説明が書かれている文字列を表示する
-					if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-					};
+					
+					_ASSERT( ech != 1 );//エラーチェック
 			}
 
 			/* //////////////// */
@@ -251,9 +233,8 @@ int OptionMenu::MainOptionMenu( Batch_Preparat *BatchPre){
 			/*ここまでで画面描画準備終了*/
 			E3DEndScene();
 			ech = E3DPresent( System::scid1);
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			
+					_ASSERT( ech != 1 );//エラーチェック
 
 			/* もしゲームループを抜けてOKなら */
 			if( ExitFlag == 1 ){
@@ -281,18 +262,16 @@ OptionMenu::~OptionMenu(){
 	/*スプライトを削除します*/
 	for(int i = 0; i < 3; i++){
 			ech = E3DDestroySprite( MenuSpriteIDs[i]);//メニュー画面での背景を削除します。
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			
+					_ASSERT( ech != 1 );//エラーチェック
 	}
 
 	
 	/*文字IDを削除します*/
 	for(int i = 0; i < 3; i++){
 			ech = E3DDestroyFont( TextID[i]);//大文字
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			
+					_ASSERT( ech != 1 );//エラーチェック
 	}
 
 

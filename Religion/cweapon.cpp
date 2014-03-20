@@ -14,28 +14,28 @@ Weapon::Weapon(){
 
 	/*すべての配列変数の初期化を行います*/
 	for( int i=0; i<3; i++){
-			WeaponModel[i] = 0;
-			WeaponSprite[i] = 0;
-			WeaponMuzzleLight[i] = 0;
+			WeaponModel[i] = -1;
+			WeaponSprite[i] = -1;
+			WeaponMuzzleLight[i] = -1;
 			for( int j=0; j<10; j++){
-					WeaponData[i][j] = 0;
+					WeaponData[i][j] = -1;
 			}
 			for( int j=0; j<6; j++){
-					WeaponData[i][j] = 0;
-					WeaponDataWhileGame[i][j] = 0;
-					WeaponBone[i][j] = 0;	
-					WeaponSoundEfeect[i][j] = 0;
+					WeaponData[i][j] = -1;
+					WeaponDataWhileGame[i][j] = -1;
+					WeaponBone[i][j] = -1;	
+					WeaponSoundEfeect[i][j] = -1;
 			}
 			for( int j=0; j<4; j++){
-				WeaponOtherModel[i][j] = 0;
+				WeaponOtherModel[i][j] = -1;
 			}
 			for( int j=0; j<2; j++){
-				WeaponEffect[i][j] = 0; 
+				WeaponEffect[i][j] = -1; 
 			}
 	}
 
-	WeaponRapidFire = 0;
-	WeaponFireFlag = 0;
+	WeaponRapidFire = -1;
+	WeaponFireFlag = -1;
 
 	return;
 }
@@ -49,28 +49,18 @@ Weapon::~Weapon(){
 	for(int i = 0;i < 3; i++){
 		if( WeaponModel[i] != 0){//選択中のカテゴリにデータがあるのなら
 					ech = E3DDestroyHandlerSet( WeaponModel[i]);//モデルを削除します
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DDestroySprite( WeaponSprite[i]);//スプライトを削除します
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 					ech = E3DDestroyBillboard( WeaponEffect[i][0]);//エフェクトを削除します
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 					ech = E3DDestroyLight( WeaponMuzzleLight[i]);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 					for( int j=0; j<6; j++){
 						if( WeaponSoundEfeect[i][0] != 0){//音声ファイルを消す
 							ech = E3DDestroySound( WeaponSoundEfeect[i][0]);
-							if(ech != 0 ){//エラーチェック
-										_ASSERT( 0 );//エラーダイアログ
-							};
+							_ASSERT( ech != 1 );//エラーチェック
 						}
 					}
 		}	

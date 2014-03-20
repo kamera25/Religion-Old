@@ -10,7 +10,7 @@ Ask::Ask(){
 	/* DLLをロードします */
 	Dll = LoadLibrary("Ask.dll");
 	if( Dll == NULL){
-			_ASSERT(0);//エラーダイアログを表示
+			_ASSERT( 0 );//エラーダイアログを表示
 			Flag = FALSE;
 			return ;
 	}

@@ -21,27 +21,23 @@ OperationMenu::OperationMenu(){
 	/*スプライトをロードします*/
 	wsprintf( loadname, "%s\\data\\img\\opration\\Ops_intro.png", System::path);//メニュー画面での画像をロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &OpsImgIDs[0]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\menu_up_ber.png", System::path);//メニュー画面での上部白いバーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &OpsImgIDs[1]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 	wsprintf( loadname, "%s\\data\\img\\opration\\Ops_sel.png", System::path);//メニュー画面での選択バーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &OpsImgIDs[2]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\menubg2.png", System::path);//メニュー画面での背景をロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &OpsBGImg);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 
 
@@ -49,19 +45,13 @@ OperationMenu::OperationMenu(){
 
 	/*アイテムメニューで使う文字IDを設定します。*/
 	ech = E3DCreateFont( 35, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[0]);//大文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DCreateFont( 25, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[1]);//通常文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DCreateFont( 18, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[2]);//説明文文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	return;
@@ -77,14 +67,12 @@ OperationMenu::~OperationMenu(){
 	/**/
 
 	ech = E3DDestroySprite( OpsImgIDs[0]);//画像を削除します。
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DDestroySprite( OpsBGImg);//背景画像を削除します。
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 
 	return;
@@ -130,28 +118,20 @@ int OperationMenu::InOpsMenu(){
 
 					//背景を描画
 					ech = E3DRenderSprite( OpsBGImg, 640.0/1024.0, 480.0/512.0, MainSpritePos);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					//メニュー上部のバーを描画
 					ech = E3DRenderSprite( OpsImgIDs[1], 1, 1, MenuAboveBerPos);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					//メニュー選択部の画像を描画
 					ech = E3DRenderSprite( OpsImgIDs[2], 250.0/512.0, 360.0/512.0, SelectImgPos);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 
 					//任務の説明画像を描画
 					ech = E3DRenderSprite( OpsImgIDs[0], 250.0/512.0, 250.0/512.0, OpsIntroPos);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 
 				E3DEndSprite();//スプライト描画の終了
@@ -181,9 +161,8 @@ int OperationMenu::InOpsMenu(){
 				TextPos.x = 50;/**/TextPos.y = 75;
 				for( int i=0; i<5; i++ ){
 						E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, MissionName[i], NormalColor);
-						if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-						};
+						
+									_ASSERT( ech != 1 );//エラーチェック
 						TextPos.y = TextPos.y + 35;
 				}
 				/* /////////////////////////////////////////// */
@@ -198,15 +177,13 @@ int OperationMenu::InOpsMenu(){
 
 									/* 選択されていることを示す「緑文字」を表示する*/
 									E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, MissionName[i], SelectColor);
-									if(ech != 0){//エラーチェック
-													_ASSERT(0);//エラーダイアログを表示
-									};
+									
+												_ASSERT( ech != 1 );//エラーチェック
 									/* 選択されているミッション名の詳細な情報を表示する*/
 									TextPos2.x = 360;/**/TextPos2.y = 105;
 									E3DDrawTextByFontID( System::scid1, TextID[2], TextPos2, MissionDetal[i], NormalColor);
-									if(ech != 0){//エラーチェック
-													_ASSERT(0);//エラーダイアログを表示
-									};	
+									
+												_ASSERT( ech != 1 );//エラーチェック	
 									if(keyin[9] == 1){//クリックしたら
 											ExitFlag = 1;//ループ脱出フラグをオンにする。
 											SelectMission = i;//ミッション変数にミッションナンバーを入れる
@@ -225,9 +202,8 @@ int OperationMenu::InOpsMenu(){
 					( 450 < System::MousePos.y)&&( System::MousePos.y < 470)){//マウス座標が「オペレーションを終える」の上なら
 							TextPos.x = 430;/**/TextPos.y = 420;
 							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "オペレーションを終える", SelectColor);//選択されている文字にする
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
+							
+									_ASSERT( ech != 1 );//エラーチェック
 							if(keyin[9] == 1){//クリックしたら
 										ExitFlag = 1;//ループ脱出フラグをオンにする。
 							}
@@ -236,9 +212,8 @@ int OperationMenu::InOpsMenu(){
 
 				E3DEndScene();
 				ech = E3DPresent( System::scid1);
-				if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-				};
+				
+						_ASSERT( ech != 1 );//エラーチェック
 
 
 				if( ExitFlag == 1 ){//もしゲームループを抜けてOKなら

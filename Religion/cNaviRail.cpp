@@ -95,17 +95,11 @@ int NaviRail::PCControlByNaviRail( const int ModelID, int *TargetNaviPointID, in
 	int ech = 0;// エラーチェック変数
 
 	ech = E3DControlByNaviLine( ModelID, NaviLineID, 4, 1, 0, 10.0f, 30.0f, 100.0f, &NewhsidPos, &NewhsidQ, TargetNaviPointID );
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 	ech = E3DSetPos( ModelID, NewhsidPos);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 	ech = E3DSetDirQ( ModelID, NewhsidQ);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	return 0;

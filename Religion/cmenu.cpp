@@ -21,38 +21,27 @@ Menu::Menu(){
 	int ech = 0;//エラーチェック変数
 	char loadname[256] = "";//ロードするファイル名の文字列配列
 
-
 	/*スプライトをロードします*/
 	wsprintf( loadname, "%s\\data\\img\\menu\\menubg.png", System::path);//メニュー画面での背景をロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[0]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\menuber.png", System::path);//メニュー画面での十字バーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[1]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\menu_up_ber.png", System::path);//メニュー画面での上部白いバーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[2]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 
 	/*メニューで使う文字IDを設定します。*/
 	ech = E3DCreateFont( 35, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[0]);//大文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DCreateFont( 25, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[1]);//小文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 }
@@ -66,38 +55,28 @@ Menu::~Menu(){
 
 	/*スプライトを削除します*/
 	ech = E3DDestroySprite( MenuSpriteIDs[0]);//メニュー画面での背景を削除します。
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DDestroySprite( MenuSpriteIDs[1]);//メニュー画面での十字バーを削除します。
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DDestroySprite( MenuSpriteIDs[2]);//メニュー画面での上部白いバーを削除します。
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	/*文字IDを削除します*/
 	ech = E3DDestroyFont( TextID[0]);//大文字
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DDestroyFont( TextID[1]);//小文字
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 }
 
 
 /*ポーズメニュー、コアの部分です。*/
-int Menu::PoseMenu( PlayerChara *PC, Batch_Preparat *BatchPre ){
+int Menu::PoseMenu( PlayerChara *PC, Batch_Render *BatchPre ){
 
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
@@ -142,19 +121,13 @@ int Menu::PoseMenu( PlayerChara *PC, Batch_Preparat *BatchPre ){
 			E3DBeginSprite();//スプライト描画の開始
 					
 			ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 					
 			ech = E3DRenderSprite( MenuSpriteIDs[1], 1, 1, SpritePos2);//十字バーの位置
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 
 			ech = E3DRenderSprite( MenuSpriteIDs[2], 1, 1, SpritePos3);//上部の白いバー
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 
 			E3DEndSprite();//スプライト描画の終了
 			/*
@@ -197,9 +170,7 @@ int Menu::PoseMenu( PlayerChara *PC, Batch_Preparat *BatchPre ){
 							/* 選択されている文字の詳細情報を表示します */
 							TextPosDetail.x = DetailPossitionX[i];/**/TextPosDetail.y = 330;
 							E3DDrawTextByFontID( System::scid1, TextID[1], TextPosDetail, MenuKindDetail[i], NormalColor);//説明が書かれている文字列を表示する
-							if(ech != 0){//エラーチェック
-										_ASSERT(0);//エラーダイアログを表示
-							};
+							_ASSERT( ech != 1 );//エラーチェック
 
 							SelectKind = i;// マウスが乗ってる名前番号を代入
 					}
@@ -246,9 +217,8 @@ int Menu::PoseMenu( PlayerChara *PC, Batch_Preparat *BatchPre ){
 			// ////////////////////////*/
 			E3DEndScene();
 			ech = E3DPresent( System::scid1);
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			
+					_ASSERT( ech != 1 );//エラーチェック
 			
 
 			if( ExitFlag == 1 ){//もしゲームループを抜けてOKなら
@@ -264,7 +234,7 @@ int Menu::PoseMenu( PlayerChara *PC, Batch_Preparat *BatchPre ){
 	return 0;
 }
 /*メニュー画面に入って、自動的に通常描画モードからメニュー画面に半透過していきます。*/
-int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
+int Menu::FarstInMenu( Batch_Render *BatchPre, PlayerChara *PC){
 
 	/*変数の宣言*/
 	int keyin[20];//キー情報配列を作成
@@ -291,9 +261,7 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
 					/*テクスチャにアルファを適応する*/
 					for(int i = 0; i<3; i++){
 							ech = E3DSetSpriteARGB( MenuSpriteIDs[i], AlfaColor);
-							if(ech != 0 ){//エラーチェック
-										_ASSERT( 0 );//エラーダイアログ
-							};
+							_ASSERT( ech != 1 );//エラーチェック
 					}
 
 					/*描画準備を行います*/
@@ -302,19 +270,13 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
 
 
 					ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 			
 					ech = E3DRenderSprite( MenuSpriteIDs[1], 1, 1, SpritePos2);//十字バーの位置
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DRenderSprite( MenuSpriteIDs[2], 1, 1, SpritePos3);//上部の白いバー
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					/*ここで、描画完了*/
 					E3DEndSprite();
@@ -345,9 +307,7 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
 					/*テクスチャにアルファを適応する*/
 					for(int i = 0; i<3; i++){
 							ech = E3DSetSpriteARGB( MenuSpriteIDs[i], AlfaColor);
-							if(ech != 0 ){//エラーチェック
-										_ASSERT( 0 );//エラーダイアログ
-							};
+							_ASSERT( ech != 1 );//エラーチェック
 					}
 
 					/*描画準備を行います*/
@@ -356,19 +316,13 @@ int Menu::FarstInMenu( Batch_Preparat *BatchPre, PlayerChara *PC){
 
 
 					ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 			
 					ech = E3DRenderSprite( MenuSpriteIDs[1], 1, 1, SpritePos2);//十字バーの位置
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DRenderSprite( MenuSpriteIDs[2], 1, 1, SpritePos3);//上部の白いバー
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					/*ここで、描画完了*/
 					E3DEndSprite();
@@ -400,23 +354,20 @@ int Menu::PutStetus( PlayerChara *PC){
 	TextPos.y = 370;
 	wsprintf( StatusName, "HP 1000/1000" );//HPの表示
 	E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 	TextPos.x = 80;
 	TextPos.y = 390;
 	wsprintf( StatusName, "STAMINA 100/100" );//スタミナの表示
 	E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 	TextPos.x = 80;
 	TextPos.y = 430;
 	wsprintf( StatusName, "MAINWEAPON AMM:10/10 MAG:10/10" );//メインウェポンのMAG数、AMM数
 	E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, StatusName, NormalColor);//説明が書かれている文字列を表示する
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 
 

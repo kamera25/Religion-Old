@@ -15,7 +15,7 @@
 
 
 /*肩射ち視点からの銃関連まとめ関数*/
-int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, int ScreenPos[2]){
+int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 
 	/*全体で使う変数の初期化*/
 	int ech = 0;//エラー確認変数
@@ -81,21 +81,15 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, int ScreenPos[2]){
 
 	/*キャラクターモデルの方向を初期化します*/
 	ech = E3DRotateInit( Get_BodyModel());
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*座標を取得する*/
 	ech = E3DGetPos( Get_BodyModel(), &MyPos1);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*キャラクターモデルの「首つけ根」の座標を取得します*/
 	ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	MyPos2.x = StomachPos.x * -1;
 	MyPos2.y = StomachPos.y * -1;
@@ -103,15 +97,11 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, int ScreenPos[2]){
 
 	/*座標を原点にする*/
 	ech = E3DSetPos( Get_BodyModel(), MyPos2);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*キャラクターモデルの「首つけ根」の座標を取得します*/
 	ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	WantDeg.x = float( TurnPos.x - 0);//X座標の向く方向のベクトルを取得
 	WantDeg.y = float( TurnPos.y - 0);//Y座標の向く方向のベクトルを取得
@@ -119,45 +109,31 @@ int PlayerChara::ShoulderGunSys( Batch_Preparat *BatPre, int ScreenPos[2]){
 
 	/*「首付け根」部分のモーションはどうか調べます*/
 	ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*「首付け根」部分のクォータニオンを調べます*/
 	ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Get_Quaternion(3));
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*向きたい方向への計算を行います*/
 	ech = E3DLookAtQ( Get_Quaternion(3), WantDeg, BaseVec, 0, 2);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*計算したクォーターニオンを代入します*/
 	ech = E3DSetBoneQ( Get_BodyModel(), Get_Bone_ID(2), MotionID, FrameNo, Get_Quaternion(3));
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*マルチレイヤーモーションの計算を行います*/
 	ech = E3DCalcMLMotion( Get_BodyModel());
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*本来の自分の座標に戻す*/
 	ech = E3DSetPos( Get_BodyModel(), MyPos1);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*キャラクターを回転させます*/
 	ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	
 	/*スプライトの位置を決めて終了します*/

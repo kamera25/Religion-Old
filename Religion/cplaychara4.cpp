@@ -65,9 +65,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	/*通常モード( モデル[0]から取得する )*/
 	if( Stg->Stage_GunTarget == 0){
 			ech = E3DPickFace( System::scid1, Stg->Stage_hsid[0], ScreenPos, NowWpRange, &Wall_HitResult, &HitResult, &Wall_GunTargetPos, &Wall_ReflectVec, &Wall_HitDistance);
-			if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 	}
 
 
@@ -78,9 +76,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 				/*敵にあたっていないかチェックします*/
 				for( int i=0; i< Ene->EnemyNum; i++){//エネミーの数だけ
 									ech = E3DPickFace( System::scid1, Ene->Ene[i]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
-									if(ech != 0 ){//エラーチェック
-												_ASSERT( 0 );//エラーダイアログ
-									};
+									_ASSERT( ech != 1 );//エラーチェック
 									if( (EneHitResult != 0) && ( EneDistance < EneNearDistance) ){
 												EneNearDistance = EneDistance;//一番近い敵の距離に更新します
 												NearEnemyID = i;//一番近いモデル番号を入れます
@@ -91,9 +87,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 
 				if( (EnemyConflict == 1) && ( Wall_HitDistance > EneNearDistance) ){//敵に銃先を向ける
 						ech = E3DPickFace( System::scid1, Ene->Ene[NearEnemyID]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 				}
 				else{//壁に銃先を向ける
 						GunTargetPos = Wall_GunTargetPos;
@@ -106,9 +100,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 
 						/*「首付け根」部分の座標を取得します*/
 						ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						WantVec.x =  GunTargetPos.x - StomachPos.x;
 						WantVec.y =  GunTargetPos.y - StomachPos.y;
@@ -116,54 +108,38 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 
 						/*キャラクターの向きを初期化します*/
 						ech = E3DRotateInit( Get_BodyModel());
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 
 						/*「首付け根」部分のクォータニオンを調べます*/
 						ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Get_Quaternion(5));
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						/*「首付け根」部分のモーションはどうか調べます*/
 						ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						/*向きたい方向への計算を行います*/
 						ech = E3DLookAtQ( Get_Quaternion(5), WantVec, BaseVec, 0, 0);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 
 
 						/*向きたい方向の修正を加えます*/
 						ech = E3DRotateQY( Get_Quaternion(5), -(Get_PC_Deg_XZ()));
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						/*計算したクォーターニオンを代入します*/
 						ech = E3DSetBoneQ( Get_BodyModel(), Get_Bone_ID(2), MotionID, FrameNo, Get_Quaternion(5));
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						/*マルチレイヤーモーションの計算を行います*/
 						ech = E3DCalcMLMotion( Get_BodyModel());
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						/*キャラクターを回転させます*/
 						ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 			}
 		}
 		else{
@@ -179,7 +155,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	return 0;
 }
 /*普通のゲーム内での処理を行う関数、銃器の出し入れ、敵へのあたり、銃を手に置くなど…etc*/
-int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, int ScreenPos[2]){
+int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, Enemy *Ene, Camera *Cam, int ScreenPos[2]){
 
 	/*変数の初期化*/
 	int ech = 0;
@@ -228,9 +204,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 	if( Get_MyState() == 1){//キック中なら
 				ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(6), &MotionID, &MotionFrameNo);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT(0);//エラーダイアログ
-				}
+				_ASSERT( ech != 1 );//エラーダイアログを表示
 
 				if( MotionFrameNo == 19){//モーションが終了したら
 							Set_MyState( 0 );//動作状態を通常に戻す
@@ -274,9 +248,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 	if( (Get_MyState() == 3) || ( Get_MyState() == 4)){
 				//移動先のモーション状態はどうか確かめる
 				ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(6), &Garbage, &MotionFrameNo);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーダイアログを表示
 
 				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
 
@@ -305,7 +277,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *En
 
 }
 /*武器を変更するさせる際に使用する関数*/
-int PlayerChara::ChangeWeapon( Batch_Preparat *BatPre){
+int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 
 	/*装備武器変更の処理*/
 	if( Wpn.GetWeaponRapidFire() == 0){// 武器攻撃可能なら

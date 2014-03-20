@@ -21,9 +21,6 @@ private:
 	// 兵士の状態変数
 	int Wp_equipment;//所持している武器の種類
 
-	// ステータス系
-	int Stamina;// キャラクタのスタミナ
-
 	// モデル系
 	int DummyModel;//ダミーモデルのモデルID
 
@@ -62,8 +59,6 @@ public:
 	/* アシスト(取得・代入)関数の宣言 */
 	int Get_Wp_equipment() const; // Wp_equipmentの取得関数
 	int Set_Wp_equipment( int Number);// Wp_equipmentの代入関数
-	int Get_Stamina() const;// Staminaの取得関数
-	int Set_Stamina( int Number);// Staminaの代入関数
 	int Get_DummyModel() const;// ダミーモデルのID取得関数
 	int Set_DummyModel( int Number);// ダミーモデルのID代入関数
 	int Get_Bone_ID( int BoneNo) const;// ボーンIDの取得関数

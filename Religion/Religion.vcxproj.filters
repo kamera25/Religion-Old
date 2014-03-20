@@ -79,6 +79,18 @@
     <Filter Include="ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData">
       <UniqueIdentifier>{5a5d99b8-b924-4dcc-a849-d85578bc693c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Class\Batch_Render">
+      <UniqueIdentifier>{0766f3d6-ca2b-45a5-8689-7ae332cad5df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Batch_Render\WhileGame">
+      <UniqueIdentifier>{bfabd148-c8b4-4c9f-8cd3-e4c3ca82e4fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Batch_Render\NotWhileGame">
+      <UniqueIdentifier>{5354be14-1431-49cb-ab3d-2c0ffc02f121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Class\Creature\Creature">
+      <UniqueIdentifier>{f26a2f35-92de-4d94-93bd-953bdd55ce7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamecore.cpp">
@@ -91,9 +103,6 @@
       <Filter>ソース ファイル\Class</Filter>
     </ClCompile>
     <ClCompile Include="csys.cpp">
-      <Filter>ソース ファイル\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="c_batch_preparat.cpp">
       <Filter>ソース ファイル\Class</Filter>
     </ClCompile>
     <ClCompile Include="cnetplay.cpp">
@@ -171,9 +180,6 @@
     <ClCompile Include="cplaychara4.cpp">
       <Filter>ソース ファイル\Class\Creature\PlayerChara</Filter>
     </ClCompile>
-    <ClCompile Include="ccreature_assist.cpp">
-      <Filter>ソース ファイル\Class\Creature</Filter>
-    </ClCompile>
     <ClCompile Include="c_optionmenu.cpp">
       <Filter>ソース ファイル\Class\Menu</Filter>
     </ClCompile>
@@ -217,6 +223,36 @@
       <Filter>ソース ファイル\Class\Weapon\While_Game</Filter>
     </ClCompile>
     <ClCompile Include="Load_Grenade.cpp">
+      <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
+    </ClCompile>
+    <ClCompile Include="c_batch_render_assist.cpp">
+      <Filter>ソース ファイル\Class\Batch_Render</Filter>
+    </ClCompile>
+    <ClCompile Include="c_batch_render_sprite.cpp">
+      <Filter>ソース ファイル\Class\Batch_Render\WhileGame</Filter>
+    </ClCompile>
+    <ClCompile Include="c_batch_render.cpp">
+      <Filter>ソース ファイル\Class\Batch_Render</Filter>
+    </ClCompile>
+    <ClCompile Include="c_batch_render_redsys.cpp">
+      <Filter>ソース ファイル\Class\Batch_Render\WhileGame</Filter>
+    </ClCompile>
+    <ClCompile Include="c_batch_render_adjust.cpp">
+      <Filter>ソース ファイル\Class\Batch_Render\WhileGame</Filter>
+    </ClCompile>
+    <ClCompile Include="c_batch_render_font.cpp">
+      <Filter>ソース ファイル\Class\Batch_Render\WhileGame</Filter>
+    </ClCompile>
+    <ClCompile Include="c_batch_render_effect.cpp">
+      <Filter>ソース ファイル\Class\Batch_Render\NotWhileGame</Filter>
+    </ClCompile>
+    <ClCompile Include="cCreature.cpp">
+      <Filter>ソース ファイル\Class\Creature\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="ccreature_assist.cpp">
+      <Filter>ソース ファイル\Class\Creature\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Load_Support.cpp">
       <Filter>ソース ファイル\Class\Weapon\NotWhile_Game\LoadData\KindData</Filter>
     </ClCompile>
   </ItemGroup>

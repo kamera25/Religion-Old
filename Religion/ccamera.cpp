@@ -27,9 +27,7 @@ Camera::Camera(){
 	//ダミーモデルの取得
 	wsprintf( loadname, "%s\\data\\3d\\model\\other\\demo.sig", System::path);//仮モデルのsig名登録
 	ech = E3DSigLoad( loadname, 0, 0.01f, &DummyModel);//モデルの読み込み、submodidへモデルを入れる。
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 
@@ -43,9 +41,7 @@ Camera::~Camera(){
 
 	//1つ目のキャラクターダミーモデルを削除します
 	E3DDestroyHandlerSet( DummyModel);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	return;
@@ -69,57 +65,39 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 
 		/*キャラクターモデルの「首つけ根」の！今！の座標を取得します*/
 		ech = E3DGetCurrentBonePos( cha_hsid, bone, 1, &StomachPos);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*ダミーモデルを自分の「首付け根」座標に置きます*/
 		ech = E3DSetPos( DummyModel, StomachPos);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*ダミーモデルに「首つけ根」のクォータニオンを設定します*/
 		ech = E3DSetDirQ2( DummyModel, Qid);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*キャラクターを回転させます*/
 		ech = E3DRotateY( DummyModel, PC_Deg_XZ);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*前進させるさせる*/
 		ech = E3DPosForward( DummyModel, 13000);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*カメラのターゲットになる、ダミーモデルの位置を取得*/
 		ech = E3DGetPos( DummyModel, &CameraTarget);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*カメラの注視点を設定します*/
 		ech = E3DSetCameraTarget( CameraTarget, CameraUpVec);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*ダミーモデルを自分の「首付け根」座標に置きます*/
 		ech = E3DSetPos( DummyModel, StomachPos);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*ダミーモデルを後退させる*/
 		ech = E3DPosForward( DummyModel, -435);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/* /////////////////////////////////////// */
 		/* 肩内視点でのカメラ向き(左右)の設定を行ないます
@@ -131,30 +109,22 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 
 						/* ダミーモデルを右に傾ける */
 						ech = E3DRotateY( DummyModel, 90);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						/* 前進させる */
 						ech = E3DPosForward( DummyModel, 270);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 				}
 				else if( ShoulderComMoveDeg == 1){// カメラをキャラクタの左肩に置く (・●)
 
 						/* ダミーモデルを左に傾ける */
 						ech = E3DRotateY( DummyModel, -90);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 						/*前進させる*/
 						ech = E3DPosForward( DummyModel, 270);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 
 				}
 			
@@ -176,58 +146,36 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 				/* //////////////////////////////////////// */
 
 				ech = E3DGetPos( DummyModel, &ReferencePos);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				ech = E3DRotateY( DummyModel, 90);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				ech = E3DPosForward( DummyModel, 270);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				ech = E3DGetPos( DummyModel, &DamModPosRight);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				/* //////////////////////////////////////// */
 				// ダミーモデルをキャラクタの左肩に置き座標を取得する (・●) 
 				/* //////////////////////////////////////// */
 
 				ech = E3DRotateInit( DummyModel);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				/*ダミーモデルに「首つけ根」のクォータニオンを設定します*/
 				ech = E3DSetDirQ2( DummyModel, Qid);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				/*キャラクターを回転させます*/
 				ech = E3DRotateY( DummyModel, PC_Deg_XZ);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				ech = E3DSetPos( DummyModel, ReferencePos);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				ech = E3DRotateY( DummyModel, -90);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				ech = E3DPosForward( DummyModel, 270);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				ech = E3DGetPos( DummyModel, &DamModPosLeft);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				/* //////////////// */
 				// 
@@ -262,9 +210,7 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 				}
 
 				ech = E3DSetPos( DummyModel, CameraLastPos);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				if( ShoulderComCounter == 4){
 						if( ShoulderComMoveDeg == 0){
@@ -290,28 +236,20 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 
 		/*カメラのポジションになるかもしれない、PCモデルの位置を取得*/
 		ech = E3DGetPos( DummyModel, &CameraPos);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*壁と当たり判定チェック、壁に埋まったりしてないかチェックします*/
 		ech = E3DChkConfGroundVec( StomachPos, CameraPos, Stg->Stage_hsid[0], 0, 200, -1000, 
 					&HitResult, &CameraPos, &GarbageD3DVec);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*カメラをセットする*/
 		ech = E3DSetCameraPos( CameraPos);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*ダミーモデルの方向を初期化します*/
 		ech = E3DRotateInit( DummyModel);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 
 	return 0;

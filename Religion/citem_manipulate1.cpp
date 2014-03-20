@@ -34,63 +34,49 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 	/*スプライトをロードします*/
 	wsprintf( loadname, "%s\\data\\img\\menu\\menubg.png", System::path);//メニュー画面での背景をロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[0]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
+
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\menuber.png", System::path);//メニュー画面での十字バーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[1]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\menu_up_ber.png", System::path);//メニュー画面での上部白いバーをロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[2]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
+
 
 	wsprintf( loadname, "%s\\data\\img\\menu\\loading.png", System::path);//ロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[3]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
+
 
 	wsprintf( loadname, "%s\\data\\img\\item\\itstate.png", System::path);//ロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[4]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 	wsprintf( loadname, "%s\\data\\img\\item\\cure.png", System::path);//回復アイコンのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[5]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 	wsprintf( loadname, "%s\\data\\img\\item\\dump.png", System::path);//ゴミ箱アイコンのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[6]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
+
 
 	wsprintf( loadname, "%s\\data\\img\\item\\info.png", System::path);//情報アイコンのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[7]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
+
 
 	wsprintf( loadname, "%s\\data\\img\\item\\supply.png", System::path);//供給マークのロード画像のロードします。
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSpriteIDs[8]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
+
 
 
 	ech = E3DSetSpriteARGB( MenuSpriteIDs[4], AlfaColor);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 	/* ****************
 	// ロード画面の表示
@@ -102,9 +88,7 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 	E3DBeginSprite();
 
 	ech = E3DRenderSprite( MenuSpriteIDs[3], 1, 1, SpritePos4);//ロードの画像
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*ここで、描画完了*/
 	E3DEndSprite();
@@ -127,9 +111,8 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 			else{//装備していなければ -> 空データロードします
 					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Weapon[i][0]);
-					if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-					}
+					_ASSERT( ech != 1 );//エラーダイアログを表示
+
 					BackPack_Weapon[i][1] = -1;//武器の種類を空にする
 					BackPack_Weapon[i][2] = -1;//武器のナンバーを空にする
 			}
@@ -139,9 +122,8 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 	if( PC->Item.GetItemNumber( 0, -1, -1) == 0){//ステージで拾った武器の処理
 			wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);
 			ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Weapon[3][0]);
-			if(ech != 0){//エラーチェック
-					_ASSERT(0);//エラーダイアログを表示
-			}
+			_ASSERT( ech != 1 );//エラーダイアログを表示
+
 			BackPack_Weapon[3][1] = -1;//武器の種類を空にする
 			BackPack_Weapon[3][2] = -1;//武器のナンバーを空にする
 			//BackPack_Weapon[3] = GetLoadSprite();
@@ -153,17 +135,15 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 					//BackPack_Ammo[i][0] = PC->wp_data[i][0][1];//空画像データをロードする
 					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//1次的に空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Ammo[i][0]);
-					if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-					}
+					_ASSERT( ech != 1 );//エラーダイアログを表示
+
 					BackPack_Ammo[i][1] = PC->Item.GetItemNumber( 1, i, -1);//武器の種類を代入する
 			}
 			else{//装備していなければ -> 空データロードします
 					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Ammo[i][0]);
-					if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-					}
+					_ASSERT( ech != 1 );//エラーダイアログを表示
+
 					BackPack_Ammo[i][1] = -1;//武器のナンバーを空にする
 			}
 	}
@@ -174,17 +154,15 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 					//BackPack_Ammo[i][0] = PC->Recovery[i][0];//空画像データをロードする
 					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//1次的に空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Recovery[i][0]);
-					if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-					}
+					_ASSERT( ech != 1 );//エラーダイアログを表示
+
 					BackPack_Recovery[i][1] = PC->Item.GetItemNumber( 2, i, 0);//武器の種類を代入する
 			}
 			else{//装備していなければ -> 空データロードします
 					wsprintf( loadname, "%s\\data\\img\\item\\empty.png", System::path);//空アイテム画像をロードします。
 					ech = E3DCreateSprite( loadname, 0, 0, &BackPack_Recovery[i][0]);
-					if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-					}
+					_ASSERT( ech != 1 );//エラーダイアログを表示
+
 					BackPack_Recovery[i][1] = -1;//武器のナンバーを空にする
 			}
 	}
@@ -194,19 +172,13 @@ Item_Manipulate::Item_Manipulate( PlayerChara *PC){
 	// ******************
 	*/
 	ech = E3DCreateFont( 35, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[0]);//大文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 	ech = E3DCreateFont( 25, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[1]);//小文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 	ech = E3DCreateFont( 15, 0, 800, 0, 0, 0, "MS Pゴシック", &TextID[2]);//最小文字
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーダイアログを表示
 
 
 
@@ -220,18 +192,16 @@ Item_Manipulate::~Item_Manipulate(){
 	/*スプライトを削除します*/
 	for(int i = 0; i < 9; i++){
 			ech = E3DDestroySprite( MenuSpriteIDs[i]);//メニュー画面での背景を削除します。
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			_ASSERT( ech != 1 );//エラーダイアログを表示
+
 	}
 
 	
 	/*文字IDを削除します*/
 	for(int i = 0; i < 3; i++){
 			ech = E3DDestroyFont( TextID[i]);//大文字
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			_ASSERT( ech != 1 );//エラーダイアログを表示
+
 	}
 
 
@@ -280,19 +250,13 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			
 			//基礎部品スプライトの部品を描画
 			ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーダイアログを表示
 			
 			ech = E3DRenderSprite( MenuSpriteIDs[1], 1, 1, SpritePos2);//十字バーの位置
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーダイアログを表示
 
 			ech = E3DRenderSprite( MenuSpriteIDs[2], 1, 1, SpritePos3);//上部の白いバー
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーダイアログを表示
 
 
 			/*選んでいるアイテムカテゴリによって表示の分岐*/
@@ -320,9 +284,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			/*ここまでで画面描画準備終了*/
 			E3DEndScene();
 			ech = E3DPresent( System::scid1);
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			_ASSERT( ech != 1 );//エラーダイアログを表示
 
 			if( ( keyin[9] == 1) && ( ItemNumber != -1) && (MenuMode == 0) ){// アイテム画像の上でクリックされたら
 					MenuMode = 1;
@@ -382,19 +344,13 @@ int Item_Manipulate::InItemPack( PlayerChara *PC){
 					E3DBeginSprite();
 
 					ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーダイアログを表示
 			
 					ech = E3DRenderSprite( MenuSpriteIDs[1], 1, 1, SpritePos2);//十字バーの位置
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーダイアログを表示
 
 					ech = E3DRenderSprite( MenuSpriteIDs[2], 1, 1, SpritePos3);//上部の白いバー
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーダイアログを表示
 
 					/*ここで、描画完了*/
 					E3DEndSprite();
@@ -438,19 +394,13 @@ int Item_Manipulate::InItemPack( PlayerChara *PC){
 					E3DBeginSprite();
 
 					ech = E3DRenderSprite( MenuSpriteIDs[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景の位置
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーダイアログを表示
 			
 					ech = E3DRenderSprite( MenuSpriteIDs[1], 1, 1, SpritePos2);//十字バーの位置
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーダイアログを表示
 
 					ech = E3DRenderSprite( MenuSpriteIDs[2], 1, 1, SpritePos3);//上部の白いバー
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーダイアログを表示
 
 					/*ここで、描画完了*/
 					E3DEndSprite();

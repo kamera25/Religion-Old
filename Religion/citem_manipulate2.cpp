@@ -71,9 +71,8 @@ int Item_Manipulate::PutItemDescript( const int ChoseItem, const int ItemNumber)
 			}
 
 			ech = E3DDrawTextByFontID( System::scid1, TextID[2], TextPos1, WeaponDetail, NormalColor);
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			}
+			
+					_ASSERT( ech != 1 );//エラーチェック
 	}
 
 	if(ChoseItem == 1){//操作中のアイテムが「弾薬」なら
@@ -87,9 +86,8 @@ int Item_Manipulate::PutItemDescript( const int ChoseItem, const int ItemNumber)
 			}
 
 			ech = E3DDrawTextByFontID( System::scid1, TextID[2], TextPos1, WeaponDetail, NormalColor);
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			}
+			
+					_ASSERT( ech != 1 );//エラーチェック
 
 	}
 
@@ -107,8 +105,8 @@ int Item_Manipulate::PutItemName( const int ChoseItem, const int ItemNumber){
 	const char WeaponNameData[8][9][15] = {
 		{ "M1911", "Offisers", "Glock95", "M92F", "Cz-75", "PYTHON", "sauerP226", "LugerP08", "USP.45"},// ハンドガン
 		{ "TMP", "INGLAM", "SPECTER", "UMP", "PATIRIOT", "MP5 kruz", "P90"},// サブマシンガン
-		{ "M1897", "Benel M3", "SPAS-12", "Gold Stalker", "USAS12"},// ショットガン
-		{ "M4", "AK-101", "G11", "M14", "G36", "Tabor", "HK 416"},// アサルトライフル
+		{ "M1897", "Benel M3", "SPAS-12", "Gold Stalker", "USAS12", "M700", "M82"},// ショットガン
+		{ "M4", "AK-74", "G11", "M14", "G36", "Tabor", "HK 416"},// アサルトライフル
 		{ "BAR A2", "MINIMI", "M4machine", "RPK"},// マシンガン
 		{ "M700", "SR-25", "SVD", "PSG-1", "X BOW", "M82"},// ライフル
 		{ "MGL", "M79", "RPG-7", "Panzher", "M201A1"},// グレネード
@@ -164,9 +162,8 @@ int Item_Manipulate::PutItemName( const int ChoseItem, const int ItemNumber){
 
 			//武器分類を表示させます
 			ech = E3DDrawTextByFontID( System::scid1, TextID[1], TextPos3, WeaponKind, NormalColor);
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			}
+			
+					_ASSERT( ech != 1 );//エラーチェック
 
 
 	}
@@ -181,9 +178,8 @@ int Item_Manipulate::PutItemName( const int ChoseItem, const int ItemNumber){
 			}
 
 			ech = E3DDrawTextByFontID( System::scid1, TextID[1], TextPos3, WeaponKind, NormalColor);
-			if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-			}
+			
+						_ASSERT( ech != 1 );//エラーチェック
 	}
 
 
@@ -252,16 +248,14 @@ int Item_Manipulate::PutBackPackText( int *ChoseItem, int *ExitFlag){
 						/* マウスポインタが置いてある文字を光らせる */
 						TextPos.x = 100;/**/TextPos.y = 100 + (40 * i);
 						E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, ItemKindName[i], SelectColor);//選択されている文字にする
-						if(ech != 0){//エラーチェック
-									_ASSERT(0);//エラーダイアログを表示
-						};
+						
+								_ASSERT( ech != 1 );//エラーチェック
 
 						/* 下側にポインタを置いているところの説明を記述する */
 						TextPos.x = 400;/**/TextPos.y = 330;
 						E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, ItemKindDetal[i], NormalColor);//説明が書かれている文字列を表示する
-						if(ech != 0){//エラーチェック
-									_ASSERT(0);//エラーダイアログを表示
-						};
+						
+								_ASSERT( ech != 1 );//エラーチェック
 
 						/* クリックしたら選択アイテムを変える */
 						if( (keyin[9] == 1) && ( MenuMode == 0)){
@@ -273,15 +267,13 @@ int Item_Manipulate::PutBackPackText( int *ChoseItem, int *ExitFlag){
 			if((340< System::MousePos.y)&&( System::MousePos.y<370)){//マウス座標が「バックパックを閉じる」の上なら
 					TextPos.x = 100;/**/TextPos.y = 320;
 					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "バックパックを閉じる", SelectColor);//選択されている文字にする
-					if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-					};
+					
+					_ASSERT( ech != 1 );//エラーチェック
 
 					TextPos.x = 400;/**/TextPos.y = 330;
 					E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "ポーズメニューに戻ります", NormalColor);//説明が書かれている文字列を表示する
-					if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-					};
+					
+					_ASSERT( ech != 1 );//エラーチェック
 
 					if(keyin[9] == 1){//クリックしたら
 						*ExitFlag = 1;//ループ脱出フラグをオンにする。
@@ -337,9 +329,7 @@ int Item_Manipulate::PutItemSprite( const int ChoseItem, const int MenuMode, con
 				for(int i=0; i<4; i++){
 						ItemSpritePos.x = ItemSpritePosition[0][0][i];/**/ItemSpritePos.y = ItemSpritePosition[0][1][i];
 						ech = E3DRenderSprite( BackPack_Weapon[i][0], 1, 1, ItemSpritePos);//上部の白いバー
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 				}					
 				break;
 		}
@@ -347,9 +337,7 @@ int Item_Manipulate::PutItemSprite( const int ChoseItem, const int MenuMode, con
 				for(int i=0; i<4; i++){
 						ItemSpritePos.x = ItemSpritePosition[1][0][i];/**/ItemSpritePos.y = ItemSpritePosition[1][1][i];
 						ech = E3DRenderSprite( BackPack_Ammo[i][0], 1, 1, ItemSpritePos);//上部の白いバー
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 				}
 				break;
 		}
@@ -357,9 +345,7 @@ int Item_Manipulate::PutItemSprite( const int ChoseItem, const int MenuMode, con
 				for(int i=0; i<5; i++){
 						ItemSpritePos.x = ItemSpritePosition[2][0][i];/**/ItemSpritePos.y = ItemSpritePosition[2][1][i];
 						ech = E3DRenderSprite( BackPack_Recovery[i][0], 1, 1, ItemSpritePos);//上部の白いバー
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};
+						_ASSERT( ech != 1 );//エラーチェック
 				}
 				break;
 			}
@@ -418,9 +404,7 @@ int Item_Manipulate::PutItemSprite( const int ChoseItem, const int MenuMode, con
 					}
 					/* スプライトの描画 */
 					ech = E3DRenderSprite( MenuSpriteIDs[4], 1, 1, DatilSpritePos);//上部の白いバー
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 			};
 	}
 	else if( MenuMode == 1){// モードが「アイテムを選択している」なら
@@ -430,9 +414,7 @@ int Item_Manipulate::PutItemSprite( const int ChoseItem, const int MenuMode, con
 			
 			/* スプライトの描画 */
 			ech = E3DRenderSprite( MenuSpriteIDs[4], 1, 1, DatilSpritePos);//上部の白いバー
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 	}
 
 
@@ -469,9 +451,7 @@ int Item_Manipulate::ItemUsingSystem( const int ChoseItem){
 	for( int i=0; i < ItemIconNumber[(ChoseItem)]; i++ ){
 
 			ech = E3DRenderSprite( MenuSpriteIDs[(ItemIconIDToRight[(ChoseItem)][i])], 1, 1, ItemIconPos);//背景の位置
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 			
 			ItemIconPos.x = ItemIconPos.x + 40;
 	 }

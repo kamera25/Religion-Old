@@ -28,24 +28,18 @@ int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
 
 				//モデルデータのロード
 				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m1911\\m1911.sig", System::path);
-				ech = E3DSigLoad( loadname, 0, 0.055f, &hsid);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				ech = E3DSigLoad( loadname, 0, 0.032f, &hsid);
+				_ASSERT( ech != 1 );//エラーチェック
 
 				//武器スプライトのロード
 				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m1911\\pict.png", System::path);
 				ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				//武器のモーションを読み込み
-				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m1911\\wait.qua", System::path);
+				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m1911\\m1911_wait.qua", System::path);
 				ech = E3DAddMotion( hsid, loadname, 1, &Garbage, &Garbage);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 
 				/**/
@@ -54,14 +48,10 @@ int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
 
 				//ボーンネームからボーンIDの取得「銃もち手_X+」
 				E3DGetBoneNoByName( hsid, "銃根", &bone[0]);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				//ボーンネームからボーンIDの取得「銃もち手先_X+」
 				E3DGetBoneNoByName( hsid, "銃先", &bone[1]);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 
 		}
@@ -70,23 +60,17 @@ int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
 				//モデルデータのロード
 				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\glock95\\glock.sig", System::path);
 				ech = E3DSigLoad( loadname, 0, 0.037f, &hsid);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				//武器スプライトのロード
 				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\glock95\\pict.png", System::path);
 				ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				//武器のモーションを読み込み
 				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m1911\\wait.qua", System::path);
 				ech = E3DAddMotion( hsid, loadname, 1, &Garbage, &Garbage);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 
 				/**/
@@ -95,14 +79,10 @@ int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
 
 				/*//ボーンネームからボーンIDの取得「銃もち手_X+」
 				E3DGetBoneNoByName( hsid, "銃根", &bone[0]);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				//ボーンネームからボーンIDの取得「銃もち手先_X+」
 				E3DGetBoneNoByName( hsid, "銃先", &bone[1]);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};*/
+				_ASSERT( ech != 1 );//エラーチェック*/
 
 				bone[0] = 0;//銃口手前のボーンを格納
 				bone[1] = 0;//銃口手先のボーンを格納
@@ -115,23 +95,17 @@ int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
 				//モデルデータのロード
 				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m92f\\m92f.sig", System::path);
 				ech = E3DSigLoad( loadname, 0, 0.039f, &hsid);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				//武器スプライトのロード
 				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m92f\\pict.png", System::path);
 				ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 				//武器のモーションを読み込み
 				wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m92f\\wait.qua", System::path);
 				ech = E3DAddMotion( hsid, loadname, 1, &Garbage, &Garbage);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 
 				/**/
@@ -140,14 +114,10 @@ int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
 
 				//ボーンネームからボーンIDの取得「銃もち手_X+」
 				E3DGetBoneNoByName( hsid, "銃根", &bone[0]);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 				//ボーンネームからボーンIDの取得「銃もち手先_X+」
 				E3DGetBoneNoByName( hsid, "銃先", &bone[1]);
-				if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-				};
+				_ASSERT( ech != 1 );//エラーチェック
 
 
 		}
@@ -156,27 +126,19 @@ int Weapon::GunLoad_Hand( const int Selectkind, const int Wpno){
 		//発射音
 		wsprintf( loadname, "%s\\data\\sound\\se\\shot\\fire1.wav", System::path);
 		ech = E3DLoadSound( loadname, 0, 1, 20, &sound[0]);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		//空撃ち
 		wsprintf( loadname, "%s\\data\\sound\\se\\shot\\sky_fire.wav", System::path);
 		ech = E3DLoadSound( loadname, 0, 1, 20, &sound[1]);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		/*音が届く範囲を指定*/
 		ech = E3DSet3DSoundEmiDist( sound[0], 25000.0f);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 		ech = E3DSet3DSoundEmiDist( sound[1], 5000.0f);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 
 
 		//変数をメンバー変数に格納します

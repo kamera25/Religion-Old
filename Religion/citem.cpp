@@ -58,7 +58,7 @@ int Item::GetItemNumber( const int ItemKind, const int ItemEle1, const int ItemE
 		}
 		default:{
 			Value = 0;
-			_ASSERT(0);//エラーダイアログを表示
+			_ASSERT( 0 );//エラーダイアログを表示
 		}
 	}
 

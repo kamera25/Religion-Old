@@ -58,7 +58,7 @@ private:
 	int GunLoad_Rifle( const int Selectkind, const int Wpno);//ライフルの情報をロードする関数
 	int GunLoad_Grenade( const int Selectkind, const int Wpno);//グレネードの情報をロードする関数
 	int GunLoad_Data( const int Selectkind, const int Wpkind, const int Wpno);//武器に関する情報を格納する関数
-
+	int WpLoad_Support( const int Selectkind, const int Wpno);// サポート系の情報をロードする関数
 
 
 public:

@@ -39,8 +39,8 @@ int Operation::OpsMission1_Shinryoku(){
 		/**/E3DSetProgressBar( 20);// プログレスバーを進歩させる
 	
 		/* Weapon関係処理 */		
-		Player.Wpn.GunLoad(0,5,2);// 銃のロード
-		Player.Wpn.GunLoad(1,1,0);// 銃のロード
+		//Player.Wpn.GunLoad(0,3,0);// 銃のロード
+		Player.Wpn.GunLoad(1,0,0);// 銃のロード
 		//Player.Wpn.GunLoad(2,7,0);// 銃のロード
 		Player.Wpn.SetInitWeaponData();// 弾薬の初期化
 
@@ -58,7 +58,7 @@ int Operation::OpsMission1_Shinryoku(){
 
 		/**/E3DSetProgressBar( 90);// プログレスバーを進歩させる
 
-		Batch_Preparat BatP( &Player, &Stg, &Ene, &Cam);// バッチプレパラートにすべての描画準備をさせます。
+		Batch_Render BatP( &Player, &Stg, &Ene, &Cam);// バッチプレパラートにすべての描画準備をさせます。
 		E3DDestroyProgressBar();// プログレスバーを壊します		
 		BatP.BatchEnableBumpMap(0);// バンプマップを有効にします 
 		//BatP.BatchCreateShadow();// 影を有効にします
@@ -86,8 +86,8 @@ int Operation::OpsMission1_Shinryoku(){
 
 
 
-				if( Player.Get_Wp_equipment() != -1 ) System::KeyRenewal( Player.Wpn.GetWeaponData( Player.Get_Wp_equipment(), 7) + 1);
-				else System::KeyRenewal(1);
+			//	if( Player.Get_Wp_equipment() != -1 ) System::KeyRenewal( Player.Wpn.GetWeaponData( Player.Get_Wp_equipment(), 7) + 1);
+				/*else*/ System::KeyRenewal(1);
 				BatP.BatchChkInView();
 				Player.Wpn.ChkWeaponLaunch( Player.Get_Wp_equipment());
 
@@ -102,20 +102,17 @@ int Operation::OpsMission1_Shinryoku(){
 				BatP.BatchFont( 1, &Player);
 
 
-				ech = E3DPresent( System::scid1);
-				if(ech != 0){//エラーチェック
-							_ASSERT(0);//エラーダイアログを表示
-				};
+				BatP.Batch_Present();// Present
 
 				Menu.FarstInMenu( &BatP, &Player);
 				BatP.BatchBeforePos();
 				Player.Batch_PeopleMotion();
 
-				D3DXVECTOR3 MyPos( 0.0, 0.0, 0.0);//自分のキャラクター座標
+				/*D3DXVECTOR3 MyPos( 0.0, 0.0, 0.0);//自分のキャラクター座標
 				ech = E3DGetPos( Player.Get_BodyModel(), &MyPos);
 				if( ech != 0){
-						_ASSERT(0);
-				}
+					_ASSERT( ech != 1 );
+				}*/
 
 				//netP.NetMessage();
 		}

@@ -59,85 +59,55 @@ int MainMenu::InMainMenu(){
 			E3DBeginSprite();//スプライト描画の開始
 
 					ech = E3DRenderSprite( MainBGImg, 640.0/1024.0, 480.0/512.0, MainSpritePos);//
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					if( MenuMode == 0){
 							ech = E3DRenderSprite( PushKeyImg, 300.0/512.0, 18.0/32.0, PushKeySpritePos);//
-							if(ech != 0 ){//エラーチェック
-										_ASSERT( 0 );//エラーダイアログ
-							};
+							_ASSERT( ech != 1 );//エラーチェック
 					}
 
 					if( MenuMode == 1){
 
 						if( MenuSelectNo == 0){//ロードゲームが先頭なら
 								ech = E3DRenderSprite( MenuSelectImg[0], 87.0/128.0, 12.0/16.0, MenuSpritePos1);//
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーダイアログを表示
 								ech = E3DRenderSprite( MenuSelectImg[1], 94.0/128.0, 12.0/16.0, MenuSpritePos2);//選ばれているもの
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーダイアログを表示
 								ech = E3DRenderSprite( MenuSelectImg[2], 90.0/128.0, 12.0/16.0, MenuSpritePos3);//
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーチェック
 						}
 						if( MenuSelectNo == 1){//オペレーションが先頭なら
 								ech = E3DRenderSprite( MenuSelectImg[1], 94.0/128.0, 12.0/16.0, MenuSpritePos1);//
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーダイアログを表示
 								ech = E3DRenderSprite( MenuSelectImg[2], 90.0/128.0, 12.0/16.0, MenuSpritePos2);//選ばれているもの
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーダイアログを表示
 								ech = E3DRenderSprite( MenuSelectImg[3], 58.0/64.0, 12.0/16.0, MenuSpritePos3);//
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーチェック
 						}
 						if( MenuSelectNo == 2){//オンラインが先頭なら
 								ech = E3DRenderSprite( MenuSelectImg[2], 90.0/128.0, 12.0/16.0, MenuSpritePos1);//
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーダイアログを表示
 								ech = E3DRenderSprite( MenuSelectImg[3], 58.0/64.0, 12.0/16.0, MenuSpritePos2);//選ばれているもの
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーダイアログを表示
 								ech = E3DRenderSprite( MenuSelectImg[0], 87.0/128.0, 12.0/16.0, MenuSpritePos3);//
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーチェック
 						}
 						if( MenuSelectNo == 3){//ニューゲームが先頭なら
 								ech = E3DRenderSprite( MenuSelectImg[3], 58.0/64.0, 12.0/16.0, MenuSpritePos1);//
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーダイアログを表示
 								ech = E3DRenderSprite( MenuSelectImg[0], 87.0/128.0, 12.0/16.0, MenuSpritePos2);//選ばれているもの
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーダイアログを表示
 								ech = E3DRenderSprite( MenuSelectImg[1], 94.0/128.0, 12.0/16.0, MenuSpritePos3);//
-								if(ech != 0 ){//エラーチェック
-											_ASSERT( 0 );//エラーダイアログ
-								};
+								_ASSERT( ech != 1 );//エラーチェック
 						}
-
 					}
 
 			E3DEndSprite();//スプライト描画の終了
 			/*ここまでで画面描画準備終了*/
 			E3DEndScene();
 			ech = E3DPresent( System::scid1);
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			
+					_ASSERT( ech != 1 );//エラーチェック
 
 
 			/**/
@@ -145,9 +115,7 @@ int MainMenu::InMainMenu(){
 			/**/
 			if( MenuMode == 0){
 					ech = E3DSetSpriteARGB( PushKeyImg, AlfaColor);
-					if(ech != 0){//エラーチェック
-								_ASSERT(0);//エラーダイアログを表示
-					};
+					_ASSERT( ech != 1 );//エラーチェック
 
 					if( PushAlfa == 255) PushAlfaReduction = -1;
 					if( PushAlfa == 0) PushAlfaReduction = 1;
@@ -190,52 +158,38 @@ MainMenu::MainMenu(){
 	/*メインメニューに表示させる壁紙をロードします。*/
 	wsprintf( loadname, "%s\\data\\img\\mainmenu\\op1.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &MainBGImg);//カーソルのロード
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*メインメニューに表示させるプッシュキー画像をロードします。*/
 	wsprintf( loadname, "%s\\data\\img\\mainmenu\\pushkey.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &PushKeyImg);//カーソルのロード
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	/*メインメニューに表示させるニューゲーム画像をロードします。*/
 	wsprintf( loadname, "%s\\data\\img\\mainmenu\\newgame.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSelectImg[0]);//カーソルのロード
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*メインメニューに表示させるロードゲーム画像をロードします。*/
 	wsprintf( loadname, "%s\\data\\img\\mainmenu\\loadgame.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSelectImg[1]);//カーソルのロード
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*メインメニューに表示させるオペレーション画像をロードします。*/
 	wsprintf( loadname, "%s\\data\\img\\mainmenu\\operation.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSelectImg[2]);//カーソルのロード
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*メインメニューに表示させるオンライン画像をロードします。*/
 	wsprintf( loadname, "%s\\data\\img\\mainmenu\\online.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSelectImg[3]);//カーソルのロード
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*メインメニュー後に表示させる黒背景をロードします。*/
 	wsprintf( loadname, "%s\\data\\img\\oth\\black.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &MenuSelectImg[4]);//カーソルのロード
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 
@@ -252,20 +206,14 @@ MainMenu::~MainMenu(){
 	/**/
 
 	ech = E3DDestroyHandlerSet( MainBGImg);//モデルを削除します
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DDestroyHandlerSet( PushKeyImg);//モデルを削除します
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	for(int i = 0;i < 5; i++){
 			ech = E3DDestroyHandlerSet( MenuSelectImg[i]);//モデルを削除します
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 	}
 
 

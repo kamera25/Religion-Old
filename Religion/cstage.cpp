@@ -90,7 +90,7 @@ int Stage::SetStageLight( const int LightKind, const float FogDist){
 	int ech = 0;//エラーチェック変数の初期化
 	char loadname[256] = "";// 読み込みデータ用の文字列配列
 	const char LoadBGName[3][12] = { "hare.jpg", "sunset.jpg", "night.jpg"};// ロードする背景パス変数
-	const D3DXVECTOR3 ldir1( -1.0, -1.0, -1.0);
+	const D3DXVECTOR3 ldir1( 1.0, -1.0, 1.0);
 	const D3DXVECTOR3 ldir2( 1.0, 1.0, 1.0);
 	E3DCOLOR4UC LightColor = { 0, 0, 0, 0};
 
@@ -126,9 +126,9 @@ int Stage::SetStageLight( const int LightKind, const float FogDist){
 					break;
 			}
 			case 2:{// 夜なら
-					LightColor.b = 50;
-					LightColor.g = 50;
-					LightColor.r = 50;
+					LightColor.b = 20;
+					LightColor.g = 20;
+					LightColor.r = 20;
 					break;
 			}
 	}

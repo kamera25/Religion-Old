@@ -8,7 +8,7 @@
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
 
 
-/* ライフルの情報をロードする関数 */
+/* グレネードの情報をロードする関数 */
 int Weapon::GunLoad_Grenade( const int Selectkind, const int Wpno){
 
 
@@ -29,16 +29,12 @@ int Weapon::GunLoad_Grenade( const int Selectkind, const int Wpno){
 			//モデルデータのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\grenade\\grenade\\grenade.sig", System::path);
 			ech = E3DSigLoad( loadname, 0, 0.01f, &hsid);
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 
 			//武器スプライトのロード
 			wsprintf( loadname, "%s\\data\\3d\\weapon\\rifle\\sr-25\\pict.png", System::path);
 			ech = E3DCreateSprite( loadname, 1, 0, &g_spid);
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 
 
 	}

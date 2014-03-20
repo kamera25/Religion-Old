@@ -8,11 +8,7 @@
 /*静動変数の宣言*/
 //
 int System::UpdataSoundflag;//音声情報を更新するかのフラグ
-int System::keydata1[30][2];//キーのデータを入れている配列変数の一つ目
-int System::keydata2[30][2];//キーのデータを入れている配列変数の二つ目
 int System::keyin[20];//キーが押されているかの情報配列
-int System::keyBox1[30][2];//動的に取得したキー情報を入れる配列
-int System::keyBox2[30][2];
 int System::scid2;// フェードアウトで使うスワップチェイン
 
 BOOL System::GotMes;//PeekMessageの状態を格納する。
@@ -56,20 +52,14 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 
 
 	ech = E3DEnableDbgFile();//デバッグテキスト出力準備
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	ech = E3DInit( chInst, chwnd, 0, 16, 0, 1, 1, 1, 0, &scid1);//Easy3Dの初期化をする。
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	ech = E3DSetProjection( 120.0, 100000.0, 60.0);//プロジェクションの設定を行います
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE);//メッセージループに処理を返す(おまじない)
 
@@ -78,75 +68,13 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	hInst = chInst;
 	hwnd = chwnd;
 
-
 	/*キー取得命令のためのキー配列その1*/
-	keydata1[0][0] = 1<<0; keydata1[0][1] = 0x25;//左キー
-	keydata1[1][0] = 1<<1; keydata1[1][1] = 0x26;//上キー
-	keydata1[2][0] = 1<<2; keydata1[2][1] = 0x27;//右キー
-	keydata1[3][0] = 1<<3; keydata1[3][1] = 0x28;//下キー
-	keydata1[4][0] = 1<<4; keydata1[4][1] = 0x20;//スペース
-	keydata1[5][0] = 1<<5; keydata1[5][1] = 0x0D;//エンターキー
-	keydata1[6][0] = 1<<6; keydata1[6][1] = 0x11;//コントロールキー
-	keydata1[7][0] = 1<<7; keydata1[7][1] = 0x01;//左クリック
-	keydata1[8][0] = 1<<8; keydata1[8][1] = 0x02;//右クリック
-	keydata1[9][0] = 1<<9; keydata1[9][1] = 0x09;//TAB
 
-	keydata1[10][0] = 1<<10; keydata1[10][1] = 0x41;//Aキー
-	keydata1[11][0] = 1<<11; keydata1[11][1] = 0x42;//Bキー
-	keydata1[12][0] = 1<<12; keydata1[12][1] = 0x43;//Cキー
-	keydata1[13][0] = 1<<13; keydata1[13][1] = 0x44;//Dキー
-	keydata1[14][0] = 1<<14; keydata1[14][1] = 0x45;//Eキー
-	keydata1[15][0] = 1<<15; keydata1[15][1] = 0x46;//Fキー
-	keydata1[16][0] = 1<<16; keydata1[16][1] = 0x47;//Gキー
-	keydata1[17][0] = 1<<17; keydata1[17][1] = 0x48;//Hキー
-	keydata1[18][0] = 1<<18; keydata1[18][1] = 0x49;//Iキー
-	keydata1[19][0] = 1<<19; keydata1[19][1] = 0x4A;//Jキー
-	keydata1[20][0] = 1<<20; keydata1[20][1] = 0x4B;//Kキー
-	keydata1[21][0] = 1<<21; keydata1[21][1] = 0x4C;//Lキー
-	keydata1[22][0] = 1<<22; keydata1[22][1] = 0x4D;//Mキー
-	keydata1[23][0] = 1<<23; keydata1[23][1] = 0x4E;//Nキー
-	keydata1[24][0] = 1<<24; keydata1[24][1] = 0x4F;//Oキー
-	keydata1[25][0] = 1<<25; keydata1[25][1] = 0x50;//Pキー
-	keydata1[26][0] = 1<<26; keydata1[26][1] = 0x51;//Qキー
-	keydata1[27][0] = 1<<27; keydata1[27][1] = 0x52;//Rキー
-	keydata1[28][0] = 1<<28; keydata1[28][1] = 0x53;//Sキー
-	keydata1[29][0] = 1<<29; keydata1[29][1] = 0x54;//Tキー
+
 
 
 	/*キー取得命令のためのキー配列その2*/
-	keydata2[0][0] = 1<<0; keydata2[0][1] = 0x55;//Uキー
-	keydata2[1][0] = 1<<1; keydata2[1][1] = 0x56;//Vキー
-	keydata2[2][0] = 1<<2; keydata2[2][1] = 0x57;//Wキー
-	keydata2[3][0] = 1<<3; keydata2[3][1] = 0x58;//Xキー
-	keydata2[4][0] = 1<<4; keydata2[4][1] = 0x59;//Yキー
-	keydata2[5][0] = 1<<5; keydata2[5][1] = 0x5A;//Zキー
 
-	keydata2[6][0] = 1<<6; keydata2[6][1] = 0x30;//メイン0キー
-	keydata2[7][0] = 1<<7; keydata2[7][1] = 0x31;//メイン1キー
-	keydata2[8][0] = 1<<8; keydata2[8][1] = 0x32;//メイン2キー
-	keydata2[9][0] = 1<<9; keydata2[9][1] = 0x33;//メイン3キー
-	keydata2[10][0] = 1<<10; keydata2[10][1] = 0x34;//メイン4キー
-	keydata2[11][0] = 1<<11; keydata2[11][1] = 0x35;//メイン5キー
-	keydata2[12][0] = 1<<12; keydata2[12][1] = 0x36;//メイン6キー
-	keydata2[13][0] = 1<<13; keydata2[13][1] = 0x37;//メイン7キー
-	keydata2[14][0] = 1<<14; keydata2[14][1] = 0x38;//メイン8キー
-	keydata2[15][0] = 1<<15; keydata2[15][1] = 0x39;//メイン9キー
-
-	keydata2[16][0] = 1<<16; keydata2[16][1] = 0x1B;//ESCキー
-	keydata2[17][0] = 1<<17; keydata2[17][1] = 0x04;//マウス真ん中
-	keydata2[18][0] = 1<<18; keydata2[18][1] = 0x10;//シフトキー
-	keydata2[19][0] = 1<<19; keydata2[19][1] = 0x08;//バックスペース
-	keydata2[20][0] = 1<<20; keydata2[20][1] = 0x12;//ALTキー
-	keydata2[21][0] = 1<<21; keydata2[21][1] = 0x09;//TABキー
-
-	keydata2[22][0] = 1<<22; keydata2[22][1] = 0x70;//F1
-	keydata2[23][0] = 1<<23; keydata2[23][1] = 0x71;//F2
-	keydata2[24][0] = 1<<24; keydata2[24][1] = 0x72;//F3
-	keydata2[25][0] = 1<<25; keydata2[25][1] = 0x73;//F4
-	keydata2[26][0] = 1<<26; keydata2[26][1] = 0x74;//F5
-	keydata2[27][0] = 1<<27; keydata2[27][1] = 0x75;//F6
-	keydata2[28][0] = 1<<28; keydata2[28][1] = 0x76;//F7
-	keydata2[29][0] = 1<<29; keydata2[29][1] = 0x77;//F8
 
 	/*マウスを使うために初期化します*/
 	MousePos.x = 0;
@@ -164,12 +92,7 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 		keyinQuick[i] = 0;
 	}
 
-	for( int i=0; i<30; i++){
-		for( int j=0; j<2; j++){
-			keyBox1[i][j] = 0;
-			keyBox2[i][j] = 0;
-		}
-	}
+
 
 	/* **************
 	// スワップチェインを作成する
@@ -177,9 +100,8 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	*/
 
 	ech = E3DCreateSwapChain( chwnd, &scid2);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 
 	/* **************
@@ -190,16 +112,13 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	// メニュー画面での上部白いバーをロードします。
 	wsprintf( loadname, "%s\\data\\img\\sys\\loading.png", path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteID[0]);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	}
+	
+			_ASSERT( ech != 1 );//エラーチェック
 
 	// 画面全体を暗くするための、黒画像
 	wsprintf( loadname, "%s\\data\\img\\oth\\black.png", System::path);
 	ech = E3DCreateSprite( loadname, 0, 0, &SpriteID[1]);
-	if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	
 };
@@ -212,22 +131,16 @@ System::~System(){
 	/* 画像の破棄を行います */
 	for(int i=0; i<2; i++){
 			ech = E3DDestroySprite( SpriteID[i]);
-			if(ech != 0){//エラーチェック
-						_ASSERT(0);//エラーダイアログを表示
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 	}
 
 	/* スワップチェインを削除 */
 	ech = E3DDestroySwapChain(scid2);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	}
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/* Easy3D終了処理 */
 	ech = E3DBye();
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 };
@@ -240,19 +153,23 @@ int System::MsgQ( const int fps){
 	int rfps = 0;//いらないFPS計測用の変数。
 	MouseWhole = 0;//マウスホイールの移動量を初期化する
 
-	GotMes = PeekMessage( &msg, NULL, 0, 0, PM_REMOVE);
-	if( msg.message == WM_QUIT){
-				return 0;
-	}
-	if( GotMes != 0){//メッセージが来たら
-				DispatchMessage(&msg);
-				TranslateMessage(&msg);
-				GetWindowRect( hwnd, &rewin);
-	}
+	/* メッセージループの処理 */
+	do{
+			GotMes = PeekMessage( &msg, NULL, 0, 0, PM_REMOVE);
+			if( msg.message == WM_QUIT){
+						return 0;
+			}
+			if( GotMes != 0){//メッセージが来たら
+						DispatchMessage(&msg);
+						TranslateMessage(&msg);
+						GetWindowRect( hwnd, &rewin);
+			}
+
+	}while( GotMes != NULL );// メッセージが来ていなかったら、ループを抜ける
+
+
 	ech = E3DWaitbyFPS( fps, &rfps);
-	if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/**/
 	//音声情報を更新するor無視
@@ -261,14 +178,10 @@ int System::MsgQ( const int fps){
 
 		/*リスナーの位置(カメラ位置)を設定*/
 		ech = E3DSet3DSoundListenerMovement( -1);
-		if(ech != 0){//エラーチェック
-					_ASSERT(0);//エラーダイアログを表示
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 		/*音情報の更新を行います*/
 		ech = E3DUpdateSound();
-		if(ech != 0){//エラーチェック
-					_ASSERT(0);//エラーダイアログを表示
-		};
+		_ASSERT( ech != 1 );//エラーチェック
 	}
 
 
@@ -279,181 +192,212 @@ int System::MsgQ( const int fps){
 int System::KeyRenewal( const int SelectMode){
 
 
-	/*初期化します*/
+	/* 初期化 & 宣言を行います*/
+	static int KeyBox[30][2][2];// 動的に取得したキー情報を入れる配列
+	int imput[2] = { 0 , 0 };
+	const int KeyTrigger[3][2] = // トリガーとなるキー番号をそれぞれの状況で指定したconst変数
+	{
+		{ 0 , 0 },									// メニュー中
+		{ (1<<10)+(1<<13)+(1<<28) , (1<<2) },		// ゲーム中,連続不可
+		{ (1<<7)+(1<<10)+(1<<13)+(1<<28) , (1<<2) }	// ゲーム中,連続可
+	};
+	const int KeyData[2][30] = {// キーの番号を格納した変数
+		{
+			0x25,//左キー 0
+			0x26,//上キー 1
+			0x27,//右キー 2
+			0x28,//下キー 3
+			0x20,//スペース 4
+			0x0D,//エンターキー 5
+			0x11,//コントロールキー 6
+			0x01,//左クリック 7
+			0x02,//右クリック 8
+			0x09,//TAB 9
 
+			0x41,//Aキー 10
+			0x42,//Bキー 11
+			0x43,//Cキー 12 
+			0x44,//Dキー 13 
+			0x45,//Eキー 14
+			0x46,//Fキー 15
+			0x47,//Gキー 16
+			0x48,//Hキー 17
+			0x49,//Iキー 18
+			0x4A,//Jキー 19
+
+			0x4B,//Kキー 20
+			0x4C,//Lキー 21
+			0x4D,//Mキー 22
+			0x4E,//Nキー 23
+			0x4F,//Oキー 24
+			0x50,//Pキー 25
+			0x51,//Qキー 26
+			0x52,//Rキー 27
+			0x53,//Sキー 28
+			0x54,//Tキー 29
+		},
+		{
+			0x55,//Uキー 0
+			0x56,//Vキー 1
+			0x57,//Wキー 2
+			0x58,//Xキー 3
+			0x59,//Yキー 4
+			0x5A,//Zキー 5
+
+			0x30,//メイン0キー 6
+			0x31,//メイン1キー 7
+			0x32,//メイン2キー 8
+			0x33,//メイン3キー 9
+			0x34,//メイン4キー 10
+			0x35,//メイン5キー 11 
+			0x36,//メイン6キー 12
+			0x37,//メイン7キー 13
+			0x38,//メイン8キー 14
+			0x39,//メイン9キー 15
+
+			0x1B,//ESCキー 16
+			0x04,//マウス真ん中 17 
+			0x10,//シフトキー 18
+			0x08,//バックスペース 19
+			0x12,//ALTキー 20
+			0x09,//TABキー 21
+
+			0x70,//F1 22
+			0x71,//F2 23
+			0x72,//F3 24
+			0x73,//F4 25
+			0x74,//F5 26
+			0x75,//F6 27
+			0x76,//F7 28
+			0x77,//F8 39
+		}
+	};
+	const int ModeKeyCheck[3][2][20] = 
+	{
+		{// もしメニューでの検出なら
+			{ 0, 1, 0, 0, 0, 0, -1},
+			{ 1<<5, 1<<19, 1<<0, 1<<1, 1<<2, 1<<3, -1}
+		},
+		{// もしゲーム中での検出なら(連続不可)
+			{ 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, -1},
+			{ 1<<10, 1<<2, 1<<13,1<<28, 1<<27, 1<<14, 1<<10, 1<<5, 1<<18, 1<<7,
+				1<<8, 1<<4, 1<<5, 1<<1, 1<<17, 1<<16, 1<<15, -1},
+		},
+		{// もしゲーム中での検出なら(連続化) 
+			{ 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, -1},
+			{ 1<<10, 1<<2, 1<<13,1<<28, 1<<27, 1<<14, 1<<10, 1<<5, 1<<18, 1<<7,
+				1<<8, 1<<4, 1<<5, 1<<1, 1<<17, 1<<16, 1<<15, -1},
+		}
+	};
+
+	
+	/* 初期化します */ 
 	for(int i=0; i < 20; i++){	
 			keyin[i] = 0;
 	}
-	int imput1 = 0;
-	int imput2 = 0;
-
-	/*　0.トリガーキーか？::1.前回押されたか*/
-	int KeyTrigger1 = 0;
-	int KeyTrigger2 = 0;
-
-	 /*初期化ここまで*/
-
-	/*
-	//選択したモードからトリガー状態で取得するキー変数を代入します
-	*/
-
-	if(SelectMode == 0){//メニュー中
-			KeyTrigger1 = 0;
-			KeyTrigger2 = 0;
-	}
-	if(SelectMode == 1){//ゲーム中,連続不可
-			KeyTrigger1 = (1<<10)+(1<<13)+(1<<28);
-			KeyTrigger2 = (1<<2);
-	}
-	if(SelectMode == 2){//ゲーム中,連続可
-			KeyTrigger1 = (1<<7)+(1<<10)+(1<<13)+(1<<28);
-			KeyTrigger2 = (1<<2);
+	for( int i=0; i < 30; i++ ){
+		for( int j=0; j < 2; j++ ){
+			KeyBox[i][0][j] = 0;
+		}
 	}
 
+	/* 初期化 & 宣言はここまで */
 
-	for(int i = 0; i <= 30; i++){
-				//初期化
-				keyBox1[i][0] = 0;
-				keyBox2[i][0] = 0;
+	for(int i=0; i < 30; i++){
 
-				if(KeyTrigger1 & (1<<i)){//もし、トリガーありなら
-									keyBox1[i][0] = 1;
-				};
-				if(KeyTrigger2 & (1<<i)){//もし、トリガーありなら
-									keyBox2[i][0] = 1;
-				};
+		/* 変数の初期化 */
+		const int NowBitShiftNum = 1<<i;
 
-				//キー押し判定
-				if(GetAsyncKeyState(keydata1[i][1]) & 0x8000){//キーが押されていたら
-								imput1 = imput1 + keydata1[i][0];
-								if((keyBox1[i][0] == 0) && (keyBox1[i][1] == 1)){
-													imput1 = imput1 - keydata1[i][0];		
-								}
-								keyBox1[i][1] = 1; 
-				}
-				else{
-					keyBox1[i][1] = 0; 
-				}
+		for( int j=0; j<2; j++){
+			if(KeyTrigger[SelectMode][j] & (1<<i)){
+					KeyBox[i][0][j] = 1;
+			};
 
-
-				if(GetAsyncKeyState(keydata2[i][1]) & 0x8000){//キーが押されていたら
-								imput2 = imput2 + keydata2[i][0];
-								if((keyBox2[i][0] == 0) && (keyBox2[i][1] == 1)){
-													imput2 = imput2 - keydata2[i][0];
-								}
-								keyBox2[i][1] = 1; 
-				}
-				else{
-						keyBox2[i][1] = 0; 
-				}
-	};
+			/* キー押し判定 */
+			if(GetAsyncKeyState( KeyData[j][i] ) & 0x8000){//キーが押されていたら
+							imput[j] = imput[j] + NowBitShiftNum ;
+							if( (KeyBox[i][0][j] == 0) && (KeyBox[i][1][j] == 1) ){
+									imput[j] = imput[j] - NowBitShiftNum ;		
+							}
+							KeyBox[i][1][j] = 1; 
+			}
+			else{
+				KeyBox[i][1][j] = 0; 
+			}
+		}
+	}
 
 
 
 	/*
 	//上記で押されたキー情報を元にゲーム本編で使うデータを組み立てます
 	*/
+	for( int i=0; i<20; i++){
+			const int NowImputNo = ModeKeyCheck[SelectMode][0][i];
+			const int NowBitShiftNum = ModeKeyCheck[SelectMode][1][i];
 
-	if(SelectMode == 0){//もしメニューでの検出なら
-				if(imput1 & 1<<5){//エンター
-						keyin[0] = 1;
-				}
-				if(imput2 & 1<<19){//バックスペース
-						keyin[1] = 1;
-				}
-				if(imput1 & 1<<0){//←
-						keyin[2] = 1;
-				}
-				if(imput1 & 1<<1){//↑
-						keyin[3] = 1;
-				}
-				if(imput1 & 1<<2){//→
-						keyin[4] = 1;
-				}
-				if(imput1 & 1<<3){//↓
-						keyin[5] = 1;
-				}
-		}
-
-	if( ( SelectMode == 1) || ( SelectMode == 2)){//もしゲーム中での検出なら( 連続不可 / 連続化 )
-				if(imput1 & (1<<10)){//Aキー（左へ移動）
-					keyin[0] = 1;
-				}
-				if(imput2 & (1<<2)){//Wキー（前進する）
-						keyin[1] = 1;
-				}
-				if(imput1 & (1<<13)){//Dキー（右へ移動）
-						keyin[2] = 1;
-				}
-				if(imput1 & (1<<28)){//Sキー（後退する）
-						keyin[3] = 1;
-				}
-				if(imput1 & (1<<27)){//Rキー（リロード）
-						keyin[4] = 1;
-				}
-				if(imput1 & (1<<14)){//Eキー（肩撃ち位置変え）
-						keyin[5] = 1;
-				}
-				if(imput1 & (1<<10)){//Qキー（セレ切り替え）
-						keyin[6] = 1;
-				}
-				if(imput2 & (1<<5)){//Zキー（装備使用）
-						keyin[7] = 1;
-				}
-				if(imput2 & (1<<18)){//シフトキー（姿勢切り替え）
-						keyin[8] = 1;
-				}
-				if(imput1 & (1<<7)){//左クリック（銃を撃つ）
-						keyin[9] = 1;
-				}
-				if(imput1 & (1<<8)){//右クリック（グレネード）
-						keyin[10] = 1;
-				}
-				if(imput1 & (1<<4)){//スペース（格闘攻撃）
-						keyin[11] = 1;
-				}
-				if(imput1 & (1<<5)){//エンターキー（調べる）
-						keyin[12] = 1;
-				}
-				if(imput2 & (1<<1)){//Vキー（特殊能力）
-						keyin[13]=1;
-				}
-				if(imput2 & (1<<17)){//ホイールクリック（視点変え）
-						keyin[14] = 1;
-				}
-				if(imput2 & (1<<16)){//ESCキー
-						keyin[15] = 1;
-				}
-				if(imput1 & (1<<17)){//Fキー
-						keyin[16] = 1;
-				}
+			if( NowImputNo == -1) break;// ModeKeyCheck変数が最後なら、ループ脱出
+			if( imput[NowImputNo] & NowBitShiftNum){// キーが押されているかチェックします
+						keyin[i] = 1;
+			}
 	}
+	
+	/* ////////// */
+	// !! メモ !!
+	/* ////////// */
+
+	/* もしメニューでの検出なら [SelectMode == 1] */
+	//エンター 0
+	//バックスペース 1
+	//← 2
+	//↑ 3
+	//→ 4
+	//↓ 5
+
+	/* もしゲーム中での検出なら( 連続不可 / 連続化 ) [SelectMode == 1 OR 2] */
+	//Aキー（左へ移動）0
+	//Wキー（前進する）1
+	//Dキー（右へ移動）2
+	//Sキー（後退する）3
+	//Rキー（リロード）4
+	//Eキー（肩撃ち位置変え） 5
+	//Qキー（セレ切り替え） 6
+	//Zキー（装備使用） 7
+	//シフトキー（姿勢切り替え）8
+	//左クリック（銃を撃つ） 9
+	//右クリック（グレネード） 10
+	//スペース（格闘攻撃） 11
+	//エンターキー（調べる） 12
+	//Vキー（特殊能力） 13
+	//ホイールクリック（視点変え）14
+	//ESCキー 15
+	//Fキー 16
 
 
 	/*
 	//短いタイミングでキーをおしたかどうかの検出を行います
 	*/
-		if(( SelectMode == 1) || ( SelectMode == 2)){//もしゲーム中での検出なら
-				for(int i=0; i<3; i++){//A・W・Dキーで3回繰り返す
-						if( (keyin[i] == 0) && (KeyQuickPush[i][0] == 1) ){//キーが押されてなく、前回は押されていたとき
-								KeyQuickPush[i][1] = 5;//7ループ後までカウントする
-						}
-						if( KeyQuickPush[i][1] > 0){//7ループ内で
-								KeyQuickPush[i][1] = KeyQuickPush[i][1] - 1;//ループ容赦回数を減らす
-								if( keyin[i] == 1){//その中でキーが押されているなら
-										KeyQuickPush[i][2] = 1;//ダッシュフラグをオンにする
-								}
-						}
-						if( KeyQuickPush[i][2] == 1){//ダッシュフラグがオンなら
-								keyinQuick[i] = 1;//ゲームダッシュフラグをオンにする
-								if( keyin[i] == 0){//もし、「ダッシュフラグがオンになっているキーが押されてない」なら
-										KeyQuickPush[i][2] = 0;//ダッシュキーが押されてない状態にする
-										keyinQuick[i] = 0;//ゲームダッシュフラグをオフにする
-								}
-						}
-						KeyQuickPush[i][0] = keyin[i];//前回のキーを代入します(次ループで使用)
-				}
-		}
+	if(( SelectMode == 1) || ( SelectMode == 2)){//もしゲーム中での検出なら
+			for(int i=0; i<3; i++){//A・W・Dキーで3回繰り返す
+					if( (keyin[i] == 0) && (KeyQuickPush[i][0] == 1) ){//キーが押されてなく、前回は押されていたとき
+							KeyQuickPush[i][1] = 5;//7ループ後までカウントする
+					}
+					if( KeyQuickPush[i][1] > 0){//7ループ内で
+							KeyQuickPush[i][1] = KeyQuickPush[i][1] - 1;//ループ容赦回数を減らす
+							if( keyin[i] == 1){//その中でキーが押されているなら
+									KeyQuickPush[i][2] = 1;//ダッシュフラグをオンにする
+							}
+					}
+					if( KeyQuickPush[i][2] == 1){//ダッシュフラグがオンなら
+							keyinQuick[i] = 1;//ゲームダッシュフラグをオンにする
+							if( keyin[i] == 0){//もし、「ダッシュフラグがオンになっているキーが押されてない」なら
+									KeyQuickPush[i][2] = 0;//ダッシュキーが押されてない状態にする
+									keyinQuick[i] = 0;//ゲームダッシュフラグをオフにする
+							}
+					}
+					KeyQuickPush[i][0] = keyin[i];//前回のキーを代入します(次ループで使用)
+			}
+	}
 
 	/*
 	//次にマウス座標を取得します。
@@ -478,9 +422,7 @@ int System::WaitRender(){
 	E3DBeginSprite();
 
 	ech = E3DRenderSprite( SpriteID[0], 640.0/1024.0, 480.0/512.0, SpritePos1);//背景
-	if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-	};
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/*ここで、描画完了*/
 	E3DEndSprite();
@@ -527,13 +469,11 @@ int System::SetFadeOutOfScid( const int FadeTime){
 	// **********
 	*/
 	ech = E3DBeginScene( scid2, 1, -1);
-	if(ech != 0){//エラーチェック
-		_ASSERT(0);//エラーダイアログを表示
-	};
+	
+	_ASSERT( ech != 1 );//エラーチェック
 	ech = E3DEndScene();
-	if(ech != 0){//エラーチェック
-		_ASSERT(0);//エラーダイアログを表示
-	};
+	
+	_ASSERT( ech != 1 );//エラーチェック
 
 	/* 処理終了 */
 
@@ -549,18 +489,16 @@ int System::SetFadeOutOfScid( const int FadeTime){
 
 			/*黒画像の透明度を指定する*/
 			ech = E3DSetSpriteARGB( SpriteID[1], BlackColor);
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 
 			/* 透明度を更新(iカウンタで変位) */
 			BlackColor.a = i * (255 / FadeTime);
 
 			/*黒画像の透明度を指定する*/
 			ech = E3DSetSpriteARGB( SpriteID[1], BlackColor);
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 
 		
 			/* **********
@@ -569,13 +507,11 @@ int System::SetFadeOutOfScid( const int FadeTime){
 			*/
 
 			ech = E3DBeginScene( scid2, 0, -1);
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 			ech = E3DEndScene();
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 
 			/* 処理終了 */
 
@@ -586,37 +522,30 @@ int System::SetFadeOutOfScid( const int FadeTime){
 			*/
 
 			ech = E3DBeginScene( scid1, 1, -1);
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 			ech = E3DBeginSprite();//スプライト描画の開始
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 			
 			/* **************************************** */
 			/* スプライト(透過付き黒画像)をレンダリング */
 			/* **************************************** */
 
 			ech = E3DRenderSprite( SpriteID[1], 1.0f, 1.0f, MainSpritePos);//黒背景
-			if(ech != 0 ){//エラーチェック
-				_ASSERT( 0 );//エラーダイアログ
-			};
+			_ASSERT( ech != 1 );//エラーチェック
 			ech = E3DEndSprite();//スプライト描画の終了
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 
 			/* 処理終了 */
 
 			ech = E3DEndScene();
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 			ech = E3DPresent( System::scid1);
-			if(ech != 0){//エラーチェック
-				_ASSERT(0);//エラーダイアログを表示
-			};
+			
+			_ASSERT( ech != 1 );//エラーチェック
 
 	}
 

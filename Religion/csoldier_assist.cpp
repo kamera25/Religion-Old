@@ -18,18 +18,6 @@ int Soldier::Set_Wp_equipment( int Number){
 
 	return 0;
 }
-/* Staminaの取得関数 */
-int Soldier::Get_Stamina() const{
-
-	return Stamina;
-}
-/* Staminaの代入関数 */
-int Soldier::Set_Stamina( int Number){
-
-	Stamina = Number;
-
-	return 0;
-}
 /* ダミーモデルのID取得関数 */
 int Soldier::Get_DummyModel() const{
 
@@ -68,8 +56,6 @@ int Soldier::Set_Quaternion( int QNo, int Number){
 }
 /* ウェポンポインタの取得関数 */
 Weapon* Soldier::Get_Weapon(){
-
-	//static Weapon *WpnPonter = &Wpn;
 
 	return &Wpn;
 }

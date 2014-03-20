@@ -15,7 +15,7 @@ int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 	int ech = 0;// エラーチェック変数の初期化
 	int NaviPoint = 0;//新しく追加したナビポイントのIDを代入
 	char loadname[256] = "";// 読み込みデータ用の文字列配列
-	E3DCOLOR4UC FogColor = {255,255,255,255};// 霧の色を指定します
+	E3DCOLOR4UC FogColor = {255,0,0,0};// 霧の色を指定します
 	D3DXVECTOR3 NaviPointPos( 0.0, 0.0, 0.0);//ナビポイント座標を代入する構造体
 
 
@@ -37,11 +37,8 @@ int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 	// 霧の指定を行ないます
 	/* /////////////////// */
 
-	//E3DSetLinearFogParams(1, FogColor, 8000, 100000, -1);//ファグをかけます。
-	if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-	}
+	ech = E3DSetLinearFogParams(1, FogColor, 0, 20000, -1);//ファグをかけます。
+	_ASSERT( ech != 1 );//エラーダイアログ
 
 
 	*FogDist = 8000.0f;//背景のもやで見えにくくする。
