@@ -2,10 +2,10 @@
 //特にゲームを開始する時に必要な関数が多く書かれています。
 */
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
-#include "cstage.h"//ステージ関係のクラスヘッダファイル
-#include "clive.h"//敵やキャラの宣言ヘッダファイル
+#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
+#include "clive.h"//敵やキャラの宣言ヘッダファイル
 
 //ここにグローバル変数を宣言
 extern System *sys;//システムクラスを指す、クラスのポインタ
@@ -31,6 +31,10 @@ PlayerChara::PlayerChara( int selchara, int Wpselect_equipment){
 	AirOnPC = 0;//自分の空中状態を通常にする
 	Acceleration = 0.0;//重力加速度を0にする
 	MoveSpeed = 0.0;//平面加速度を0にする
+
+	for( int i=0; i<4; i++){
+			Ammo[i] = -1;		
+	}
 
 
 	//キャラクターモデルのロード
@@ -143,7 +147,7 @@ PlayerChara::PlayerChara( int selchara, int Wpselect_equipment){
 
 	/*所持した武器の中で最初に何を持っているか設定します*/
 	Wp_equipment = Wpselect_equipment;
-
+	Ammo[0] = 0;
 
 
 

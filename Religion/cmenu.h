@@ -3,6 +3,11 @@
 //主にポーズメニュークラスとドッグメニュークラスについて書かれています。
 */
 
+//プロトタイプ宣言
+class Batch_Preparat;
+class PlayerChara;
+class Weapon;
+
 
 class Menu{
 

@@ -2,15 +2,13 @@
 /*キャラクタークラスのキャラをするヘッダファイル。
 //
 */
-#include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
-#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
-#include "cweapon.h"//武器に関することのクラスヘッダファイル
-#include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
-#include "cenemy.h"//敵クラスの宣言ヘッダファイル
-#include "ccamera.h"//カメラに関することのクラスヘッダファイル
 
-class Batch_Preparat;//循環変数対策
-class Weapon;//循環変数対策
+//プロトタイプ宣言
+class Stage;
+class Batch_Preparat;
+class Camera;
+class Weapon;
+class Enemy;
 
 
 //プレイヤーキャラクタークラスを作成、初期化（その他キャラはcharaクラスにて作成可能）
@@ -39,9 +37,6 @@ public:
 	// [2] モデル座標の向き [3] 銃の方向、PCの姿勢 [4]当たり判定モデルの向き
 	*/
 	int Qid[10];//クオンターニオンの識別IDを格納します
-	
-
-
 
 
 
@@ -96,6 +91,6 @@ public:
 	int MovePosOnGround( Stage *Stg);//キャラクターをグラウンドの上に置くための関数
 	int ShoulderGunSysBefore( Weapon *Wep);//キャラクターののち処理を行う関数
 	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene, Weapon *Wep);//自分の向くべき方向を調節する関数
-	int NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, Weapon *Wep);//普通のゲーム内での処理を行なう関数
+	int NormallyPCSystem( Stage *Stg, Batch_Preparat *BatPre, Enemy *Ene, Camera *Cam, Weapon *Wep, int ScreenPos[2]);//普通のゲーム内での処理を行なう関数
 	int GunSystem( Enemy *Ene);//銃について作動させる関数、リロード、次打てるまでの時間計算、敵へのあたり判定、ダメージ計算など
 };

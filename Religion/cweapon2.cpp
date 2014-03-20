@@ -1,12 +1,13 @@
 /*ここでは、武器に関することを記述するクラスコードファイルです
 //
 */
-#include "cweapon.h"//武器に関することのクラスヘッダファイル
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
-#include "cstage.h"//ステージ関係のクラスヘッダファイル
-#include "clive.h"//敵やキャラの宣言ヘッダファイル
+#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
-#include <stdlib.h>//乱数を作るのに使用します
+
+#include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include "cenemy.h"//敵クラスの宣言ヘッダファイル
+#include "clive.h"//敵やキャラの宣言ヘッダファイル
 
 //ここにグローバル変数を宣言
 extern System *sys;//システムクラスを指す、クラスのポインタ
@@ -19,9 +20,9 @@ int Weapon::TreatmentWhileGame( int Wp_equipment){
 	int keyin[20] = {0};
 	float LightDistance = 0.0f;//光が届く距離
 	float MuzzleFlashAlpha = 0.0f;//マズルフラッシュの透明度
+	float MuzzlePosArray[3];//マズルフラッシュを表示させる座標配列 
 	static int MuzzleFlashConter = 0;//マズルフラッシュカウンター
-	D3DXVECTOR3 MuzzlePos( 0.0, 0.0, 0.0);//銃口位置
-	D3DXVECTOR3 MuzzleFlashSound( 340.0, 340.0, 340.0);//マズルフラッシュサウンドの速度XYZ
+	D3DXVECTOR3 MuzzlePos( 0.0, 0.0, 0.0);//銃口位置	
 	E3DCOLOR4UC MuzzleFlashColor = { 0, 0, 0, 0};//マズルフラッシュの色を指定
 
 	/*キーを取得する*/
@@ -31,138 +32,257 @@ int Weapon::TreatmentWhileGame( int Wp_equipment){
 
 	if( Wp_equipment != -1){//武器があれば
 
-		/*武器に新しいモーションを当てる*/
-		ech = E3DSetNewPoseML( WeaponModel[Wp_equipment]);
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
+			/*変数の初期化*/
+			int NowAmmo = WeaponDataWhileGame[Wp_equipment][0]; //現在の弾薬数
+			int NowMag = WeaponDataWhileGame[Wp_equipment][1]; //現在のマガジン数
+			int WeaponAmmo = WeaponData[Wp_equipment][2]; //武器性能上の弾薬数
 
-		if( WeaponBone[Wp_equipment][0] != 0){
-			/*銃の置くボーンの座標を求めます*/
-			ech = E3DGetCurrentBonePos( WeaponModel[Wp_equipment], WeaponBone[Wp_equipment][0], 1, &MuzzlePos);
+
+
+			/*武器に新しいモーションを当てる*/
+			ech = E3DSetNewPoseML( WeaponModel[Wp_equipment]);
 			if(ech != 0 ){//エラーチェック
 						_ASSERT( 0 );//エラーダイアログ
 			};
-		}
 
-		/*重厚の位置に爆発エフェクトを置きます*/
-		ech = E3DSetBillboardPos( WeaponEffect[Wp_equipment][0], MuzzlePos); 
-		if(ech != 0 ){//エラーチェック
-					_ASSERT( 0 );//エラーダイアログ
-		};
-
-		if( keyin[9] == 1){
-			if( 0 < WeaponDataWhileGame[Wp_equipment][0] ){
-					MuzzleFlashConter = 4;
-
-					/*ビルボードを回転させます*/
-					ech = E3DRotateBillboard( WeaponEffect[Wp_equipment][0], float( rand() % 360), 1);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
-
-					/*音の位置と速さを指定します*/
-					ech = E3DSet3DSoundMovement( WeaponSoundEfeect[Wp_equipment][0], MuzzlePos, MuzzleFlashSound);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
-
-					/*発射音を鳴らします*/
-					ech = E3DPlaySound( WeaponSoundEfeect[Wp_equipment][0], 0, 0, 0);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
-
-					/*変数操作*/
-
-					//弾薬をひとつ減らします
-					WeaponDataWhileGame[Wp_equipment][0] = WeaponDataWhileGame[Wp_equipment][0] - 1;
-			}
-			else{//空撃ち状態なら
-					/*音の位置と速さを指定します*/
-					ech = E3DSet3DSoundMovement( WeaponSoundEfeect[Wp_equipment][1], MuzzlePos, MuzzleFlashSound);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
-
-					/*発射音を鳴らします*/
-					ech = E3DPlaySound( WeaponSoundEfeect[Wp_equipment][1], 0, 0, 0);
-					if(ech != 0 ){//エラーチェック
-								_ASSERT( 0 );//エラーダイアログ
-					};
-			}
-		}
-
-
-		/*マズルフラッシュカウンターがオンなら*/
-		if( 0 < MuzzleFlashConter){
-
-			if( MuzzleFlashConter == 4){
-						MuzzleFlashAlpha = 0.7f;
-						MuzzleFlashColor.r = 200;
-						MuzzleFlashColor.g = 200;
-						MuzzleFlashColor.b = 200;
-			}
-			if( MuzzleFlashConter == 3){
-						MuzzleFlashAlpha = 0.9f;
-						MuzzleFlashColor.r = 240;
-						MuzzleFlashColor.g = 240;
-						MuzzleFlashColor.b = 240;
-			}
-			if( MuzzleFlashConter == 2){
-						MuzzleFlashAlpha = 0.6f;
-						MuzzleFlashColor.r = 160;
-						MuzzleFlashColor.g = 160;
-						MuzzleFlashColor.b = 160;
-			}
-			if( MuzzleFlashConter == 1){
-						/*ライトを無効にする*/
-						MuzzleFlashAlpha = 0.2f;
-						MuzzleFlashColor.r = 0;
-						MuzzleFlashColor.g = 0;
-						MuzzleFlashColor.b = 0;
+			if( WeaponBone[Wp_equipment][0] != 0){
+				/*銃の置くボーンの座標を求めます*/
+				ech = E3DGetCurrentBonePos( WeaponModel[Wp_equipment], WeaponBone[Wp_equipment][0], 1, &MuzzlePos);
+				if(ech != 0 ){//エラーチェック
+							_ASSERT( 0 );//エラーダイアログ
+				};
 			}
 
-			/*透明度を変更する*/
-			ech = E3DSetBillboardAlpha( WeaponEffect[Wp_equipment][0], MuzzleFlashAlpha);
+			/*重厚の位置に爆発エフェクトを置きます*/
+			ech = E3DSetBillboardPos( WeaponEffect[Wp_equipment][0], MuzzlePos); 
 			if(ech != 0 ){//エラーチェック
 						_ASSERT( 0 );//エラーダイアログ
 			};
-			/*ライトを付ける*/
-			if( MuzzleFlashConter != 1){
-						ech = E3DSetPointLight( WeaponMuzzleLight[Wp_equipment], MuzzlePos, 700.0f, MuzzleFlashColor);
+
+			if( WeaponFireFlag == 1){
+
+						/*ビルボードを回転させます*/
+						ech = E3DRotateBillboard( WeaponEffect[Wp_equipment][0], float( rand() % 360), 1);
 						if(ech != 0 ){//エラーチェック
 									_ASSERT( 0 );//エラーダイアログ
 						};
+
+						//位置を代入
+						MuzzlePosArray[0] = MuzzlePos.x;
+						MuzzlePosArray[1] = MuzzlePos.y;
+						MuzzlePosArray[2] = MuzzlePos.z;
+						//サウンドの再生
+						PlayWeaponSound( Wp_equipment, 0, MuzzlePosArray);
+
+						/*変数操作*/
+
+						// マズルフラッシュカウンターを表示させます
+						MuzzleFlashConter = 4;
+						//弾薬をひとつ減らします
+						WeaponDataWhileGame[Wp_equipment][0] = WeaponDataWhileGame[Wp_equipment][0] - 1;
+						/*連射カウンタに一定数値を代入し射撃を一定停止させます*/
+						WeaponRapidFire = WeaponData[Wp_equipment][6];
+
 			}
-			else{//ライト消灯のお時間です
-						ech = E3DSetPointLight( WeaponMuzzleLight[Wp_equipment], MuzzlePos, 0.0f, MuzzleFlashColor);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};			
+			if( WeaponFireFlag == 2){//弾なしで空撃ち状態なら
+
+						//位置を代入
+						MuzzlePosArray[0] = MuzzlePos.x;
+						MuzzlePosArray[1] = MuzzlePos.y;
+						MuzzlePosArray[2] = MuzzlePos.z;
+						//サウンドの再生
+						PlayWeaponSound( Wp_equipment, 1, MuzzlePosArray);
+
+						/*変数操作*/
+
+						/*連射カウンタに一定数値を代入し射撃を一定停止させます*/
+						WeaponRapidFire = WeaponData[Wp_equipment][6];
 			}
 
 
-			/*爆発のエフェクトを(すべてのビルボード)の描画*/
-			ech = E3DRenderBillboard( sys->scid1, 0);
-			if(ech != 0 ){//エラーチェック
-						_ASSERT( 0 );//エラーダイアログ
-			};
+			if( ( keyin[4] == 1) && ( 0 < NowMag) && //Rキーが押されてて //リロードできる状態(Magがあり、AMMOが満タンでないか銃未使用)でリロードするなら
+				/**/ ( ( NowAmmo < WeaponAmmo) || ( NowMag == WeaponData[Wp_equipment][3]))){ 
 
-			/*フラッシュカウントをひとつ下げる*/
-			MuzzleFlashConter = MuzzleFlashConter -1;
+					if( ( WeaponData[Wp_equipment][0] != 3) && ( WeaponData[Wp_equipment][0] != 7) && //グレネードでなく、ショットガンでもなければ
+					/**/( NowAmmo >= WeaponAmmo) && ( NowMag == WeaponData[Wp_equipment][3])){// MAGもAMMOも一個も使ってなければ
 
-			/*透明度を変更する*/
-			if( MuzzleFlashConter == 0){//カウントが0になったら
-						ech = E3DSetBillboardAlpha( WeaponEffect[Wp_equipment][0], 0.0f);
-						if(ech != 0 ){//エラーチェック
-									_ASSERT( 0 );//エラーダイアログ
-						};	
+							WeaponDataWhileGame[Wp_equipment][0] = WeaponAmmo + 1;//AMMOを満タン+1にする
+					}
+					else{//通常のリロードであれば
+
+							WeaponDataWhileGame[Wp_equipment][0] = WeaponAmmo;//AMMOを満タンにする
+					}
+					//
+					WeaponDataWhileGame[Wp_equipment][1] -= 1;//MAGをひとつ減らす
+			}	
+
+
+			/*マズルフラッシュカウンターがオンなら*/
+			if( 0 < MuzzleFlashConter){
+
+				if( MuzzleFlashConter == 4){
+							MuzzleFlashAlpha = 0.7f;
+							MuzzleFlashColor.r = 200;
+							MuzzleFlashColor.g = 200;
+							MuzzleFlashColor.b = 200;
+				}
+				if( MuzzleFlashConter == 3){
+							MuzzleFlashAlpha = 0.9f;
+							MuzzleFlashColor.r = 240;
+							MuzzleFlashColor.g = 240;
+							MuzzleFlashColor.b = 240;
+				}
+				if( MuzzleFlashConter == 2){
+							MuzzleFlashAlpha = 0.6f;
+							MuzzleFlashColor.r = 160;
+							MuzzleFlashColor.g = 160;
+							MuzzleFlashColor.b = 160;
+				}
+				if( MuzzleFlashConter == 1){
+							/*ライトを無効にする*/
+							MuzzleFlashAlpha = 0.2f;
+							MuzzleFlashColor.r = 0;
+							MuzzleFlashColor.g = 0;
+							MuzzleFlashColor.b = 0;
+				}
+
+				/*透明度を変更する*/
+				ech = E3DSetBillboardAlpha( WeaponEffect[Wp_equipment][0], MuzzleFlashAlpha);
+				if(ech != 0 ){//エラーチェック
+							_ASSERT( 0 );//エラーダイアログ
+				};
+				/*ライトを付ける*/
+				if( MuzzleFlashConter != 1){
+							ech = E3DSetPointLight( WeaponMuzzleLight[Wp_equipment], MuzzlePos, 700.0f, MuzzleFlashColor);
+							if(ech != 0 ){//エラーチェック
+										_ASSERT( 0 );//エラーダイアログ
+							};
+				}
+				else{//ライト消灯のお時間です
+							ech = E3DSetPointLight( WeaponMuzzleLight[Wp_equipment], MuzzlePos, 0.0f, MuzzleFlashColor);
+							if(ech != 0 ){//エラーチェック
+										_ASSERT( 0 );//エラーダイアログ
+							};			
+				}
+
+
+				/*爆発のエフェクトを(すべてのビルボード)の描画*/
+				ech = E3DRenderBillboard( sys->scid1, 0);
+				if(ech != 0 ){//エラーチェック
+							_ASSERT( 0 );//エラーダイアログ
+				};
+
+				/*フラッシュカウントをひとつ下げる*/
+				MuzzleFlashConter = MuzzleFlashConter -1;
+
+				/*透明度を変更する*/
+				if( MuzzleFlashConter == 0){//カウントが0になったら
+							ech = E3DSetBillboardAlpha( WeaponEffect[Wp_equipment][0], 0.0f);
+							if(ech != 0 ){//エラーチェック
+										_ASSERT( 0 );//エラーダイアログ
+							};	
+				}
 			}
 
+			/*連射停止カウンタがオンなら*/
+			if( 0 < WeaponRapidFire){
+					WeaponRapidFire = WeaponRapidFire - 1;//連射停止カウンタを一つ繰り下げる
+			}
+	}
+
+	return 0;
+}
+/*ゲーム中の敵とのあたり&攻撃判定を行います。*/
+int Weapon::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2]){
+
+	/*変数の初期*/
+	int ech = 0;//エラー確認変数
+
+	int NowWpKind = 0;//今の武器の種類を取得します
+	int NearEnemyID = 0;//一番近い敵キャラの識別番号
+	int EnemyConflict = 0;//敵に当たった数の合計
+	int EneHitResult = 0;//敵が照準に入っているかの結果を入れます
+	float NowWpRange = 0.0f;//今の武器の射程を代入します
+	float EneDistance = 0.0f;//当たった敵のところからの距離が代入されます
+	float EneNearDistance = 0.0f;//当たっている一番近い敵の距離が代入されます
+	D3DXVECTOR3 GunTargetPos( 0.0, 0.0, 0.0);//銃が向くべき座標
+	D3DXVECTOR3 WantVec( 0.0, 0.0, 0.0);//「首つけ根」の向きたい方向へのベクトル
+	D3DXVECTOR3 BaseVec( 0.0, 0.0, -1.0);//向きの初期方向ベクトル
+	D3DXVECTOR3 GarbageD3DVec( 0.0, 0.0, 0.0);//要らないXYZのデータの一次入れ
+	POINT ScreenPos = { ScreenPosArray[0], ScreenPosArray[1]};//2Dスクリーン座標構造体
 
 
-		}
+	/*装備をきちんとつけていれば*/
+	if( PC->Wp_equipment != -1){
+
+			NowWpKind = GetWeaponData( PC->Wp_equipment, 0);//武器の種類
+			NowWpRange = float( GetWeaponData( PC->Wp_equipment, 4) * 500);//
+			EneNearDistance = float(NowWpRange);
+	}
+
+
+	/**/
+	//まず、状態的に攻撃判定させるかどうか決めます
+	/**/
+
+	/*発射状態で、敵がいるなら*/
+	if( ( GetWeaponFireFlag() == 1) && ( 0 < Ene->EnemyNum)){
+
+			//ハンドガンなら
+			if( ( NowWpKind == 1) || ( NowWpKind == 4)){
+					/*当たり判定中にいる敵をチェックします*/
+					for( int i = 0; i < 15; i++){//エネミーの数だけ
+							if( Ene->Enemy_hsid[i] != 0){
+										ech = E3DPickFace( sys->scid1, Ene->Enemy_hsid[i], ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
+										if(ech != 0 ){//エラーチェック
+													_ASSERT( 0 );//エラーダイアログ
+										};
+										if( (EneHitResult != 0) && ( EneDistance < EneNearDistance) ){
+													EneNearDistance = EneDistance;//一番近い敵の距離に更新します
+													NearEnemyID = i;//一番近いモデル番号を入れます
+													EnemyConflict = 1;//近い敵がいることを代入します
+										}
+							}
+					}
+
+					/*もし、当たり判定上に敵がいれば*/
+					if( EnemyConflict == 1){
+
+							// !!壁との当たり判定が必要!!
+
+							//敵にダメージを与える
+							Ene->Enemy_HP[NearEnemyID] = Ene->Enemy_HP[NearEnemyID] - GetWeaponData( PC->Wp_equipment, 5);
+					}
+			}
+	}
+
+
+
+	return 0;
+}
+/*武器を発射したかどうかの確認を行います*/
+int Weapon::ChkWeaponLaunch( int Wp_equipment){
+
+	/*変数の初期化*/
+	int keyin[20];//キー情報配列を作成
+	WeaponFireFlag = 0;//一周したらフラグをオフにする
+
+	/*キーを取得する*/
+	sys->GetKeyData(keyin);
+
+	if( Wp_equipment != -1){//武器があれば
+
+			/*変数の初期化*/
+			int NowAmmo = WeaponDataWhileGame[Wp_equipment][0]; //現在の弾薬数
+
+			if( ( keyin[9] == 1) && ( WeaponRapidFire == 0)){//左クリックされ、発射可能がオフなら
+					if( 0 < WeaponDataWhileGame[Wp_equipment][0] ){//Ammoが残っていれば
+							WeaponFireFlag = 1;// 発射状態にする
+					}
+					else if( NowAmmo == 0){//弾なしで空撃ち状態なら
+							WeaponFireFlag = 2;//空撃ち状態する
+					}
+			}
 	}
 
 	return 0;

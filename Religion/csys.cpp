@@ -1,11 +1,12 @@
 /*ここでは、初期化・終了・プロージャーに渡すという行為を行うクラスコードファイルです。
 //
 */
+#include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
+#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
 
-
-//コンストラクタ //Easy3Dの処理を開始するよ。//
+//コンストラクタ:Easy3Dの処理を開始するよ。
 System::System( HINSTANCE chInst, HWND chwnd, char runpath[256]){
 
 
@@ -113,6 +114,7 @@ System::System( HINSTANCE chInst, HWND chwnd, char runpath[256]){
 	BeforeMousePos.x = 0;//X座標初期化
 	BeforeMousePos.y = 0;//Y座標初期化
 	KeyQuickEnd = 0;//フラグ変数を初期化する
+	UpdataSoundflag = 0;//音声情報を更新しない（デフォルト）
 
 	/*変数の初期化*/
 	for(int i=0; i<3; i++){
@@ -120,6 +122,13 @@ System::System( HINSTANCE chInst, HWND chwnd, char runpath[256]){
 			KeyQuickPush[i][j] = 0;
 		}
 		keyinQuick[i] = 0;
+	}
+
+	for( int i=0; i<30; i++){
+		for( int j=0; j<2; j++){
+			keyBox1[30][2] = 0;
+			keyBox2[i][j] = 0;
+		}
 	}
 
 
@@ -133,10 +142,7 @@ System::System( HINSTANCE chInst, HWND chwnd, char runpath[256]){
 
 	
 };
-
-
-
-//デストラクタ //Easy3Dの終了処理を行うよ。//
+//デストラクタ:Easy3Dの終了処理を行うよ。
 System::~System(){
 
 	int ech = 0;//エラーチェック用の変数宣言
@@ -156,8 +162,7 @@ System::~System(){
 
 
 };
-
-
+/*メッセージのループ処理*/
 int System::MsgQ(int fps){
 
 	/*初期化をする*/
@@ -180,13 +185,27 @@ int System::MsgQ(int fps){
 				_ASSERT(0);//エラーダイアログを表示
 	};
 
+	/**/
+	//音声情報を更新するor無視
+	/**/
+	if( UpdataSoundflag != 0){
 
+		/*リスナーの位置(カメラ位置)を設定*/
+		ech = E3DSet3DSoundListenerMovement( -1);
+		if(ech != 0){//エラーチェック
+					_ASSERT(0);//エラーダイアログを表示
+		};
+		/*音情報の更新を行います*/
+		ech = E3DUpdateSound();
+		if(ech != 0){//エラーチェック
+					_ASSERT(0);//エラーダイアログを表示
+		};
+	}
 
 
 	return 0;//ここの数字で終了処理を決めろ。
 
 };
-
 /*キー情報を更新する関数*/
 int System::KeyRenewal( int SelectMode){
 
@@ -209,12 +228,16 @@ int System::KeyRenewal( int SelectMode){
 	//選択したモードからトリガー状態で取得するキー変数を代入します
 	*/
 
-	if(SelectMode == 0){
+	if(SelectMode == 0){//メニュー中
 			KeyTrigger1 = 0;
 			KeyTrigger2 = 0;
 	}
-	if(SelectMode == 1){
+	if(SelectMode == 1){//ゲーム中,連続不可
 			KeyTrigger1 = (1<<10)+(1<<13)+(1<<28);
+			KeyTrigger2 = (1<<2);
+	}
+	if(SelectMode == 2){//ゲーム中,連続可
+			KeyTrigger1 = (1<<7)+(1<<10)+(1<<13)+(1<<28);
 			KeyTrigger2 = (1<<2);
 	}
 
@@ -283,8 +306,7 @@ int System::KeyRenewal( int SelectMode){
 				}
 		}
 
-
-	if(SelectMode == 1){//もしゲーム中での検出なら
+	if( ( SelectMode == 1) || ( SelectMode == 2)){//もしゲーム中での検出なら( 連続不可 / 連続化 )
 				if(imput1 & (1<<10)){//Aキー（左へ移動）
 					keyin[0] = 1;
 				}
@@ -333,13 +355,13 @@ int System::KeyRenewal( int SelectMode){
 				if(imput2 & (1<<16)){//ESCキー
 						keyin[15] = 1;
 				}
-		}
+	}
 
 
 	/*
 	//短いタイミングでキーをおしたかどうかの検出を行います
 	*/
-		if(SelectMode == 1){//もしゲーム中での検出なら
+		if(( SelectMode == 1) || ( SelectMode == 2)){//もしゲーム中での検出なら
 				for(int i=0; i<3; i++){//A・W・Dキーで3回繰り返す
 						if( (keyin[i] == 0) && (KeyQuickPush[i][0] == 1) ){//キーが押されてなく、前回は押されていたとき
 								KeyQuickPush[i][1] = 5;//7ループ後までカウントする
@@ -402,7 +424,6 @@ int System::WaitRender(){
 
 	return 0;
 }
-
 /*キー情報を入手するための関数*/
 int System::GetKeyData( int *KeyDataArray){
 
@@ -411,6 +432,13 @@ int System::GetKeyData( int *KeyDataArray){
 		*(KeyDataArray + i) = keyin[i];
 	}
 
+
+	return 0;
+}
+/*音声情報を更新するかどうかの関数*/
+int System::SetUpdataSoundSys( int Soundflag){
+
+	UpdataSoundflag = Soundflag;
 
 	return 0;
 }

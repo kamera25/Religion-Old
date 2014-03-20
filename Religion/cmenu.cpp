@@ -1,15 +1,15 @@
 /*ここでは、ゲーム中のメニューに関することのクラスです。
 //主にポーズメニュークラスとドッグメニュークラスについて書かれています。
 */
-#include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
-#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
-#include "cstage.h"//ステージ関係のクラスヘッダファイル
-#include "clive.h"//敵やキャラの宣言ヘッダファイル
-#include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
+#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
+#include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
+
 #include "cmenu.h"//メニュークラスに関するヘッダファイル
-#include "citem_manipulate.h"//アイテム操作に関するヘッダファイル
+#include "clive.h"//敵やキャラの宣言ヘッダファイル
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
+#include "citem_manipulate.h"//アイテム操作に関するヘッダファイル
 
 //ここにグローバル変数を宣言
 extern System *sys;//システムクラスを指す、クラスのポインタ

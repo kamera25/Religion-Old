@@ -1,13 +1,16 @@
 /*ここでは、モデルやスプライトの描画に必要な情報を収集、また描画で必要な
 //関数を自動的に実行することができるようにするためのクラスコードファイル
 */
-#include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
-#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
-#include "cstage.h"//ステージや壁の宣言ヘッダファイル
+#include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
+#include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
+
+#include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
-#include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
+#include "cweapon.h"//武器に関することのクラスヘッダファイル
+#include "cstage.h"//ステージ関係のクラスヘッダファイル
+#include "ccamera.h"//カメラ関係のクラスヘッダファイル
 
 
 //ここで使うグローバル変数を宣言
@@ -172,7 +175,6 @@ Batch_Preparat::Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 
 };
-
 /*まとめられたデータを描画します。*/
 int Batch_Preparat::BatchRender( int SceneEndFlg){
 
@@ -254,8 +256,6 @@ int Batch_Preparat::BatchSpriteRender( int SceneEndFlg){
 
 	return 0;
 }
-
-
 /*視野角内チェックが必要なデータ（描画するデータも含む）をチェックします*/
 int Batch_Preparat::BatchChkInView(){
 
@@ -276,7 +276,6 @@ int Batch_Preparat::BatchChkInView(){
 
 	return 0;
 };
-
 /*一つ前の座標をまとめて保存するのに使います*/
 int Batch_Preparat::BatchBeforePos(){
 
@@ -342,7 +341,6 @@ int Batch_Preparat::BacthGunTrade( int Wp_equipment){
 
 	return 0;
 };
-
 /*まとめられたデータを再構築します。この操作は装備品を変えた状態などで必要になります*/
 int Batch_Preparat::BatchReset( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Camera *Cam, Weapon *Wep){
 
@@ -510,8 +508,6 @@ int Batch_Preparat::BatchReset( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Came
 
 	return 0;
 };
-
-
 /*最初にロードしたスプライトの倍率や描画指定*/
 int Batch_Preparat::BatchSpriteSet( PlayerChara *PcC, Weapon *Wep){
 
@@ -549,21 +545,86 @@ int Batch_Preparat::BatchSpriteSet( PlayerChara *PcC, Weapon *Wep){
 	return 0;
 }
 /*文字を描画することや設定をしたりします*/
-int Batch_Preparat::BatchFont( int SceneEndFlg){
+int Batch_Preparat::BatchFont( int SceneEndFlg, PlayerChara *PcC, Weapon *Wep){
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック用の確認変数
 	float Scale = 1.6f;//文字の大きさを格納する変数
+	char ParometaString[64] = "";//表示させる文字を入れます
 	D3DXVECTOR2 Pos( 0.0, 0.0);//座標を代入する構造体
-	E3DCOLOR4UC Color = { 255, 50, 50, 50};//色構造体、ここで色を指定
+	E3DCOLOR4UC Color = { 255, 50, 50, 50};//空の構造体
+	E3DCOLOR4UC Gray = { 255, 50, 50, 50};//色構造体、グレーを指定
+	E3DCOLOR4UC White = { 255, 230, 230, 230};//色構造体、白を指定
+	E3DCOLOR4UC Red = { 255, 255, 100, 100};//色構造体、赤を指定
+	E3DCOLOR4UC Bule = { 255, 100, 100, 250};//色構造体、青を指定
+	E3DCOLOR4UC Yellow = { 255, 255, 255, 100};//色構造体、黄を指定
 
 	/*文字の描画*/
 	//HP部分の描画
 	Pos.x = 28.0f;/**/Pos.y = 394.0f;
-	ech = E3DDrawText( Pos, Scale, Color, "F19");
+	ech = E3DDrawText( Pos, Scale, Gray, "F19");
 	if(ech != 0){//エラーチェック
 				_ASSERT(0);//エラーダイアログを表示
 	};
+
+
+	if( PcC->Wp_equipment != -1){ //武器がなし以外なら
+
+			/*現在のAmmoの数を表示します*/
+			if( Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0) == 0){//弾薬がなくなったら
+					Color = Red;// 赤色にします
+			}
+			else if( Wep->GetWeaponData( PcC->Wp_equipment, 2) < Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0)){//弾が増えているならなら
+					Color = Bule;// 青にします
+			}
+			else if( double(Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0)) / double(Wep->GetWeaponData( PcC->Wp_equipment, 2)) < 0.3){//弾薬が3割以下なら
+					Color = Yellow;// 黄にします
+			}
+			else{//通常モードなら
+					Color = White;// 白にします
+			}
+			wsprintf( ParometaString, "%d", Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 0));
+			Pos.x = 558.0f;/**/Pos.y = 394.0f;
+			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
+			if(ech != 0){//エラーチェック
+					_ASSERT(0);//エラーダイアログを表示
+			};
+
+			/*Ammoの数を表示します*/
+			wsprintf( ParometaString, "%d", Wep->GetWeaponData( PcC->Wp_equipment, 2));
+			Pos.x = 588.0f;/**/Pos.y = 394.0f;
+			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
+			if(ech != 0){//エラーチェック
+					_ASSERT(0);//エラーダイアログを表示
+			};
+
+			/*現在のMagの数を表示します*/
+			if( Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 1) == 0){//マガジンがなくなったら
+					Color = Red;// 赤色にします
+			}
+			else if( double(Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 1)) / double(Wep->GetWeaponData( PcC->Wp_equipment, 3)) < 0.3){//弾薬が3割以下なら
+					Color = Yellow;// 黄にします
+			}
+			else{//通常モードなら
+					Color = White;// 白にします
+			}
+			wsprintf( ParometaString, "%d", Wep->GetWeaponDataWhileGame( PcC->Wp_equipment, 1));
+			Pos.x = 558.0f;/**/Pos.y = 424.0f;
+			ech = E3DDrawText( Pos, 1.4f, Color, ParometaString);
+			if(ech != 0){//エラーチェック
+					_ASSERT(0);//エラーダイアログを表示
+			};
+
+			/*Magの数を表示します*/
+			wsprintf( ParometaString, "%d", Wep->GetWeaponData( PcC->Wp_equipment, 3));
+			Pos.x = 588.0f;/**/Pos.y = 424.0f;
+			ech = E3DDrawText( Pos, 1.4f, White, ParometaString);
+			if(ech != 0){//エラーチェック
+					_ASSERT(0);//エラーダイアログを表示
+			};
+
+	}
+
 
 	/*
 	//描画の終了処理

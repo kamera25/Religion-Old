@@ -1,14 +1,12 @@
 /*ここでは、敵モデルや敵の動きに関することを
 //関数を自動的に実行することができるようにするためのクラスコードファイル
 */
-
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
-#include "cstage.h"//ステージ関係のクラスヘッダファイル
-#include "clive.h"//敵やキャラのクラスヘッダファイル
-#include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
+
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
+#include "cstage.h"//ステージ関係のクラスヘッダファイル
 
 //ここにグローバル変数を宣言
 extern System *sys;//システムクラスを指す、クラスのポインタ
@@ -20,6 +18,8 @@ Enemy::Enemy(){
 	/*モデルデータを入れる「Enemy_hsid」の初期化*/
 	for(int i = 0; i<15; i++){
 			Enemy_hsid[i] = 0;
+			Enemy_HP[i] = 0;
+			Enemy_State[i] = 0;
 	}
 
 	/*敵の数を0にする*/
@@ -52,6 +52,8 @@ int Enemy::LoadEnemyModel( int Ene_Kind, int Ene_No){
 	if(ech != 0 ){//エラーチェック
 				_ASSERT( 0 );//エラーダイアログ
 	};
+
+	Enemy_HP[EnemyNum] = 100;
 
 	/**/
 

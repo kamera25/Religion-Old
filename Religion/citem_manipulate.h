@@ -3,12 +3,17 @@
 //主にバックパックやアイテム売買について書かれています。
 */
 
+//プロトタイプ宣言
+class PlayerChara;
+class Weapon;
+
 class Item_Manipulate{
 
 private:
 	//関数の宣言
 	int MainBackPack( PlayerChara *PC);//バックパックのメイン処理を行います
 	int PutItemDescript( int ChoseItem, int ItemNumber);//説明文を表示させる処理を行います
+	int PutItemName( int ChoseItem, int ItemNumber);//武器アイテム名を表示させる処理を行います
 
 
 public:

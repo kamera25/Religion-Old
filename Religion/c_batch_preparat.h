@@ -2,11 +2,14 @@
 /*ここでは、モデルやスプライトの描画に必要な情報を収集、また描画で必要な
 //関数を自動的に実行することができるようにするためのクラスヘッダファイル
 */
-#include "clive.h"//敵やキャラのクラスヘッダファイル
-#include "cenemy.h"//敵クラスの宣言ヘッダファイル
-#include "ccamera.h"//カメラに関することのクラスヘッダファイル
-#include "cweapon.h"//武器クラスの宣言ヘッダファイル
-class PlayerChara;//循環変数対策
+
+//プロトタイプ宣言
+class PlayerChara;
+class Stage;
+class Enemy;
+class Camera;
+class Weapon;
+
 
 /*描画準備で必要な変数などを宣言するクラス*/
 class Batch_Preparat{	
@@ -44,13 +47,6 @@ public:
 	int SpriteIDs[15];//スプライトのIDを格納します
 
 
-	/**/
-	/*データの変更があった際に必要なクラスポインタ*/
-	PlayerChara *PcC1;
-
-
-	
-
 	//関数の宣言
 	Batch_Preparat( PlayerChara *PcC, Stage *StgC, Enemy *EneC, Camera *Cam, Weapon *Wep);//コンストラクタ、初期化をします
 	~Batch_Preparat();//デストラクタ、スプライトを削除します
@@ -61,7 +57,7 @@ public:
 	int BatchBeforePos();//一つ前の座標をまとめて保存するための関数
 	int BatchSpriteRender( int SceneEndFlg);//まとめられたスプライトをレンダリングするための関数
 	int BatchSpriteSet(  PlayerChara *PcC, Weapon *Wep);//最初にロードしたスプライトの倍率や描画指定するための関数
-	int BatchFont( int SceneEndFlg);//文字を描画することや設定をしたりする関数
+	int BatchFont( int SceneEndFlg, PlayerChara *PcC, Weapon *Wep);//文字を描画することや設定をしたりする関数
 	
 	/*デコンストラクタが必要！！！*/
 
