@@ -10,7 +10,7 @@ class Stage;
 class Batch_Render;
 class Camera;
 class Weapon;
-class Enemy;
+class NPC_Head;
 
 
 //プレイヤーキャラクタークラスを作成、初期化（その他キャラはPeopleクラスにて作成可能）
@@ -35,9 +35,9 @@ public:
 	int ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]);// 三人称視点からの銃関連まとめ関数
 	int MoveChara();//キャラを動かします、前後左右に動けます
 	int ShoulderGunSysBefore();//キャラクターののち処理を行う関数
-	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene);//自分の向くべき方向を調節する関数
-	int NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, Enemy *Ene, Camera *Cam, int ScreenPos[2]);//普通のゲーム内での処理を行なう関数
+	int GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head *NPC_H);//自分の向くべき方向を調節する関数
+	int NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *NPC_H, Camera *Cam, int ScreenPos[2]);//普通のゲーム内での処理を行なう関数
 	int ChangeWeapon( Batch_Render *BatPre);//武器を変更するさせる際に使用する関数
-	int GunSystem( Enemy *Ene);//銃について作動させる関数、リロード、次打てるまでの時間計算、敵へのあたり判定、ダメージ計算など
+	int GunSystem( NPC_Head *NPC_H);//銃について作動させる関数、リロード、次打てるまでの時間計算、敵へのあたり判定、ダメージ計算など
 
 };

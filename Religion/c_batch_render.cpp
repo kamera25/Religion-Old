@@ -11,7 +11,7 @@
 
 
 /*コンストラクタ、ステージやプレイヤークラスを元に情報を収集、構成します*/
-Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, 
+Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, NPC_Head *NPC_H, 
 								const Camera *Cam)
 {
 
@@ -26,7 +26,7 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, const Ene
 	ShadowFlag = 0;
 
 	/*描画、視野角データの構築を行います*/
-	BatchReset( PcC, StgC, EneC, Cam);
+	BatchReset( PcC, StgC, NPC_H, Cam);
 
 
 	/* /////////////////////////////////////////////////////// */
@@ -39,12 +39,12 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, const Ene
 	/*半透明化します*/
 	SetSpriteAlpha( "Cursol1", AlfaColor);
 
+	/* ////////////////// */
+	// 左側関連のスプライト
+	/* ///////////////// */
 
-	/*右ステータス画像の背景のロードを行う*/
-	LoadSprite( "data\\img\\parameter\\parameter3.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.0f, true);
-
-	/*右ステータス画像の背景のロードを行う*/
-	LoadSprite( "data\\img\\parameter\\parameter4.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.0f, true);
+	/*左ステータス画像の背景のロードを行う*/
+	LoadSprite( "data\\img\\parameter\\parameter_leftBG.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.0f, true);
 
 	/*左HPのバーのロードを行う*/
 	LoadSprite_AddName( "data\\img\\parameter\\hpber.png", "HPber", 100.0f, 1.0f, 24.0f, 412.0f, 0.0f, true);
@@ -52,17 +52,34 @@ Batch_Render::Batch_Render( const PlayerChara *PcC, const Stage *StgC, const Ene
 	/*左スタミナのバーのロードを行う*/
 	LoadSprite_AddName( "data\\img\\parameter\\stnber.png", "Staminaber", 100.0f, 0.5f, 24.0f, 435.0f, 0.0f, true);
 
+	/*左ステータス画像のロードを行う*/
+	LoadSprite( "data\\img\\parameter\\parameter_left.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.0f, true);
+
+
+	/* ////////////////// */
+	// 右側関連のスプライト
+	/* ///////////////// */
+
+	/*右ステータス画像の背景のロードを行う*/
+	LoadSprite( "data\\img\\parameter\\parameter_rightBG.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.0f, true);
+
 	/*右弾薬数のバーのロードを行う*/
 	LoadSprite_AddName( "data\\img\\parameter\\ammber.png", "Ammober", 100.0f, 0.8125f, 530.0f, 407.0f, 0.0f, true);
 
 	/*右マガジン数のバーのロードを行う*/
 	LoadSprite_AddName( "data\\img\\parameter\\magber.png", "Magber",100.0f, 0.8125f, 530.0f, 436.0f, 0.0f, true);
 
-	/*左ステータス画像のロードを行う*/
-	LoadSprite( "data\\img\\parameter\\parameter1.png", 1.0f, 1.0f, 0.0f, 390.0f, 0.0f, true);
-
 	/*右ステータス画像のロードを行う*/
-	LoadSprite( "data\\img\\parameter\\parameter2.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.0f, true);
+	LoadSprite( "data\\img\\parameter\\parameter_right.png", 1.0f, 1.0f, 506.0f, 390.0f, 0.0f, true);
+
+
+
+
+
+
+
+
+
 
 	/* ///////////////////////////////////////////////////
 	/* PCクラスからの武器スプライトをIDから読み込みます */

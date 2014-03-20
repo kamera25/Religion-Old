@@ -3,6 +3,8 @@
 */
 #include <easy3d.h>//Easy3Dを使うためのヘッダを読み込みます。
 #include <crtdbg.h>//エラーチェックが出来るようにするためのヘッダファイル
+#include <stdio.h>
+#include <string.h>
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
@@ -32,7 +34,6 @@ Stage::Stage(){
 	};
 
 	AvailableBGFlag = false;
-	AvailableNaviLineFlag = false;
 
 	return;
 }
@@ -118,9 +119,18 @@ int Stage::SetStageFog( const int LightKind){
 	E3DCOLOR4UC FogColor = {0,0,0,0};// 霧の色を指定します
 
 	switch( LightKind){
-			case 0:// 昼や朝なら
-			case 1:
+			case 0:{// 昼や朝なら
+					FogColor.a = 255;
+					FogColor.b = 200;
+					FogColor.g = 200;
+					FogColor.r = 200;	
+			}
+			case 1:// 夕方なら
 			{
+					FogColor.a = 255;
+					FogColor.b = 50;
+					FogColor.g = 50;
+					FogColor.r = 50;	
 					return -1;// 現在は設定しない
 
 			}
@@ -139,7 +149,7 @@ int Stage::SetStageFog( const int LightKind){
 	// 霧の指定を行ないます
 	/* /////////////////// */
 
-	ech = E3DSetLinearFogParams(1, FogColor, 0, 20000, -1);//ファグをかけます。
+	ech = E3DSetLinearFogParams(1, FogColor, 0, 20000, -1);//霧をかけます。
 	_ASSERT( ech != 1 );//エラーダイアログ
 
 
@@ -223,6 +233,56 @@ int Stage::SetStageLight( const int LightKind, const float FogDist){
 	return 0;
 }
 
+/* ステージプロファイルからステージの読み込みを行います */
+int Stage::LoadStageFromProfile( const char *ProfPath){
+
+	/* 初期化 */
+	int Version;
+	int ech = 0;
+	double Magnifc;// 倍率
+	FILE *fp; // ファイルポインタ
+	char LoadPath[256];
+	char Loadstr[256];
+
+	wsprintf( LoadPath, "%s\\data\\prof\\map\\%s", System::path, ProfPath);
+	fopen_s( &fp, LoadPath, "r");//指定されたファイルをオープンします。 
+	if( fp == NULL){
+		_ASSERT( 0 );
+		return -1;
+	}
+
+	/* ここからプロファイルをロードする */
+	fscanf_s( fp, "%s\n", Loadstr, 256);
+	fscanf_s( fp, "%d", &Version);
+	fscanf_s( fp, "%d", &Stage_GndMode);
+	fscanf_s( fp, "%d", &Stage_GunTarget);
+
+
+	/* 地面データ始まりのヘッダまで移動 */
+	while( strcmp( Loadstr, "MPD_G") != 0){
+		fscanf_s( fp, "%s", Loadstr, 256);
+	}
+
+	/* 地面データをロードする */
+	for( int i = 0; fscanf_s( fp, "%lf %s", &Magnifc, &Loadstr, 256 ) !=EOF || i < 3 ; i++){
+		
+		wsprintf( LoadPath,  "%s\\data\\3d\\map\\%s", System::path, Loadstr);
+		ech = E3DSigLoad( LoadPath, 0, Magnifc, &Stage_hsid[i]);
+		if(ech != 0 ){//エラーチェック
+			_ASSERT( 0 );//エラーダイアログ
+			return 1;//問題ありで終了
+		};
+	}
+
+	if( fclose(fp) == EOF){
+		return -1;
+	}
+		
+
+
+	return 0;
+}
+
 /*Stageクラスのデコンストラクタ、ロードした情報などを削除します。*/
 Stage::~Stage(){
 
@@ -269,5 +329,5 @@ Stage::~Stage(){
 			};
 	}
 
-
+	return;
 }

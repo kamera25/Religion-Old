@@ -4,7 +4,7 @@
 /* ///////////////////////////////////// */
 #include "cWeapon.h"// スーパークラスの武器クラスが定義されているヘッダファイル
 
-
+class NPC_Head;
 
 
 /* 銃のクラス(Weaponクラスからの派生) */
@@ -40,7 +40,7 @@ private:
 public:
 
 	int InitWeapon();// 武器の状態を初期にする
-	int AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);// ゲーム中の敵とのあたり&攻撃判定を行います。
+	int AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);// ゲーム中の敵とのあたり&攻撃判定を行います。
 	int ChkWeaponLaunch();// 武器(ここでは銃)を発砲してもよいか確認し、OKなら発射フラグをたてます
 	int ReloadWeapon();// 武器のリロードを行います
 

@@ -53,6 +53,11 @@ int Weapon::PlayWeaponSound( const int PlayNo, const float MuzzlePosArray[3]){
 	int ech = 0;//エラー確認変数
 	D3DXVECTOR3 SoundVelocity( 340.0, 340.0, 340.0);//音速の指定を行います
 	D3DXVECTOR3 MuzzlePos( MuzzlePosArray[0], MuzzlePosArray[1], MuzzlePosArray[2]);//マズルフラッシュサウンドの速度XYZ
+	//D3DXVECTOR3 MuzzlePos( 0.0f, 0.0f, 0.0f);
+
+	//E3DGetCameraPos( &MuzzlePos);
+
+
 
 
 	/*音の位置と速さを指定します*/

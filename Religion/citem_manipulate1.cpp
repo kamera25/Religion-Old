@@ -226,7 +226,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			int ExitFlag = 0;//このフラグがオンになったとき脱出します。
 			int Counter = 0;//カウンター変数
 			int ActingItemNumber = 0;
-			int keyin[20];//キー情報配列を作成
+
 
 			const D3DXVECTOR3 SpritePos1( 0.0, -25.0, 0.0);//背景の位置
 			const D3DXVECTOR3 SpritePos2( 0.0, -60.0, 0.0);//十字バーの位置
@@ -242,7 +242,6 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 
 			/* 基本動作 */
 			System::KeyRenewal(1);
-			System::GetKeyData(keyin);
 
 
 			/* 描画準備をスルヨ */
@@ -288,7 +287,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 			ech = E3DPresent( System::scid1);
 			_ASSERT( ech != 1 );//エラーダイアログを表示
 
-			if( ( keyin[9] == 1) && ( ItemNumber != -1) && (MenuMode == 0) ){// アイテム画像の上でクリックされたら
+			if( ( System::GetKeyData( System::KEY_LEFTMOUSE)) && ( ItemNumber != -1) && (MenuMode == 0) ){// アイテム画像の上でクリックされたら
 					MenuMode = 1;
 					//文字の位置決め
 					if( ( System::MousePos.x + 256 ) < 640 ){//もしアイテムバーを右端を超えなければ
@@ -302,7 +301,7 @@ int Item_Manipulate::MainBackPack( PlayerChara *PC){
 					
 
 			}
-			else if( ( MenuMode == 1) && (keyin[9] == 1) &&// アイテム操作中から他の関係ないところを押したら
+			else if( ( MenuMode == 1) && (System::GetKeyData( System::KEY_LEFTMOUSE)) &&// アイテム操作中から他の関係ないところを押したら
 				(( ( System::MousePos.x < ItemSysSetPos.x) || ( ItemSysSetPos.x + 256 < System::MousePos.x)) ||
 				( ( System::MousePos.y < ItemSysSetPos.y + 30 ) || ( ItemSysSetPos.y + 84 < System::MousePos.y)))
 

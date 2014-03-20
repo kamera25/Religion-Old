@@ -105,7 +105,7 @@ int Weapon_Support::InitWeapon(){
 }
 
 /* ゲーム中の敵とのあたり&攻撃判定を行います。 */
-int Weapon_Support::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){
+int Weapon_Support::AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){
 
 
 
@@ -165,25 +165,21 @@ int Weapon_Support::WeaponTreatment( const int WeaponLight, Stage *Stg){
 int Weapon_Support::ChkWeaponLaunch(){;
 
 	/* 変数の初期化 */
-	int keyin[20];//キー情報配列を作成
+	 ;//キー情報配列を作成
 	static int KeyContinuity = 0;
-
-	/* キーを取得する */
-	System::GetKeyData(keyin);
 
 
 	/* 発射可能ならフラグを立てます */
-	
 	if( 10 <= KeyContinuity ){
 				KeyContinuity = 10;
-				if( ( keyin[10] == 0) && ( Get_NowFireFlag() == 0)){//左クリックが話されたら
+				if( ( System::GetKeyData( System::KEY_LEFTMOUSE) == 0) && ( Get_NowFireFlag() == 0)){//左クリックが話されたら
 						Set_NowFireFlag(1);// 発射状態にする
 						Set_NowAmmo( Get_NowAmmo() -1 );// 弾薬をひとつ減らします
 				}
 	}
 
 	/* キーのチェックを行います */
-	if( keyin[10] == 1){
+	if( System::GetKeyData( System::KEY_LEFTMOUSE)){
 			KeyContinuity = KeyContinuity + 1;
 	}
 	else{

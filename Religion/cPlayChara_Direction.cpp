@@ -146,7 +146,7 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 }
 
 /*自分の向くべき方向を調節したり、射撃したりする関数*/
-int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *Ene){
+int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head *NPC_H){
     
 	
 	/* /////////////////////////////////////////////////////// */
@@ -159,7 +159,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	int ech = 0;//エラー確認変数
 	int MotionID = 0;//MLから取得した現在の「首付け根」モーションID
 	int FrameNo = 0;//MLから取得した現在の「首付け根」モーションが現在再生している番号
-	int NearEnemyID = 0;//一番近い敵キャラの識別番号
+	vector<NPC_t>::iterator NearEnemyID;//一番近い敵キャラの識別番号
 	int EnemyConflict = 0;//敵に当たった数の合計
 	int Wall_HitResult = 0;//当たり判定モデルが壁に当たっているかどうか調べます
 	int EneHitResult = 0;//敵が照準に入っているかの結果を入れます
@@ -179,6 +179,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 	D3DXVECTOR3 OriginPos( 0.0, 0.0, 0.0);//キャラクターをおくべき原点座標
 	D3DXVECTOR3 GarbageD3DVec( 0.0, 0.0, 0.0);//要らないXYZのデータの一次入れ
 	POINT ScreenPos = { ScreenPosArray[0], ScreenPosArray[1]};//2Dスクリーン座標構造体
+	vector<NPC_t>::iterator it;// イテレータ
 
 	/* 装備をきちんとつけていれば */
 	if( Get_Wp_equipment() != -1){
@@ -208,19 +209,20 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, Enemy *En
 				case 4:
 				{
 						/*敵にあたっていないかチェックします*/
-						for( int i=0; i< Ene->EnemyNum; i++){//エネミーの数だけ
-											ech = E3DPickFace( System::scid1, Ene->Ene[i]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
+						for( it = NPC_H->Get_NPC_begin(); it != NPC_H->NPC_endit(); it++){//エネミーの数だけ
+
+											ech = E3DPickFace( System::scid1, (*it).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 											_ASSERT( ech != 1 );//エラーチェック
 											if( (EneHitResult != 0) && ( EneDistance < EneNearDistance) ){
 														EneNearDistance = EneDistance;//一番近い敵の距離に更新します
-														NearEnemyID = i;//一番近いモデル番号を入れます
+														NearEnemyID = it;//一番近いモデル番号を入れます
 														EnemyConflict = 1;//近い敵がいることを代入します
 														HitResult = 1;//ヒットフラグを1にする
 											}
 						}
 
 						if( (EnemyConflict == 1) && ( Wall_HitDistance > EneNearDistance) ){//敵に銃先を向ける
-								ech = E3DPickFace( System::scid1, Ene->Ene[NearEnemyID]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
+								ech = E3DPickFace( System::scid1, (*it).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
 								_ASSERT( ech != 1 );//エラーチェック
 						}
 						else{//壁に銃先を向ける

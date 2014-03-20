@@ -66,9 +66,9 @@ int Weapon_Gun::GunLoad_Assault(  const int Wpno){
 			_ASSERT( ech != 1 );//エラーチェック
 
 			//武器のモーションを読み込み
-			wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m1911\\wait.qua", System::path);
+			/*wsprintf( loadname, "%s\\data\\3d\\weapon\\handgun\\m1911\\wait.qua", System::path);
 			ech = E3DAddMotion( hsid, loadname, 1, &Garbage, &Garbage);
-			_ASSERT( ech != 1 );//エラーチェック
+			_ASSERT( ech != 1 );//エラーチェック*/
 
 
 			/* ////////////////////////////// */
@@ -124,7 +124,7 @@ int Weapon_Gun::GunLoad_Assault(  const int Wpno){
 
 	//空撃ち
 	wsprintf( loadname, "%s\\data\\sound\\se\\shot\\sky_fire.wav", System::path);
-	ech = E3DLoadSound( loadname, 1, 1, 30, &sound[1]);
+	ech = E3DLoadSound( loadname, 1, 0, 30, &sound[1]);
 	_ASSERT( ech != 1 );//エラーチェック
 
 	/*音が届く範囲を指定*/

@@ -106,7 +106,7 @@ int Enemy::MoveEnemys( Stage *Stg){
 					}
 
 					// PC‚Ì‹ó’†ˆÊ’u‚ð§Œä‚µ‚Ü‚·
-					Ene[i]->MovePosOnGround( Stg);
+					//Ene[i]->MovePosOnGround( Stg);
 
 					// ƒ‚[ƒVƒ‡ƒ“‚Ü‚Æ‚ßˆ—
 					Ene[i]->Batch_PeopleMotion();

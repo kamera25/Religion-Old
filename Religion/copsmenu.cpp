@@ -81,7 +81,7 @@ OperationMenu::~OperationMenu(){
 int OperationMenu::InOpsMenu(){
 
 		//変数の初期化
-		int keyin[20];//キー情報配列を作成 
+		 ;//キー情報配列を作成 
 		int ech = 0;
 		int ExitFlag = 0;//このフラグがオンになったとき脱出します。
 		int SelectMission = -1;// この変数に数字が入っているときミッションに入ります。
@@ -105,14 +105,13 @@ int OperationMenu::InOpsMenu(){
 
 				System::MsgQ(30);//メッセージループ
 				System::KeyRenewal( 1);
-				System::GetKeyData(keyin);/*キーを取得する*/	
-	
-			
 
 
-				/**/
-				//描画準備をスルヨ
-				/**/
+				/* ****************
+				 * 描画準備をスルヨ
+				 * ****************
+				 */
+
 				E3DBeginScene( System::scid1, 0, -1);//描画の開始準備
 				E3DBeginSprite();//スプライト描画の開始
 
@@ -169,7 +168,7 @@ int OperationMenu::InOpsMenu(){
 				// マウスカーソルを置いている任務名を緑色にします
 				/* /////////////////////////////////////////// */
 				TextPos.x = 50;/**/TextPos.y = 75;
-				for( int i=0; i<5; i++ ){
+				for( int i = 0; i<5; i++ ){
 
 						/* マウスカーソルが文字の範囲内に入っているなら */
 						if( ( 50 < System::MousePos.x)&&( System::MousePos.x < 200) &&
@@ -177,14 +176,16 @@ int OperationMenu::InOpsMenu(){
 
 									/* 選択されていることを示す「緑文字」を表示する*/
 									E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, MissionName[i], SelectColor);
-									
-												_ASSERT( ech != 1 );//エラーチェック
+									_ASSERT( ech != 1 );//エラーチェック
+
+
 									/* 選択されているミッション名の詳細な情報を表示する*/
 									TextPos2.x = 360;/**/TextPos2.y = 105;
 									E3DDrawTextByFontID( System::scid1, TextID[2], TextPos2, MissionDetal[i], NormalColor);
-									
-												_ASSERT( ech != 1 );//エラーチェック	
-									if(keyin[9] == 1){//クリックしたら
+									_ASSERT( ech != 1 );//エラーチェック	
+
+
+									if(System::GetKeyData( System::KEY_LEFTMOUSE)){//クリックしたら
 											ExitFlag = 1;//ループ脱出フラグをオンにする。
 											SelectMission = i;//ミッション変数にミッションナンバーを入れる
 									}
@@ -200,11 +201,12 @@ int OperationMenu::InOpsMenu(){
 				/**/
 				if( ( 430 < System::MousePos.x)&&( System::MousePos.x < 600) &&
 					( 450 < System::MousePos.y)&&( System::MousePos.y < 470)){//マウス座標が「オペレーションを終える」の上なら
+						
 							TextPos.x = 430;/**/TextPos.y = 420;
 							E3DDrawTextByFontID( System::scid1, TextID[1], TextPos, "オペレーションを終える", SelectColor);//選択されている文字にする
-							
-									_ASSERT( ech != 1 );//エラーチェック
-							if(keyin[9] == 1){//クリックしたら
+							_ASSERT( ech != 1 );//エラーチェック
+
+							if( System::GetKeyData( System::KEY_LEFTMOUSE)){//クリックしたら
 										ExitFlag = 1;//ループ脱出フラグをオンにする。
 							}
 				}

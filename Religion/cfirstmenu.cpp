@@ -20,7 +20,7 @@ int MainMenu::InMainMenu(){
 	int PushAlfaReduction = 1;//透明度の増減を指定
 	int MenuMode = 0;
 	int MenuSelectNo = 0;
-	int keyin[20];//キー情報配列を作成 
+	 ;//キー情報配列を作成 
 	D3DXVECTOR3 MainSpritePos( 0.0, -28.0, 0.0);//背景の位置
 	D3DXVECTOR3 PushKeySpritePos( 180.0, 390.0, 0.0);//PushKeyIMGの位置
 	D3DXVECTOR3 MenuSpritePos1( 150.0, 400, 0.0);//モードの位置
@@ -35,22 +35,22 @@ int MainMenu::InMainMenu(){
 
 			System::MsgQ(30);//メッセージループ
 			System::KeyRenewal( 0);
-			System::GetKeyData(keyin);/*キーを取得する*/	
+
 	
 			
 
 			/*選択モードの時左右を押したら*/
 			if( MenuMode == 1){
-				if( keyin[2] == 1) MenuSelectNo = MenuSelectNo - 1;
-				if( keyin[4] == 1) MenuSelectNo = MenuSelectNo + 1;
-				if( keyin[0] == 1) ExitFlag = 1;//ループから脱出
+				if( System::GetKeyData( System::KEY_LEFT) ) MenuSelectNo = MenuSelectNo - 1;
+				if( System::GetKeyData( System::KEY_RIGHT) ) MenuSelectNo = MenuSelectNo + 1;
+				if( System::GetKeyData( System::KEY_ENTER)) ExitFlag = 1;//ループから脱出
 
 				if( MenuSelectNo == -1) MenuSelectNo = 3;
 				if( MenuSelectNo == 4) MenuSelectNo = 1;
 			}
 
 			/*メニュモードが最初でエンターが押されたら*/
-			if( (keyin[0] == 1) && (MenuMode == 0)) MenuMode = 1;//モードを次に
+			if( ( System::GetKeyData( System::KEY_ENTER) ) && (MenuMode == 0)) MenuMode = 1;//モードを次に
 
 			/**/
 			//描画準備をスルヨ

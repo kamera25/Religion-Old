@@ -52,7 +52,7 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 		//変数の初期化
 		int ech = 0;
 		int HitResult = 0;//壁に当たっているか判定チェックします
-		int keyin[20];//キー情報配列を作成 
+		 ;//キー情報配列を作成 
 		D3DXVECTOR3 CameraUpVec( 0.0, 1.0, 0.0);//カメラの上部のベクトル
 		D3DXVECTOR3 CameraPos( 0.0, 0.0, 0.0);//カメラの座標
 		D3DXVECTOR3 CameraTarget( 0.0, 0.0, 0.0);//カメラの注意点
@@ -60,8 +60,6 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 		D3DXVECTOR3 GarbageD3DVec( 0.0, 0.0, 0.0);//要らないXYZのデータの一次入れ
 
 
-		/*キーを取得する*/
-		System::GetKeyData(keyin);
 
 		/*キャラクターモデルの「首つけ根」の！今！の座標を取得します*/
 		ech = E3DGetCurrentBonePos( cha_hsid, bone, 1, &StomachPos);
@@ -129,7 +127,7 @@ int Camera::CamShoulderGunBack( const int cha_hsid, const int Qid, const int bon
 				}
 			
 				// 視点変更がオンされたら
-				if( keyin[5] == 1){
+				if( System::GetKeyData( System::KEY_E) == 1){
 						ShoulderComMode = 1;// カメラ変更モードをオンにする
 						ShoulderComCounter = 0;//カウンタを初期値"4"にセット
 				}

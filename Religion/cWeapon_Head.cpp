@@ -171,12 +171,12 @@ int Weapon_Head::ChkWeaponsLaunch( int Equipment){
 }
 
 /* 敵の当たり判定チェックを行う関数 */
-int Weapon_Head::AttackEnemys( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){
+int Weapon_Head::AttackEnemys( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){
 
 	/* 装備中の武器があれば、当たり判定を行う */
 	for( int i=0; i<3; i++){
 			if( Get_WeaponPointer(i) != NULL){
-					Get_WeaponPointer(i)->AttackEnemy( Ene,  PC, ScreenPosArray, Stg);
+					Get_WeaponPointer(i)->AttackEnemy( NPC_H,  PC, ScreenPosArray, Stg);
 			}
 	}
 

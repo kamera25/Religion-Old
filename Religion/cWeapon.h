@@ -6,7 +6,7 @@
 
 
 //プロトタイプ宣言
-class Enemy;
+class NPC_Head;
 class PlayerChara;
 class Stage;
 
@@ -51,7 +51,7 @@ public:
 
 	int PlayWeaponSound( const int PlayNo, const float MuzzlePosArray[3]);// プリセットしてある武器関連音源を再生します
 	virtual int ChkWeaponLaunch(){ _ASSERT( 0 );return -1;};// 武器を発砲・投げしてもよいか確認し、OKなら発射フラグをたてます
-	virtual int AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){ _ASSERT( 0 );return -1;};// ゲーム中の敵とのあたり&攻撃判定を行います。
+	virtual int AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){ _ASSERT( 0 );return -1;};// ゲーム中の敵とのあたり&攻撃判定を行います。
 	virtual int InitWeapon(){ _ASSERT( 0 );return -1;};// 武器の状態を初期にする
 	virtual int ReloadWeapon(){ _ASSERT( 0 );return -1;}// 武器のリロードを行います
 	virtual int WeaponTreatment( const int WeaponLight){ _ASSERT( 0 );return -1;};

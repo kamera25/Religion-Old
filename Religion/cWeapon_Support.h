@@ -21,7 +21,7 @@ public:
 
 	/* 関数の宣言 */
 	int InitWeapon();// 武器の状態を初期にする
-	int AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);
+	int AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);
 	int WeaponTreatment( const int WeaponLight, Stage *Stg);// ゲーム中の銃の操作に関することをします
 	int ChkWeaponLaunch();// 武器を発砲・投げしてもよいか確認し、OKなら発射フラグをたてます
 	Weapon_Support( const int Wpno);// コンストラクタ(ロードを行います)

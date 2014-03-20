@@ -94,7 +94,6 @@ int Weapon_Gun::WeaponTreatment( const int WeaponLight){
 
 	/* 変数の宣言&初期化 */
 	int ech = 0;// エラーチェック変数
-	int keyin[20] = {0};// キー情報格納変数
 	float MuzzleFlashAlpha = 0.0f;//マズルフラッシュスプライトの透明度
 	float MuzzlePosArray[3] = {0};// 銃声が鳴っている銃口座標を入れる変数
 	D3DXVECTOR3 MuzzlePos( 0.0, 0.0, 0.0);// 銃口位置
@@ -105,8 +104,6 @@ int Weapon_Gun::WeaponTreatment( const int WeaponLight){
 
 	/* ここまで */
 
-	/* キーを取得する */
-	System::GetKeyData(keyin);
 
 
 	/* ここから、本格的な処理を行います */
@@ -244,14 +241,14 @@ int Weapon_Gun::InitWeapon(){
 }
 
 /*ゲーム中の敵とのあたり&攻撃判定を行います。*/
-int Weapon_Gun::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){
+int Weapon_Gun::AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg){
 
 	/*変数の初期*/
 	int ech = 0;//エラー確認変数
 
 	int NowWpKind = 0;//今の武器の種類を取得します
-	int NearEnemyID = 0;//一番近い敵キャラの識別番号
-	int EnemyConflict = 0;//敵に当たった数の合計
+	vector<NPC_t>::iterator NearEnemyID;//一番近い敵キャラの識別番号
+	bool EnemyConflict = false;//敵に当たった数の合計
 	int EneHitResult = 0;//敵が照準に入っているかの結果を入れます
 	int GarbageInt = 0;//いらないデータを格納します
 	float NowWpRange = 0.0f;//今の武器の射程を代入します
@@ -263,9 +260,10 @@ int Weapon_Gun::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2],
 	D3DXVECTOR3 BaseVec( 0.0, 0.0, -1.0);//向きの初期方向ベクトル
 	D3DXVECTOR3 GarbageD3DVec( 0.0, 0.0, 0.0);//要らないXYZのデータの一次入れ
 	POINT ScreenPos = { ScreenPosArray[0], ScreenPosArray[1]};//2Dスクリーン座標構造体
+	vector<NPC_t>::iterator it;// イテレータ
 
-	/*発射状態で、敵がいるなら*/
-	if( ( Get_NowFireFlag() != 1) || ( Ene->EnemyNum < 1)){
+	/*当たり判定計測中以外 AND */
+	if( ( Get_NowFireFlag() != 1) || ( NPC_H->Get_NPC_empty() == true)){
 			return 0;
 	}
 
@@ -294,24 +292,27 @@ int Weapon_Gun::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2],
 					}
 
 					/*当たり判定中にいる敵をチェックします*/
-					for( int i=0; i < Ene->EnemyNum; i++){//エネミーの数だけ
+					for( it = NPC_H->Get_NPC_begin(); it != NPC_H->NPC_endit(); it++){//エネミーの数だけ
 
-										ech = E3DPickFace( System::scid1, Ene->Ene[i]->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
+										ech = E3DPickFace( System::scid1, (*it).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, 
+															&EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 										_ASSERT( ech != 1 );//エラーチェック
+
 										if( (EneHitResult != 0) && ( EneDistance < EneNearDistance) ){
 													EneNearDistance = EneDistance;//一番近い敵の距離に更新します
-													NearEnemyID = i;//一番近いモデル番号を入れます
-													EnemyConflict = 1;//近い敵がいることを代入します
+													NearEnemyID = it;//一番近いモデル番号を入れます
+													EnemyConflict = true;//近い敵がいることを代入します
 										}
 					}
 
 					/*もし、当たり判定上に敵がいれば*/
-					if( ( EnemyConflict == 1) && ( EneNearDistance < Wall_HitDistance)){
+					if( ( EnemyConflict == true) && ( EneNearDistance < Wall_HitDistance)){
 
 							// !!ここに壁との当たり判定が必要!!
 
 							//敵にダメージを与える
-							Ene->Ene[NearEnemyID]->Set_HP( Ene->Ene[NearEnemyID]->Get_HP() - Get_Attack());
+
+							(*NearEnemyID).NPC_Mdl->Set_HP( (*NearEnemyID).NPC_Mdl->Get_HP() - Get_Attack());
 					}
 			}
 	}
@@ -326,15 +327,13 @@ int Weapon_Gun::AttackEnemy( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2],
 int Weapon_Gun::ChkWeaponLaunch(){
 
 	/* 変数の初期化 */
-	int keyin[20];//キー情報配列を作成
+	 ;//キー情報配列を作成
 
-	/* キーを取得する */
-	System::GetKeyData(keyin);
 
 
 	/* 発射可能ならフラグを立てます */
 
-	if( ( keyin[9] == 1) && ( Get_NowFireFlag() == 0)){//左クリックされ、発射可能がオフなら
+	if( ( System::GetKeyData( System::KEY_LEFTMOUSE)) && ( Get_NowFireFlag() == 0)){//左クリックされ、発射可能がオフなら
 			if( 0 < Get_NowAmmo() ){//Ammoが残っていれば
 					Set_NowFireFlag(1);// 発射状態にする
 					Set_NowAmmo( Get_NowAmmo() -1 );// 弾薬をひとつ減らします
@@ -351,11 +350,9 @@ int Weapon_Gun::ChkWeaponLaunch(){
 /* 武器のリロードを行います */
 int Weapon_Gun::ReloadWeapon(){
 
-	int keyin[20] = {0};// キー情報格納変数
-	System::GetKeyData(keyin);
-
+	
 	/* リロードの処理を行います */
-	if( ( keyin[4] == 1) && ( 0 < NowMagazine)){//Rキーが押されてて、マガジンがあるのなら
+	if( ( System::GetKeyData( System::KEY_R) == 1) && ( 0 < NowMagazine)){//Rキーが押されてて、マガジンがあるのなら
 
 					if( ( Get_Ammo() <= Get_NowAmmo() ) && ( NowMagazine == Magazine)){// MAGもAMMOも一個も使ってなければ
 							Set_NowAmmo( Get_Ammo() + 1);//AMMOを満タン+1にする

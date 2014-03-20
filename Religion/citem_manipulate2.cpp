@@ -193,7 +193,7 @@ int Item_Manipulate::PutBackPackText( int *ChoseItem, int *ExitFlag){
 
 		/* 変数の宣言 */
 		int ech = 0;//エラーチェック変数
-		int keyin[20];//キー情報配列を作成
+		 ;//キー情報配列を作成
 		const char ItemKindName[5][12] = { "WEAPON" , "AMMO" , "RECOVERY" , "KEY" , "EQUIPMENT" };
 		const char ItemKindDetal[5][50] = { "武器の操作をします" , "弾薬の操作をします" , "回復系品の操作をします" 
 											, "重要品の操作をします" , "装備品の操作をします" };
@@ -201,9 +201,6 @@ int Item_Manipulate::PutBackPackText( int *ChoseItem, int *ExitFlag){
 		const E3DCOLOR4UC SetColor = { 255,0,120,170};//青色の武器が選ばれている色
 		const E3DCOLOR4UC SelectColor = { 255,200,220,20};//黄色の選ばれている色
 		POINT TextPos;//文字の位置を格納する構造体
-
-
-		System::GetKeyData(keyin);
 
 		//一番上のポーズメニュー
 		TextPos.x = 440;/**/TextPos.y = 5;
@@ -258,7 +255,7 @@ int Item_Manipulate::PutBackPackText( int *ChoseItem, int *ExitFlag){
 								_ASSERT( ech != 1 );//エラーチェック
 
 						/* クリックしたら選択アイテムを変える */
-						if( (keyin[9] == 1) && ( MenuMode == 0)){
+						if( (System::GetKeyData( System::KEY_LEFTMOUSE)) && ( MenuMode == 0)){
 									*ChoseItem = i;//ループ脱出フラグをオンにする。
 						}
 				}
@@ -275,7 +272,7 @@ int Item_Manipulate::PutBackPackText( int *ChoseItem, int *ExitFlag){
 					
 					_ASSERT( ech != 1 );//エラーチェック
 
-					if(keyin[9] == 1){//クリックしたら
+					if(System::GetKeyData( System::KEY_LEFTMOUSE)){//クリックしたら
 						*ExitFlag = 1;//ループ脱出フラグをオンにする。
 					}
 			}	

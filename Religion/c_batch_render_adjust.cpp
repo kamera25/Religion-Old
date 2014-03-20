@@ -15,35 +15,58 @@
 /* 武器の変更があった際、描画すべき道具を変更します。 */
 int Batch_Render::BacthGunTrade( const int Wp_equipment){
 
-
+	// すべての武器モデルを表示しないように
 	SetModel_ViewFlag( "MainWp", false);
 	SetModel_ViewFlag( "SubWp", false);
 	SetModel_ViewFlag( "SupportWp", false);
 
+	// すべての武器スプライトを表示しないように
+	Set_ViewFlag( "MainWp", false);
+	Set_ViewFlag( "SubWp", false);
+	Set_ViewFlag( "SupportWp", false);
+
+	//銃の弾薬を表示に
+	Set_ViewFlag( "Ammober", true);
+
+	//銃のマガジンを表示に
+	Set_ViewFlag( "Magber", true);
+
+
 	switch(Wp_equipment){
-			case 0:{//装備品がメインウェポンなら
+			case -1:{// なにも装備していないなら
+				
+					//銃の弾薬を無表示に
+					Set_ViewFlag( "Ammober", false);
 
+					//銃のマガジンを無表示に
+					Set_ViewFlag( "Magber", false);
+
+					break;
+			}
+			case 0:{// 装備品がメインウェポンなら
 					SetModel_ViewFlag( "MainWp", true);
+					Set_ViewFlag( "MainWp", true);
 					break;
 			}
-			case 1:{
-
+			case 1:{// 装備品がサブウェポンなら
 					SetModel_ViewFlag( "SubWp", true);
+					Set_ViewFlag( "SubWp", true);
 					break;
 			}
-			case 2:{
-
+			case 2:{// 装備品がサポート武器なら
 					SetModel_ViewFlag( "SupportWp", true);
+					Set_ViewFlag( "SupportWp", true);
 					break;
 			}
 	}
+
 
 
 	return 0;
 };
 
 /* まとめられたデータを再構築します。この操作は装備品を変えた状態などで必要になります */
-int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, const Camera *Cam){
+int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, NPC_Head *NPCC, const Camera *Cam){
 
 	
 
@@ -91,9 +114,11 @@ int Batch_Render::BatchReset( const PlayerChara *PcC, const Stage *StgC, const E
 	/*カメラダミーモデルを読み込みます*/
 	SetModel( Cam->DummyModel, false);
 
-	for(int i=0; i < EneC->EnemyNum; i++){
-			SetModel( EneC->Ene[i]->Get_BodyModel(), true);
-			SetModel( EneC->Ene[i]->Get_WeaponH()->Get_WeaponPointer(0)->Get_Model(), true);
+	vector<NPC_t>::iterator it;// イテレータ
+
+	for( it = NPCC->Get_NPC_begin(); it != NPCC->NPC_endit(); it++){
+			SetModel( (*it).NPC_Mdl->Get_BodyModel(), true);
+			SetModel( (*it).NPC_Mdl->Get_WeaponH()->Get_WeaponPointer(0)->Get_Model(), true);
 	}
 
 
@@ -126,31 +151,38 @@ int Batch_Render::SetModel_AddName( const int ID, const char *Name, const bool V
 	return 0;
 }
 
-vector<Model>::iterator Batch_Render::SearchModelFromName( const char *ObjName){
+int Batch_Render::SearchModelFromName( const char *ObjName, vector<Model>::iterator *it){
 
-	/* 変数の初期化&宣言 */
-	vector<Model>::iterator it;// イテレータ
+	vector<Model>::iterator iit;
 
-	for( it = Mdl.begin(); it != Mdl.end(); it++){
-			if( strcmp( ObjName, (*it).Name) == 0){
-					break;// ループを抜け出す
+	for( iit = Mdl.begin(); iit != Mdl.end(); iit++){
+			if( strcmp( ObjName, (*iit).Name) == 0){
+					*it = iit;
+					return 0;// ループを抜け出す
 			}
 	}
 
-	if( it == Mdl.end()){// 検索した文字が見つからなければ
-			_ASSERT( 1 , "Such Name is not found!");//エラーチェック
-	}
+	/* 以下、検索された文字が見つからなかったときの処理 */
+	_ASSERT( 1 );//エラー
 
-
-	return it;
+	return -1;
 }
 
 int Batch_Render::SetModel_ViewFlag( const char *Name, const bool ViewFlag){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
-	vector<Model>::iterator it = SearchModelFromName( Name);// イテレータ
+	vector<Model>::iterator it;
+		
+	ech = SearchModelFromName( Name, &it);// イテレータ
 
+	// 検索した文字が見つからなければ
+	if( ech != 0){
+			_ASSERT( 1 );//エラー
+			return -1;
+	}
+		
+	// 検索した文字が見つかれば	
 	(*it).ViewFlag = ViewFlag;
 
 

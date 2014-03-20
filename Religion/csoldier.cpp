@@ -16,78 +16,98 @@ int Soldier::MovePosOnGround( Stage *Stg){
 	int ech = 0;//エラーチェック
 	int GroundResult = 0;//地面の当たり判定の結果
 	int MoveStopFlg = 0;//空中に浮かんでいるときに移動できないようにするためのフラグ
+	int Garbage = 0;
+	int FaceNo = 0;
 	D3DXVECTOR3 ReflectVec( 0.0, 0.0, 0.0);//地面の反射ベクトルの構造体
 	D3DXVECTOR3 GroundOnPos( 0.0, 0.0, 0.0);//自キャラを地面に垂直におろした場合の座標
 	D3DXVECTOR3 MyPos( 0.0, 0.0, 0.0);//自分のキャラクター座標
+	D3DXVECTOR3 PointConflictPos( 0.0, 0.0, 0.0);
+	D3DXVECTOR3 PointConflictVec( 0.0, 0.0, 0.0);
+	static D3DXVECTOR3 MyChkBeforePointPos[4];
+	const float Mysize = 500;
+	D3DXVECTOR3 MyChkPointPos[4];//
+	
+	ech = E3DGetPos( Get_BodyModel(), &MyPos);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	MyChkPointPos[0].x = MyPos.x - Mysize; MyChkPointPos[0].y = MyPos.y; MyChkPointPos[0].z = MyPos.z + Mysize;//奥、←
+	MyChkPointPos[1].x = MyPos.x + Mysize; MyChkPointPos[1].y = MyPos.y; MyChkPointPos[1].z = MyPos.z + Mysize;//奥、→
+	MyChkPointPos[2].x = MyPos.x - Mysize; MyChkPointPos[2].y = MyPos.y; MyChkPointPos[2].z = MyPos.z - Mysize;//手前、←
+	MyChkPointPos[3].x = MyPos.x + Mysize; MyChkPointPos[0].y = MyPos.y; MyChkPointPos[0].z = MyPos.z - Mysize;//手前、→
+
+	/* ///////////////////////////////////////////////////////// */
+	// ステージグラウンドごとにどのような処理にさせるか振り分けます
+	/* ///////////////////////////////////////////////////////// */
 
 
-	/**/
-	//ステージグラウンドごとにどのような処理にさせるか振り分けます
-	/**/
 
-	if( Stg->Stage_GndMode == 0){
+	//if( Stg->Stage_GndMode == 0){
 
-			/*地面とPCの当たり判定のチェック*/
-			ech = E3DChkConfGround( Get_BodyModel(), Stg->Stage_hsid[0], 1, 500, -1000, &GroundResult, &GroundOnPos, &ReflectVec);
+	/* ////////////////////////////////////// */
+	// 床の当たり判定を行います
+	/* ////////////////////////////////////// */
+
+	for( int i = 0; i<4; i++){
+
+			D3DXVECTOR3 MyPos_AddAcceleration( MyPos.x, MyPos.y + Get_Acceleration(), MyPos.z);
+		
+			ech = E3DChkConfLineAndFace( MyChkBeforePointPos[i], MyChkPointPos[i], Stg->Stage_hsid[0], 1, &Garbage, &FaceNo
+										, &PointConflictPos, &PointConflictVec, &Garbage);
 			_ASSERT( ech != 1 );//エラーチェック
 
-			ech = E3DGetPos( Get_BodyModel(), &MyPos);
-			_ASSERT( ech != 1 );//エラーチェック
 
-			/*もし地面の高さがかなり離れているか、横っ飛び状態なら*/
-			if( (400 < MyPos.y - GroundOnPos.y) || ( Get_MyState() == 3) || ( Get_MyState() == 4) ){
+	}
 
-						/*加速度を追加する*/
-						Set_Acceleration( Get_Acceleration() - 8.0);
+	/*my+myv ; y成分だけ移動
+	repeat 4
+		tmp = mx+mbox(0,cnt), my+mbox(1,cnt), mz+mbox(2,cnt) ; 下の角の座標
+		; すでにy成分だけ移動した座標で縦の線分が当たっているかどうか
+		E3DChkConfLineAndFace tmp(0),tmp(1)+mysize*2f,tmp(2), tmp(0),tmp(1),tmp(2), hsid_stage, 1, pno,fno, hx,hy,hz, nx,ny,nz, revflag
+			if fno > -1 {
+				line3d tmp(0),tmp(1)+mysize*2f,tmp(2), tmp(0),tmp(1),tmp(2), 0,255
+				if myv < 0 : my = hy + mysize + ny*0.1
+				if myv > 0 : my = hy - mysize + ny*0.1
+				if flag_move = 0 : myv = 0f :   else : myv *= -0.5 : break
+				}
+	loop
+	return
+	*/
 
-						/*前回はとんでなかった場合*/
-						if( BeforeAirOnPC == 0){
-									/*ダッシュ中の場合*/
-									if( ( Get_MyState() == 2) && ( BeforeAirOnPC == 0)) {
-												Set_Acceleration(100);//空中でジャンプしたことにする
-									}
-									/*横っ飛び状態なら*/
-									if( (Get_MyState() == 3) || ( Get_MyState() == 4)) {
-												Set_Acceleration(70);//空中でジャンプしたことにする
-									}
-						}
 
-						/*加速度に制限をかける*/
-						if(  Get_Acceleration() <= -700 ){
-									Set_Acceleration(-700);
-						}
+			/*
+				for( int i=0; i<4; i++){
 
-						/*自分の座標を下げる*/
-						MyPos.y = MyPos.y + float(Get_Acceleration());
+					ech = E3DChkConfLineAndFace( MyChkBeforePointPos[i], MyChkPointPos[i], Stg->Stage_hsid[0], 1, &Garbage, &FaceNo
+												, &PointConflictPos, &PointConflictVec, &Garbage);
+					_ASSERT( ech != 1 );//エラーチェック
 
-						/*キャラクターを空中に置く*/
-						ech = E3DSetPos( Get_BodyModel(), MyPos);
-						_ASSERT( ech != 1 );//エラーチェック
+					if( FaceNo > -1){// 当たり判定を行わなければならないなら
 
-						/*移動可能フラグをオフにする*/
-						MoveStopFlg = 1;
+						D3DXVECTOR3 BackUpMyChkPointPos( 0.0, 0.0, 0.0);
+						BackUpMyChkPointPos.x = MyChkPointPos[i].x;
+						BackUpMyChkPointPos.y = MyChkPointPos[i].y;
+						BackUpMyChkPointPos.z = MyChkPointPos[i].z;
 
-						/*モーションを「ジャンプ中」にする*/
-						Set_UnderMotion(9);
 
-						/*空中フラグをオンにする*/
-						Set_AirOnPC(1);
 
-			}
-			else{
-						/*キャラクターを地面上に置く*/
-						ech = E3DSetPos( Get_BodyModel(), GroundOnPos);
-						_ASSERT( ech != 1 );//エラーチェック
 
-						/*加速度を0にする*/
-						Set_Acceleration( 0.0);
+					}
 
-						/*移動可能フラグをオフにする*/
-						MoveStopFlg = 0;
 
-						/*空中フラグをオフにする*/
-						Set_AirOnPC(0);
-			}
+
+			}*/
+
+
+//	}
+
+
+
+
+
+	for( int i=0; i<4; i++){
+			MyChkBeforePointPos[i].x = MyChkPointPos[i].x;
+			MyChkBeforePointPos[i].y = MyChkPointPos[i].y;
+			MyChkBeforePointPos[1].z = MyChkPointPos[i].z;
 	}
 
 

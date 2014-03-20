@@ -17,8 +17,15 @@ int Batch_Render::Set_SpriteMagY( const char *ObjName, const float Value){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
-	vector<Sprite>::iterator it = SearchSpriteFromName( ObjName);// イテレータ
+	vector<Sprite>::iterator it;
 	
+	ech = SearchSpriteFromName( ObjName, &it);// イテレータ
+	
+	if( ech != 0){
+			_ASSERT( 1);
+			return -1;
+	}
+
 	/* MagXの設定 */
 	(*it).MagY = Value;
 	
@@ -29,8 +36,15 @@ int Batch_Render::Set_SpriteX( const char *ObjName, const float Value){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
-	vector<Sprite>::iterator it = SearchSpriteFromName( ObjName);// イテレータ
+	vector<Sprite>::iterator it;
 	
+	ech = SearchSpriteFromName( ObjName, &it);// イテレータ
+	
+	if( ech != 0){
+			_ASSERT( 1);
+			return -1;
+	}
+
 	/* MagXの設定 */
 	(*it).X = Value;
 	
@@ -41,8 +55,15 @@ int Batch_Render::Set_SpriteY( const char *ObjName, const float Value){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
-	vector<Sprite>::iterator it = SearchSpriteFromName( ObjName);// イテレータ
+	vector<Sprite>::iterator it;
 	
+	ech = SearchSpriteFromName( ObjName, &it);// イテレータ
+	
+	if( ech != 0){
+			_ASSERT( 1);
+			return -1;
+	}
+
 	/* MagXの設定 */
 	(*it).Y = Value;
 	
@@ -53,8 +74,15 @@ int Batch_Render::Set_ViewFlag( const char *ObjName, const bool Value){
 
 	/* 変数の初期化&宣言 */
 	int ech = 0;
-	vector<Sprite>::iterator it = SearchSpriteFromName( ObjName);// イテレータ
+	vector<Sprite>::iterator it;
 	
+	ech = SearchSpriteFromName( ObjName, &it);// イテレータ
+	
+	if( ech != 0){
+			_ASSERT( 1);
+			return -1;
+	}
+
 	/* MagXの設定 */
 	(*it).ViewFlag = Value;
 	

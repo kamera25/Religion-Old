@@ -6,29 +6,8 @@
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
 #include "cWeapon_head.h"// 武器統括に関することのクラスヘッダファイル
+#include "csys_statics.h"// システムクラスの静動変数・関数周りをまとめたヘッダファイル
 
-/*静動変数の宣言*/
-//
-int System::UpdataSoundflag;//音声情報を更新するかのフラグ
-int System::keyin[20];//キーが押されているかの情報配列
-int System::scid2;// フェードアウトで使うスワップチェイン
-
-BOOL System::GotMes;//PeekMessageの状態を格納する。
-
-int System::scid1;//メインスワップチェインのID
-int System::keyinQuick[3];//キーが2押されたか格納する配列変数
-int System::KeyQuickEnd;//ダッシュ操作が終了したときすべてのプッシュをリセットするフラグ変数
-int System::MouseWhole;//マウスホイールの移動量を格納する変数
-int System::KeyQuickPush[3][3];//キーを2回連打したときの情報を入れる変数
-int System::SpriteID[2];//ロードしたスプライトを格納します
-
-char System::path[256];//プログラムが起動しているパスの文字列
-
-MSG System::msg;//メッセージを格納する構造体。
-HWND System::hwnd;//ハンドルウィンドウを格納する。
-RECT System::rewin;//4隅座標の構造体
-POINT System::MousePos;//マウスの位置を格納するPoint構造体
-POINT System::BeforeMousePos;//前回のマウスの位置を格納する構造体
 
 
 // コンストラクタ:Easy3Dの処理を開始するよ。
@@ -277,25 +256,27 @@ int System::KeyRenewal( const int SelectMode){
 	const int ModeKeyCheck[3][2][20] = 
 	{
 		{// もしメニューでの検出なら
-			{ 0, 1, 0, 0, 0, 0, -1},
+			{ 0, 1, 0, 0, 0, 0, -1},/* 高速押し */
 			{ 1<<5, 1<<19, 1<<0, 1<<1, 1<<2, 1<<3, -1}
 		},
 		{// もしゲーム中での検出なら(連続不可)
-			{ 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, -1},
-			{ 1<<10, 1<<2, 1<<13,1<<28, 1<<27, 1<<14, 1<<10, 1<<5, 1<<18, 1<<7,
-				1<<8, 1<<4, 1<<5, 1<<1, 1<<17, 1<<16, 1<<15, -1},
+			{ 0, 1, 0, 0, 0, 0, 0, 1, 1, 0,
+				0, 0, 0, 1, 1, 1, 0, -1},
+			{ 1<<5, 1<<2, 1<<13,1<<28, 1<<27, 1<<14, 1<<10, 1<<5, 1<<18, 1<<7,
+				1<<8, 1<<4, 1<<10, 1<<1, 1<<17, 1<<16, 1<<15, -1},
 		},
 		{// もしゲーム中での検出なら(連続化) 
-			{ 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, -1},
-			{ 1<<10, 1<<2, 1<<13,1<<28, 1<<27, 1<<14, 1<<10, 1<<5, 1<<18, 1<<7,
-				1<<8, 1<<4, 1<<5, 1<<1, 1<<17, 1<<16, 1<<15, -1},
+			{ 0, 1, 0, 0, 0, 0, 0, 1, 1, 0,
+				0, 0, 0, 1, 1, 1, 0, -1},
+			{ 1<<5, 1<<2, 1<<13,1<<28, 1<<27, 1<<14, 1<<10, 1<<5, 1<<18, 1<<7,
+				1<<8, 1<<4, 1<<10, 1<<1, 1<<17, 1<<16, 1<<15, -1},
 		}
 	};
 
 	
 	/* 初期化します */ 
 	for(int i=0; i < 20; i++){	
-			keyin[i] = 0;
+			keyin[i] = false;
 	}
 	for( int i=0; i < 30; i++ ){
 		for( int j=0; j < 2; j++ ){
@@ -305,7 +286,7 @@ int System::KeyRenewal( const int SelectMode){
 
 	/* 初期化 & 宣言はここまで */
 
-	for(int i=0; i < 30; i++){
+	for(int i = 0; i < 30; i++){
 
 		/* 変数の初期化 */
 		const int NowBitShiftNum = 1<<i;
@@ -340,7 +321,7 @@ int System::KeyRenewal( const int SelectMode){
 
 			if( NowImputNo == -1) break;// ModeKeyCheck変数が最後なら、ループ脱出
 			if( imput[NowImputNo] & NowBitShiftNum){// キーが押されているかチェックします
-						keyin[i] = 1;
+						keyin[i] = true;
 			}
 	}
 	
@@ -356,8 +337,9 @@ int System::KeyRenewal( const int SelectMode){
 	//→ 4
 	//↓ 5
 
+
 	/* もしゲーム中での検出なら( 連続不可 / 連続化 ) [SelectMode == 1 OR 2] */
-	//Aキー（左へ移動）0
+	//エンターキー（調べる） 0
 	//Wキー（前進する）1
 	//Dキー（右へ移動）2
 	//Sキー（後退する）3
@@ -369,7 +351,7 @@ int System::KeyRenewal( const int SelectMode){
 	//左クリック（銃を撃つ） 9
 	//右クリック（グレネード） 10
 	//スペース（格闘攻撃） 11
-	//エンターキー（調べる） 12
+	//Aキー（左へ移動）12
 	//Vキー（特殊能力） 13
 	//ホイールクリック（視点変え）14
 	//ESCキー 15
@@ -381,7 +363,7 @@ int System::KeyRenewal( const int SelectMode){
 	*/
 	if(( SelectMode == 1) || ( SelectMode == 2)){//もしゲーム中での検出なら
 			for(int i=0; i<3; i++){//A・W・Dキーで3回繰り返す
-					if( (keyin[i] == 0) && (KeyQuickPush[i][0] == 1) ){//キーが押されてなく、前回は押されていたとき
+					if( (keyin[i] == false) && (KeyQuickPush[i][0] == 1) ){//キーが押されてなく、前回は押されていたとき
 							KeyQuickPush[i][1] = 5;//7ループ後までカウントする
 					}
 					if( KeyQuickPush[i][1] > 0){//7ループ内で
@@ -392,7 +374,7 @@ int System::KeyRenewal( const int SelectMode){
 					}
 					if( KeyQuickPush[i][2] == 1){//ダッシュフラグがオンなら
 							keyinQuick[i] = 1;//ゲームダッシュフラグをオンにする
-							if( keyin[i] == 0){//もし、「ダッシュフラグがオンになっているキーが押されてない」なら
+							if( keyin[i] == false){//もし、「ダッシュフラグがオンになっているキーが押されてない」なら
 									KeyQuickPush[i][2] = 0;//ダッシュキーが押されてない状態にする
 									keyinQuick[i] = 0;//ゲームダッシュフラグをオフにする
 							}
@@ -412,6 +394,7 @@ int System::KeyRenewal( const int SelectMode){
 
 	return 0;
 }
+
 /* ロード画面を描画する関数 */
 int System::WaitRender(){
 
@@ -441,7 +424,7 @@ int System::WaitRender(){
 	return 0;
 }
 /* キー情報を入手するための関数 */
-int System::GetKeyData( int *KeyDataArray){
+/*int System::GetKeyData( int *KeyDataArray){
 
 	//キーが押されたかの情報を格納します
 	for( int i=0; i<20; i++){
@@ -450,7 +433,7 @@ int System::GetKeyData( int *KeyDataArray){
 
 
 	return 0;
-}
+}*/
 /* 音声情報を更新するかどうかの関数 */
 int System::SetUpdataSoundSys( const int Soundflag){
 
@@ -560,18 +543,20 @@ int System::SetFadeOutOfScid( const int FadeTime){
 /* 銃クラスを元にキー情報の取得を変更する関数 */
 int System::KeyRenewalFromWp( const Weapon_Head *Wpn, const int Equipment){
 	
-	if( ( Equipment == -1) || ( Equipment == 2)){// 装備なしかサポート武器なら
+	if(  Equipment == -1){// 装備なしなら
 			System::KeyRenewal(1);
 	}
-	else{
-		if( Wpn->Get_WeaponPointer(Equipment)->Get_NowAmmo() != 0){
-				System::KeyRenewal( Wpn->Get_WeaponPointer(Equipment)->Get_RapidFire() + 1);
-		}
-		else{
-				System::KeyRenewal(1);
-		}
-
+	else if( Equipment == 2){// サポート武器なら
+			System::KeyRenewal(2);
 	}
+	else if( Wpn->Get_WeaponPointer(Equipment)->Get_NowAmmo() != 0){// 武器を所持しているなら
+				System::KeyRenewal( Wpn->Get_WeaponPointer(Equipment)->Get_RapidFire() + 1);
+	}
+	else{// それ以外なら
+				System::KeyRenewal(1);
+	}
+
+	
 
 
 	return 0;
@@ -595,4 +580,10 @@ int System::SetMouseBeforePos(){
 
 
 	return 0;
+}
+
+/* キーインプットを取得する関数 */
+bool System::GetKeyData( const int KeyNum){
+
+	return keyin[ KeyNum ];
 }

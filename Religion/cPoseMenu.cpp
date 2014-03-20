@@ -32,8 +32,8 @@ PoseMenu::PoseMenu(){
 	};
 
 	for( int i=0; i<5; i++){
-			int Y = 140+40*i;
-			MakeFontButton_Auto(  MenuKindName[i], &ButtonID, 100, Y);
+
+			MakeFontButton_Auto(  MenuKindName[i], &ButtonID, 100, 140 + 40 * i);
 			MakeBalloonFromButton( MenuKindDetail[i], &Garbage, &ButtonID, 300, 330);
 	}
 
@@ -53,7 +53,7 @@ int PoseMenu::MainPoseMenu( PlayerChara *PC, Batch_Render *BatchPre ){
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
 	int ExitFlag = 0;//このフラグがオンになったとき脱出します。
-	int keyin[20];//キー情報配列を作成
+	 ;//キー情報配列を作成
 	const int DetailPossitionX[5] = { 400, 250, 400, 250, 230};// 詳細文字のX座標
 	/* 各メニューの詳しい説明 */
 
@@ -66,7 +66,6 @@ int PoseMenu::MainPoseMenu( PlayerChara *PC, Batch_Render *BatchPre ){
 
 			System::KeyRenewal(1);
 			
-			System::GetKeyData(keyin);//キーを取得する
 
 			/*描画準備をスルヨ*/
 			E3DBeginScene( System::scid1, 0, -1);//描画の開始準備
@@ -103,7 +102,7 @@ int PoseMenu::MainPoseMenu( PlayerChara *PC, Batch_Render *BatchPre ){
 			/* クリックされた時の動作を設定します 
 			/* ////////////////////////////////// */
 
-			if( keyin[9] == 1){
+			if( System::GetKeyData( System::KEY_LEFTMOUSE)){
 					switch(SelectKind){
 							case 0:{// ゲームに戻る
 									ExitFlag = 1;//ループ脱出フラグをオンにする。
@@ -158,12 +157,13 @@ int PoseMenu::FarstInMenu( Batch_Render *BatchPre, PlayerChara *PC){
 
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
-	int keyin[20];//キー情報配列を作成
 
-	System::GetKeyData(keyin);//キーを取得する
 
 	/*もしESCキーが押されていなかったら*/
-	if(keyin[15] != 1) return 1;//ポーズメニューを起動しない
+	if( System::GetKeyData( System::KEY_ESC) != 1){
+			
+			return 1;//ポーズメニューを起動しない
+	}
 
 	/* 視野角内チェック */
 	BatchPre->BatchChkInView();

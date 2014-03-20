@@ -23,9 +23,9 @@ int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 	// ステージのロードを行ないます
 	/* /////////////////////////// */
 
-	if(StageKind == 0){
+	/*if(StageKind == 0){
 					wsprintf( loadname, "%s\\data\\3d\\map\\st_retolis\\st_retolis.sig", System::path);
-					ech = E3DLoadSigFileAsGround(loadname, 55.0, 0, &Stage_hsid[0]);
+					ech = E3DSigLoad( loadname, 0, 55.0, &Stage_hsid[0]);
 					if(ech != 0 ){//エラーチェック
 							_ASSERT( 0 );//エラーダイアログ
 							return 1;//問題ありで終了
@@ -36,9 +36,11 @@ int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 	*FogDist = 8000.0f;//背景のもやで見えにくくする。
 	Stage_GunTarget = 0;//ステージの銃操作を"通常"にする
 	Stage_GndMode = 0;//キャラ地面操作を"通常にする"
+	*/
 
+	LoadStageFromProfile( "st_retolis.mpd");
 
-
+	*FogDist = 8000.0f;//背景のもやで見えにくくする。
 	/* //////////////// */
 	// ナビラインの作成 
 	/* //////////////// */
@@ -46,7 +48,7 @@ int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 	int BNaviPoint = 0;
 
 
-	Navi.NaviRailOnOffSwitch( 1);// ナビレールを使用する
+	Navi.NaviRailOnOffSwitch( true);// ナビレールを使用する
 	Navi.AddNaviPointToStage( -1, 0, -106.49518f, 2105.9500f, 4596.2803f);// ナビレール0
 	Navi.AddNaviPointToStage( -1, 0, -727.48090f, 2105.9500f, -1364.0236f);
 	Navi.AddNaviPointToStage( -1, 0, -4238.1382f, 2105.9500f, -4166.2183f);
@@ -70,6 +72,7 @@ int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 	Navi.AddNaviPointToStage( -1, 2, -9394.7578f, 2105.9500f, -8282.7041f);// ナビレール2(接続線)
 	Navi.AddNaviPointToStage( -1, 2, -9451.8779f, 2105.9500f, -10827.891f);
 	Navi.NRGivenTransfarFromAToB( 2, 0, ANaviPoint, 1, BNaviPoint);
+
 
 	return 0;
 }

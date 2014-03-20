@@ -25,7 +25,7 @@ OptionMenu::OptionMenu(){
 int OptionMenu::MainOptionMenu( Batch_Render *BatchPre){
 
 	/* 変数の初期化 */
-	int keyin[20];//キー情報配列を作成
+	 ;//キー情報配列を作成
 	int ech = 0;//エラーチェック変数
 	int BumpMapStatus = 0;//バンプマップの状態変数 
 	const D3DXVECTOR3 SpritePos1( 0.0, -25.0, 0.0);//背景の位置
@@ -54,7 +54,6 @@ int OptionMenu::MainOptionMenu( Batch_Render *BatchPre){
 			/* 基本動作 */
 			System::MsgQ(30);//メッセージループ
 			System::KeyRenewal(1);
-			System::GetKeyData(keyin);
 
 
 			/* 描画準備をスルヨ */
@@ -86,7 +85,7 @@ int OptionMenu::MainOptionMenu( Batch_Render *BatchPre){
 
 			SelectKind = ChkFontButton( System::MousePos.x, System::MousePos.y);
 			if( SelectKind == 0){
-						if(keyin[9] == 1){//クリックしたら
+						if(System::GetKeyData( System::KEY_LEFTMOUSE)){//クリックしたら
 							ExitFlag = 1;//ループ脱出フラグをオンにする。
 						}
 
@@ -109,7 +108,7 @@ int OptionMenu::MainOptionMenu( Batch_Render *BatchPre){
 								TextPos.x = 120;/**/TextPos.y = 200;
 
 								// クリックされたら
-								if( keyin[9] == 1){
+								if( System::GetKeyData( System::KEY_LEFTMOUSE)){
 										BumpMapStatus = 1;
 								}
 						}
@@ -117,7 +116,7 @@ int OptionMenu::MainOptionMenu( Batch_Render *BatchPre){
 								PutString( "OFF", 180, 200, F_SMALL, BLUE);
 
 								// クリックされたら
-								if( keyin[9] == 1){
+								if( System::GetKeyData( System::KEY_LEFTMOUSE)){
 										BumpMapStatus = 0;
 								}
 						}				

@@ -5,7 +5,7 @@
 #include "cweapon.h"// 武器に関することのクラスヘッダファイル
 
 //プロトタイプ宣言
-class Enemy;
+class NPC_Head;
 class PlayerChara;
 class Stage;
 
@@ -30,7 +30,7 @@ public:
 	int DeleteWeapon( int EquipKind);// 装備されている武器を削除します
 	int SetInitWeapon( int WpKind);// 武器のデータの初期化を行います 
 	int ChkWeaponsLaunch( int Equipment);// すべての武器を発射・投降しているかチェックする
-	int AttackEnemys( Enemy *Ene, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);// 敵の当たり判定チェックを行います
+	int AttackEnemys( NPC_Head *NPC, PlayerChara *PC, int ScreenPosArray[2], Stage *Stg);// 敵の当たり判定チェックを行います
 	int WeaponsTreatment( int Equipment, Stage *Stg);//
 
 	Weapon *Get_WeaponPointer( int Now_Equipment) const;// 武器の実体のポインターが代入されているポインターを得る関数

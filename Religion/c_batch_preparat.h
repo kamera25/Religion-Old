@@ -10,7 +10,7 @@ using namespace std;
 //プロトタイプ宣言
 class PlayerChara;
 class Stage;
-class Enemy;
+class NPC_Head;
 class Camera;
 class Weapon;
 
@@ -41,10 +41,8 @@ private:
 	/* モデルデータの配列を宣言します */
 	vector<Model> Mdl;
 
-
 	/*スプライト関係の変数を宣言します*/
 	vector<Sprite> Spt;
-
 
 	int BumpMapFlag;// バンプマップを表示するかどうかのフラグ変数
 	int ShadowFlag;// 影を表示するかどうかのフラグ変数
@@ -59,13 +57,14 @@ public:
 
 
 	//関数の宣言
-	Batch_Render( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC, 
+	Batch_Render( const PlayerChara *PcC, const Stage *StgC, NPC_Head *NPCC, 
 					const Camera *Cam);//コンストラクタ、初期化をします
 	~Batch_Render();//デストラクタ、スプライトを削除します
+
 	int BatchRender( const int SceneEndFlg) ;//今までのデータをまとめて描画するための関数
 	int BatchChkInView();//今までのデータをまとめて視野角内チェックするための関数
 	int BacthGunTrade( int Wp_equipment);//武器を交換した後、チェックと描画するモデルを変更する関数
-	int BatchReset( const PlayerChara *PcC, const Stage *StgC, const Enemy *EneC,
+	int BatchReset( const PlayerChara *PcC, const Stage *StgC, NPC_Head *NPCC,
 					const Camera *Cam);//構築していた、まとめデータを再構築する
 	int BatchBeforePos();//一つ前の座標をまとめて保存するための関数
 	int BatchFont( const int SceneEndFlg, const PlayerChara *PcC);//文字を描画することや設定をしたりする関数
@@ -77,7 +76,8 @@ public:
 	/* モデル関係の関数 */
 	int	SetModel( const int ID, const bool ViewFlag);
 	int SetModel_AddName( const int ID, const char *Name, const bool ViewFlag);
-	vector<Model>::iterator SearchModelFromName( const char *ObjName);
+	// vector<Model>::iterator SearchModelFromName( const char *ObjName);
+	int Batch_Render::SearchModelFromName( const char *ObjName, vector<Model>::iterator *it);
 	int SetModel_ViewFlag( const char *Name, const bool ViewFlag);
 
 	/* スプライト関係の関数 */
@@ -90,7 +90,8 @@ public:
 	int Set_SpriteX( const char *ObjName, const float Value);
 	int Set_SpriteY( const char *ObjName, const float Value);
 	int Set_ViewFlag( const char *ObjName, const bool Value);
-	vector<Sprite>::iterator Batch_Render::SearchSpriteFromName( const char *ObjName);
+	//vector<Sprite>::iterator Batch_Render::SearchSpriteFromName( const char *ObjName);
+	int SearchSpriteFromName( const char *ObjName, vector<Sprite>::iterator *it);
 
 	int BatchSpriteRender( const int SceneEndFlg);//まとめられたスプライトをレンダリングするための関数
 	int BatchSpriteSet( const PlayerChara *PcC);//最初にロードしたスプライトの倍率や描画指定するための関数

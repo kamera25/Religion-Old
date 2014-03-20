@@ -69,8 +69,6 @@ int Stage::LoadStage_Tronp( const int StageKind){
 	Stage_GunTarget = 0;//ステージの銃操作を"通常"にする
 	Stage_GndMode = 0;//キャラ地面操作を"通常にする"
 
-	AvailableNaviLineFlag = true;// ナビラインを有効にする
-
 
 	return 0;
 }

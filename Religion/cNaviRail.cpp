@@ -23,7 +23,7 @@ NaviRail::NaviRail(){
 	}
 
 	// ナビライン利用変数をオフにします
-	NaviRailAvailable = 0;
+	NaviRailAvailable = false;
 
 
 	return;
@@ -75,14 +75,14 @@ int NaviRail::AddNaviPointToStage( const int NaviPointEdge, const int NaviLineNu
 	return NaviPoint;
 }
 /* ナビラインの使用を有効/無効にします */
-int NaviRail::NaviRailOnOffSwitch( const int RailOnOrOff){
+int NaviRail::NaviRailOnOffSwitch( const bool RailOnOrOff){
 
 	NaviRailAvailable = RailOnOrOff;
 
 	return 0;
 }
 /* NaviRailAvailableを取得します */
-int NaviRail::Get_NaviRailAvailable() const{
+bool NaviRail::Get_NaviRailAvailable() const{
 
 	return NaviRailAvailable;
 }

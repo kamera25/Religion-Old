@@ -155,17 +155,14 @@ int PlayerChara::ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 
 
 /*普通のゲーム内での処理を行う関数、銃器の出し入れ、敵へのあたり、銃を手に置くなど…etc*/
-int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, Enemy *Ene, Camera *Cam, int ScreenPos[2]){
+int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *NPC_H, Camera *Cam, int ScreenPos[2]){
 
 	/*変数の初期化*/
 	int ech = 0;
 	int MotionID = 0;//モーションIDを入れます
 	int Garbage = 0;//ゴミデータを入れます
 	int MotionFrameNo = 0;//モーションのフレーム番号を入れます
-	int keyin[20];//キー情報配列を作成 
 
-	/*キーを取得する*/
-	System::GetKeyData(keyin);
 
 	/*キャラクターを動かす*/
 	MoveChara();
@@ -196,13 +193,13 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, Enemy *Ene,
 
 
 	//体の向きや、射撃を行う関数を呼び出し
-	GunConflictTarget( ScreenPos, Stg, Ene);
+	GunConflictTarget( ScreenPos, Stg, NPC_H);
 
 	// 武器を変更する際の処理
 	ChangeWeapon( BatPre);
 
 	/*姿勢変換「立つ⇔しゃがむ」の処理*/
-	if( (keyin[8] == 1) && (Get_AirOnPC() == 0)){//キーが押され、空中でない
+	if( ( System::GetKeyData( System::KEY_SHIFT) == 1) && (Get_AirOnPC() == 0)){//キーが押され、空中でない
 				Set_Attitude( Get_Attitude() + 1);//姿勢変数を一つ増やす
 				if( Get_Attitude() == 2){//変数が行き過ぎなら
 						Set_Attitude( 0 );//「立つ」に固定
@@ -210,7 +207,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, Enemy *Ene,
 	}
 
 	/*格闘攻撃をする処理を行います*/
-	if( ( keyin[11] == 1) && ( Get_Attitude() == 0) && ( Get_MyState() == 0)){//キーが押され、しゃがみ状態でなく、他の動作を行ってない
+	if( ( System::GetKeyData( System::KEY_SPACE) == 1) && ( Get_Attitude() == 0) && ( Get_MyState() == 0)){//キーが押され、しゃがみ状態でなく、他の動作を行ってない
 				Set_MyState( 1 );//キックをする
 	}
 
@@ -279,7 +276,7 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, Enemy *Ene,
 	}
 
 	/* 視点変えの切り替え制御を行う */
-	if( keyin[14] == 1){// ホイールクリックが押されたら
+	if( System::GetKeyData( System::KEY_WHILEMOUSE) == 1){// ホイールクリックが押されたら
 				ChangePerspectiveMode++;// 視点モードを進める
 				if( ChangePerspectiveMode == 2){// 視点が行き過ぎたら
 						ChangePerspectiveMode = 0;
@@ -302,10 +299,7 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 
 	/* 変数の宣言&初期化 */
 	int Eqipment = Get_Wp_equipment();
-	int keyin[20];//キー情報配列を作成 
 
-	/*キーを取得する*/
-	System::GetKeyData(keyin);
 
 	/*装備武器変更の処理*/
 	if( Eqipment != -1){//現在の状態が武器持ち
@@ -315,12 +309,12 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 	}
 
 
-	
-
-	/* 武器の変更を行う */
+	/* //////////////// */
+	// 武器の変更を行う
+	/* //////////////// */
 	switch(System::MouseWhole){
 			case 1:{
-					if( Get_Wp_equipment() == 2){
+					if( Get_Wp_equipment() == 3){
 							Set_Wp_equipment(-1);//装備を「素手」にする
 							break;
 					}
@@ -331,7 +325,7 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 									break;//ループから抜ける、素手に確定
 							}
 							if( Get_Wp_equipment() == -2){//装備が行き過ぎたら
-									Set_Wp_equipment(1);//装備を「サブウェポン」にする
+									Set_Wp_equipment(2);//装備を「グレネード」にする
 							}
 							if( Wpn.Get_WeaponPointer( Get_Wp_equipment()) != 0){//もし、武器が確認されているなら
 									break;//ループを抜ける、装備確定
@@ -341,14 +335,14 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 					break;
 			}
 			case 2:{//もし、マウスホイールが下へ行ったのなら
-					if( Get_Wp_equipment() == 2){
+					if( Get_Wp_equipment() == 3){
 							Set_Wp_equipment(-1);//装備を「素手」にする
 							break;
 					}
 
 					for(int i=0; i<3; i++){//
 								Set_Wp_equipment( Get_Wp_equipment() + 1);//装備順を一つ繰り下げる
-								if( Get_Wp_equipment() == 2){//装備が行き過ぎたら
+								if( Get_Wp_equipment() == 3){//装備が行き過ぎたら
 										Set_Wp_equipment(-1);//装備を「素手」にする
 										break;//ループから抜ける、素手に確定
 								}
@@ -361,18 +355,24 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 			}
 	}
 
+	/* ///////////////////////// */
+	// サポート武器の変更を行います
+	/* ///////////////////////// */
+
 	/* サポート武器への変更確認と変更を行う */
-	if( ( keyin[10] == 1) && ( Wpn.Get_WeaponPointer(2) != NULL)){//右クリックとサポート武器を所持していれば
-			Set_Wp_equipment(2);// サポート武器に装備確定
-	}
+	//if( ( keyin[10] == 1) && ( Wpn.Get_WeaponPointer(2) != NULL)){//右クリックとサポート武器を所持していれば
+	//		Set_Wp_equipment(2);// サポート武器に装備確定
+	//}
 
 	/* サポート武器を装備しているときに、左クリックをしたとき */
-	if( ( Get_Wp_equipment() == 2) && ( keyin[9] == 1) ){
-			Set_Wp_equipment(-1);//装備を「素手」にする
-	}
+	//if( ( Get_Wp_equipment() == 2) && ( System::GetKeyData( System::KEY_LEFTMOUSE)) ){
+	//		Set_Wp_equipment(-1);//装備を「素手」にする
+	//}
 
 	// 描画、視野角内チェックの武器変更
-	BatPre->BacthGunTrade( Get_Wp_equipment());
+	if( Eqipment != Get_Wp_equipment()){
+			BatPre->BacthGunTrade( Get_Wp_equipment());
+	}
 
 
 
@@ -386,7 +386,6 @@ int PlayerChara::MoveChara(){
 	int ech = 0;//エラー確認変数
 	int KeyMov = 0;//キーを押してどの方向に動くかの変数
 	int MovOn = 0;//動いていいかのフラグ
-	int keyin[20];//キー情報配列を作成 
 	float WantDeg = 0;//向きたい方向の変数
 	float FixedMoveSpeed = 0.0f;//それぞれの状態の固定速度
 	D3DXVECTOR3 SubPos( 0.0, 0.0, 0.0);//キャラクターを置く場所の座標
@@ -395,21 +394,17 @@ int PlayerChara::MoveChara(){
 	/*ダッシュ操作がオンになっていないかチェック*/
 
 
-	/*キーによる分岐*/
-
-	System::GetKeyData(keyin);//キー情報を格納
-
 	/* キーの状態を取得する */
-	if( keyin[0] == 1){//左
+	if( System::GetKeyData( System::KEY_A) == 1){//左
 				KeyMov = KeyMov +1;
 	}
-	if( keyin[1] == 1){//上
+	if( System::GetKeyData( System::KEY_W) == 1){//上
 				KeyMov = KeyMov +2;
 	}
-	if( keyin[2] == 1){//右
+	if( System::GetKeyData( System::KEY_D) == 1){//右
 				KeyMov = KeyMov +4;
 	}
-	if( keyin[3] == 1){//下
+	if( System::GetKeyData( System::KEY_S) == 1){//下
 				KeyMov = KeyMov +8;
 	}
 

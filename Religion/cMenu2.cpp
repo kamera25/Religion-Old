@@ -157,8 +157,6 @@ int Menu::MakeBalloonFromButton( const char *Message, int *BalloonID, int *Butto
 
 	MakeBalloon( Message, BalloonID, X, Y, Btn[*ButtonID].X, Btn[*ButtonID].Y + 20, Btn[*ButtonID].MaxX, Btn[*ButtonID].MaxY);
 
-
-
 	return 0;
 }
 
