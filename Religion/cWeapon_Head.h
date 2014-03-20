@@ -20,9 +20,14 @@ private:
 	Weapon *SupportWeapon;// サポート武器(左クリック)を格納する変数ポインタ
 
 	int WeaponLight;// 武器のマズルフラッシュライト格納変数
+	int GunHitChkModelID;// 銃の当たりを求めるときに使う「細長い」モデルのID
 
 
 public:
+
+	/* 変数の宣言 */
+	// SetInitWeapon関数で使う
+	static const int RESET = -1;// 全てをリセットする
 
 	/*関数の宣言*/
 

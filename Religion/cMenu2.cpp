@@ -266,7 +266,6 @@ int Menu::RenderBG_Alpha( const E3DCOLOR4UC Alpha){
 	return 0;
 }
 
-
 int Menu::PutString( const char *Message, const int X, const int Y, const int FontID, const int Color){
 
 	/* •Ï”‚Ì‰Šú‰»&éŒ¾ */

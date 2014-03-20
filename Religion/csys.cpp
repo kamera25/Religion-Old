@@ -70,7 +70,6 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 		for(int j=0; j<3; j++){
 			KeyQuickPush[i][j] = 0;
 		}
-		keyinQuick[i] = 0;
 	}
 
 
@@ -81,8 +80,7 @@ System::System( const HINSTANCE chInst, const HWND chwnd){
 	*/
 
 	ech = E3DCreateSwapChain( chwnd, &scid2);
-	
-			_ASSERT( ech != 1 );//エラーチェック
+	_ASSERT( ech != 1 );//エラーチェック
 
 
 	/* **************
@@ -169,6 +167,62 @@ int System::MsgQ( const int fps){
 	return 0;//ここの数字で終了処理を決めろ。
 
 };
+
+/* 連続押しを検知します */
+int System::ChkKeyDoublePush( bool PushKey, int Count, int Element){
+
+	/* 初期化 */
+	const int BEFOREKEY = 0;  // 配列の要素 "0" は「前回のキー状態」を格納します
+	const int KEYCOUNT = 1;   // 配列の要素 "1" は「二回押しキーの残りカウント」を格納します。
+	const int DOUBKEPUSH = 2; //  配列の要素 "2" は「二回押しが有効になっているか」を格納します。
+
+	/* ///////////////////// */
+	/* これから、連続押しを検知します
+	/* ///////////////////// */
+
+	//キーが押されてなく、前回は押されていなかったとき
+	if( PushKey == false &&  KeyQuickPush[Element][BEFOREKEY] == 1 ){
+			KeyQuickPush[Element][KEYCOUNT] = Count;// 変数"Count"を、セットする
+	}
+
+	// カウント時間内なら
+	if( 0 < KeyQuickPush[Element][KEYCOUNT] ){
+			
+			KeyQuickPush[Element][KEYCOUNT] = KeyQuickPush[Element][KEYCOUNT] - 1;// 毎秒ごとに、ループ容赦回数を減らす
+			
+			if( PushKey == true){//その間で、キーが押されているなら
+					KeyQuickPush[Element][DOUBKEPUSH] = 1;//ダッシュフラグをオンにする
+			}
+	}
+
+	// ダッシュフラグが"オン"で、キーが離されたら
+	if( PushKey == false && KeyQuickPush[Element][DOUBKEPUSH] == 1 ){
+			KeyQuickPush[Element][DOUBKEPUSH] = 0;//ダッシュキーが押されてない状態にする
+	}
+
+	KeyQuickPush[Element][BEFOREKEY] = PushKey;//前回のキーを代入します(次ループで使用)
+
+
+	return 0;
+}
+
+/* 要素を選択して、二回連続キーの設定リセットを行います。 */
+int System::ResetKeyDoublePush( int Element){
+
+	KeyQuickPush[Element][0] = 0;
+	KeyQuickPush[Element][1] = 0;
+	KeyQuickPush[Element][2] = 0;
+
+	return 0;
+}
+
+/* 要素を渡して、連続押しかどうかチェックします */
+int System::Get_DoublePush( int Element){
+
+
+	return KeyQuickPush[Element][2];
+}
+
 /* キー情報を更新する関数 */
 int System::KeyRenewal( const int SelectMode){
 
@@ -361,7 +415,14 @@ int System::KeyRenewal( const int SelectMode){
 	/*
 	//短いタイミングでキーをおしたかどうかの検出を行います
 	*/
+
 	if(( SelectMode == 1) || ( SelectMode == 2)){//もしゲーム中での検出なら
+		ChkKeyDoublePush( GetKeyData( System::KEY_W), 5, 0);// Wキーが短い間で押されているか検出します。
+		ChkKeyDoublePush( GetKeyData( System::KEY_D), 5, 1);// Dキーが短い間で押されているか検出します。
+		ChkKeyDoublePush( GetKeyData( System::KEY_A), 5, 2);// Aキーが短い間で押されているか検出します。
+	}
+
+	/*if(( SelectMode == 1) || ( SelectMode == 2)){//もしゲーム中での検出なら
 			for(int i=0; i<3; i++){//A・W・Dキーで3回繰り返す
 					if( (keyin[i] == false) && (KeyQuickPush[i][0] == 1) ){//キーが押されてなく、前回は押されていたとき
 							KeyQuickPush[i][1] = 5;//7ループ後までカウントする
@@ -381,7 +442,7 @@ int System::KeyRenewal( const int SelectMode){
 					}
 					KeyQuickPush[i][0] = keyin[i];//前回のキーを代入します(次ループで使用)
 			}
-	}
+	}*/
 
 	/*
 	//次にマウス座標を取得します。

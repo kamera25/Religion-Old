@@ -151,8 +151,77 @@ int PlayerChara::ThreePersonGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 	return 0;
 }
 
+// ダッシュ関係の処理を行います
+int PlayerChara::PCDashControl(){
 
 
+	/* //////////////////////////// */
+	/* ダッシュ関係の処理を行います */
+	/* //////////////////////////// */
+
+	//キーが連続で押され、しゃがみ状態でなく、他の動作を行ってなくて、地上なら
+	if( ( System::Get_DoublePush(0) == 1) && ( Get_Attitude() == 0) 
+		&& ( Get_MyState() == 0) && ( Get_AirOnPC() == 0)){
+				Set_MyState( 2 );//ダッシュをする
+	}
+
+
+
+	// ダッシュ操作中で、キーが解除されたら
+	if( ( Get_MyState() == 2) && ( System::Get_DoublePush(0) == 0) 
+		&& ( Get_AirOnPC() == 0) ){
+				Set_MyState( 0 );//ダッシュを解除する
+	}
+
+	if( Get_MyState() == 2){//ダッシュ中なら
+				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
+				if( (Get_Stamina() == 0) && (Get_AirOnPC() == 0) ){//体力がなくなった&空中でないなら
+						Set_MyState(0);//ダッシュを止める
+
+						//ダッシュキーが押されてない状態にする
+						System::ResetKeyDoublePush(0);
+				}
+	}
+
+	return 0;
+}
+
+/* 横っ飛びの処理をさせます。 */
+int PlayerChara::PCSideAvoidanceControl(){
+
+	/* 初期化 */
+	int ech;
+	int Garbage;
+	int MotionFrameNo;
+
+	/*横っ飛び関係の処理を行います*/
+	if( ( ( System::Get_DoublePush(2) == 1) || ( System::Get_DoublePush(1) == 1)) && ( Get_Attitude() == 0) //左右キーが連続で押され、しゃがみ状態でなく、
+		&& ( Get_MyState() == 0) && ( Get_AirOnPC() == 0) && ( 0 < Get_Stamina())){//他の動作を行ってなくて、地上で、スタミナがなくなってないなら
+
+				if( System::Get_DoublePush(2) == 1) Set_MyState( 3 );//左横っ飛び状態にする;
+				if( System::Get_DoublePush(1) == 1) Set_MyState( 4 );//右横っ飛び状態にする;
+				if(( System::Get_DoublePush(2) == 1) && ( System::Get_DoublePush(1) == 1)) Set_MyState( 0 );//通常状態にする
+	}
+
+	//横っ飛び状態なら
+	if( (Get_MyState() == 3) || ( Get_MyState() == 4)){
+				//移動先のモーション状態はどうか確かめる
+				ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(6), &Garbage, &MotionFrameNo);
+				_ASSERT( ech != 1 );//エラーダイアログを表示
+
+				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
+
+				if( MotionFrameNo == 20){//モーションが終了してたら
+							Set_MyState( 0 );//通常状態に戻す
+							System::ResetKeyDoublePush(1);
+							System::ResetKeyDoublePush(2);
+				}
+	}
+
+
+
+	return 0;
+}
 
 /*普通のゲーム内での処理を行う関数、銃器の出し入れ、敵へのあたり、銃を手に置くなど…etc*/
 int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *NPC_H, Camera *Cam, int ScreenPos[2]){
@@ -175,7 +244,6 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *N
 			case 0:{
 					/*視点関連の処理、切り替えや関数呼び出し等*/
 					ThreePersonGunSys( BatPre, ScreenPos);//肩撃ち視点
-
 
 					break;		
 			}
@@ -206,7 +274,9 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *N
 				}
 	}
 
-	/*格闘攻撃をする処理を行います*/
+	/* //////////////////////////// */
+	/* 格闘攻撃をする処理を行います */
+	/* //////////////////////////// */
 	if( ( System::GetKeyData( System::KEY_SPACE) == 1) && ( Get_Attitude() == 0) && ( Get_MyState() == 0)){//キーが押され、しゃがみ状態でなく、他の動作を行ってない
 				Set_MyState( 1 );//キックをする
 	}
@@ -220,60 +290,14 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *N
 				}
 	}
 
-	/*ダッシュ関係の処理を行います*/
-	if( ( System::keyinQuick[1] == 1) && ( Get_Attitude() == 0) && ( Get_MyState() == 0) && ( Get_AirOnPC() == 0)){//キーが連続で押され、しゃがみ状態でなく、他の動作を行ってなくて、地上なら
-				Set_MyState( 2 );//ダッシュをする
-	}
 
-	if(( System::keyinQuick[1] == 1) && (( Get_Attitude() != 0) || (( Get_MyState() != 0) && ( Get_MyState() != 2) ))){//それ以外の条件では、ダッシュキャンセルする
-				System::KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
-				System::keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
-	}
-
-
-	if( ( Get_MyState() == 2) && ( System::keyinQuick[1] == 0) && ( Get_AirOnPC() == 0) ){//ダッシュ操作中で、キーが解除されたら
-				Set_MyState( 0 );//ダッシュを解除する
-	}
-
-	if( Get_MyState() == 2){//ダッシュ中なら
-				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
-				if( (Get_Stamina() < 1) && (Get_AirOnPC() == 0) ){//体力がなくなった&空中でないなら
-						Set_MyState(0);//ダッシュを止める
-						System::KeyQuickPush[1][2] = 0;//ダッシュキーが押されてない状態にする
-						System::keyinQuick[1] = 0;//ゲームダッシュフラグをオフにする
-				}
-	}
+	/* ダッシュ関係の処理を行います */
+	PCDashControl();
 
 	/*横っ飛び関係の処理を行います*/
-	if( ( ( System::keyinQuick[0] == 1) || ( System::keyinQuick[2] == 1)) && ( Get_Attitude() == 0) //左右キーが連続で押され、しゃがみ状態でなく、
-		&& ( Get_MyState() == 0) && ( Get_AirOnPC() == 0) && ( 0 < Get_Stamina())){//他の動作を行ってなくて、地上で、スタミナがなくなってないなら
+	PCSideAvoidanceControl();
 
-				if( System::keyinQuick[0] == 1) Set_MyState( 3 );//左横っ飛び状態にする;
-				if( System::keyinQuick[2] == 1) Set_MyState( 4 );//右横っ飛び状態にする;
-				if(( System::keyinQuick[0] == 1) && ( System::keyinQuick[2] == 1)) Set_MyState( 0 );//通常状態にする
-	}
 
-	//横っ飛び状態なら
-	if( (Get_MyState() == 3) || ( Get_MyState() == 4)){
-				//移動先のモーション状態はどうか確かめる
-				ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(6), &Garbage, &MotionFrameNo);
-				_ASSERT( ech != 1 );//エラーダイアログを表示
-
-				Set_Stamina( Get_Stamina() - 1);//スタミナを減らす
-
-				if( MotionFrameNo == 20){//モーションが終了してたら
-							Set_MyState( 0 );//通常状態に戻す
-							System::KeyQuickPush[0][2] = 0;//ダッシュキーが押されてない状態にする
-							System::KeyQuickPush[2][2] = 0;//ダッシュキーが押されてない状態にする
-							System::keyinQuick[0] = 0;//横っ飛びフラグをオフにする
-							System::keyinQuick[2] = 0;//横っ飛びフラグをオフにする
-				}
-	}
-
-	/*スタミナの制御をする*/
-	if( Get_Stamina() <= 0){//スタミナがマイナスなら
-				Set_Stamina( 0 );//スタミナを固定する
-	}
 
 	/* 視点変えの切り替え制御を行う */
 	if( System::GetKeyData( System::KEY_WHILEMOUSE) == 1){// ホイールクリックが押されたら
@@ -285,9 +309,8 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *N
 
 
 	/*武器をもち手のあるべき場所へ移動させる*/
-	if( Get_Wp_equipment() != -1){
-				GunPutOnHand();
-	}
+	GunPutOnHand();
+
 
 
 
@@ -298,13 +321,13 @@ int PlayerChara::NormallyPCSystem( Stage *Stg, Batch_Render *BatPre, NPC_Head *N
 int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 
 	/* 変数の宣言&初期化 */
-	int Eqipment = Get_Wp_equipment();
+	const int EQIPMENT = Get_Wp_equipment();
 
 
 	/*装備武器変更の処理*/
-	if( Eqipment != -1){//現在の状態が武器持ち
-			if( Wpn.Get_WeaponPointer( Eqipment)->Get_NowFireFlag() != 0){// 武器攻撃可能でなければ
-							return -1;//不可値返し
+	if( EQIPMENT != -1){//現在の状態が武器持ち
+			if( Wpn.Get_WeaponPointer( EQIPMENT)->Get_NowFireFlag() != 0){// 武器が交換不可時間なら
+							return -1;//変更はできません。
 			}
 	}
 
@@ -370,7 +393,7 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 	//}
 
 	// 描画、視野角内チェックの武器変更
-	if( Eqipment != Get_Wp_equipment()){
+	if( EQIPMENT != Get_Wp_equipment()){
 			BatPre->BacthGunTrade( Get_Wp_equipment());
 	}
 
@@ -379,6 +402,24 @@ int PlayerChara::ChangeWeapon( Batch_Render *BatPre){
 
 	return 0;
 }
+
+/* キャラクタの動くスピードを設定、制限します */
+float PlayerChara::RegulateMoveSpeed( float SpeedIncrease, float SpeedDecrease, float LimitSpeed, float FixedMoveSpeed){
+
+	/* 初期化 */
+	//.....
+
+	/*スピードを増加させる*/
+	Set_MoveSpeed( Get_MoveSpeed() + 0.8f);
+
+	//スピードに制限をかける
+	if( LimitSpeed <= Get_MoveSpeed() ){
+				Set_MoveSpeed( LimitSpeed);
+	}
+
+	return FixedMoveSpeed + Get_MoveSpeed();
+}
+
 /*キャラを動かします、前後左右に動けます*/
 int PlayerChara::MoveChara(){
 
@@ -388,6 +429,7 @@ int PlayerChara::MoveChara(){
 	int MovOn = 0;//動いていいかのフラグ
 	float WantDeg = 0;//向きたい方向の変数
 	float FixedMoveSpeed = 0.0f;//それぞれの状態の固定速度
+	float SumSpeed = 0.0f;// 合計の速さ 
 	D3DXVECTOR3 SubPos( 0.0, 0.0, 0.0);//キャラクターを置く場所の座標
 	D3DXVECTOR3 PCPos( 0.0, 0.0, 0.0);//プレイヤーキャラクターの位置の座標
 
@@ -505,82 +547,31 @@ int PlayerChara::MoveChara(){
 			case 1:{
 					switch(Get_MyState()){
 							case 0:{//通常状態なら
-									if( Get_AirOnPC() == 0){//空中でなければ
+									if( Get_AirOnPC() == 0){//地上にいれば
 											if(Get_Attitude() == 0){//姿勢が「立っている状態」なら
-													/*スピードを増加させる*/
-													Set_MoveSpeed( Get_MoveSpeed() + 0.8f);
-
-													//スピードに制限をかける
-													if( 25.0f <= Get_MoveSpeed() ){
-																Set_MoveSpeed( 25.0f);
-													}
-
-													//固定スピードの設定（立ち）
-													FixedMoveSpeed = 50.0f;
+													SumSpeed = RegulateMoveSpeed( 0.8f, 0.8f, 25.0f, 50.0f);
 											}
-
-											if(Get_Attitude() == 1){//姿勢が「しゃがみ状態」なら
-													/*スピードを増加させる*/
-													Set_MoveSpeed( Get_MoveSpeed() + 0.4f);
-
-													//スピードに制限をかける
-													if( 20.0f <= Get_MoveSpeed() ){
-																Set_MoveSpeed( 20.0f);
-													}
-
-													//固定スピードの設定（しゃがみ）
-													FixedMoveSpeed = 30.0f;
+											else if(Get_Attitude() == 1){//姿勢が「しゃがみ状態」なら
+													SumSpeed = RegulateMoveSpeed( 0.4f, 0.4f, 20.0f, 30.0f);
 											}
 									}
 									if( Get_AirOnPC() == 1){//空中にいるなら
-									
-											/*スピードを増加させる*/
-											Set_MoveSpeed(Get_MoveSpeed() + 0.3f);
-
-											//スピードに制限をかける
-											if( 10.0f <= Get_MoveSpeed() ){
-														Set_MoveSpeed( 10.0f);
-											}
-
-											//固定スピードの設定（しゃがみ）
-											FixedMoveSpeed = 20.0f;
+											SumSpeed = RegulateMoveSpeed( 0.3f, 0.3f, 10.0f, 20.0f);
 									}
 									break;
 						    }
 							case 2:{//ダッシュの時
 									if( Get_AirOnPC() == 0){//地上にいるなら
-											/*スピードを増加させる*/
-											Set_MoveSpeed( Get_MoveSpeed() + 2.0f);
-
-											//スピードに制限をかける
-											if( 40.0f <= Get_MoveSpeed() ){
-														Set_MoveSpeed(40.0f);
-											}
-
-											//固定スピードの設定（しゃがみ）
-											FixedMoveSpeed = 70.0f;
+											SumSpeed = RegulateMoveSpeed( 2.0f, 2.0f, 40.0f, 70.0f);
 									}
 									if( Get_AirOnPC() == 1){//空中にいるなら
-											/*スピードを増加させる*/
-											Set_MoveSpeed( Get_MoveSpeed() + 2.0f);
-
-											//スピードに制限をかける
-											if( 40.0f <= Get_MoveSpeed() ){
-														Set_MoveSpeed(40.0f);
-											}
-
-											//固定スピードの設定（しゃがみ）
-											FixedMoveSpeed = 70.0f;
+											SumSpeed = RegulateMoveSpeed( 2.0f, 2.0f, 40.0f, 70.0f);
 									}
 									break;
 							}
 							case 3:// 横っ飛びのとき
 							case 4:{
-									/*スピードを固定*/
-									Set_MoveSpeed(0.0f);
-
-									//固定スピードの設定（しゃがみ）
-									FixedMoveSpeed = 90.0f;
+									SumSpeed = RegulateMoveSpeed( 0.0f, 0.0f, 0.0f, 90.0f);
 									break;
 							}
 					}
@@ -598,7 +589,7 @@ int PlayerChara::MoveChara(){
 					ech = E3DRotateY( Get_DummyModel(), WantDeg);
 					_ASSERT( ech != 1 );//エラーチェック
 
-					ech = E3DPosForward( Get_DummyModel(), (float)Get_MoveSpeed() + FixedMoveSpeed);
+					ech = E3DPosForward( Get_DummyModel(), SumSpeed);
 					_ASSERT( ech != 1 );//エラーチェック
 
 					ech = E3DGetPos( Get_DummyModel(), &SubPos);
@@ -616,6 +607,8 @@ int PlayerChara::MoveChara(){
 					}
 					if( Get_AirOnPC() == 1) Set_MoveSpeed( Get_MoveSpeed() - 0.6f);//姿勢が「しゃがみ状態」なら
 
+
+					//RegulateMoveSpeed( 0.0f, 0.8f, 0.0f, 0.0f);
 
 					//スピードに制限をかける
 					if( Get_MoveSpeed() <= 0.0 ){

@@ -18,18 +18,21 @@ private:
 	static int UpdataSoundflag;//音声情報を更新するかのフラグ
 	static bool keyin[20];//キーが押されているかの情報配列
 	static int scid2;// フェードアウトで使うスワップチェイン
+	static int KeyQuickPush[3][3];//キーを2回連打したときの情報を入れる変数
 
 	HINSTANCE hInst;//ハンドルインスタンスを格納する。
 	static BOOL GotMes;//PeekMessageの状態を格納する。
+
+	static int ChkKeyDoublePush( bool PushKey, int Count, int Element);
 
 public:
 	//変数の宣言
 
 	static int scid1;//メインスワップチェインのID
-	static int keyinQuick[3];//キーが2押されたか格納する配列変数
+//	static int keyinQuick[3];//キーが2押されたか格納する配列変数
 	static int KeyQuickEnd;//ダッシュ操作が終了したときすべてのプッシュをリセットするフラグ変数
 	static int MouseWhole;//マウスホイールの移動量を格納する変数
-	static int KeyQuickPush[3][3];//キーを2回連打したときの情報を入れる変数
+
 	static int SpriteID[2];//ロードしたスプライトを格納します
 
 	static char path[256];//プログラムが起動しているパスの文字列
@@ -81,6 +84,8 @@ public:
 	static int SetMouseCursol( const int X, const int Y);// マウス座標をセットする関数
 	static int SetMouseBeforePos();// 現在のマウス座標をBeforeMousePosにセットする関数
 	static bool GetKeyData( const int KeyNum);// キーインプットを取得する関数
+	static int Get_DoublePush( int Element);// 要素を渡して、連続押しかどうかチェックします
+	static int ResetKeyDoublePush( int Element);// 要素を選択して、二回連続キーの設定リセットを行います。
 
 };
 

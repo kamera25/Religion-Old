@@ -7,7 +7,6 @@
 #include "csys.h"//開始・終了・プロージャーなどシステム周りのクラスヘッダ
 
 #include "coperation.h"//オペレーション開始関係のクラスヘッダファイル
-
 #include "clive.h"//敵やキャラの宣言ヘッダファイル
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
 #include "cstage.h"//ステージ関係のクラスヘッダファイル
@@ -16,7 +15,8 @@
 #include "c_batch_preparat.h"//描画に必要なクラスの宣言ヘッダファイル
 #include "cPoseMenu.h"//メニュークラスに関するヘッダファイル
 #include "cnetplay.h"//ネットワーク接続に関するヘッダファイル
-#include "citem.h"//アイテムの宣言ヘッダファイル
+#include "citem.h"//アイテムの宣言ヘッダファイル]
+#include "cStory.h"
 #include "Ask.h"// 通信補助DLL、Askに関するヘッダファイル
 
 /* ゲーム本体のまとめ構造体 */
@@ -64,13 +64,13 @@ int Operation::OpsMission1_Shinryoku(){
 		GMG.PC->Wpn.WpLoad(1,0,0);// 銃のロード
 		GMG.PC->Wpn.WpLoad(0,3,1);// 銃のロード
 		GMG.PC->Wpn.WpLoad(2,7,0);// 銃のロード
-		GMG.PC->Wpn.SetInitWeapon( -1);// 弾薬の初期化
+		GMG.PC->Wpn.SetInitWeapon( Weapon_Head::RESET);// 弾薬の初期化
 
 		/* プログレスバーを進歩させる */
 		E3DSetProgressBar( 40); 
 		
 		/* ステージをロードします */
-		Stg.LoadStage( 3, 0, Stage::Night);
+		Stg.LoadStage( 6, 0, Stage::NIGHT);
 
 		/**/E3DSetProgressBar( 60);// プログレスバーを進歩させる
 
@@ -87,20 +87,25 @@ int Operation::OpsMission1_Shinryoku(){
 		/**/E3DSetProgressBar( 90);// プログレスバーを進歩させる
 
 		Batch_Render BatP( &Player, &Stg, GMG.NPC_H, &Cam);// バッチプレパラートにすべての描画準備をさせます。
-		E3DDestroyProgressBar();// プログレスバーを壊します		
+		E3DDestroyProgressBar();// プログレスバーを壊します
 		BatP.BatchEnableBumpMap(0);// バンプマップを有効にします 
 		//BatP.BatchCreateShadow();// 影を有効にします
+
+
+		/* ****** ストーリの開始 *** */
+		/*Story StoryS;
+		StoryS.LoadStoryFromSTD( "test.std");
+		StoryS.StartStory(1);*/
+		/* ************************ */
+
 
 		System::SetMouseCursol( 320, 240);//マウスをウィンドウ真ん中に設置
 
 
 		BatP.BacthGunTrade( Player.Get_Wp_equipment());
 		BatP.BatchChkInView();
-		D3DXVECTOR3 GroundOnPos( 0.0, 10000.0, 0.0);
-		E3DSetPos( Player.Get_BodyModel(), GroundOnPos);
+		GMG.STG->Navi.SetPosByNaviPoint( Player.Get_BodyModel(), 0, 0);
 		
-
-
 
 		while( WM_QUIT != System::msg.message ){
 

@@ -45,9 +45,9 @@ public:
 	NaviRail Navi;
 
 	/* 静動メンバ変数 */	
-	static const int Morning = 0;// 昼
-	static const int Evening = 1;// 夕方
-	static const int Night = 2;// 夜
+	static const int MORNING = 0;// 昼
+	static const int EVENING = 1;// 夕方
+	static const int NIGHT = 2;// 夜
 
 	//関数の宣言
 	int LoadStage( const int StageID, const int StageKind, const int LightKind);//ステージをロードするための関数

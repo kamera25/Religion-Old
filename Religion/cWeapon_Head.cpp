@@ -20,6 +20,9 @@ Weapon_Head::Weapon_Head(){
 	NormalWeapon[1] = NULL;
 	SupportWeapon = NULL;
 
+	/* 「細長い」モデルのID */
+
+
 	/* マズルフラッシュなどに使われる、ライトを作成します */
 	ech = E3DCreateLight( &WeaponLight);
 	_ASSERT( ech != 1 );//エラーチェック

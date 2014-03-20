@@ -18,22 +18,27 @@ int Soldier::MovePosOnGround( Stage *Stg){
 	int MoveStopFlg = 0;//空中に浮かんでいるときに移動できないようにするためのフラグ
 	int Garbage = 0;
 	int FaceNo = 0;
+	const float MYSIZE = 500;
 	D3DXVECTOR3 ReflectVec( 0.0, 0.0, 0.0);//地面の反射ベクトルの構造体
 	D3DXVECTOR3 GroundOnPos( 0.0, 0.0, 0.0);//自キャラを地面に垂直におろした場合の座標
 	D3DXVECTOR3 MyPos( 0.0, 0.0, 0.0);//自分のキャラクター座標
 	D3DXVECTOR3 PointConflictPos( 0.0, 0.0, 0.0);
 	D3DXVECTOR3 PointConflictVec( 0.0, 0.0, 0.0);
 	static D3DXVECTOR3 MyChkBeforePointPos[4];
-	const float Mysize = 500;
 	D3DXVECTOR3 MyChkPointPos[4];//
 	
+	/* ///////////////////////////////////////// */
+	// 座標の取得を行います。
+	/* ///////////////////////////////////////// */
+
+
 	ech = E3DGetPos( Get_BodyModel(), &MyPos);
 	_ASSERT( ech != 1 );//エラーチェック
 
-	MyChkPointPos[0].x = MyPos.x - Mysize; MyChkPointPos[0].y = MyPos.y; MyChkPointPos[0].z = MyPos.z + Mysize;//奥、←
-	MyChkPointPos[1].x = MyPos.x + Mysize; MyChkPointPos[1].y = MyPos.y; MyChkPointPos[1].z = MyPos.z + Mysize;//奥、→
-	MyChkPointPos[2].x = MyPos.x - Mysize; MyChkPointPos[2].y = MyPos.y; MyChkPointPos[2].z = MyPos.z - Mysize;//手前、←
-	MyChkPointPos[3].x = MyPos.x + Mysize; MyChkPointPos[0].y = MyPos.y; MyChkPointPos[0].z = MyPos.z - Mysize;//手前、→
+	MyChkPointPos[0].x = MyPos.x - MYSIZE; MyChkPointPos[0].y = MyPos.y; MyChkPointPos[0].z = MyPos.z + MYSIZE;//奥、←
+	MyChkPointPos[1].x = MyPos.x + MYSIZE; MyChkPointPos[1].y = MyPos.y; MyChkPointPos[1].z = MyPos.z + MYSIZE;//奥、→
+	MyChkPointPos[2].x = MyPos.x - MYSIZE; MyChkPointPos[2].y = MyPos.y; MyChkPointPos[2].z = MyPos.z - MYSIZE;//手前、←
+	MyChkPointPos[3].x = MyPos.x + MYSIZE; MyChkPointPos[3].y = MyPos.y; MyChkPointPos[3].z = MyPos.z - MYSIZE;//手前、→
 
 	/* ///////////////////////////////////////////////////////// */
 	// ステージグラウンドごとにどのような処理にさせるか振り分けます
@@ -47,15 +52,13 @@ int Soldier::MovePosOnGround( Stage *Stg){
 	// 床の当たり判定を行います
 	/* ////////////////////////////////////// */
 
-	for( int i = 0; i<4; i++){
+	for( int i = 0; i < 4; i++){
 
 			D3DXVECTOR3 MyPos_AddAcceleration( MyPos.x, MyPos.y + Get_Acceleration(), MyPos.z);
 		
 			ech = E3DChkConfLineAndFace( MyChkBeforePointPos[i], MyChkPointPos[i], Stg->Stage_hsid[0], 1, &Garbage, &FaceNo
 										, &PointConflictPos, &PointConflictVec, &Garbage);
 			_ASSERT( ech != 1 );//エラーチェック
-
-
 	}
 
 	/*my+myv ; y成分だけ移動
@@ -119,6 +122,12 @@ int Soldier::MovePosOnGround( Stage *Stg){
 }
 /*銃の現在持ってる銃を持つためのモーション・システムを管轄する関数*/
 int Soldier::GunPutOnHand(){
+
+
+	/* 装備がないなら */
+	if( Get_Wp_equipment() == -1){
+		return -1;// ループを抜ける
+	}
 
 	/*変数の初期化*/
 	int ech = 0;//エラーチェック変数
@@ -853,6 +862,10 @@ int Soldier::Batch_PeopleMotion(){
 
 	return 0;
 }
+
+/*  */
+//int Soldier::
+
 /*コンストラクタ、兵士モデルのロード等を行ないます*/
 Soldier::Soldier( const int selchara, const int Wpselect_equipment){
 

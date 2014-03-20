@@ -26,7 +26,12 @@ int Creature::Get_Stamina() const{
 /* Stamina‚Ì‘ã“üŠÖ” */
 int Creature::Set_Stamina( int Number){
 
+	if( Number <= 0){
+		Number = 0;
+	}
+	
 	Stamina = Number;
+	
 
 	return 0;
 }

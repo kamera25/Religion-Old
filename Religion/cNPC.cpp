@@ -66,7 +66,7 @@ int NPC_Head::LoadEnemyModelAddName( const char *Name, const int Ene_Kind, const
 	NPCC.TargetNaviPointID = -1;
 
 
-	wsprintf( NPCC.NPCName, "%s", Name);
+	strcpy_s( NPCC.NPCName, Name);
 	
 	/* ロードしたNPC構造体をプッシュする */
 	NPC.push_back( NPCC);

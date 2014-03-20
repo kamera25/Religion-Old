@@ -53,7 +53,6 @@ int PoseMenu::MainPoseMenu( PlayerChara *PC, Batch_Render *BatchPre ){
 	/*変数の宣言*/
 	int ech = 0;//エラーチェック変数
 	int ExitFlag = 0;//このフラグがオンになったとき脱出します。
-	 ;//キー情報配列を作成
 	const int DetailPossitionX[5] = { 400, 250, 400, 250, 230};// 詳細文字のX座標
 	/* 各メニューの詳しい説明 */
 

@@ -245,12 +245,10 @@ int Weapon_Gun::AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArra
 
 	/*変数の初期*/
 	int ech = 0;//エラー確認変数
-
-	int NowWpKind = 0;//今の武器の種類を取得します
-	vector<NPC_t>::iterator NearEnemyID;//一番近い敵キャラの識別番号
-	bool EnemyConflict = false;//敵に当たった数の合計
 	int EneHitResult = 0;//敵が照準に入っているかの結果を入れます
 	int GarbageInt = 0;//いらないデータを格納します
+	int NowWpKind = 0;//今の武器の種類を取得します
+	bool EnemyConflict = false;//敵に当たった数の合計
 	float NowWpRange = 0.0f;//今の武器の射程を代入します
 	float EneDistance = 0.0f;//当たった敵のところからの距離が代入されます
 	float EneNearDistance = 0.0f;//当たっている一番近い敵の距離が代入されます
@@ -261,6 +259,7 @@ int Weapon_Gun::AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArra
 	D3DXVECTOR3 GarbageD3DVec( 0.0, 0.0, 0.0);//要らないXYZのデータの一次入れ
 	POINT ScreenPos = { ScreenPosArray[0], ScreenPosArray[1]};//2Dスクリーン座標構造体
 	vector<NPC_t>::iterator it;// イテレータ
+	vector<NPC_t>::iterator NearEnemyID;//一番近い敵キャラの識別番号
 
 	/*当たり判定計測中以外 AND */
 	if( ( Get_NowFireFlag() != 1) || ( NPC_H->Get_NPC_empty() == true)){
@@ -327,7 +326,6 @@ int Weapon_Gun::AttackEnemy( NPC_Head *NPC_H, PlayerChara *PC, int ScreenPosArra
 int Weapon_Gun::ChkWeaponLaunch(){
 
 	/* 変数の初期化 */
-	 ;//キー情報配列を作成
 
 
 

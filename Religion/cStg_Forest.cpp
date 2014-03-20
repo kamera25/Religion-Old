@@ -42,22 +42,6 @@ int Stage::LoadStage_Forest( const int StageKind, float *FogDist){
 
 
 
-	/* //////////////////// */
-	// 霧の指定を行ないます
-	/* /////////////////// */
-
-	E3DSetLinearFogParams(1, FogColor, 4000, 8000, -1);//ファグをかけます。
-	if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-	}
-
-	*FogDist = 8000.0f;//背景のもやで見えにくくする。
-	Stage_GunTarget = 0;//ステージの銃操作を"通常"にする
-	Stage_GndMode = 0;//キャラ地面操作を"通常にする"
-
-
-
 
 	return 0;
 }

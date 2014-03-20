@@ -11,32 +11,6 @@
 /* トロンプールの読み込みを行ないます*/
 int Stage::LoadStage_Retolis( const int StageKind, float *FogDist){
 
-	/* 変数の宣言 */
-	int ech = 0;// エラーチェック変数の初期化
-	int NaviPoint = 0;//新しく追加したナビポイントのIDを代入
-	char loadname[256] = "";// 読み込みデータ用の文字列配列
-	E3DCOLOR4UC FogColor = {255,0,0,0};// 霧の色を指定します
-	D3DXVECTOR3 NaviPointPos( 0.0, 0.0, 0.0);//ナビポイント座標を代入する構造体
-
-
-	/* //////////////////////////// */
-	// ステージのロードを行ないます
-	/* /////////////////////////// */
-
-	/*if(StageKind == 0){
-					wsprintf( loadname, "%s\\data\\3d\\map\\st_retolis\\st_retolis.sig", System::path);
-					ech = E3DSigLoad( loadname, 0, 55.0, &Stage_hsid[0]);
-					if(ech != 0 ){//エラーチェック
-							_ASSERT( 0 );//エラーダイアログ
-							return 1;//問題ありで終了
-					};
-	};
-
-
-	*FogDist = 8000.0f;//背景のもやで見えにくくする。
-	Stage_GunTarget = 0;//ステージの銃操作を"通常"にする
-	Stage_GndMode = 0;//キャラ地面操作を"通常にする"
-	*/
 
 	LoadStageFromProfile( "st_retolis.mpd");
 

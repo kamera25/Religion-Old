@@ -16,7 +16,7 @@ BOOL System::GotMes;//PeekMessageの状態を格納する。
 bool GetKeyData( const int KeyNum);
 
 int System::scid1;//メインスワップチェインのID
-int System::keyinQuick[3];//キーが2押されたか格納する配列変数
+//int System::keyinQuick[3];//キーが2押されたか格納する配列変数
 int System::KeyQuickEnd;//ダッシュ操作が終了したときすべてのプッシュをリセットするフラグ変数
 int System::MouseWhole;//マウスホイールの移動量を格納する変数
 int System::KeyQuickPush[3][3];//キーを2回連打したときの情報を入れる変数

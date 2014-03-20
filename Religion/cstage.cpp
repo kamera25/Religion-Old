@@ -67,15 +67,16 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 					break;
 			}
 			case 2:{// 森林なら
-					LoadStage_Forest( StageKind, &FogDist);
+					FogDist = 8000.0f;
+					LoadStageFromProfile( "st_forest.mpd");
 					break;
 			}
 			case 3:{// 神ヶ一町なら
-					LoadStage_Kamigaichi( StageKind);
+					LoadStageFromProfile( "st_kamigaichi.mpd");
 					break;
 			}
 			case 4:{// レリギオンモールなら
-					LoadStage_Mall( StageKind);
+					LoadStageFromProfile( "st_rm.mpd");
 					break;
 			}
 			case 5:{// 基地前なら
@@ -84,6 +85,10 @@ int Stage::LoadStage(int StageID, int StageKind, int LightKind){
 			}
 			case 6:{// レトリスなら
 					LoadStage_Retolis( StageKind, &FogDist);
+					break;
+			}
+  			case 7:{// 島なら
+					LoadStageFromProfile( "st_island.mpd");
 					break;
 			}
 	}
@@ -243,6 +248,7 @@ int Stage::LoadStageFromProfile( const char *ProfPath){
 	FILE *fp; // ファイルポインタ
 	char LoadPath[256];
 	char Loadstr[256];
+	char *pstr;
 
 	wsprintf( LoadPath, "%s\\data\\prof\\map\\%s", System::path, ProfPath);
 	fopen_s( &fp, LoadPath, "r");//指定されたファイルをオープンします。 
@@ -264,15 +270,47 @@ int Stage::LoadStageFromProfile( const char *ProfPath){
 	}
 
 	/* 地面データをロードする */
-	for( int i = 0; fscanf_s( fp, "%lf %s", &Magnifc, &Loadstr, 256 ) !=EOF || i < 3 ; i++){
+	for( int i = 0; fscanf_s( fp, "%lf %s", &Magnifc, &Loadstr, 256 ) !=EOF && i < 3 && strcmp( Loadstr, "MPD_W") != 0; i++){
 		
 		wsprintf( LoadPath,  "%s\\data\\3d\\map\\%s", System::path, Loadstr);
-		ech = E3DSigLoad( LoadPath, 0, Magnifc, &Stage_hsid[i]);
+		
+		/* Sigファイルか、Mqoファイルか自動認識します。 */
+		pstr = strrchr( Loadstr, '.');
+
+		if( strcmp( pstr, ".sig") == 0){// Sigファイル
+
+				ech = E3DSigLoad( LoadPath, 0, Magnifc, &Stage_hsid[i]);
+				if(ech != 0 ){//エラーチェック
+					_ASSERT( 0 );//エラーダイアログ
+					return 1;//問題ありで終了
+				};
+		}
+		else if( strcmp( pstr, ".mqo") == 0){// Mqoファイル
+
+				ech = E3DLoadMQOFileAsChara( LoadPath, Magnifc, 0, BONETYPE_RDB2, &Stage_hsid[i]);
+				if(ech != 0 ){//エラーチェック
+					_ASSERT( 0 );//エラーダイアログ
+					return 1;//問題ありで終了
+				};
+		}
+		else {// 不正なファイルなら
+			_ASSERT( 0 );//エラーダイアログ
+		}
+
+
+	}
+
+	/* 壁データをロードする */
+	for( int i = 0; fscanf_s( fp, "%lf %s", &Magnifc, &Loadstr, 256 ) !=EOF && i < 3; i++){
+		
+		wsprintf( LoadPath,  "%s\\data\\3d\\map\\%s", System::path, Loadstr);
+		ech = E3DLoadMQOFileAsMovableArea( LoadPath, Magnifc, &Wall_hsid[i]);
 		if(ech != 0 ){//エラーチェック
 			_ASSERT( 0 );//エラーダイアログ
 			return 1;//問題ありで終了
 		};
 	}
+
 
 	if( fclose(fp) == EOF){
 		return -1;

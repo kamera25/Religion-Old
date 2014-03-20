@@ -12,6 +12,57 @@
 #include "cweapon.h"//武器に関することのクラスヘッダファイル
 #include "cenemy.h"//敵クラスの宣言ヘッダファイル
 
+int PlayerChara::TurnBackDir( int Qid, float CorrectDir, D3DXVECTOR3 WantDeg){
+
+	/* 初期化 */
+	const D3DXVECTOR3 BASEVEC( 0.0, 0.0, -1.0);//向きの初期方向ベクトル
+
+	int ech = 0;
+	int MotionID = 0;
+	int FrameNo = 0; 
+
+	/* //////////////////////////// */
+	/* キャラクタの向きを変更します */
+	/* //////////////////////////// */
+
+
+	/*キャラクターモデルの方向を初期化します*/
+	ech = E3DRotateInit( Get_BodyModel());
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*「首付け根」部分のモーションはどうか調べます*/
+	ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*「首付け根」部分のクォータニオンを調べます*/
+	ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Qid);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*向きたい方向への計算を行います*/
+	ech = E3DLookAtQ( Qid, WantDeg, BASEVEC, 0, 0);
+	_ASSERT( ech != 1 );//エラーチェック
+
+
+	/*向きたい方向の修正を加えます*/
+	ech = E3DRotateQY( Qid, CorrectDir);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*計算したクォーターニオンを代入します*/
+	ech = E3DSetBoneQ( Get_BodyModel(), Get_Bone_ID(2), MotionID, FrameNo, Qid);
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*マルチレイヤーモーションの計算を行います*/
+	ech = E3DCalcMLMotion( Get_BodyModel());
+	_ASSERT( ech != 1 );//エラーチェック
+
+	/*キャラクターを回転させます*/
+	ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
+	_ASSERT( ech != 1 );//エラーチェック
+
+
+	return 0;
+}
+
 
 
 
@@ -27,16 +78,14 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 	int MotionID = 0;//MLから取得した現在の「首付け根」モーションID
 	int FrameNo = 0;//MLから取得した現在の「首付け根」モーションが現在再生している番号
 	static double Tm_DegQ_Y = 0.50;//ブレがある前の角度変数Y
-	double Sin_Y = 0.0;//Y座標サイン変数
-	double Sin_XZ = 0.0;//XZ座標サイン変数
-	double Cos_Y = 0.0;//Y座標コサイン変数
-	double Cos_XZ = 0.0;//XZ座標コサイン変数
+	double Sin_Y  = 0.0;//Y座標サイン変数
+	const double Sin_XZ = sin(4.8);//XZ座標サイン変数
+	double Cos_Y  = 0.0;//Y座標コサイン変数
+	const double Cos_XZ = cos(4.8);//XZ座標コサイン変数
 	D3DXVECTOR3 TurnPos( 0.0, 0.0, 0.0);//向くべきYベクトル
 	D3DXVECTOR3 StomachPos( 0.0, 0.0, 0.0);//「首つけ根」の座標
 	D3DXVECTOR3 WantDeg( 0.0, 0.0, 0.0);//向きたい方向へのベクトル
-	D3DXVECTOR3 OriginPos( 0.0, 0.0, 0.0);//キャラクターをおくべき原点座標
-	D3DXVECTOR3 MyPos1( 0.0, 0.0, 0.0);//最初自分の座標
-	D3DXVECTOR3 MyPos2( 0.0, 0.0, 0.0);//次の自分の座標
+//	D3DXVECTOR3 OriginPos( 0.0, 0.0, 0.0);//キャラクターをおくべき原点座標
 
 	/**/
 	//自分の向きを回転させます。
@@ -49,7 +98,7 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 	}
 
 	if( ( Get_MyState() == 3) || ( Get_MyState() == 4)){//よっこ飛びの時は
-				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( System::MousePos.y - System::BeforeMousePos.y + System::rewin.top);
+//				Tm_DegQ_Y = Tm_DegQ_Y - 0.0020* float( System::MousePos.y - System::BeforeMousePos.y + System::rewin.top);
 	}
 
 	if( Get_PC_Deg_XZ() < 0){
@@ -67,73 +116,26 @@ int PlayerChara::ShoulderGunSys( Batch_Render *BatPre, int ScreenPos[2]){
 	System::SetMouseCursol( 320, 240);//マウス座標を真ん中へ
 	System::SetMouseBeforePos();//マウス座標を格納します
 
-	Cos_XZ = cos(4.8);//XZ座標コサインの取得
-	Sin_XZ = sin(4.8);//XZ座標サインの取得
+//	Cos_XZ = cos(4.8);//XZ座標コサインの取得
+//	Sin_XZ = sin(4.8);//XZ座標サインの取得
 	Sin_Y = sin(Tm_DegQ_Y);//Y座標サインの取得
 	Cos_Y = cos(Tm_DegQ_Y);//Y座標のコサインの取得
 	TurnPos.x = float(Cos_XZ * Cos_Y * 2000);//向くべき方向のX座標
 	TurnPos.y = float(Sin_Y * 2000);//向くべき方向のY座標を取得
 	TurnPos.z = float(Sin_XZ * Cos_Y * 2000);//向くべき方向のZ座標を取得
 
-	/**/
+	/* /////////////////////////////////////////////// */
 	//次に座標を取得したりしてモデルのボーンを操作します
-	/**/
+	/* /////////////////////////////////////////////// */
 
-	/*キャラクターモデルの方向を初期化します*/
-	ech = E3DRotateInit( Get_BodyModel());
-	_ASSERT( ech != 1 );//エラーチェック
+	WantDeg.x = float( TurnPos.x );//X座標の向く方向のベクトルを取得
+	WantDeg.y = float( TurnPos.y );//Y座標の向く方向のベクトルを取得
+	WantDeg.z = float( TurnPos.z );//Z座標の向く方向のベクトルを取得
 
-	/*座標を取得する*/
-	ech = E3DGetPos( Get_BodyModel(), &MyPos1);
-	_ASSERT( ech != 1 );//エラーチェック
+	TurnBackDir( Get_Quaternion(3), 0.0f, WantDeg);
 
-	/*キャラクターモデルの「首つけ根」の座標を取得します*/
-	ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
-	_ASSERT( ech != 1 );//エラーチェック
 
-	MyPos2.x = StomachPos.x * -1;
-	MyPos2.y = StomachPos.y * -1;
-	MyPos2.z = StomachPos.z * -1;
 
-	/*座標を原点にする*/
-	ech = E3DSetPos( Get_BodyModel(), MyPos2);
-	_ASSERT( ech != 1 );//エラーチェック
-
-	/*キャラクターモデルの「首つけ根」の座標を取得します*/
-	ech = E3DGetCurrentBonePos( Get_BodyModel(), Get_Bone_ID(2), 1, &StomachPos);
-	_ASSERT( ech != 1 );//エラーチェック
-
-	WantDeg.x = float( TurnPos.x - 0);//X座標の向く方向のベクトルを取得
-	WantDeg.y = float( TurnPos.y - 0);//Y座標の向く方向のベクトルを取得
-	WantDeg.z = float( TurnPos.z - 0);//Z座標の向く方向のベクトルを取得
-
-	/*「首付け根」部分のモーションはどうか調べます*/
-	ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
-	_ASSERT( ech != 1 );//エラーチェック
-
-	/*「首付け根」部分のクォータニオンを調べます*/
-	ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Get_Quaternion(3));
-	_ASSERT( ech != 1 );//エラーチェック
-
-	/*向きたい方向への計算を行います*/
-	ech = E3DLookAtQ( Get_Quaternion(3), WantDeg, BaseVec, 0, 2);
-	_ASSERT( ech != 1 );//エラーチェック
-
-	/*計算したクォーターニオンを代入します*/
-	ech = E3DSetBoneQ( Get_BodyModel(), Get_Bone_ID(2), MotionID, FrameNo, Get_Quaternion(3));
-	_ASSERT( ech != 1 );//エラーチェック
-
-	/*マルチレイヤーモーションの計算を行います*/
-	ech = E3DCalcMLMotion( Get_BodyModel());
-	_ASSERT( ech != 1 );//エラーチェック
-
-	/*本来の自分の座標に戻す*/
-	ech = E3DSetPos( Get_BodyModel(), MyPos1);
-	_ASSERT( ech != 1 );//エラーチェック
-
-	/*キャラクターを回転させます*/
-	ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
-	_ASSERT( ech != 1 );//エラーチェック
 
 	
 	/*スプライトの位置を決めて終了します*/
@@ -211,7 +213,8 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 						/*敵にあたっていないかチェックします*/
 						for( it = NPC_H->Get_NPC_begin(); it != NPC_H->NPC_endit(); it++){//エネミーの数だけ
 
-											ech = E3DPickFace( System::scid1, (*it).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
+											ech = E3DPickFace( System::scid1, (*it).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult
+																, &EneHitResult, &GarbageD3DVec, &GarbageD3DVec, &EneDistance);
 											_ASSERT( ech != 1 );//エラーチェック
 											if( (EneHitResult != 0) && ( EneDistance < EneNearDistance) ){
 														EneNearDistance = EneDistance;//一番近い敵の距離に更新します
@@ -222,7 +225,7 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 						}
 
 						if( (EnemyConflict == 1) && ( Wall_HitDistance > EneNearDistance) ){//敵に銃先を向ける
-								ech = E3DPickFace( System::scid1, (*it).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
+								ech = E3DPickFace( System::scid1, (*NearEnemyID).NPC_Mdl->Get_BodyModel(), ScreenPos, NowWpRange, &EneHitResult, &EneHitResult, &GunTargetPos, &ReflectVec, &EneDistance);
 								_ASSERT( ech != 1 );//エラーチェック
 						}
 						else{//壁に銃先を向ける
@@ -242,40 +245,11 @@ int PlayerChara::GunConflictTarget( int ScreenPosArray[2], Stage *Stg, NPC_Head 
 								WantVec.y =  GunTargetPos.y - StomachPos.y;
 								WantVec.z =  GunTargetPos.z - StomachPos.z;
 
-								/*キャラクターの向きを初期化します*/
-								ech = E3DRotateInit( Get_BodyModel());
-								_ASSERT( ech != 1 );//エラーチェック
-
-
-								/*「首付け根」部分のクォータニオンを調べます*/
-								ech = E3DGetCurrentBoneQ( Get_BodyModel(), Get_Bone_ID(2), 2, Get_Quaternion(5));
-								_ASSERT( ech != 1 );//エラーチェック
-
-								/*「首付け根」部分のモーションはどうか調べます*/
-								ech = E3DGetMotionFrameNoML( Get_BodyModel(), Get_Bone_ID(2), &MotionID, &FrameNo);
-								_ASSERT( ech != 1 );//エラーチェック
-
-								/*向きたい方向への計算を行います*/
-								ech = E3DLookAtQ( Get_Quaternion(5), WantVec, BaseVec, 0, 0);
-								_ASSERT( ech != 1 );//エラーチェック
+								TurnBackDir( Get_Quaternion(5), -Get_PC_Deg_XZ(), WantVec);
 
 
 
-								/*向きたい方向の修正を加えます*/
-								ech = E3DRotateQY( Get_Quaternion(5), -(Get_PC_Deg_XZ()));
-								_ASSERT( ech != 1 );//エラーチェック
 
-								/*計算したクォーターニオンを代入します*/
-								ech = E3DSetBoneQ( Get_BodyModel(), Get_Bone_ID(2), MotionID, FrameNo, Get_Quaternion(5));
-								_ASSERT( ech != 1 );//エラーチェック
-
-								/*マルチレイヤーモーションの計算を行います*/
-								ech = E3DCalcMLMotion( Get_BodyModel());
-								_ASSERT( ech != 1 );//エラーチェック
-
-								/*キャラクターを回転させます*/
-								ech = E3DRotateY( Get_BodyModel(), Get_PC_Deg_XZ());
-								_ASSERT( ech != 1 );//エラーチェック
 						}
 				}
 		}
